@@ -14,7 +14,7 @@ interface CardSettings {
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnDestroy {
+export class DashboardPageComponent implements OnDestroy {
 
   private alive = true;
 

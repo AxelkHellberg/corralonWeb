@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>Historial de Rondas</nb-card-header>
+      <nb-card-body>
+        <ngx-chartjs-pie [data]="pieChartData"></ngx-chartjs-pie>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>Rondas por usuario</nb-card-header>
+      <nb-card-body>
+        <ngx-chartjs-bar-horizontal [data]="barHorizontalChartData"></ngx-chartjs-bar-horizontal>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

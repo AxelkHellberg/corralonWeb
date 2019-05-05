@@ -1,0 +1,33 @@
+<h4>Listado de Notificaciones de Falla</h4>
+
+<div class="row row-filters-selects">
+  <div class="col-4">
+    <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem">
+      <nb-option value="1">ESTADO 1</nb-option>
+      <nb-option value="2">ESTADO 2</nb-option>
+      <nb-option value="3">ESTADO 3</nb-option>
+      <nb-option value="4">ESTADO 4</nb-option>
+    </nb-select>
+  </div>
+  <div class="col-4">
+    <nb-select placeholder="SISTEMA" [(selected)]="systemSelectedItem">
+      <nb-option value="1">SISTEMA 1</nb-option>
+      <nb-option value="2">SISTEMA 2</nb-option>
+      <nb-option value="3">SISTEMA 3</nb-option>
+      <nb-option value="4">SISTEMA 4</nb-option>
+    </nb-select>
+  </div>
+  <div class="col-4">
+    <nb-select placeholder="EQUIPAMIENTO" [(selected)]="equipmentSelectedItem">
+      <nb-option value="1">EQUIPAMIENTO 1</nb-option>
+      <nb-option value="2">EQUIPAMIENTO 2</nb-option>
+      <nb-option value="3">EQUIPAMIENTO 3</nb-option>
+      <nb-option value="4">EQUIPAMIENTO 4</nb-option>
+    </nb-select>
+  </div>
+</div>
+
+<ng2-smart-table
+  [settings]="settings"
+  [source]="source"
+></ng2-smart-table>
