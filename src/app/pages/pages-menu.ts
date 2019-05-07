@@ -9,7 +9,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Notificación de Fallas',
     icon: 'nb-shuffle',
-    link: '#',
+    link: '/pages/failure-notifications',
   },
   {
     title: 'Reporte de Rondas',

@@ -2,32 +2,31 @@
 
 <div class="row row-filters-selects">
   <div class="col-4">
-    <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem">
-      <nb-option value="1">ESTADO 1</nb-option>
-      <nb-option value="2">ESTADO 2</nb-option>
-      <nb-option value="3">ESTADO 3</nb-option>
-      <nb-option value="4">ESTADO 4</nb-option>
+    <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('status', $event)">
+      <nb-option value="todos">ESTADO</nb-option>
+      <nb-option value="DETECTADO">DETECTADO</nb-option>
+      <nb-option value="EN REPARACIÓN">EN REPARACIÓN</nb-option>
+      <nb-option value="SOLUCIONADO">SOLUCIONADO</nb-option>
     </nb-select>
   </div>
   <div class="col-4">
-    <nb-select placeholder="SISTEMA" [(selected)]="systemSelectedItem">
-      <nb-option value="1">SISTEMA 1</nb-option>
-      <nb-option value="2">SISTEMA 2</nb-option>
-      <nb-option value="3">SISTEMA 3</nb-option>
-      <nb-option value="4">SISTEMA 4</nb-option>
+    <nb-select placeholder="SISTEMA" [(selected)]="systemSelectedItem" (selectedChange)="filterTable('system', $event)">
+      <nb-option value="todos">SISTEMA</nb-option>
+      <nb-option value="Auxiliares Uca">Auxiliares Uca</nb-option>
+      <nb-option value="UPS 2">UPS 2</nb-option>
+      <nb-option value="UPS 1">UPS 1</nb-option>
     </nb-select>
   </div>
   <div class="col-4">
-    <nb-select placeholder="EQUIPAMIENTO" [(selected)]="equipmentSelectedItem">
-      <nb-option value="1">EQUIPAMIENTO 1</nb-option>
-      <nb-option value="2">EQUIPAMIENTO 2</nb-option>
-      <nb-option value="3">EQUIPAMIENTO 3</nb-option>
-      <nb-option value="4">EQUIPAMIENTO 4</nb-option>
+    <nb-select placeholder="EQUIPAMIENTO" [(selected)]="equipmentSelectedItem" (selectedChange)="filterTable('equipment', $event)">
+      <nb-option value="todos">EQUIPAMIENTO</nb-option>
+      <nb-option value="Cargador Evequoz">Cargador Evequoz</nb-option>
+      <nb-option value="Auxiliares UCA">Auxiliares UCA</nb-option>
     </nb-select>
   </div>
 </div>
 
 <ng2-smart-table
   [settings]="settings"
-  [source]="source"
+  [source]="failureData"
 ></ng2-smart-table>

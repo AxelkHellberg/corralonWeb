@@ -7,10 +7,42 @@ import { LocalDataSource } from 'ng2-smart-table';
   styleUrls: ['./failure-notifications.component.scss']
 })
 export class FailureNotificationsComponent implements OnInit {
-  statusSelectedItem: string = '1';
-  systemSelectedItem: string = '1';
-  equipmentSelectedItem: string = '1';
-  source: LocalDataSource = new LocalDataSource();
+  statusSelectedItem: string = 'todos';
+  systemSelectedItem: string = 'todos';
+  equipmentSelectedItem: string = 'todos';
+  originalFailureData: any = [
+    {
+      status: 'DETECTADO',
+      id: '1',
+      failureType: 'Error 1',
+      roundNumber: 47,
+      date: '15/04/2019',
+      time: '15:04:35',
+      system: 'Auxiliares Uca',
+      equipment: 'Cargador Evequoz',
+    },
+    {
+      status: 'EN REPARACIÓN',
+      id: '2',
+      failureType: 'Error 2',
+      roundNumber: 48,
+      date: '15/04/2019',
+      time: '16:04:35',
+      system: 'UPS 2',
+      equipment: 'Auxiliares UCA',
+    },
+    {
+      status: 'SOLUCIONADO',
+      id: '1',
+      failureType: 'Error 3',
+      roundNumber: 49,
+      date: '15/04/2019',
+      time: '18:04:35',
+      system: 'UPS 1',
+      equipment: 'Auxiliares UCA',
+    },
+  ];
+  failureData: any = this.originalFailureData;
   settings = {
     actions: false,
     add: {
@@ -30,76 +62,46 @@ export class FailureNotificationsComponent implements OnInit {
     columns: {
       status: {
         title: 'Estado',
-        type: 'status',
+        type: 'string',
       },
       id: {
         title: 'ID',
-        type: 'number',
+        type: 'text',
       },
       failureType: {
         title: 'Tipo de Falla',
-        type: 'string',
+        type: 'text',
       },
       roundNumber: {
         title: 'Nro de Ronda',
-        type: 'number',
+        type: 'text',
       },
       date: {
         title: 'Fecha',
-        type: 'string',
+        type: 'text',
       },
       time: {
         title: 'Horario',
-        type: 'string',
+        type: 'text',
       },
       system: {
         title: 'Sistema',
-        type: 'string',
+        type: 'text',
       },
       equipment: {
         title: 'Equipo',
-        type: 'string',
+        type: 'text',
       },
     },
   };
 
   constructor() { }
 
-  ngOnInit() {
-    this.source.load(
-      [
-        {
-          status: 'DETECTADO',
-          id: '1',
-          failureType: 'Error 1',
-          roundNumber: 47,
-          date: '15/04/2019',
-          time: '15:04:35',
-          system: 'Auxiliares Uca',
-          equipment: 'Cargador Evequoz',
-        },
-        {
-          status: 'EN REPARACIÓN',
-          id: '2',
-          failureType: 'Error 2',
-          roundNumber: 48,
-          date: '15/04/2019',
-          time: '16:04:35',
-          system: 'UPS 2',
-          equipment: 'Auxiliares UCA',
-        },
-        {
-          status: 'SOLUCIONADO',
-          id: '1',
-          failureType: 'Error 3',
-          roundNumber: 49,
-          date: '15/04/2019',
-          time: '18:04:35',
-          system: 'UPS 1',
-          equipment: 'Auxiliares UCA',
-        }
-      ],
-    );
+  ngOnInit() { }
+
+  filterTable(column: string, filterTerm: string): void {
+    // TODO: do it with a pipe
+    // this.failureData = filterTerm !== 'todos' ? this.failureData.filter(_data => _data[column] === filterTerm) : this.originalFailureData;
   }
 
 }
