@@ -8,6 +8,9 @@ import { ECommerceModule } from './e-commerce/e-commerce.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import { UsersModule } from './custom/users/users.module';
+import { PlantsModule } from './custom/plants/plants.module';
+import { ProfilesModule } from './custom/profiles/profiles.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -19,7 +22,10 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     CustomDashboardModule,
+    PlantsModule,
     FailureNotificationsModule,
+    UsersModule,
+    ProfilesModule,
     ECommerceModule,
     MiscellaneousModule,
   ],

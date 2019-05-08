@@ -7,6 +7,9 @@ import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { DashboardComponent } from './custom/dashboard/dashboard.component';
 import { FailureNotificationsComponent } from './custom/failure-notifications/failure-notifications.component';
+import { UsersComponent } from './custom/users/users.component';
+import { PlantsComponent } from './custom/plants/plants.component';
+import { ProfilesComponent } from './custom/profiles/profiles.component';
 
 const routes: Routes = [
   {
@@ -20,6 +23,18 @@ const routes: Routes = [
       {
         path: 'failure-notifications',
         component: FailureNotificationsComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+      },
+      {
+        path: 'plants',
+        component: PlantsComponent,
+      },
+      {
+        path: 'profiles',
+        component: ProfilesComponent,
       },
       {
         path: 'edashboard',

@@ -29,7 +29,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Plantas',
-        link: '#',
+        link: '/pages/plants',
       },
     ],
   },
@@ -81,11 +81,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Todos los usuarios',
-        link: '#',
+        link: '/pages/users',
       },
       {
         title: 'Perfiles',
-        link: '#',
+        link: '/pages/profiles',
       },
     ],
   },

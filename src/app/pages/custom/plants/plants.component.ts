@@ -1,0 +1,58 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'ngx-plants',
+  templateUrl: './plants.component.html',
+  styleUrls: ['./plants.component.scss']
+})
+export class PlantsComponent implements OnInit {
+
+  data = [
+    {
+      id: 1,
+      name: 'Planta 1',
+      description: 'Descripción 1',
+    },
+    {
+      id: 2,
+      name: 'Planta 2',
+      description: 'Descripción 2',
+    },
+  ]
+
+  settings = {
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+    },
+    columns: {
+      id: {
+        title: 'ID',
+        type: 'text',
+      },
+      name: {
+        title: 'Nombre',
+        type: 'text',
+      },
+      description: {
+        title: 'Descripción',
+        type: 'text',
+      },
+    }
+  };
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
