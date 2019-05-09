@@ -42,6 +42,9 @@ export class ProfilesComponent implements OnInit {
     },
   ];
   settings = {
+    attr: {
+      class: 'general-table',
+    },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -59,10 +62,12 @@ export class ProfilesComponent implements OnInit {
       id: {
         title: 'ID',
         type: 'text',
+        width: '200px',
       },
       profileType: {
         title: 'Tipo de perfil',
         type: 'text',
+        width: '230px',
       },
     },
   };

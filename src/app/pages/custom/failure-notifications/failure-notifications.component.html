@@ -28,5 +28,5 @@
 
 <ng2-smart-table
   [settings]="settings"
-  [source]="failureData"
+  [source]="failureData | filterTable: filterTableSettings"
 ></ng2-smart-table>

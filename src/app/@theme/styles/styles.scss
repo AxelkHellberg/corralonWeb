@@ -40,3 +40,10 @@
 .mt-20 {
   margin-top: 20px;
 }
+
+.general-table {
+  width: auto!important;
+  .ng2-smart-actions {
+    width: 90px!important;
+  }
+}

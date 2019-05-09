@@ -21,6 +21,9 @@ export class PlantsComponent implements OnInit {
   ]
 
   settings = {
+    attr: {
+      class: 'general-table',
+    },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -38,14 +41,17 @@ export class PlantsComponent implements OnInit {
       id: {
         title: 'ID',
         type: 'text',
+        width: '150px',
       },
       name: {
         title: 'Nombre',
         type: 'text',
+        width: '200px',
       },
       description: {
         title: 'Descripción',
         type: 'text',
+        width: '300px',
       },
     }
   };

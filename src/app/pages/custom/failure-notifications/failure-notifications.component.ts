@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
@@ -10,7 +10,8 @@ export class FailureNotificationsComponent implements OnInit {
   statusSelectedItem: string = 'todos';
   systemSelectedItem: string = 'todos';
   equipmentSelectedItem: string = 'todos';
-  originalFailureData: any = [
+  filterTableSettings: any = {};
+  failureData: any = [
     {
       status: 'DETECTADO',
       id: '1',
@@ -42,7 +43,6 @@ export class FailureNotificationsComponent implements OnInit {
       equipment: 'Auxiliares UCA',
     },
   ];
-  failureData: any = this.originalFailureData;
   settings = {
     actions: false,
     add: {
@@ -95,13 +95,13 @@ export class FailureNotificationsComponent implements OnInit {
     },
   };
 
-  constructor() { }
+  constructor(private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() { }
 
   filterTable(column: string, filterTerm: string): void {
-    // TODO: do it with a pipe
-    // this.failureData = filterTerm !== 'todos' ? this.failureData.filter(_data => _data[column] === filterTerm) : this.originalFailureData;
+    const noFilter = filterTerm !== 'todos';
+    this.filterTableSettings = { ...this.filterTableSettings, [column]: noFilter ? filterTerm : null};
   }
 
 }
