@@ -25,7 +25,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Plantillas de rondas',
-        link: '#',
+        link: '/pages/round-template',
       },
       {
         title: 'Plantas',
@@ -51,7 +51,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Tipos de sistemas',
-        link: '#',
+        link: '/pages/systems-type',
       },
       {
         title: 'Equipamiento',
@@ -59,7 +59,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Unidades de medida',
-        link: '#',
+        link: '/pages/measurement-units',
       },
     ],
   },

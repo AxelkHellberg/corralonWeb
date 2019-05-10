@@ -10,6 +10,9 @@ import { FailureNotificationsComponent } from './custom/failure-notifications/fa
 import { UsersComponent } from './custom/users/users.component';
 import { PlantsComponent } from './custom/plants/plants.component';
 import { ProfilesComponent } from './custom/profiles/profiles.component';
+import { RoundTemplateComponent } from './custom/round-template/round-template.component';
+import { SystemsTypeComponent } from './custom/systems-type/systems-type.component';
+import { MeasurementUnitsComponent } from './custom/measurement-units/measurement-units.component';
 
 const routes: Routes = [
   {
@@ -31,6 +34,18 @@ const routes: Routes = [
       {
         path: 'plants',
         component: PlantsComponent,
+      },
+      {
+        path: 'round-template',
+        component: RoundTemplateComponent,
+      },
+      {
+        path: 'systems-type',
+        component: SystemsTypeComponent,
+      },
+      {
+        path: 'measurement-units',
+        component: MeasurementUnitsComponent,
       },
       {
         path: 'profiles',

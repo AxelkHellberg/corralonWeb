@@ -11,6 +11,9 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { UsersModule } from './custom/users/users.module';
 import { PlantsModule } from './custom/plants/plants.module';
 import { ProfilesModule } from './custom/profiles/profiles.module';
+import { RoundTemplateModule } from './custom/round-template/round-template.module';
+import { SystemsTypeModule } from './custom/systems-type/systems-type.module';
+import { MeasurementUnitsModule } from './custom/measurement-units/measurement-units.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -23,7 +26,10 @@ const PAGES_COMPONENTS = [
     DashboardModule,
     CustomDashboardModule,
     PlantsModule,
+    RoundTemplateModule,
     FailureNotificationsModule,
+    SystemsTypeModule,
+    MeasurementUnitsModule,
     UsersModule,
     ProfilesModule,
     ECommerceModule,

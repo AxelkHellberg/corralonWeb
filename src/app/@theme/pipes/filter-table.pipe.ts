@@ -10,10 +10,18 @@ export class FilterTablePipe implements PipeTransform {
     let result = value;
     filterTableSettings.forEach(item => {
       if (item[1]) {
-        result = result.filter(val => val[item[0]] === item[1]);
+        result = result.filter(val => {
+          return this.extractContent(val[item[0]]) === this.extractContent(item[1]);
+        });
       }
     });
     return result;
+  }
+
+  extractContent(html: string) {
+    const span = document.createElement('span');
+    span.innerHTML = html;
+    return span.textContent || span.innerText;
   }
 
 }

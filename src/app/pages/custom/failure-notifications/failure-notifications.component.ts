@@ -13,7 +13,7 @@ export class FailureNotificationsComponent implements OnInit {
   filterTableSettings: any = {};
   failureData: any = [
     {
-      status: 'DETECTADO',
+      status: `<div class="container-btn btn btn-danger">DETECTADO</div>`,
       id: '1',
       failureType: 'Error 1',
       roundNumber: 47,
@@ -23,7 +23,7 @@ export class FailureNotificationsComponent implements OnInit {
       equipment: 'Cargador Evequoz',
     },
     {
-      status: 'EN REPARACIÓN',
+      status: '<div class="container-btn btn btn-warning">EN REPARACIÓN</div>',
       id: '2',
       failureType: 'Error 2',
       roundNumber: 48,
@@ -33,7 +33,7 @@ export class FailureNotificationsComponent implements OnInit {
       equipment: 'Auxiliares UCA',
     },
     {
-      status: 'SOLUCIONADO',
+      status: '<div class="container-btn btn btn-success">SOLUCIONADO</div>',
       id: '1',
       failureType: 'Error 3',
       roundNumber: 49,
@@ -62,7 +62,7 @@ export class FailureNotificationsComponent implements OnInit {
     columns: {
       status: {
         title: 'Estado',
-        type: 'string',
+        type: 'html',
       },
       id: {
         title: 'ID',
