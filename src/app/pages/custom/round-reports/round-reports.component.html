@@ -1,27 +1,25 @@
-<h4>Listado de Notificaciones de Falla</h4>
+<h4>Reporte de Rondas</h4>
 
 <div class="row row-filters-selects">
   <div class="col-4">
     <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('status', $event)">
-      <nb-option value="todos">ESTADO</nb-option>
-      <nb-option *ngFor="let item of failureData | uniqueValues: 'status'" [value]="item">{{item}}</nb-option>
+      <nb-option value="">ESTADO</nb-option>
+      <nb-option *ngFor="let item of roundsData | uniqueValues: 'status'" [value]="item">{{item | textFromHtml}}</nb-option>
     </nb-select>
   </div>
   <div class="col-4">
-    <nb-select placeholder="SISTEMA" [(selected)]="systemSelectedItem" (selectedChange)="filterTable('system', $event)">
-      <nb-option value="todos">SISTEMA</nb-option>
-      <nb-option *ngFor="let item of failureData | uniqueValues: 'system'" [value]="item">{{item}}</nb-option>
+    <nb-select placeholder="TIPO" [(selected)]="typeSelectedItem" (selectedChange)="filterTable('type', $event)">
+      <nb-option value="">TIPO</nb-option>
+      <nb-option *ngFor="let item of roundsData | uniqueValues: 'type'" [value]="item">{{item}}</nb-option>
     </nb-select>
   </div>
   <div class="col-4">
-    <nb-select placeholder="EQUIPAMIENTO" [(selected)]="equipmentSelectedItem" (selectedChange)="filterTable('equipment', $event)">
-      <nb-option value="todos">EQUIPAMIENTO</nb-option>
-      <nb-option *ngFor="let item of failureData | uniqueValues: 'equipment'" [value]="item">{{item}}</nb-option>
-    </nb-select>
+    <input nbInput placeholder="Fecha" emptyInput (onEmpty)="filterTable('time', $event)" [nbDatepicker]="rangepicker">
+    <nb-rangepicker #rangepicker  (rangeChange)="filterTable('time', $event)"></nb-rangepicker>
   </div>
 </div>
 
 <ng2-smart-table
   [settings]="settings"
-  [source]="failureData | filterTable: filterTableSettings"
+  [source]="roundsData | filterTable: filterTableSettings"
 ></ng2-smart-table>

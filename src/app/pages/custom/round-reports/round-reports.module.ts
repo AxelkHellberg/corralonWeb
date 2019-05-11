@@ -3,9 +3,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RoundReportsComponent } from './round-reports.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { NbSelectModule } from '@nebular/theme';
-import { FilterTablePipe } from '../../../@theme/pipes/filter-table.pipe';
-import { UniqueValuesPipe } from '../../../@theme/pipes/unique-values.pipe';
+import { NbSelectModule, NbInputModule, NbDatepickerModule } from '@nebular/theme';
+import { CustomDirectivesModule } from '../../../@theme/directives/custom-directives.module';
 
 @NgModule({
   imports: [
@@ -13,6 +12,9 @@ import { UniqueValuesPipe } from '../../../@theme/pipes/unique-values.pipe';
     Ng2SmartTableModule,
     NbSelectModule,
     CustomPipesModule,
+    NbDatepickerModule,
+    NbInputModule,
+    CustomDirectivesModule,
   ],
   declarations: [RoundReportsComponent],
   exports: [RoundReportsComponent],

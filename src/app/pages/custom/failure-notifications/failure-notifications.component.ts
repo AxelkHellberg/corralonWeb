@@ -7,9 +7,9 @@ import { LocalDataSource } from 'ng2-smart-table';
   styleUrls: ['./failure-notifications.component.scss']
 })
 export class FailureNotificationsComponent implements OnInit {
-  statusSelectedItem: string = 'todos';
-  systemSelectedItem: string = 'todos';
-  equipmentSelectedItem: string = 'todos';
+  statusSelectedItem: string = '';
+  systemSelectedItem: string = '';
+  equipmentSelectedItem: string = '';
   filterTableSettings: any = {};
   failureData: any = [
     {
@@ -100,7 +100,7 @@ export class FailureNotificationsComponent implements OnInit {
   ngOnInit() { }
 
   filterTable(column: string, filterTerm: string): void {
-    const noFilter = filterTerm !== 'todos';
+    const noFilter = !!filterTerm;
     this.filterTableSettings = { ...this.filterTableSettings, [column]: noFilter ? filterTerm : null};
   }
 

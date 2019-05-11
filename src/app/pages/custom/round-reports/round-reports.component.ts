@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NbDateService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-round-reports',
@@ -6,41 +7,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./round-reports.component.scss']
 })
 export class RoundReportsComponent implements OnInit {
-  statusSelectedItem: string = 'todos';
-  systemSelectedItem: string = 'todos';
-  equipmentSelectedItem: string = 'todos';
+  statusSelectedItem: string = '';
+  typeSelectedItem: string = '';
   filterTableSettings: any = {};
-  failureData: any = [
+  roundsData: any = [
     {
-      status: `<div class="container-btn btn btn-danger">DETECTADO</div>`,
+      status: `<div class="container-btn btn btn-success">COMPLETA</div>`,
       id: '1',
-      failureType: 'Error 1',
-      roundNumber: 47,
-      date: '15/04/2019',
-      time: '15:04:35',
-      system: 'Auxiliares Uca',
-      equipment: 'Cargador Evequoz',
+      percent: '100%',
+      operator: 'Juan Rodríguez',
+      file: '454676',
+      type: 'Ronda',
+      roundName: 'Plantilla 1',
+      time: '15/04/2019 15:04',
     },
     {
-      status: '<div class="container-btn btn btn-warning">EN REPARACIÓN</div>',
+      status: '<div class="container-btn btn btn-danger">INCOMPLETA</div>',
       id: '2',
-      failureType: 'Error 2',
-      roundNumber: 48,
-      date: '15/04/2019',
-      time: '16:04:35',
-      system: 'UPS 2',
-      equipment: 'Auxiliares UCA',
-    },
-    {
-      status: '<div class="container-btn btn btn-success">SOLUCIONADO</div>',
-      id: '1',
-      failureType: 'Error 3',
-      roundNumber: 49,
-      date: '15/04/2019',
-      time: '18:04:35',
-      system: 'UPS 1',
-      equipment: 'Auxiliares UCA',
-    },
+      percent: '70%',
+      operator: 'Juan Rodríguez',
+      file: '454676',
+      type: 'Ronda',
+      roundName: 'Plantilla 1',
+      time: '16/04/2019 15:04',
+    }
   ];
   settings = {
     actions: false,
@@ -67,36 +57,45 @@ export class RoundReportsComponent implements OnInit {
         title: 'ID',
         type: 'text',
       },
-      failureType: {
+      percent: {
         title: 'Tipo de Falla',
         type: 'text',
       },
-      roundNumber: {
+      operator: {
         title: 'Nro de Ronda',
         type: 'text',
       },
-      date: {
+      file: {
         title: 'Fecha',
         type: 'text',
       },
-      time: {
+      type: {
         title: 'Horario',
         type: 'text',
       },
-      system: {
+      roundName: {
         title: 'Sistema',
         type: 'text',
       },
-      equipment: {
+      time: {
         title: 'Equipo',
         type: 'text',
       },
     },
   };
+  min: Date;
+  max: Date;
 
-  constructor() { }
+  constructor(protected dateService: NbDateService<Date>) { }
 
   ngOnInit() {
+    this.min = this.dateService.addDay(this.dateService.today(), -5);
+    this.max = this.dateService.addDay(this.dateService.today(), 5);
+  }
+
+  filterTable(column: string, filterTerm: string): void {
+    const noFilter = !!filterTerm;
+    this.filterTableSettings = { ...this.filterTableSettings, [column]: noFilter ? filterTerm : null};
   }
 
 }
