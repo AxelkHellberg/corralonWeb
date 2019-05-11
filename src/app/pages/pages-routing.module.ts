@@ -28,6 +28,10 @@ const routes: Routes = [
         component: FailureNotificationsComponent,
       },
       {
+        path: 'round-report',
+        component: FailureNotificationsComponent,
+      },
+      {
         path: 'users',
         component: UsersComponent,
       },

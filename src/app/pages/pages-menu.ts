@@ -14,7 +14,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Reporte de Rondas',
     icon: 'nb-compose',
-    link: '#',
+    link: '/pages/round-report',
   },
   {
     title: 'Administración',

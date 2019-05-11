@@ -69,6 +69,9 @@ import {
 import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
+import { UniqueValuesPipe } from './pipes/unique-values.pipe';
+import { TextFromHtmlPipe } from './pipes/text-from-html.pipe';
+import { FilterTablePipe } from './pipes/filter-table.pipe';
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 

@@ -14,6 +14,7 @@ import { ProfilesModule } from './custom/profiles/profiles.module';
 import { RoundTemplateModule } from './custom/round-template/round-template.module';
 import { SystemsTypeModule } from './custom/systems-type/systems-type.module';
 import { MeasurementUnitsModule } from './custom/measurement-units/measurement-units.module';
+import { RoundReportsModule } from './custom/round-reports/round-reports.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -28,6 +29,7 @@ const PAGES_COMPONENTS = [
     PlantsModule,
     RoundTemplateModule,
     FailureNotificationsModule,
+    RoundReportsModule,
     SystemsTypeModule,
     MeasurementUnitsModule,
     UsersModule,
