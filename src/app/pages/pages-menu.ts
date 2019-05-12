@@ -38,7 +38,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Plantilla de maniobra',
-        link: '#',
+        link: '/pages/maneuver-guide-template',
       },
     ],
   },

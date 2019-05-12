@@ -15,6 +15,7 @@ import { RoundTemplateModule } from './custom/round-template/round-template.modu
 import { SystemsTypeModule } from './custom/systems-type/systems-type.module';
 import { MeasurementUnitsModule } from './custom/measurement-units/measurement-units.module';
 import { RoundReportsModule } from './custom/round-reports/round-reports.module';
+import { ManeuverGuideTemplateModule } from './custom/maneuver-guide-template/maneuver-guide-template.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -31,6 +32,7 @@ const PAGES_COMPONENTS = [
     FailureNotificationsModule,
     RoundReportsModule,
     SystemsTypeModule,
+    ManeuverGuideTemplateModule,
     MeasurementUnitsModule,
     UsersModule,
     ProfilesModule,

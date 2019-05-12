@@ -14,6 +14,7 @@ import { RoundTemplateComponent } from './custom/round-template/round-template.c
 import { SystemsTypeComponent } from './custom/systems-type/systems-type.component';
 import { MeasurementUnitsComponent } from './custom/measurement-units/measurement-units.component';
 import { RoundReportsComponent } from './custom/round-reports/round-reports.component';
+import { ManeuverGuideTemplateComponent } from './custom/maneuver-guide-template/maneuver-guide-template.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path: 'round-report',
         component: RoundReportsComponent,
+      },
+      {
+        path: 'maneuver-guide-template',
+        component: ManeuverGuideTemplateComponent,
       },
       {
         path: 'users',
