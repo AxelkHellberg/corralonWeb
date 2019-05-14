@@ -72,7 +72,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Tipo de fallas',
-        link: '#',
+        link: '/pages/failure-types',
       },
     ],
   },

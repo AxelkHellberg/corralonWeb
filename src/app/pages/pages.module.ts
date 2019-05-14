@@ -1,3 +1,4 @@
+import { FailureTypesModule } from './custom/failure-types/failure-types.module';
 import { FailureNotificationsModule } from './custom/failure-notifications/failure-notifications.module';
 import { NgModule } from '@angular/core';
 
@@ -30,6 +31,7 @@ const PAGES_COMPONENTS = [
     PlantsModule,
     RoundTemplateModule,
     FailureNotificationsModule,
+    FailureTypesModule,
     RoundReportsModule,
     SystemsTypeModule,
     ManeuverGuideTemplateModule,
