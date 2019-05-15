@@ -72,6 +72,7 @@ import { CORPORATE_THEME } from './styles/theme.corporate';
 import { UniqueValuesPipe } from './pipes/unique-values.pipe';
 import { TextFromHtmlPipe } from './pipes/text-from-html.pipe';
 import { FilterTablePipe } from './pipes/filter-table.pipe';
+import { SelectComponent } from './components/custom/select/select.component';
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
@@ -126,6 +127,7 @@ const COMPONENTS = [
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
   ToggleSettingsButtonComponent,
+  SelectComponent,
 ];
 
 const ENTRY_COMPONENTS = [

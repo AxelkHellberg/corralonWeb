@@ -16,6 +16,7 @@ import { MeasurementUnitsComponent } from './custom/measurement-units/measuremen
 import { RoundReportsComponent } from './custom/round-reports/round-reports.component';
 import { ManeuverGuideTemplateComponent } from './custom/maneuver-guide-template/maneuver-guide-template.component';
 import { FailureTypesComponent } from './custom/failure-types/failure-types.component';
+import { SystemListComponent } from './custom/system-list/system-list.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,10 @@ const routes: Routes = [
       {
         path: 'round-report',
         component: RoundReportsComponent,
+      },
+      {
+        path: 'system-list',
+        component: SystemListComponent,
       },
       {
         path: 'maneuver-guide-template',

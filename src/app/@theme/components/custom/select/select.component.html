@@ -1,0 +1,3 @@
+<nb-select #select [placeholder]="selectData?.placeholder" [(ngModel)]="selectData.selected">
+  <nb-option *ngFor="let item of selectData?.selectItems" [value]="item?.value">{{item?.text}}</nb-option>
+</nb-select>

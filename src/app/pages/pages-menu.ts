@@ -47,7 +47,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Listado de sistemas',
-        link: '#',
+        link: '/pages/system-list',
       },
       {
         title: 'Tipos de sistemas',
