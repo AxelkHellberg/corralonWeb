@@ -1,5 +1,6 @@
 // themes - our custom or/and out of the box themes
 @import 'themes';
+@import '~ngx-ui-switch/ui-switch.component.scss';
 
 // framework component themes (styles tied to theme variables)
 @import '~@nebular/theme/styles/globals';
@@ -33,6 +34,14 @@
   margin-bottom: 50px;
 }
 
+.m-0 {
+  margin: 0px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
 .mb-20 {
   margin-bottom: 20px;
 }
@@ -46,4 +55,24 @@
   .ng2-smart-actions {
     width: 90px!important;
   }
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.bg-white {
+  background-color: white;
 }

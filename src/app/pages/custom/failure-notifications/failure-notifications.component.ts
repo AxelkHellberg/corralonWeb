@@ -10,6 +10,7 @@ export class FailureNotificationsComponent implements OnInit {
   statusSelectedItem: string = '';
   systemSelectedItem: string = '';
   equipmentSelectedItem: string = '';
+  showDetail: boolean;
   filterTableSettings: any = {};
   failureData: any = [
     {
@@ -101,7 +102,11 @@ export class FailureNotificationsComponent implements OnInit {
 
   filterTable(column: string, filterTerm: string): void {
     const noFilter = !!filterTerm;
-    this.filterTableSettings = { ...this.filterTableSettings, [column]: noFilter ? filterTerm : null};
+    this.filterTableSettings = { ...this.filterTableSettings, [column]: noFilter ? filterTerm : null };
+  }
+
+  selectRow(event: string) {
+    this.showDetail = !this.showDetail;
   }
 
 }

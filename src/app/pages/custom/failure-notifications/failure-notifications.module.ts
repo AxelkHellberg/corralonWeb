@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FailureNotificationsComponent } from './failure-notifications.component';
 import { NbCardModule, NbSelectModule } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { FilterTablePipe } from '../../../@theme/pipes/filter-table.pipe';
-import { UniqueValuesPipe } from '../../../@theme/pipes/unique-values.pipe';
-import { TextFromHtmlPipe } from '../../../@theme/pipes/text-from-html.pipe';
 import { CustomPipesModule } from '../../../@theme/pipes/custom-pipes.module';
+import { FailureDetailModule } from '../failure-detail/failure-detail.module';
 
 @NgModule({
   imports: [
@@ -15,6 +13,7 @@ import { CustomPipesModule } from '../../../@theme/pipes/custom-pipes.module';
     NbSelectModule,
     Ng2SmartTableModule,
     CustomPipesModule,
+    FailureDetailModule,
   ],
   declarations: [FailureNotificationsComponent],
   exports: [FailureNotificationsComponent],

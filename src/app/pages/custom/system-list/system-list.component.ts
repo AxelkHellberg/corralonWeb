@@ -24,7 +24,7 @@ export class SystemListComponent implements OnInit {
         ],
         placeholder: 'Planta',
       },
-      tag: 'Sin Tag',
+      tag: '<a routerLink="/pages/dashboard" href="javascript:void(0)">Sin Tag</a>',
       equipment: 'Cargador Evequoz',
     },
     {
@@ -50,7 +50,7 @@ export class SystemListComponent implements OnInit {
         ],
         placeholder: 'Planta',
       },
-      tag: 'Sin Tag',
+      tag: '<a href="javascript:void(0)">Sin Tag</a>',
       equipment: 'Auxiliares UCA',
     },
   ];
@@ -94,7 +94,7 @@ export class SystemListComponent implements OnInit {
       },
       tag: {
         title: 'Tag',
-        type: 'text',
+        type: 'html',
       },
     },
   };

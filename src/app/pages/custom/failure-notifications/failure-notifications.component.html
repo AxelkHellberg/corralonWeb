@@ -1,27 +1,32 @@
-<h4>Listado de Notificaciones de Falla</h4>
+<ng-container *ngIf="!showDetail">
+  <h4>Listado de Notificaciones de Falla</h4>
 
-<div class="row row-filters-selects">
-  <div class="col-4">
-    <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('status', $event)">
-      <nb-option value="">ESTADO</nb-option>
-      <nb-option *ngFor="let item of failureData | uniqueValues: 'status'" [value]="item">{{item | textFromHtml}}</nb-option>
-    </nb-select>
+  <div class="row row-filters-selects">
+    <div class="col-4">
+      <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('status', $event)">
+        <nb-option value="">ESTADO</nb-option>
+        <nb-option *ngFor="let item of failureData | uniqueValues: 'status'" [value]="item">{{item | textFromHtml}}</nb-option>
+      </nb-select>
+    </div>
+    <div class="col-4">
+      <nb-select placeholder="SISTEMA" [(selected)]="systemSelectedItem" (selectedChange)="filterTable('system', $event)">
+        <nb-option value="">SISTEMA</nb-option>
+        <nb-option *ngFor="let item of failureData | uniqueValues: 'system'" [value]="item">{{item}}</nb-option>
+      </nb-select>
+    </div>
+    <div class="col-4">
+      <nb-select placeholder="EQUIPAMIENTO" [(selected)]="equipmentSelectedItem" (selectedChange)="filterTable('equipment', $event)">
+        <nb-option value="">EQUIPAMIENTO</nb-option>
+        <nb-option *ngFor="let item of failureData | uniqueValues: 'equipment'" [value]="item">{{item}}</nb-option>
+      </nb-select>
+    </div>
   </div>
-  <div class="col-4">
-    <nb-select placeholder="SISTEMA" [(selected)]="systemSelectedItem" (selectedChange)="filterTable('system', $event)">
-      <nb-option value="">SISTEMA</nb-option>
-      <nb-option *ngFor="let item of failureData | uniqueValues: 'system'" [value]="item">{{item}}</nb-option>
-    </nb-select>
-  </div>
-  <div class="col-4">
-    <nb-select placeholder="EQUIPAMIENTO" [(selected)]="equipmentSelectedItem" (selectedChange)="filterTable('equipment', $event)">
-      <nb-option value="">EQUIPAMIENTO</nb-option>
-      <nb-option *ngFor="let item of failureData | uniqueValues: 'equipment'" [value]="item">{{item}}</nb-option>
-    </nb-select>
-  </div>
-</div>
 
-<ng2-smart-table
-  [settings]="settings"
-  [source]="failureData | filterTable: filterTableSettings"
-></ng2-smart-table>
+  <ng2-smart-table
+    [settings]="settings"
+    [source]="failureData | filterTable: filterTableSettings"
+    (userRowSelect)="selectRow($event)"
+  ></ng2-smart-table>
+</ng-container>
+
+<ngx-failure-detail *ngIf="showDetail" (onClose)="showDetail = false"></ngx-failure-detail>
