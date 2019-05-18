@@ -1,25 +1,31 @@
-<h4>Reporte de Rondas</h4>
+<ng-container *ngIf="!showDetail">
+  <h4>Reporte de Rondas</h4>
 
-<div class="row row-filters-selects">
-  <div class="col-4">
-    <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('status', $event)">
-      <nb-option value="">ESTADO</nb-option>
-      <nb-option *ngFor="let item of roundsData | uniqueValues: 'status'" [value]="item">{{item | textFromHtml}}</nb-option>
-    </nb-select>
+  <div class="row row-filters-selects">
+    <div class="col-4">
+      <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('status', $event)">
+        <nb-option value="">ESTADO</nb-option>
+        <nb-option *ngFor="let item of roundsData | uniqueValues: 'status'" [value]="item">{{item | textFromHtml}}</nb-option>
+      </nb-select>
+    </div>
+    <div class="col-4">
+      <nb-select placeholder="TIPO" [(selected)]="typeSelectedItem" (selectedChange)="filterTable('type', $event)">
+        <nb-option value="">TIPO</nb-option>
+        <nb-option *ngFor="let item of roundsData | uniqueValues: 'type'" [value]="item">{{item}}</nb-option>
+      </nb-select>
+    </div>
+    <div class="col-4">
+      <input nbInput placeholder="Fecha" emptyInput (onEmpty)="filterTable('time', $event)" [nbDatepicker]="rangepicker">
+      <nb-rangepicker #rangepicker  (rangeChange)="filterTable('time', $event)"></nb-rangepicker>
+    </div>
   </div>
-  <div class="col-4">
-    <nb-select placeholder="TIPO" [(selected)]="typeSelectedItem" (selectedChange)="filterTable('type', $event)">
-      <nb-option value="">TIPO</nb-option>
-      <nb-option *ngFor="let item of roundsData | uniqueValues: 'type'" [value]="item">{{item}}</nb-option>
-    </nb-select>
-  </div>
-  <div class="col-4">
-    <input nbInput placeholder="Fecha" emptyInput (onEmpty)="filterTable('time', $event)" [nbDatepicker]="rangepicker">
-    <nb-rangepicker #rangepicker  (rangeChange)="filterTable('time', $event)"></nb-rangepicker>
-  </div>
-</div>
 
-<ng2-smart-table
-  [settings]="settings"
-  [source]="roundsData | filterTable: filterTableSettings"
-></ng2-smart-table>
+  <ng2-smart-table
+    [settings]="settings"
+    [source]="roundsData | filterTable: filterTableSettings"
+    (userRowSelect)="showDetail = true"
+  ></ng2-smart-table>
+</ng-container>
+
+
+<ngx-round-detail *ngIf="showDetail"></ngx-round-detail>

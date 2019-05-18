@@ -10,6 +10,7 @@ export class RoundReportsComponent implements OnInit {
   statusSelectedItem: string = '';
   typeSelectedItem: string = '';
   filterTableSettings: any = {};
+  showDetail: boolean;
   roundsData: any = [
     {
       status: `<div class="container-btn btn btn-success">COMPLETA</div>`,
@@ -62,23 +63,23 @@ export class RoundReportsComponent implements OnInit {
         type: 'text',
       },
       operator: {
-        title: 'Nro de Ronda',
+        title: 'Operador',
         type: 'text',
       },
       file: {
-        title: 'Fecha',
+        title: 'Legajo',
         type: 'text',
       },
       type: {
-        title: 'Horario',
+        title: 'Tipo',
         type: 'text',
       },
       roundName: {
-        title: 'Sistema',
+        title: 'Nombre de Ronda',
         type: 'text',
       },
       time: {
-        title: 'Equipo',
+        title: 'Fecha',
         type: 'text',
       },
     },

@@ -1,0 +1,163 @@
+<h4>Ronda Nro 47</h4>
+
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-12 mb-10">
+          Estado
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-3 dropdown-container">
+        <button nbButton status="danger">INCOMPLETA</button> 70%
+      </div>
+      <div class="col-9 d-flex ">
+        <h5>Causa:</h5>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error nam, nostrum corporis quasi numquam ipsa maxime nulla commodi. Quis earum sint beatae ipsam nam nostrum consequatur quod magni deserunt tenetur, nemo hic, minima maxime tempore voluptates nesciunt cum assumenda. Vel nisi optio, error nesciunt, velit doloremque, exercitationem deleniti vero aliquam ducimus pariatur laborum sit quaerat sed repellat. Perspiciatis aut id ipsa nostrum harum. Culpa aperiam quisquam harum odit nostrum sapiente amet quae quos explicabo mollitia? Doloribus veritatis quisquam autem officiis, cum quos cumque? Praesentium, vel quod dolores atque impedit nostrum iusto blanditiis delectus dignissimos voluptas laborum unde maiores, odio ut.</p>
+      </div>
+    </div>
+  </nb-card-body>
+  <br>
+</nb-card>
+
+<nb-card>
+  <nb-card-header>
+    Detalle
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-5">
+        <div class="d-flex">
+          <div class="col-6">Turno:</div>
+          <div class="col-6">15:00hs</div>
+        </div>
+        <br><br>
+        <div class="d-flex">
+          <div class="col-6">Fecha y Hora:</div>
+          <div class="col-6">15/04/2019 00:20:36</div>
+        </div>
+      </div>
+      <div class="col-7 ">
+        <div class="d-flex">
+          <div class="col-6">Tiempo estimado:</div>
+          <div class="col-6">15:00hs</div>
+        </div>
+        <br><br>
+        <div class="d-flex">
+          <div class="col-6">Tiempo de ronda:</div>
+          <div class="col-6">15/04/2019 00:20:36</div>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+
+<nb-card>
+  <nb-card-header>
+    Planta: Planta ejemplo 1
+  </nb-card-header>
+  <nb-card-body>
+    <nb-accordion>
+      <nb-accordion-item #item>
+        <nb-accordion-item-header>
+          Auxiliares UCA
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <div class="row">
+            <div class="col-6">
+                <tree-root [nodes]="nodes"></tree-root>
+            </div>
+            <div class="col-6">
+                <tree-root [nodes]="nodes"></tree-root>
+            </div>
+          </div>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <nb-accordion-item>
+        <nb-accordion-item-header>
+          Reviews
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
+          Originally, nebula was a name for any diffuse astronomical object,
+          including galaxies beyond the Milky Way.
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <nb-accordion-item>
+        <nb-accordion-item-header>
+          Edit
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
+          Originally, nebula was a name for any diffuse astronomical object,
+          including galaxies beyond the Milky Way.
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+  </nb-card-body>
+</nb-card>
+
+<nb-card>
+    <nb-card-header>
+      Historial de Tags
+    </nb-card-header>
+    <nb-card-body>
+      <nb-accordion>
+        <nb-accordion-item #item>
+          <nb-accordion-item-header>
+            Auxiliares UCA
+          </nb-accordion-item-header>
+          <nb-accordion-item-body>
+            <div class="row">
+              <div class="col-6">
+                  <tree-root id="tree1" [focused]="true" [nodes]="nodesTag">
+                    <ng-template #treeNodeTemplate let-node let-index="index">
+                      <span [class]="node.data.className" [class.title]="true">{{ node.data.title }}</span>
+                    </ng-template>
+                    <ng-template #loadingTemplate let-node>
+                      <div [class]="node.data.className">Smart Tag:
+                          <nb-radio-group [(ngModel)]="option[node.data.id]" [name]="'radio-group' + node.data.id">
+                            <nb-radio
+                              *ngFor="let option of options"
+                              [value]="option.value">
+                              {{ option.label }}
+                            </nb-radio>
+                          </nb-radio-group>
+                      </div>
+                    </ng-template>
+                  </tree-root>
+              </div>
+            </div>
+          </nb-accordion-item-body>
+        </nb-accordion-item>
+
+        <nb-accordion-item>
+          <nb-accordion-item-header>
+            Reviews
+          </nb-accordion-item-header>
+          <nb-accordion-item-body>
+            A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
+            Originally, nebula was a name for any diffuse astronomical object,
+            including galaxies beyond the Milky Way.
+          </nb-accordion-item-body>
+        </nb-accordion-item>
+
+        <nb-accordion-item>
+          <nb-accordion-item-header>
+            Edit
+          </nb-accordion-item-header>
+          <nb-accordion-item-body>
+            A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
+            Originally, nebula was a name for any diffuse astronomical object,
+            including galaxies beyond the Milky Way.
+          </nb-accordion-item-body>
+        </nb-accordion-item>
+      </nb-accordion>
+    </nb-card-body>
+  </nb-card>
+
