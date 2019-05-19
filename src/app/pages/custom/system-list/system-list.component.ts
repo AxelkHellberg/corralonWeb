@@ -8,6 +8,7 @@ import { SelectComponent } from '../../../@theme/components/custom/select/select
 })
 export class SystemListComponent implements OnInit {
 
+  associateTag: boolean;
   data: any = [
     {
       id: '1',

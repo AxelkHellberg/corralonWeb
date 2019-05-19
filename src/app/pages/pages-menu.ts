@@ -55,7 +55,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Equipamiento',
-        link: '#',
+        link: '/pages/equipment',
       },
       {
         title: 'Unidades de medida',
@@ -66,10 +66,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Fallas',
     children: [
-      {
-        title: 'Listado de fallas',
-        link: '#',
-      },
       {
         title: 'Tipo de fallas',
         link: '/pages/failure-types',

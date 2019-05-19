@@ -1,37 +1,57 @@
-<h5>Auxiliares UCA</h5>
-  <br><br>
-  <div class="d-flex vertical-center-items row">
-    <div class="col-3">
-      <ui-switch [(ngModel)]="enable" color="rgb(115, 161, 255)"></ui-switch>
+<ng-container *ngIf="type === 'tag'">
+  <h5>Auxiliares UCA</h5>
+    <br><br>
+    <div class="d-flex vertical-center-items row">
+      <div class="col-3">
+        <ui-switch [(ngModel)]="enable" color="rgb(115, 161, 255)"></ui-switch>
+      </div>
+      <div class="col-9">
+        <p class="m-0"><b>Tag</b></p>
+        {{enable ? 'ON' : 'OFF'}}
+      </div>
     </div>
-    <div class="col-9">
-      <p class="m-0"><b>Tag</b></p>
-      {{enable ? 'ON' : 'OFF'}}
+    <br><br>
+    <div class="d-flex vertical-center-items row">
+      <div class="col-6">Número de Tag</div>
+      <div class="col-6">
+          <input type="text" [disabled]="!enable" nbInput placeholder="Text field">
+      </div>
     </div>
-  </div>
-  <br><br>
-  <div class="d-flex vertical-center-items row">
-    <div class="col-6">Número de Tag</div>
-    <div class="col-6">
-        <input type="text" nbInput placeholder="Text field">
+    <br>
+    <div class="d-flex vertical-center-items row">
+      <div class="col-6">Restricción en Inicio</div>
+      <div class="col-6">
+        <nb-radio-group [(ngModel)]="option">
+            <nb-radio
+              *ngFor="let option of options"
+              [value]="option.value"
+              [disabled]="!enable">
+              {{ option.label }}
+            </nb-radio>
+          </nb-radio-group>
+      </div>
     </div>
-  </div>
-  <br>
-  <div class="d-flex vertical-center-items row">
-    <div class="col-6">Restricción en Inicio</div>
-    <div class="col-6">
-      <nb-radio-group [(ngModel)]="option">
-          <nb-radio
-            *ngFor="let option of options"
-            [value]="option.value">
-            {{ option.label }}
-          </nb-radio>
-        </nb-radio-group>
+    <br><br>
+    <div class="row">
+      <div class="col-12">
+        <button nbButton [disabled]="!enable" status="primary" (click)="save()">Guardar</button>
+      </div>
     </div>
-  </div>
+</ng-container>
+
+<ng-container *ngIf="type === 'attributes'">
+  <h4 class="mb-20">Cargador Evequoz 220VVC</h4>
+
+  <ng2-smart-table
+    [settings]="settings"
+  ></ng2-smart-table>
   <br><br>
   <div class="row">
     <div class="col-12">
-      <button nbButton status="primary">Guardar</button>
+      <button nbButton status="primary" (click)="save()">Guardar</button>
     </div>
   </div>
+</ng-container>
+
+
+

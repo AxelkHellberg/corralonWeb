@@ -1,14 +1,15 @@
-<ng-container *ngIf="true">
+<ng-container *ngIf="!associateTag">
   <h4 class="mb-20">Listado de Sistemas</h4>
 
   <ng2-smart-table
     [settings]="settings"
     [source]="data"
+    (userRowSelect)="associateTag = true"
   ></ng2-smart-table>
 </ng-container>
 
-<div class="row" *ngIf="false">
+<div class="row" *ngIf="associateTag">
   <div class="col-6">
-    <ngx-associate-elements></ngx-associate-elements>
+    <ngx-associate-elements (onSave)="associateTag = false"></ngx-associate-elements>
   </div>
 </div>

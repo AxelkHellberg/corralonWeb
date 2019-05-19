@@ -1,0 +1,10 @@
+<ng-container *ngIf="!associateElements">
+  <h4 class="mb-20">Equipamiento</h4>
+
+  <ng2-smart-table
+    [settings]="settings"
+    [source]="data"
+  ></ng2-smart-table>
+</ng-container>
+
+<ngx-associate-elements [type]="associateType" (onSave)="goBack()" *ngIf="associateElements"></ngx-associate-elements>
