@@ -1,9 +1,9 @@
 
-<h4 class="mb-20">Plantilla de Guía de Maniobra</h4>
+<h4 class="mb-20">Nueva Plantilla de Guía de Maniobra: '{{!maneuverGuideName ? 'Sin Titulo' : maneuverGuideName}}'</h4>
 <br><br>
 <ng-container>
   <div>
-      <input nbInput type="text" class="col-8" placeholder="Nombre de la Guía de Maniobra">
+      <input nbInput type="text" class="col-8" [(ngModel)]="maneuverGuideName" placeholder="Nombre de la Guía de Maniobra">
   </div>
 
 <br><br>
@@ -32,7 +32,7 @@
   </div>
   <div class="col-6">
     <p><b>Guía de Maniobra</b></p>
-    <input nbInput type="text" class="col-8" [disabled]="!enableManeuverGuide" (input)="selectManeuverGuide($event)" placeholder="Nombre de la Guía de Maniobra">
+    <input nbInput type="text" class="col-8" [disabled]="!enableManeuverGuide" [ngModel]="maneuverGuideContent" (input)="selectManeuverGuide($event)" placeholder="Nombre de la Guía de Maniobra">
   </div>
   <div class="col-3">
     <button nbButton status="primary" (click)="saveChanges()" [disabled]="!enableSaveButton">Guardar</button>

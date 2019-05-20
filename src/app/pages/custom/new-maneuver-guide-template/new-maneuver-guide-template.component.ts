@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./new-maneuver-guide-template.component.scss']
 })
 export class NewManeuverGuideTemplateComponent implements OnInit {
+  maneuverGuideName: string;
   enableSystem: boolean;
   selectedPlant: string;
 
@@ -15,52 +16,52 @@ export class NewManeuverGuideTemplateComponent implements OnInit {
   settings = {
     mode: 'external',
     attr: {
-      class: 'general-table',
+      class: 'general-table'
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>'
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>'
     },
     delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
+      deleteButtonContent: '<i class="nb-trash"></i>'
     },
     columns: {
       plant: {
         title: 'Planta',
         type: 'text',
-        width: '300px',
+        width: '300px'
       },
       system: {
         title: 'Sistema',
         type: 'text',
-        width: '300px',
+        width: '300px'
       },
       maneuverGuide: {
         title: 'Guía de Maniobra',
         type: 'text',
-        width: '300px',
-      },
-    },
+        width: '300px'
+      }
+    }
   };
   plant = {
     selected: '1',
     selectItems: [
       {
         text: 'Planta A',
-        value: '1',
+        value: '1'
       },
       {
         text: 'Planta B',
-        value: '2',
-      },
+        value: '2'
+      }
     ],
-    placeholder: '',
+    placeholder: ''
   };
   system = {
     selected: '',
@@ -68,35 +69,36 @@ export class NewManeuverGuideTemplateComponent implements OnInit {
       {
         text: 'System A',
         value: '1',
-        plant: 'Planta A',
+        plant: 'Planta A'
       },
       {
         text: 'System A2',
         value: '2',
-        plant: 'Planta A',
+        plant: 'Planta A'
       },
       {
         text: 'System B1',
         value: '3',
-        plant: 'Planta B',
+        plant: 'Planta B'
       },
       {
         text: 'System B2',
         value: '4',
-        plant: 'Planta B',
-      },
+        plant: 'Planta B'
+      }
     ],
-    placeholder: 'Sistema',
+    placeholder: 'Sistema'
   };
   isEditorCreate: boolean;
   enableManeuverGuide: boolean;
 
   enableSaveButton: boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  maneuverGuideContent: string;
 
-  ngOnInit() {
-  }
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
+  ngOnInit() {}
 
   createTemplate() {
     this.isEditorCreate = true;
@@ -105,6 +107,9 @@ export class NewManeuverGuideTemplateComponent implements OnInit {
   selectPlant(item) {
     this.enableSystem = true;
     this.selectedPlant = item.text;
+    this.enableManeuverGuide = false;
+    this.enableSaveButton = false;
+    this.maneuverGuideContent = '';
     this.system.selected = this.selectFirstItem(this.system, 'plant');
   }
   selectSystem() {
@@ -116,7 +121,9 @@ export class NewManeuverGuideTemplateComponent implements OnInit {
   }
 
   selectFirstItem(data, filterProperty) {
-    const filteredData = data.selectItems.find(item => item[filterProperty] === this.selectedPlant);
+    const filteredData = data.selectItems.find(
+      item => item[filterProperty] === this.selectedPlant
+    );
     return filteredData.value;
   }
 
