@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-maneuver-guide-template',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./maneuver-guide-template.component.scss']
 })
 export class ManeuverGuideTemplateComponent implements OnInit {
-
+  showNewTemplate: boolean;
   data = [
     {
       id: 1,
@@ -19,6 +20,7 @@ export class ManeuverGuideTemplateComponent implements OnInit {
   ]
 
   settings = {
+    mode: 'external',
     attr: {
       class: 'general-table',
     },
@@ -49,9 +51,25 @@ export class ManeuverGuideTemplateComponent implements OnInit {
     }
   };
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.route.queryParams.subscribe(queryParam => {
+      if (queryParam.create) {
+        this.showNewTemplate = true;
+      } else {
+        this.showNewTemplate = false;
+      }
+    })
+  }
 
   ngOnInit() {
+  }
+
+  createTemplate(event) {
+    this.router.navigate(['pages/maneuver-guide-template'], {
+      queryParams: {
+        create: true,
+      },
+    });
   }
 
 }

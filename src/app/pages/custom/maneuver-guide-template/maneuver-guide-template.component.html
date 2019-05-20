@@ -1,6 +1,12 @@
-<h4 class="mb-20">Plantilla de Guía de Maniobra</h4>
+<ng-container *ngIf="!showNewTemplate">
+  <h4 class="mb-20">Plantilla de Guía de Maniobra</h4>
 
-<ng2-smart-table
-  [settings]="settings"
-  [source]="data"
-></ng2-smart-table>
+  <ng2-smart-table
+    [settings]="settings"
+    [source]="data"
+    (create)="createTemplate($event)"
+  ></ng2-smart-table>
+</ng-container>
+
+
+<ngx-new-maneuver-guide-template *ngIf="showNewTemplate"></ngx-new-maneuver-guide-template>
