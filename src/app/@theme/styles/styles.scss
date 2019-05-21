@@ -76,3 +76,11 @@
 .bg-white {
   background-color: white;
 }
+
+.cdk-global-scrollblock {
+  position: inherit !important;
+  width: auto !important;
+  overflow-y: auto !important;
+  top: 0!important;
+}
+

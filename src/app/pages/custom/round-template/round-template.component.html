@@ -1,6 +1,12 @@
-<h4 class="mb-20">Plantilla de Rondas</h4>
+<ng-container *ngIf="!showRoundTemplate">
+  <h4 class="mb-20">Plantilla de Rondas</h4>
 
-<ng2-smart-table
-  [settings]="settings"
-  [source]="data"
-></ng2-smart-table>
+  <ng2-smart-table
+    [settings]="settings"
+    [source]="data"
+    (create)="createTemplate()"
+  ></ng2-smart-table>
+</ng-container>
+
+
+<ngx-new-round-template *ngIf="showRoundTemplate"></ngx-new-round-template>

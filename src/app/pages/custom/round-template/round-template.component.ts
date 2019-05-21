@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-round-template',
@@ -21,6 +22,7 @@ export class RoundTemplateComponent implements OnInit {
   ]
 
   settings = {
+    mode: 'external',
     attr: {
       class: 'general-table',
     },
@@ -55,9 +57,26 @@ export class RoundTemplateComponent implements OnInit {
       },
     }
   };
+  showRoundTemplate: boolean;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.route.queryParams.subscribe(queryParam => {
+      if (queryParam.create) {
+        this.showRoundTemplate = true;
+      } else {
+        this.showRoundTemplate = false;
+      }
+    });
+  }
 
   ngOnInit() {
+  }
+
+  createTemplate() {
+    this.router.navigate(['/pages/round-template'], {
+      queryParams: {
+        create: true,
+      },
+    });
   }
 }
