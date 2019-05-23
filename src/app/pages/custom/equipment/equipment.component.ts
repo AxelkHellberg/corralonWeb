@@ -15,8 +15,8 @@ export class EquipmentComponent implements OnInit {
       equipmentName: 'Auxiliares Uca',
       system: 'ENERGÍA',
       detail: 'Detalle 1',
-      attributes: '<a href="#/pages/equipment?attributes=true" href="javascript:void(0)">Asociar</a>',
-      tag: '<a href="#/pages/equipment?tag=true" href="javascript:void(0)">Sin Tag</a>',
+      attributes: '<a href="#/pages/equipment?attributes=true">Asociar</a>',
+      tag: '<a href="#/pages/equipment?tag=true">Sin Tag</a>',
       equipment: 'Cargador Evequoz',
     },
     {
@@ -24,8 +24,8 @@ export class EquipmentComponent implements OnInit {
       equipmentName: 'Planteamiento de tratamiento de efluentes cloacales',
       system: 'AGUA',
       detail: 'Detalle 2',
-      attributes: '<a href="#/pages/equipment?attributes=true" href="javascript:void(0)">Asociar</a>',
-      tag: '<a href="#/pages/equipment?tag=true" href="javascript:void(0)">Sin Tag</a>',
+      attributes: '<a href="#/pages/equipment?attributes=true">Asociar</a>',
+      tag: '<a href="#/pages/equipment?tag=true">Sin Tag</a>',
       equipment: 'Auxiliares UCA',
     },
   ];
@@ -60,6 +60,21 @@ export class EquipmentComponent implements OnInit {
       system: {
         title: 'Sistema',
         type: 'text',
+        editor: {
+          type: 'list',
+          config: {
+            list: [
+              {
+                title: 'ENERGÍA',
+                value: 'ENERGÍA',
+              },
+              {
+                title: 'AGUA',
+                value: 'AGUA',
+              },
+            ]
+          }
+        }
       },
       attributes: {
         title: 'Asociar atributos a medir',

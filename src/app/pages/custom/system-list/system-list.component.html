@@ -4,12 +4,11 @@
   <ng2-smart-table
     [settings]="settings"
     [source]="data"
-    (userRowSelect)="associateTag = true"
   ></ng2-smart-table>
 </ng-container>
 
 <div class="row" *ngIf="associateTag">
   <div class="col-6">
-    <ngx-associate-elements (onSave)="associateTag = false"></ngx-associate-elements>
+    <ngx-associate-elements (onSave)="goToTable()"></ngx-associate-elements>
   </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectComponent } from '../../../@theme/components/custom/select/select.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-system-list',
@@ -15,17 +16,8 @@ export class SystemListComponent implements OnInit {
       systemName: 'Auxiliares Uca',
       systemType: 'ENERGÍA',
       detail: 'Detalle 1',
-      plant: {
-        selected: '1',
-        selectItems: [
-          {
-            text: 'Planta B',
-            value: '1',
-          },
-        ],
-        placeholder: 'Planta',
-      },
-      tag: '<a routerLink="/pages/dashboard" href="javascript:void(0)">Sin Tag</a>',
+      plant: 'Planta A',
+      tag: '<a href="#/pages/system-list?tag=true">Sin Tag</a>',
       equipment: 'Cargador Evequoz',
     },
     {
@@ -33,25 +25,8 @@ export class SystemListComponent implements OnInit {
       systemName: 'Planteamiento de tratamiento de efluentes cloacales',
       systemType: 'AGUA',
       detail: 'Detalle 2',
-      plant: {
-        selected: '3',
-        selectItems: [
-          {
-            text: 'Planta A',
-            value: '1',
-          },
-          {
-            text: 'Planta B',
-            value: '2',
-          },
-          {
-            text: 'Planta C',
-            value: '3',
-          },
-        ],
-        placeholder: 'Planta',
-      },
-      tag: '<a href="javascript:void(0)">Sin Tag</a>',
+      plant: 'Planta C',
+      tag: '<a href="#/pages/system-list?tag=true">220 VVC</a>',
       equipment: 'Auxiliares UCA',
     },
   ];
@@ -89,9 +64,26 @@ export class SystemListComponent implements OnInit {
       },
       plant: {
         title: 'Planta',
-        type: 'custom',
-        renderComponent: SelectComponent,
-        onComponentInitFunction: (component: SelectComponent) => component.setConfig('plant'),
+        type: 'text',
+        editor: {
+          type: 'list',
+          config: {
+            list: [
+              {
+                title: 'Planta A',
+                value: 'Planta A'
+              },
+              {
+                title: 'Planta B',
+                value: 'Planta B'
+              },
+              {
+                title: 'Planta C',
+                value: 'Planta C'
+              }
+            ]
+          }
+        }
       },
       tag: {
         title: 'Tag',
@@ -100,9 +92,17 @@ export class SystemListComponent implements OnInit {
     },
   };
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.route.queryParams.subscribe(queryParams => {
+      this.associateTag = !!queryParams.tag;
+    });
+  }
 
   ngOnInit() {
+  }
+
+  goToTable() {
+    this.router.navigate(['/pages/system-list']);
   }
 
 }
