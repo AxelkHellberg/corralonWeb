@@ -53,6 +53,44 @@ export class NewRoundTemplateComponent implements OnInit {
       },
     }
   };
+  timeSetting = {
+    attr: {
+      class: 'general-table'
+    },
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>'
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>'
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>'
+    },
+    columns: {
+      hour: {
+        title: 'Hora',
+        type: 'text',
+        width: '50px',
+        valuePrepareFunction: (value) => {
+          const getNumber = value.replace(/\D/g, '');
+          return getNumber > 12 ? 12 : getNumber;
+        }
+      },
+      minute: {
+        title: 'Minuto',
+        type: 'text',
+        width: '50px',
+        valuePrepareFunction: (value) => {
+          const getNumber = value.replace(/\D/g, '');
+          return getNumber > 59 ? 59 : getNumber;
+        }
+      },
+    },
+  };
   plant = {
     selected: '1',
     selectItems: [

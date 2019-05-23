@@ -72,4 +72,18 @@ export class ManeuverGuideTemplateComponent implements OnInit {
     });
   }
 
+  deleteTemplate(row) {
+    delete this.data[row.index];
+    this.data = [...this.data];
+  }
+
+  getTemplate(templateName) {
+    const template = {
+      id: this.data.length + 1,
+      maneuverGuide: templateName,
+    };
+    this.data = [...this.data, ...[template]];
+    this.router.navigate(['pages/maneuver-guide-template']);
+  }
+
 }

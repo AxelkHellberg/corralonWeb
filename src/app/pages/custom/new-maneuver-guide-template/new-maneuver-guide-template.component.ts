@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -7,11 +7,15 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./new-maneuver-guide-template.component.scss']
 })
 export class NewManeuverGuideTemplateComponent implements OnInit {
+  @Output() onSave = new EventEmitter<any>();
   maneuverGuideName: string;
   enableSystem: boolean;
   selectedPlant: string;
+  selectedSystem: string;
 
-  data = [];
+  data: any;
+
+  tableData = [];
 
   settings = {
     mode: 'external',
@@ -50,7 +54,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit {
     }
   };
   plant = {
-    selected: '1',
+    selected: '',
     selectItems: [
       {
         text: 'Planta A',
@@ -61,7 +65,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit {
         value: '2'
       }
     ],
-    placeholder: ''
+    placeholder: 'Planta'
   };
   system = {
     selected: '',
@@ -89,48 +93,91 @@ export class NewManeuverGuideTemplateComponent implements OnInit {
     ],
     placeholder: 'Sistema'
   };
-  isEditorCreate: boolean;
+  isCreate: boolean;
+  isEdit: boolean;
   enableManeuverGuide: boolean;
 
   enableSaveButton: boolean;
 
   maneuverGuideContent: string;
+  currentIndex: number;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {}
 
   createTemplate() {
-    this.isEditorCreate = true;
+    this.isCreate = true;
+    this.data = {
+      plant: '',
+      system: '',
+      maneuverGuide: '',
+    };
+    this.plant.selected = '';
+    this.system.selected = '';
+    this.maneuverGuideContent = '';
+  }
+
+  editTemplate(row) {
+    this.isEdit = true;
+    this.enableManeuverGuide = true;
+    this.enableSaveButton = true;
+    this.enableSystem = true;
+    this.selectOnEdit(row.data, row.index);
+  }
+
+  deleteTemplate(row) {
+    delete this.tableData[row.index];
+    this.tableData = [...this.tableData];
   }
 
   selectPlant(item) {
     this.enableSystem = true;
-    this.selectedPlant = item.text;
+    this.data.plant = item.text;
     this.enableManeuverGuide = false;
     this.enableSaveButton = false;
     this.maneuverGuideContent = '';
-    this.system.selected = this.selectFirstItem(this.system, 'plant');
+    this.system.selected = this.selectFirstItem(this.system, 'plant', this.data.plant);
   }
-  selectSystem() {
+  selectSystem(item) {
     this.enableManeuverGuide = true;
+    this.data.system = item.text;
   }
 
   selectManeuverGuide(event: any) {
     this.enableSaveButton = !!event.data;
   }
 
-  selectFirstItem(data, filterProperty) {
+  selectFirstItem(data, filterProperty, filterValue) {
     const filteredData = data.selectItems.find(
-      item => item[filterProperty] === this.selectedPlant
+      item => item[filterProperty] === filterValue
     );
     return filteredData.value;
+  }
+
+  selectOnEdit(data: any, index: number) {
+    this.data = data;
+    this.currentIndex = index;
+    this.plant.selected = this.selectFirstItem(this.plant, 'text', this.data.plant);
+    this.system.selected = this.selectFirstItem(this.system, 'text', this.data.system);
   }
 
   saveChanges() {
     this.enableManeuverGuide = false;
     this.enableSystem = false;
     this.enableSaveButton = false;
-    this.isEditorCreate = false;
+    if (this.isCreate) {
+      this.tableData = [...this.tableData, ...[this.data]];
+    } else if (this.isEdit) {
+      this.tableData[this.currentIndex] = this.data;
+      this.tableData = [...this.tableData];
+    }
+    this.isCreate = false;
+    this.isEdit = false;
+    console.log(this.tableData);
+  }
+
+  saveTemplate() {
+    this.onSave.emit(this.maneuverGuideName);
   }
 }

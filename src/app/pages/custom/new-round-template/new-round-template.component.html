@@ -51,12 +51,15 @@
   <br>
   <div class="row col-12">
     <br><br>
-    <h5>Horario</h5>
-    <div class="col-3">
-      <ngb-timepicker [(ngModel)]="timeStart"></ngb-timepicker>
-    </div>
-    <div class="col-3">
-        <ngb-timepicker [(ngModel)]="timeEnd"></ngb-timepicker>
+    <div class="d-flex fd-c">
+      <h5>Horario</h5>
+      <br>
+      <ng2-smart-table
+        [settings]="timeSetting"
+        [source]="timeData"
+      >
+      </ng2-smart-table>
+      <br>
     </div>
   </div>
   <div class="row">

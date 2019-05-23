@@ -10,14 +10,16 @@
 
   <ng2-smart-table
   [settings]="settings"
-  [source]="data"
+  [source]="tableData"
   (create)="createTemplate()"
+  (edit)="editTemplate($event)"
+  (delete)="deleteTemplate($event)"
   ></ng2-smart-table>
 </ng-container>
 
 <br><br>
 
-<div class="row" *ngIf="isEditorCreate">
+<div class="row" *ngIf="isCreate || isEdit">
   <div class="col-3">
     <p><b>Planta</b></p>
     <nb-select [placeholder]="plant?.placeholder" [selected]="plant.selected">
@@ -27,14 +29,20 @@
   <div class="col-3">
     <p><b>Sistema</b></p>
     <nb-select [placeholder]="system?.placeholder" [disabled]="!enableSystem" [selected]="system.selected">
-      <nb-option *ngFor="let item of system?.selectItems | filterBy: 'plant': selectedPlant; let i = index" [value]="item?.value" (click)="selectSystem(item)">{{item?.text}}</nb-option>
+      <nb-option *ngFor="let item of system?.selectItems | filterBy: 'plant': data.plant; let i = index" [value]="item?.value" (click)="selectSystem(item)">{{item?.text}}</nb-option>
     </nb-select>
   </div>
   <div class="col-6">
     <p><b>Guía de Maniobra</b></p>
-    <input nbInput type="text" class="col-8" [disabled]="!enableManeuverGuide" [ngModel]="maneuverGuideContent" (input)="selectManeuverGuide($event)" placeholder="Nombre de la Guía de Maniobra">
+    <input nbInput type="text" class="col-8" [disabled]="!enableManeuverGuide" [(ngModel)]="data.maneuverGuide" (input)="selectManeuverGuide($event)" placeholder="Nombre de la Guía de Maniobra">
   </div>
   <div class="col-3">
     <button nbButton status="primary" (click)="saveChanges()" [disabled]="!enableSaveButton">Guardar</button>
+  </div>
+</div>
+<br><br>
+<div class="row">
+  <div class="col-12">
+    <button nbButton status="primary" (click)="saveTemplate()">Guardar Plantilla</button>
   </div>
 </div>
