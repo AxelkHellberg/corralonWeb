@@ -79,17 +79,6 @@ export class EquipmentComponent implements OnInit {
       attributes: {
         title: 'Asociar atributos a medir',
         type: 'html',
-        editor: {
-          type: 'list',
-          config: {
-            list: [
-              {
-                value: '<a href="#/pages/equipment?attributes=true" href="javascript:void(0)">Asociar</a>',
-                title: 'Asociar',
-              },
-            ],
-          },
-        },
       },
       tag: {
         title: 'Tag',
