@@ -26,7 +26,7 @@ export class SystemListComponent implements OnInit {
       systemType: 'AGUA',
       detail: 'Detalle 2',
       plant: 'Planta C',
-      tag: '<a href="#/pages/system-list?tag=true">220 VVC</a>',
+      tag: '<a href="#/pages/system-list?tag=true">ABC 123</a>',
       equipment: 'Auxiliares UCA',
     },
   ];

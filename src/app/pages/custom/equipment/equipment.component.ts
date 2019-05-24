@@ -16,7 +16,7 @@ export class EquipmentComponent implements OnInit {
       system: 'ENERGÍA',
       detail: 'Detalle 1',
       attributes: '<a href="#/pages/equipment?attributes=true">Asociar</a>',
-      tag: '<a href="#/pages/equipment?tag=true">Sin Tag</a>',
+      tag: '<a href="#/pages/equipment?tag=true">ABC123</a>',
       equipment: 'Cargador Evequoz',
     },
     {
@@ -87,6 +87,10 @@ export class EquipmentComponent implements OnInit {
           type: 'list',
           config: {
             list: [
+              {
+                value: '<a href="#/pages/equipment?tag=true" href="javascript:void(0)">ABC123</a>',
+                title: 'ABC123',
+              },
               {
                 value: '<a href="#/pages/equipment?tag=true" href="javascript:void(0)">Sin Tag</a>',
                 title: 'Sin Tag',

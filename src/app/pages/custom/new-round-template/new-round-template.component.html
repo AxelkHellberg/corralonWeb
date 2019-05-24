@@ -10,7 +10,7 @@
 
   <ng2-smart-table
   [settings]="settings"
-  [source]="data"
+  [source]="tableData"
   (create)="createTemplate()"
   ></ng2-smart-table>
 </ng-container>
@@ -18,76 +18,80 @@
 <br><br>
 
 
-<ng-container *ngIf="isEditorCreate">
-  <div class="row">
-    <div class="col-3">
-      <p><b>Planta</b></p>
-      <nb-select [placeholder]="plant?.placeholder" [selected]="plant.selected">
-        <nb-option *ngFor="let item of plant?.selectItems" [value]="item?.value" (click)="selectPlant(item)">{{item?.text}}</nb-option>
-      </nb-select>
-    </div>
-    <div class="col-3">
-      <p><b>Sistema</b></p>
-      <nb-select [placeholder]="system?.placeholder" [disabled]="!enableSystem" [selected]="system.selected">
-        <nb-option *ngFor="let item of system?.selectItems | filterBy: 'plant': selectedPlant; let i = index" [value]="item?.value" (click)="selectSystem(item)">{{item?.text}}</nb-option>
-      </nb-select>
-    </div>
-    <div class="col-3">
-      <p><b>Equipamiento</b></p>
-      <nb-select [placeholder]="equipment?.placeholder" [disabled]="!enableEquipment" [selected]="equipment.selected">
-        <nb-option *ngFor="let item of equipment?.selectItems | filterBy: 'system': selectedSystem; let i = index" [value]="item?.value" (click)="selectEquipment(item)">{{item?.text}}</nb-option>
-      </nb-select>
-    </div>
-    <div class="col-3">
-      <p><b>Componente</b></p>
-      <nb-select [placeholder]="component?.placeholder" [disabled]="!enableComponent" [selected]="component.selected">
-        <nb-option *ngFor="let item of component?.selectItems | filterBy: 'equipment': selectedEquipment; let i = index" [value]="item?.value" (click)="selectComponent(item)">{{item?.text}}</nb-option>
-      </nb-select>
-    </div>
-  </div>
-  <br>
-  <br>
-  <br>
-  <br>
-  <div class="row col-12">
-    <br><br>
-    <div class="d-flex fd-c">
-      <h5>Horario</h5>
-      <br>
-      <ng2-smart-table
-        [settings]="timeSetting"
-        [source]="timeData"
-      >
-      </ng2-smart-table>
-      <br>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <h5>Configuración</h5>
-    </div>
-    <br><br>
-    <div class="col-12">
-      <p><b>Sistemas</b></p>
-      <div class="d-flex">
-        <nb-checkbox status="primary">Funcionamiento</nb-checkbox>
-        <nb-checkbox status="primary">Obligatorio</nb-checkbox>
-      </div>
-    </div>
-    <br><br>
-    <div class="col-12">
-      <p><b>Equipmaiento</b></p>
-      <div class="d-flex">
-        <nb-checkbox status="primary">Funcionamiento</nb-checkbox>
-        <nb-checkbox status="primary">Obligatorio</nb-checkbox>
-      </div>
-    </div>
-  </div>
-  <br><br>
-  <div class="row">
-    <div class="col-3">
-      <button nbButton status="primary" (click)="saveChanges()" [disabled]="!enableSaveButton">Guardar</button>
-    </div>
-  </div>
-</ng-container>
+<ng-template #addOrEdit let-dialog="dialogRef">
+  <nb-card>
+    <nb-card-header>Agregar Elemento</nb-card-header>
+    <nb-card-body>
+        <div class="row">
+            <div class="col-3">
+              <nb-select [placeholder]="plant?.placeholder" [selected]="plant.selected">
+                <nb-option *ngFor="let item of plant?.selectItems" [value]="item?.value" (click)="selectPlant(item)">{{item?.text}}</nb-option>
+              </nb-select>
+            </div>
+            <div class="col-3">
+              <nb-select [placeholder]="system?.placeholder" [disabled]="!enableSystem" [selected]="system.selected">
+                <nb-option *ngFor="let item of system?.selectItems | filterBy: 'plant': data.plant; let i = index" [value]="item?.value" (click)="selectSystem(item)">{{item?.text}}</nb-option>
+              </nb-select>
+            </div>
+            <div class="col-3">
+              <nb-select [placeholder]="equipment?.placeholder" [disabled]="!enableEquipment" [selected]="equipment.selected">
+                <nb-option *ngFor="let item of equipment?.selectItems | filterBy: 'system': data.system; let i = index" [value]="item?.value" (click)="selectEquipment(item)">{{item?.text}}</nb-option>
+              </nb-select>
+            </div>
+            <div class="col-3">
+              <nb-select [placeholder]="component?.placeholder" [disabled]="!enableComponent" [selected]="component.selected">
+                <nb-option *ngFor="let item of component?.selectItems | filterBy: 'equipment': data.equipment; let i = index" [value]="item?.value" (click)="selectComponent(item)">{{item?.text}}</nb-option>
+              </nb-select>
+            </div>
+          </div>
+          <br>
+          <br>
+          <br>
+          <br>
+          <div class="row col-12">
+            <br><br>
+            <div class="d-flex fd-c">
+              <h5>Horario</h5>
+              <br>
+              <ng2-smart-table
+                [settings]="timeSetting"
+                [source]="timeData"
+              >
+              </ng2-smart-table>
+              <br>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h5>Configuración</h5>
+            </div>
+            <br><br>
+            <div class="col-12">
+              <p><b>Sistemas</b></p>
+              <div class="d-flex">
+                <nb-checkbox status="primary">Funcionamiento</nb-checkbox>
+                <nb-checkbox status="primary">Obligatorio</nb-checkbox>
+              </div>
+            </div>
+            <br><br>
+            <div class="col-12">
+              <p><b>Equipmaiento</b></p>
+              <div class="d-flex">
+                <nb-checkbox status="primary">Funcionamiento</nb-checkbox>
+                <nb-checkbox status="primary">Obligatorio</nb-checkbox>
+              </div>
+            </div>
+          </div>
+          <br><br>
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center align-items-baseline">
+              <h5 class="text-hint cursor-pointer pr-4" (click)="discardChanges(dialog)">Cancelar</h5>
+              <button nbButton status="primary" (click)="saveChanges(dialog)" [disabled]="!enableSaveButton">Guardar</button>
+            </div>
+          </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
 

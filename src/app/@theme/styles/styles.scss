@@ -42,6 +42,10 @@
   margin-bottom: 10px;
 }
 
+.p-20 {
+  padding: 20px;
+}
+
 .mb-20 {
   margin-bottom: 20px;
 }
@@ -81,10 +85,18 @@
   background-color: white;
 }
 
+.br-10 {
+  border-radius: 10px;
+}
+
 .cdk-global-scrollblock {
   position: inherit !important;
   width: auto !important;
   overflow-y: auto !important;
   top: 0!important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 

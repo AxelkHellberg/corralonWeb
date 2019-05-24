@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-new-round-template',
@@ -7,11 +8,21 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./new-round-template.component.scss']
 })
 export class NewRoundTemplateComponent implements OnInit {
+  @ViewChild('addOrEdit') addOrEditTemplate: TemplateRef<any>;
   maneuverGuideName: string;
   selectedPlant: string;
   selectedSystem: string;
   selectedEquipment: string;
-  data = [];
+  data = {
+    plant: '',
+    system: '',
+    equipment: '',
+    component: '',
+    time: new Set(),
+    timer: '',
+  };
+  tableData = [];
+  timeData = [];
   settings = {
     mode: 'external',
     attr: {
@@ -51,6 +62,11 @@ export class NewRoundTemplateComponent implements OnInit {
         type: 'text',
         width: '300px',
       },
+      timer: {
+        title: 'Horario',
+        type: 'text',
+        width: '300px',
+      }
     }
   };
   timeSetting = {
@@ -75,24 +91,27 @@ export class NewRoundTemplateComponent implements OnInit {
         title: 'Hora',
         type: 'text',
         width: '50px',
-        valuePrepareFunction: (value) => {
-          const getNumber = value.replace(/\D/g, '');
-          return getNumber > 12 ? 12 : getNumber;
+        valuePrepareFunction: (cell, row) => {
+          const getNumber = cell.replace(/\D/g, '');
+          const validate = getNumber > 12 ? 12 : getNumber;
+          this.selectTime(row);
+          return validate;
         }
       },
       minute: {
         title: 'Minuto',
         type: 'text',
         width: '50px',
-        valuePrepareFunction: (value) => {
-          const getNumber = value.replace(/\D/g, '');
-          return getNumber > 59 ? 59 : getNumber;
+        valuePrepareFunction: (cell, row) => {
+          const getNumber = cell.replace(/\D/g, '');
+          const validate = getNumber > 59 ? 59 : getNumber;
+          return validate;
         }
       },
     },
   };
   plant = {
-    selected: '1',
+    selected: '',
     selectItems: [
       {
         text: 'Planta A',
@@ -103,7 +122,7 @@ export class NewRoundTemplateComponent implements OnInit {
         value: '2'
       }
     ],
-    placeholder: ''
+    placeholder: 'Planta'
   };
   system = {
     selected: '',
@@ -188,7 +207,7 @@ export class NewRoundTemplateComponent implements OnInit {
       {
         text: 'Component A11',
         value: '2',
-        equipment: 'Equipment A10',
+        equipment: 'Equipment A11',
       },
       {
         text: 'Component A20',
@@ -231,42 +250,50 @@ export class NewRoundTemplateComponent implements OnInit {
   maneuverGuideContent: string;
   timeStart: string;
   timeEnd: string;
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router, private dialogService: NbDialogService) {}
 
   ngOnInit() {}
 
   createTemplate() {
     this.isEditorCreate = true;
+    this.dialogService.open(this.addOrEditTemplate, {
+      context: 'Añadir Elemento',
+      closeOnBackdropClick: false,
+      closeOnEsc: false,
+    });
   }
 
   selectPlant(item) {
     this.enableSystem = true;
-    this.selectedPlant = item.text;
+    this.data.plant = item.text;
     this.enableEquipment = false;
     this.enableSaveButton = false;
     this.maneuverGuideContent = '';
-    this.system.selected = this.selectFirstItem(this.system, 'plant', item.text);
+    // this.system.selected = this.selectFirstItem(this.system, 'plant', item.text);
   }
   selectSystem(item) {
     this.enableEquipment = true;
-    this.selectedSystem = item.text;
+    this.data.system = item.text;
     this.enableSaveButton = false;
-    this.equipment.selected = this.selectFirstItem(this.equipment, 'system', item.text)
+    // this.equipment.selected = this.selectFirstItem(this.equipment, 'system', item.text)
   }
 
   selectEquipment(item) {
     this.enableComponent = true;
-    this.selectedEquipment = item.text;
+    this.data.equipment = item.text;
     this.enableSaveButton = false;
-    this.equipment.selected = this.selectFirstItem(this.component, 'equipment', item.text);
+    // this.equipment.selected = this.selectFirstItem(this.component, 'equipment', item.text);
   }
 
   selectComponent(item) {
     this.enableSaveButton = true;
+    this.data.component = item.text;
   }
 
-  selectManeuverGuide(event: any) {
-    this.enableSaveButton = !!event.data;
+  selectTime({hour, minute}) {
+    this.data.time.add(`${hour > 12 ? 12 : hour}:${minute > 59 ? 59 : minute}`);
+    this.data.timer = Array.from(this.data.time).join(' - ');
+    console.log(this.data.timer);
   }
 
   selectFirstItem(data, filterProperty, filterValue) {
@@ -274,11 +301,40 @@ export class NewRoundTemplateComponent implements OnInit {
     return filteredData.value;
   }
 
-  saveChanges() {
+  saveChanges(dialog: NbDialogRef<any>) {
+    this.disableAll();
+    this.tableData = [...this.tableData, ...[this.data]];
+    this.timeData = [];
+    this.data = {
+      plant: '',
+      system: '',
+      equipment: '',
+      component: '',
+      time: new Set(),
+      timer: '',
+    }
+    dialog.close();
+  }
+
+  discardChanges(dialog: NbDialogRef<any>) {
+    this.disableAll();
+    this.timeData = [];
+    this.data = {
+      plant: '',
+      system: '',
+      equipment: '',
+      component: '',
+      time: new Set(),
+      timer: '',
+    }
+    dialog.close();
+  }
+
+  disableAll() {
     this.enableEquipment = false;
     this.enableSystem = false;
+    this.enableComponent = false;
     this.enableSaveButton = false;
-    this.isEditorCreate = false;
   }
 
 }
