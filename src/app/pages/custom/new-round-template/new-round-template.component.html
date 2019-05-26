@@ -12,15 +12,17 @@
   [settings]="settings"
   [source]="tableData"
   (create)="createTemplate()"
+  (edit)="editTemplate($event)"
+  (delete)="deleteTemplate($event)"
   ></ng2-smart-table>
 </ng-container>
 
 <br><br>
 
 
-<ng-template #addOrEdit let-dialog="dialogRef">
+<ng-template #addOrEdit let-dialog="dialogRef" let-dialogData>
   <nb-card>
-    <nb-card-header>Agregar Elemento</nb-card-header>
+    <nb-card-header>{{dialogData}}</nb-card-header>
     <nb-card-body>
         <div class="row">
             <div class="col-3">
@@ -56,6 +58,9 @@
               <ng2-smart-table
                 [settings]="timeSetting"
                 [source]="timeData"
+                (createConfirm)="selectTime($event, 'create')"
+                (editConfirm)="selectTime($event, 'edit')"
+                (deleteConfirm)="selectTime($event, 'delete')"
               >
               </ng2-smart-table>
               <br>

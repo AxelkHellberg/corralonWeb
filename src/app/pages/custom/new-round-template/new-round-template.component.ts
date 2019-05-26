@@ -76,15 +76,18 @@ export class NewRoundTemplateComponent implements OnInit {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>'
+      cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true,
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>'
+      cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
     },
     delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>'
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
     },
     columns: {
       hour: {
@@ -94,7 +97,7 @@ export class NewRoundTemplateComponent implements OnInit {
         valuePrepareFunction: (cell, row) => {
           const getNumber = cell.replace(/\D/g, '');
           const validate = getNumber > 12 ? 12 : getNumber;
-          this.selectTime(row);
+          // this.selectTime(row);
           return validate;
         }
       },
@@ -102,8 +105,8 @@ export class NewRoundTemplateComponent implements OnInit {
         title: 'Minuto',
         type: 'text',
         width: '50px',
-        valuePrepareFunction: (cell, row) => {
-          const getNumber = cell.replace(/\D/g, '');
+        valuePrepareFunction: (value, row) => {
+          const getNumber = value.replace(/\D/g, '');
           const validate = getNumber > 59 ? 59 : getNumber;
           return validate;
         }
@@ -250,6 +253,7 @@ export class NewRoundTemplateComponent implements OnInit {
   maneuverGuideContent: string;
   timeStart: string;
   timeEnd: string;
+  currentIndex: any;
   constructor(private route: ActivatedRoute, private router: Router, private dialogService: NbDialogService) {}
 
   ngOnInit() {}
@@ -261,6 +265,31 @@ export class NewRoundTemplateComponent implements OnInit {
       closeOnBackdropClick: false,
       closeOnEsc: false,
     });
+  }
+
+  editTemplate(data) {
+    console.log(data)
+    this.data = data.data;
+    this.currentIndex = data.index;
+    this.isEditorCreate = true;
+    this.enableSystem = true;
+    this.enableComponent = true;
+    this.enableEquipment = true;
+    this.enableSaveButton = true;
+    this.plant.selected = this.selectFirstItem(this.plant, 'text', this.data.plant);
+    this.system.selected = this.selectFirstItem(this.system, 'text', this.data.system);
+    this.equipment.selected = this.selectFirstItem(this.equipment, 'text', this.data.equipment);
+    this.component.selected = this.selectFirstItem(this.component, 'text', this.data.component);
+    this.dialogService.open(this.addOrEditTemplate, {
+      context: 'Editar Elemento',
+      closeOnBackdropClick: false,
+      closeOnEsc: false,
+    });
+  }
+
+  deleteTemplate(data) {
+    delete this.tableData[data.index];
+    this.tableData = [...this.tableData];
   }
 
   selectPlant(item) {
@@ -290,10 +319,26 @@ export class NewRoundTemplateComponent implements OnInit {
     this.data.component = item.text;
   }
 
-  selectTime({hour, minute}) {
-    this.data.time.add(`${hour > 12 ? 12 : hour}:${minute > 59 ? 59 : minute}`);
-    this.data.timer = Array.from(this.data.time).join(' - ');
-    console.log(this.data.timer);
+  selectTime(data: any, action?: string) {
+    data.confirm.resolve();
+    let _data = data.data;
+    let _newData = data.newData;
+    if (action === 'delete') {
+      const deleteIndex = this.timeData.indexOf(_data);
+      this.timeData.splice(deleteIndex, 1);
+    }
+    setTimeout(() => {
+      this.data.time = new Set();
+      for (let i = 0; i < this.timeData.length; i++) {
+        this.timeData[i].hour = this.timeData[i].hour.replace(/\D/g, '') > 12 ? '12' :
+          this.timeData[i].hour.replace(/\D/g, '');
+        this.timeData[i].minute = this.timeData[i].minute.replace(/\D/g, '') > 59 ? '59' :
+          this.timeData[i].minute.replace(/\D/g, '');
+        this.data.time.add(`${this.timeData[i].hour}:${this.timeData[i].minute}`);
+      }
+      this.data.timer = Array.from(this.data.time).join(' - ');
+      console.log(data, this.timeData, this.data.time, this.data.timer);
+    }, 200);
   }
 
   selectFirstItem(data, filterProperty, filterValue) {
@@ -303,7 +348,14 @@ export class NewRoundTemplateComponent implements OnInit {
 
   saveChanges(dialog: NbDialogRef<any>) {
     this.disableAll();
-    this.tableData = [...this.tableData, ...[this.data]];
+    if (this.currentIndex != null) {
+      this.tableData[this.currentIndex] = this.data;
+      this.tableData = [...this.tableData];
+      this.currentIndex = null;
+    } else {
+      this.tableData = [...this.tableData, ...[this.data]];
+    }
+    this.currentIndex = null;
     this.timeData = [];
     this.data = {
       plant: '',
