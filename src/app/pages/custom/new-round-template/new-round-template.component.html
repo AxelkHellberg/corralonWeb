@@ -1,9 +1,10 @@
 
-<h4 class="mb-20">Nueva Plantilla de Ronda: '{{!maneuverGuideName ? 'Sin Titulo' : maneuverGuideName}}'</h4>
+<h4 class="mb-20">Nueva Plantilla de Ronda: '{{!roundName ? 'Sin Titulo' : roundName}}'</h4>
 <br><br>
 <ng-container>
-  <div>
-      <input nbInput type="text" class="col-8" [(ngModel)]="maneuverGuideName" placeholder="Nombre de la Ronda">
+  <div class="d-flex justify-content-between">
+      <input nbInput type="text" class="col-6" [(ngModel)]="roundName" placeholder="Nombre de la Ronda">
+      <button nbButton status="primary" class="col-4 col-offset-2" (click)="saveTemplate()">Guardar Plantilla</button>
   </div>
 
 <br><br>
@@ -17,6 +18,46 @@
   ></ng2-smart-table>
 </ng-container>
 
+<br><br>
+
+<br>
+<div class="row col-12">
+  <br><br>
+  <div class="d-flex fd-c">
+    <h5>Horario</h5>
+    <br>
+    <ng2-smart-table
+      [settings]="timeSetting"
+      [source]="tableTimeData"
+      (createConfirm)="selectTime($event, 'create')"
+      (editConfirm)="selectTime($event, 'edit')"
+      (deleteConfirm)="selectTime($event, 'delete')"
+    >
+    </ng2-smart-table>
+    <br>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <h5>Configuración</h5>
+  </div>
+  <br><br>
+  <div class="col-12">
+    <p><b>Sistemas</b></p>
+    <div class="d-flex">
+      <nb-checkbox status="primary" [value]="templateConfig?.system.functionality" (click)="changeConfig('system', 'functionality')">Funcionamiento</nb-checkbox>
+      <nb-checkbox status="primary" [value]="templateConfig?.system.mandatory" (click)="changeConfig('system', 'mandatory')">Obligatorio</nb-checkbox>
+    </div>
+  </div>
+  <br><br>
+  <div class="col-12">
+    <p><b>Equipmaiento</b></p>
+    <div class="d-flex">
+      <nb-checkbox status="primary" [value]="templateConfig?.equipment.functionality" (click)="changeConfig('equipment', 'functionality')">Funcionamiento</nb-checkbox>
+      <nb-checkbox status="primary" [value]="templateConfig?.equipment.mandatory" (click)="changeConfig('equipment', 'mandatory')">Obligatorio</nb-checkbox>
+    </div>
+  </div>
+</div>
 <br><br>
 
 
@@ -46,48 +87,6 @@
               </nb-select>
             </div>
           </div>
-          <br>
-          <br>
-          <br>
-          <br>
-          <div class="row col-12">
-            <br><br>
-            <div class="d-flex fd-c">
-              <h5>Horario</h5>
-              <br>
-              <ng2-smart-table
-                [settings]="timeSetting"
-                [source]="timeData"
-                (createConfirm)="selectTime($event, 'create')"
-                (editConfirm)="selectTime($event, 'edit')"
-                (deleteConfirm)="selectTime($event, 'delete')"
-              >
-              </ng2-smart-table>
-              <br>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <h5>Configuración</h5>
-            </div>
-            <br><br>
-            <div class="col-12">
-              <p><b>Sistemas</b></p>
-              <div class="d-flex">
-                <nb-checkbox status="primary">Funcionamiento</nb-checkbox>
-                <nb-checkbox status="primary">Obligatorio</nb-checkbox>
-              </div>
-            </div>
-            <br><br>
-            <div class="col-12">
-              <p><b>Equipmaiento</b></p>
-              <div class="d-flex">
-                <nb-checkbox status="primary">Funcionamiento</nb-checkbox>
-                <nb-checkbox status="primary">Obligatorio</nb-checkbox>
-              </div>
-            </div>
-          </div>
-          <br><br>
     </nb-card-body>
     <nb-card-footer>
         <div class="row">

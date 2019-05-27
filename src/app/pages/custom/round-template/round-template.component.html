@@ -5,8 +5,9 @@
     [settings]="settings"
     [source]="data"
     (create)="createTemplate()"
+    (edit)="editTemplate($event)"
   ></ng2-smart-table>
 </ng-container>
 
 
-<ngx-new-round-template *ngIf="showRoundTemplate"></ngx-new-round-template>
+<ngx-new-round-template [fullData]="fullData" (onSave)="onSaveData($event)" *ngIf="showRoundTemplate"></ngx-new-round-template>

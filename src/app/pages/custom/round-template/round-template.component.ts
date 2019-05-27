@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class RoundTemplateComponent implements OnInit {
 
+  fullData: any;
   data = [
     {
       id: 1,
@@ -61,7 +62,7 @@ export class RoundTemplateComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.route.queryParams.subscribe(queryParam => {
-      if (queryParam.create) {
+      if (queryParam.create || queryParam.edit) {
         this.showRoundTemplate = true;
       } else {
         this.showRoundTemplate = false;
@@ -78,5 +79,27 @@ export class RoundTemplateComponent implements OnInit {
         create: true,
       },
     });
+  }
+
+  editTemplate(data) {
+    this.fullData = data;
+    this.router.navigate(['/pages/round-template'], {
+      queryParams: {
+        edit: true,
+      },
+    });
+  }
+
+  onSaveData(data) {
+    if (data.indexEdited != null) {
+      this.data[data.indexEdited] = data;
+      this.data = [...this.data];
+    } else {
+      data = {
+        ...data,
+        id: this.data.length + 1,
+      };
+      this.data = [...this.data, ...[data]];
+    }
   }
 }

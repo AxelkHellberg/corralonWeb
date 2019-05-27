@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, Output, EventEmitter, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 
@@ -7,23 +7,41 @@ import { NbDialogRef, NbDialogService } from '@nebular/theme';
   templateUrl: './new-round-template.component.html',
   styleUrls: ['./new-round-template.component.scss']
 })
-export class NewRoundTemplateComponent implements OnInit {
+export class NewRoundTemplateComponent implements OnInit, OnChanges {
   @ViewChild('addOrEdit') addOrEditTemplate: TemplateRef<any>;
-  maneuverGuideName: string;
+  @Output() onSave = new EventEmitter<any>();
+  @Input() fullData: any;
+  roundName: string;
   selectedPlant: string;
   selectedSystem: string;
   selectedEquipment: string;
+  templateConfig = {
+    system: {
+      functionality: false,
+      mandatory: false,
+    },
+    equipment: {
+      functionality: false,
+      mandatory: false,
+    },
+  };
   data = {
     plant: '',
     system: '',
     equipment: '',
     component: '',
-    time: new Set(),
-    timer: '',
+    timer: new Set(),
+    time: '',
   };
+
+  timeData = {
+    timer: new Set(),
+    time: '',
+  }
   tableData = [];
-  timeData = [];
+  tableTimeData = [];
   settings = {
+    noDataMessage: '',
     mode: 'external',
     attr: {
       class: 'general-table'
@@ -62,14 +80,10 @@ export class NewRoundTemplateComponent implements OnInit {
         type: 'text',
         width: '300px',
       },
-      timer: {
-        title: 'Horario',
-        type: 'text',
-        width: '300px',
-      }
     }
   };
   timeSetting = {
+    noDataMessage: '',
     attr: {
       class: 'general-table'
     },
@@ -254,6 +268,7 @@ export class NewRoundTemplateComponent implements OnInit {
   timeStart: string;
   timeEnd: string;
   currentIndex: any;
+  templateIndex: any;
   constructor(private route: ActivatedRoute, private router: Router, private dialogService: NbDialogService) {}
 
   ngOnInit() {}
@@ -268,7 +283,6 @@ export class NewRoundTemplateComponent implements OnInit {
   }
 
   editTemplate(data) {
-    console.log(data)
     this.data = data.data;
     this.currentIndex = data.index;
     this.isEditorCreate = true;
@@ -280,6 +294,13 @@ export class NewRoundTemplateComponent implements OnInit {
     this.system.selected = this.selectFirstItem(this.system, 'text', this.data.system);
     this.equipment.selected = this.selectFirstItem(this.equipment, 'text', this.data.equipment);
     this.component.selected = this.selectFirstItem(this.component, 'text', this.data.component);
+    this.tableTimeData = Array.from(this.data.timer).map(time => {
+      const _time = time.split(':');
+      return {
+        hour: _time[0],
+        minute: _time[1],
+      };
+    });
     this.dialogService.open(this.addOrEditTemplate, {
       context: 'Editar Elemento',
       closeOnBackdropClick: false,
@@ -287,12 +308,12 @@ export class NewRoundTemplateComponent implements OnInit {
     });
   }
 
-  deleteTemplate(data) {
+  deleteTemplate(data): void {
     delete this.tableData[data.index];
     this.tableData = [...this.tableData];
   }
 
-  selectPlant(item) {
+  selectPlant(item): void {
     this.enableSystem = true;
     this.data.plant = item.text;
     this.enableEquipment = false;
@@ -300,53 +321,52 @@ export class NewRoundTemplateComponent implements OnInit {
     this.maneuverGuideContent = '';
     // this.system.selected = this.selectFirstItem(this.system, 'plant', item.text);
   }
-  selectSystem(item) {
+  selectSystem(item): void {
     this.enableEquipment = true;
     this.data.system = item.text;
     this.enableSaveButton = false;
     // this.equipment.selected = this.selectFirstItem(this.equipment, 'system', item.text)
   }
 
-  selectEquipment(item) {
+  selectEquipment(item): void {
     this.enableComponent = true;
     this.data.equipment = item.text;
     this.enableSaveButton = false;
     // this.equipment.selected = this.selectFirstItem(this.component, 'equipment', item.text);
   }
 
-  selectComponent(item) {
+  selectComponent(item): void {
     this.enableSaveButton = true;
     this.data.component = item.text;
   }
 
-  selectTime(data: any, action?: string) {
+  selectTime(data: any, action?: string): void {
     data.confirm.resolve();
-    let _data = data.data;
-    let _newData = data.newData;
+    let _data = data.newData || data.data;
     if (action === 'delete') {
-      const deleteIndex = this.timeData.indexOf(_data);
-      this.timeData.splice(deleteIndex, 1);
+      const deleteIndex = this.tableTimeData.indexOf(_data);
+      this.tableTimeData.splice(deleteIndex, 1);
     }
     setTimeout(() => {
-      this.data.time = new Set();
-      for (let i = 0; i < this.timeData.length; i++) {
-        this.timeData[i].hour = this.timeData[i].hour.replace(/\D/g, '') > 12 ? '12' :
-          this.timeData[i].hour.replace(/\D/g, '');
-        this.timeData[i].minute = this.timeData[i].minute.replace(/\D/g, '') > 59 ? '59' :
-          this.timeData[i].minute.replace(/\D/g, '');
-        this.data.time.add(`${this.timeData[i].hour}:${this.timeData[i].minute}`);
+      this.timeData.timer = new Set();
+      for (let i = 0; i < this.tableTimeData.length; i++) {
+        this.tableTimeData[i].hour = this.tableTimeData[i].hour.replace(/\D/g, '') > 12 ? '12' :
+          this.tableTimeData[i].hour.replace(/\D/g, '');
+        this.tableTimeData[i].minute = this.tableTimeData[i].minute.replace(/\D/g, '') > 59 ? '59' :
+          this.tableTimeData[i].minute.replace(/\D/g, '');
+        this.timeData.timer.add(`${this.tableTimeData[i].hour}:${this.tableTimeData[i].minute}`);
       }
-      this.data.timer = Array.from(this.data.time).join(' - ');
-      console.log(data, this.timeData, this.data.time, this.data.timer);
+      this.timeData.time = Array.from(this.timeData.timer).join(' - ');
+      console.log(data, this.tableTimeData, this.timeData.timer, this.timeData.time);
     }, 200);
   }
 
-  selectFirstItem(data, filterProperty, filterValue) {
+  selectFirstItem(data, filterProperty, filterValue): string {
     const filteredData = data.selectItems.find(item => item[filterProperty] === filterValue);
     return filteredData.value;
   }
 
-  saveChanges(dialog: NbDialogRef<any>) {
+  saveChanges(dialog: NbDialogRef<any>): void {
     this.disableAll();
     if (this.currentIndex != null) {
       this.tableData[this.currentIndex] = this.data;
@@ -356,37 +376,75 @@ export class NewRoundTemplateComponent implements OnInit {
       this.tableData = [...this.tableData, ...[this.data]];
     }
     this.currentIndex = null;
-    this.timeData = [];
+    this.plant.selected = '';
+    this.system.selected = '';
+    this.equipment.selected = '';
+    this.component.selected = '';
     this.data = {
       plant: '',
       system: '',
       equipment: '',
       component: '',
-      time: new Set(),
-      timer: '',
+      timer: new Set(),
+      time: '',
     }
     dialog.close();
   }
 
-  discardChanges(dialog: NbDialogRef<any>) {
+  saveTemplate() {
+    this.router.navigate(['/pages/round-template']);
+    this.onSave.emit({
+      id: this.fullData && this.fullData.id || null,
+      roundName: this.roundName,
+      time: this.timeData.time,
+      indexEdited: this.templateIndex,
+      full: {
+        tableData: this.tableData,
+        timeData: this.timeData,
+        tableTimeData: this.tableTimeData,
+        templateConfig: this.templateConfig,
+      },
+    });
+  }
+
+  discardChanges(dialog: NbDialogRef<any>): void {
     this.disableAll();
-    this.timeData = [];
+    this.tableTimeData = [];
     this.data = {
       plant: '',
       system: '',
       equipment: '',
       component: '',
-      time: new Set(),
-      timer: '',
+      timer: new Set(),
+      time: '',
     }
     dialog.close();
   }
 
-  disableAll() {
+  disableAll(): void {
     this.enableEquipment = false;
     this.enableSystem = false;
     this.enableComponent = false;
     this.enableSaveButton = false;
+  }
+
+  changeConfig(config: string, type: string) {
+    this.templateConfig[config][type] = this.templateConfig[config][type] ? false : true;
+    console.log(this.templateConfig);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.fullData && changes.fullData.currentValue) {
+      const { data } = this.fullData;
+      this.roundName = data.roundName;
+      this.timeData.time = data.time;
+      this.tableData = data.full.tableData;
+      this.timeData = data.full.timeData;
+      this.tableTimeData = data.full.tableTimeData;
+      this.templateConfig = data.full.templateConfig;
+      this.templateIndex = this.fullData.index;
+      this.fullData.id = data.id;
+    }
   }
 
 }
