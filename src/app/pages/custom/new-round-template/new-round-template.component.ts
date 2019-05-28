@@ -15,16 +15,10 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   selectedPlant: string;
   selectedSystem: string;
   selectedEquipment: string;
-  templateConfig = {
-    system: {
-      functionality: false,
-      mandatory: false,
-    },
-    equipment: {
-      functionality: false,
-      mandatory: false,
-    },
-  };
+  systemFunctionality: boolean;
+  systemMandatory: boolean;
+  equipmentFunctionality: boolean;
+  equipmentMandatory: boolean;
   data = {
     plant: '',
     system: '',
@@ -402,7 +396,12 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         tableData: this.tableData,
         timeData: this.timeData,
         tableTimeData: this.tableTimeData,
-        templateConfig: this.templateConfig,
+        templateConfig: {
+          systemFunctionality: this.systemFunctionality,
+          systemMandatory: this.systemMandatory,
+          equipmentFunctionality: this.equipmentFunctionality,
+          equipmentMandatory: this.equipmentMandatory,
+        },
       },
     });
   }
@@ -428,11 +427,6 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.enableSaveButton = false;
   }
 
-  changeConfig(config: string, type: string) {
-    this.templateConfig[config][type] = this.templateConfig[config][type] ? false : true;
-    console.log(this.templateConfig);
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.fullData && changes.fullData.currentValue) {
       const { data } = this.fullData;
@@ -441,7 +435,12 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       this.tableData = data.full.tableData;
       this.timeData = data.full.timeData;
       this.tableTimeData = data.full.tableTimeData;
-      this.templateConfig = data.full.templateConfig;
+      // tslint:disable-next-line: max-line-length
+      const { systemMandatory, systemFunctionality, equipmentMandatory, equipmentFunctionality } = data.full.templateConfig;
+      this.systemMandatory = systemMandatory;
+      this.systemFunctionality = systemFunctionality;
+      this.equipmentMandatory = equipmentMandatory;
+      this.equipmentFunctionality = equipmentFunctionality;
       this.templateIndex = this.fullData.index;
       this.fullData.id = data.id;
     }
