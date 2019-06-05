@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-failure-notifications',
@@ -44,7 +45,7 @@ export class FailureNotificationsComponent implements OnInit {
       equipment: 'Auxiliares UCA',
     },
   ];
-  settings = {
+  settings: SmartTableSettings = {
     actions: false,
     add: {
       addButtonContent: '<i class="nb-plus"></i>',

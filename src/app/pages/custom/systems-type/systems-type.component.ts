@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SystemType } from '../../../@models/systems';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-systems-type',
@@ -6,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./systems-type.component.scss']
 })
 export class SystemsTypeComponent implements OnInit {
-  data = [
+  data: SystemType[] = [
     {
       id: 1,
       typeSystemName: 'Energía',
@@ -19,7 +21,7 @@ export class SystemsTypeComponent implements OnInit {
     },
   ]
 
-  settings = {
+  settings: SmartTableSettings = {
     attr: {
       class: 'general-table',
     },

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MeasurementUnits } from '../../../@models/systems';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-measurement-units',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MeasurementUnitsComponent implements OnInit {
 
-  data = [
+  data: MeasurementUnits[] = [
     {
       id: 1,
       measurement: 'VOLT',
@@ -20,7 +22,7 @@ export class MeasurementUnitsComponent implements OnInit {
     },
   ]
 
-  settings = {
+  settings: SmartTableSettings = {
     attr: {
       class: 'general-table',
     },

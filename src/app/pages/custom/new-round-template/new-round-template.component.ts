@@ -1,6 +1,9 @@
+import { TimeData } from './../../../@models/rounds';
 import { Component, OnInit, TemplateRef, ViewChild, Output, EventEmitter, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { RoundsDetails } from '../../../@models/rounds';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-new-round-template',
@@ -19,7 +22,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   systemMandatory: boolean;
   equipmentFunctionality: boolean;
   equipmentMandatory: boolean;
-  data = {
+  data: RoundsDetails = {
     plant: '',
     system: '',
     equipment: '',
@@ -28,13 +31,13 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     time: '',
   };
 
-  timeData = {
+  timeData: TimeData = {
     timer: new Set(),
     time: '',
   }
   tableData = [];
   tableTimeData = [];
-  settings = {
+  settings: SmartTableSettings = {
     noDataMessage: '',
     mode: 'external',
     attr: {

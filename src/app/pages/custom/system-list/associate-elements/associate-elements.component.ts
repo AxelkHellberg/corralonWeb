@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { SmartTableSettings } from '../../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-associate-elements',
@@ -14,7 +15,7 @@ export class AssociateElementsComponent implements OnInit {
     { value: 'No', label: 'No' },
   ];
   option;
-  settings = {
+  settings: SmartTableSettings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',

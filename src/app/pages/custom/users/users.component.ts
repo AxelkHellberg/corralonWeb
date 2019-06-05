@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Users } from '../../../@models/users';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-users',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersComponent implements OnInit {
 
-  data = [
+  data: Users[] = [
     {
       id: '1',
       name: 'Mark',
@@ -265,7 +267,7 @@ export class UsersComponent implements OnInit {
       lastSession: '15/04/2019',
     },
   ];
-  settings = {
+  settings: SmartTableSettings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NbDateService } from '@nebular/theme';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-round-reports',
@@ -33,7 +34,7 @@ export class RoundReportsComponent implements OnInit {
       time: '16/04/2019 15:04',
     }
   ];
-  settings = {
+  settings: SmartTableSettings = {
     actions: false,
     add: {
       addButtonContent: '<i class="nb-plus"></i>',

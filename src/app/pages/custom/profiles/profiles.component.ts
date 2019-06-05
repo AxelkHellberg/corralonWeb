@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Profiles } from '../../../@models/profiles';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-profiles',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilesComponent implements OnInit {
 
-  data = [
+  data: Profiles[] = [
     {
       id: 1,
       profileType: 'Administrador',
@@ -41,7 +43,7 @@ export class ProfilesComponent implements OnInit {
       profileType: 'Jefe de Planta',
     },
   ];
-  settings = {
+  settings: SmartTableSettings = {
     attr: {
       class: 'general-table',
     },

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-round-template',
@@ -69,7 +70,7 @@ export class RoundTemplateComponent implements OnInit {
     }
   ];
 
-  settings = {
+  settings: SmartTableSettings = {
     mode: 'external',
     attr: {
       class: 'general-table'

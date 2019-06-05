@@ -1,6 +1,8 @@
+import { SystemList } from './../../../@models/systems';
 import { Component, OnInit } from '@angular/core';
 import { SelectComponent } from '../../../@theme/components/custom/select/select.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-system-list',
@@ -10,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SystemListComponent implements OnInit {
 
   associateTag: boolean;
-  data: any = [
+  data: SystemList[] = [
     {
       id: '1',
       systemName: 'Auxiliares Uca',
@@ -30,7 +32,7 @@ export class SystemListComponent implements OnInit {
       equipment: 'Auxiliares UCA',
     },
   ];
-  settings = {
+  settings: SmartTableSettings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',

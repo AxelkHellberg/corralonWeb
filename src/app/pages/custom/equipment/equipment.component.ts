@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Equipment } from '../../../@models/systems';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-equipment',
@@ -9,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class EquipmentComponent implements OnInit {
   associateType: string;
   associateElements: boolean;
-  data: any = [
+  data: Equipment[] = [
     {
       id: '1',
       equipmentName: 'Auxiliares Uca',
@@ -29,7 +31,7 @@ export class EquipmentComponent implements OnInit {
       equipment: 'Auxiliares UCA',
     },
   ];
-  settings = {
+  settings: SmartTableSettings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',

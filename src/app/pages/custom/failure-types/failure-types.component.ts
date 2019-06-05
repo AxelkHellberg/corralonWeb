@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FailureTypes } from '../../../@models/failures';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-failure-types',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FailureTypesComponent implements OnInit {
 
-  data = [
+  data: FailureTypes[] = [
     {
       id: 1,
       failureType: 'Error 1',
@@ -20,7 +22,7 @@ export class FailureTypesComponent implements OnInit {
     },
   ]
 
-  settings = {
+  settings: SmartTableSettings = {
     attr: {
       class: 'general-table',
     },

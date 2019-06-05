@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-new-maneuver-guide-template',
@@ -17,7 +18,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit {
 
   tableData = [];
 
-  settings = {
+  settings: SmartTableSettings = {
     mode: 'external',
     attr: {
       class: 'general-table'

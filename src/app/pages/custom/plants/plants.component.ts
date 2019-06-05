@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-plants',
@@ -20,7 +21,7 @@ export class PlantsComponent implements OnInit {
     },
   ]
 
-  settings = {
+  settings: SmartTableSettings = {
     attr: {
       class: 'general-table',
     },
