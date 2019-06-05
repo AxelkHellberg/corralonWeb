@@ -3,7 +3,7 @@ export interface SmartTableSettings {
   selectMode?:       'single' | 'multi';
   hideHeader?:       boolean;
   hideSubHeader?:    boolean;
-  actions?:          Actions;
+  actions?:          Actions | boolean;
   filter?:           Filter;
   edit?:             Edit;
   add?:              Add;
@@ -38,7 +38,7 @@ export interface Attr {
 }
 
 export interface Columns {
-  [key?: string]: any;
+  [key: string]: any;
 }
 
 export interface Delete {

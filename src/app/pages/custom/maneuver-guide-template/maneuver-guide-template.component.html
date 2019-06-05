@@ -5,9 +5,10 @@
     [settings]="settings"
     [source]="data"
     (create)="createTemplate($event)"
+    (edit)="editTemplate($event)"
     (delete)="deleteTemplate($event)"
   ></ng2-smart-table>
 </ng-container>
 
 
-<ngx-new-maneuver-guide-template *ngIf="showNewTemplate" (onSave)="getTemplate($event)"></ngx-new-maneuver-guide-template>
+<ngx-new-maneuver-guide-template *ngIf="showNewTemplate" (onSave)="getTemplate($event)" [fullData]="fullData"></ngx-new-maneuver-guide-template>

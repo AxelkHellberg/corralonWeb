@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
 
@@ -7,13 +7,14 @@ import { SmartTableSettings } from '../../../@models/smart-table';
   templateUrl: './new-maneuver-guide-template.component.html',
   styleUrls: ['./new-maneuver-guide-template.component.scss']
 })
-export class NewManeuverGuideTemplateComponent implements OnInit {
+export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
   @Output() onSave = new EventEmitter<any>();
   maneuverGuideName: string;
   enableSystem: boolean;
   selectedPlant: string;
   selectedSystem: string;
 
+  @Input() fullData: any;
   data: any;
 
   tableData = [];
@@ -102,6 +103,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit {
 
   maneuverGuideContent: string;
   currentIndex: number;
+  templateIndex: number;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
@@ -161,6 +163,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit {
     this.currentIndex = index;
     this.plant.selected = this.selectFirstItem(this.plant, 'text', this.data.plant);
     this.system.selected = this.selectFirstItem(this.system, 'text', this.data.system);
+    this.data.maneuverGuide = this.data.maneuverGuide;
   }
 
   saveChanges() {
@@ -175,10 +178,24 @@ export class NewManeuverGuideTemplateComponent implements OnInit {
     }
     this.isCreate = false;
     this.isEdit = false;
-    console.log(this.tableData);
   }
 
   saveTemplate() {
-    this.onSave.emit(this.maneuverGuideName);
+    this.onSave.emit({
+      maneuverGuide: this.maneuverGuideName,
+      indexEdited: this.templateIndex,
+      full: {
+        tableData: this.tableData,
+      },
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.fullData && changes.fullData.currentValue) {
+      const { data } = this.fullData;
+      this.tableData = data.full.tableData;
+      this.maneuverGuideName = data.maneuverGuide;
+      this.templateIndex = this.fullData.index;
+    }
   }
 }

@@ -16,6 +16,7 @@ export class AssociateElementsComponent implements OnInit {
   ];
   option;
   settings: SmartTableSettings = {
+    noDataMessage: '',
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -31,32 +32,40 @@ export class AssociateElementsComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
+      attributeName: {
+        title: 'Nombre del Atributo',
         type: 'text',
       },
-      equipmentName: {
-        title: 'Nombre de Equipamiento',
+      measure: {
+        title: 'Medida',
+        type: 'text',
+        editor: {
+          type: 'list',
+          config: {
+            list: [
+              {
+                title: 'Medida 1',
+                value: '1',
+              },
+              {
+                title: 'Medida 2',
+                value: '2',
+              }
+            ]
+          },
+        },
+      },
+      normalValue: {
+        title: 'Valor Normal',
         type: 'text',
       },
-      detail: {
-        title: 'Detalle',
+      warningValue: {
+        title: 'Valor de Alerta',
         type: 'text',
       },
-      system: {
-        title: 'Sistema',
+      failureValue: {
+        title: 'Valor de Falla',
         type: 'text',
-      },
-      attributes: {
-        title: 'Asociar atributos a medir',
-        type: 'text',
-        edit: {
-          type: 'html',
-        }
-      },
-      tag: {
-        title: 'Tag',
-        type: 'html',
       },
     },
   };

@@ -291,7 +291,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.system.selected = this.selectFirstItem(this.system, 'text', this.data.system);
     this.equipment.selected = this.selectFirstItem(this.equipment, 'text', this.data.equipment);
     this.component.selected = this.selectFirstItem(this.component, 'text', this.data.component);
-    this.tableTimeData = Array.from(this.data.timer).map(time => {
+    this.tableTimeData = Array.from(this.data.timer).map((time: any) => {
       const _time = time.split(':');
       return {
         hour: _time[0],
