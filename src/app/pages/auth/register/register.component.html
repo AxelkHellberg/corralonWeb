@@ -1,73 +1,26 @@
-<h2 _ngcontent-c22="" class="title">Registrarse</h2>
-  <form _ngcontent-c22="" novalidate="">
-    <!----><!---->
-    <div _ngcontent-c22="" class="form-group">
-      <label _ngcontent-c22="" class="sr-only" for="input-name"
-        >Nombre completo</label
-      ><input
-        _ngcontent-c22=""
-        autofocus=""
-        class="form-control"
-        id="input-name"
-        name="fullName"
-        placeholder="Nombre completo"
-      /><!----><!---->
-    </div>
-    <div _ngcontent-c22="" class="form-group">
-      <label _ngcontent-c22="" class="sr-only" for="input-name">Empresa</label
-      ><input
-        _ngcontent-c22=""
-        autofocus=""
-        class="form-control"
-        id="input-company"
-        name="company"
-        placeholder="Empresa"
-      /><!----><!---->
-    </div>
-    <div _ngcontent-c22="" class="form-group">
-      <label _ngcontent-c22="" class="sr-only" for="input-email">Email</label
-      ><input
-        _ngcontent-c22=""
-        class="form-control"
-        id="input-email"
-        name="email"
-        pattern=".+@.+\..+"
-        placeholder="Email"
-      /><!----><!---->
-    </div>
-    <div _ngcontent-c22="" class="form-group">
-      <label _ngcontent-c22="" class="sr-only" for="input-password"
-        >Contraseña</label
-      ><input
-        _ngcontent-c22=""
-        class="form-control"
-        id="input-password"
-        name="password"
-        placeholder="Contraseña"
-        type="password"
-      /><!----><!---->
-    </div>
-    <div _ngcontent-c22="" class="form-group">
-      <label _ngcontent-c22="" class="sr-only" for="input-re-password"
-        >Repeat password</label
-      ><input
-        _ngcontent-c22=""
-        class="form-control"
-        id="input-re-password"
-        name="rePass"
-        placeholder="Confirmación de contraseña"
-        type="password"
-      /><!----><!---->
-    </div>
-    <!----><button _ngcontent-c22="" class="btn btn-block btn-hero-success">
-      Registrarme
-    </button>
-  </form>
-  <div _ngcontent-c22="" class="links">
-    <!----><small _ngcontent-c22="" class="form-text">
-      ¿Ya tiene una cuenta?
-      <a _ngcontent-c22="" routerlink="../login"
-        ><strong _ngcontent-c22="">Iniciar sesión</strong></a
-      ></small
-    >
+<h2 class="title">Registrarse</h2>
+<form #form="ngForm" (submit)="registerUser(form)">
+  <div class="form-group">
+    <input ngModel class="form-control" name="username" placeholder="Nombre de Usuario" type="text">
   </div>
+  <div class="form-group">
+    <input ngModel class="form-control" name="password" placeholder="Contraseña" type="password">
+  </div>
+  <div class="form-group">
+    <input ngModel class="form-control" name="name" placeholder="Nombre" type="text">
+  </div>
+  <div class="form-group">
+    <input ngModel class="form-control" name="lastName" placeholder="Apellido" type="text">
+  </div>
+  <div class="form-group">
+    <input ngModel class="form-control" name="dni" placeholder="DNI" type="text">
+  </div>
+  <button class="btn btn-block btn-hero-success" type="submit">Registrarme</button>
+</form>
+<div class="links">
+  <small class="form-text"> ¿Ya tiene una cuenta?
+    <a [routerLink]="['/auth/login']">
+      <strong _ngcontent-c22="">Iniciar sesión</strong>
+    </a>
+  </small>
+</div>

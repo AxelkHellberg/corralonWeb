@@ -21,14 +21,8 @@ export const routes: Routes = [
         path: 'login',
         component: LoginComponent,
       },
-    ],
-  },
-  {
-    path: 'register',
-    component: NbRegisterComponent,
-    children: [
       {
-        path: '',
+        path: 'register',
         component: RegisterComponent,
       },
     ],
