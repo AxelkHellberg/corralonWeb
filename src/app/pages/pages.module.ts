@@ -21,9 +21,12 @@ import { SystemListModule } from './custom/system-list/system-list.module';
 import { EquipmentModule } from './custom/equipment/equipment.module';
 import { NewManeuverGuideTemplateModule } from './custom/new-maneuver-guide-template/new-maneuver-guide-template.module';
 import { NewRoundTemplateModule } from './custom/new-round-template/new-round-template.module';
+import { LoginComponentModule } from './auth/login/login.module';
+import { RegisterComponentModule } from './auth/register/register.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
+
 ];
 
 @NgModule({
@@ -48,6 +51,8 @@ const PAGES_COMPONENTS = [
     ProfilesModule,
     ECommerceModule,
     MiscellaneousModule,
+    LoginComponentModule,
+    RegisterComponentModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
