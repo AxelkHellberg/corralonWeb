@@ -1,3 +1,6 @@
+import { LocalDataSource } from 'ng2-smart-table';
+import { Deferred } from 'q';
+
 export interface SmartTableSettings {
   mode?:             'inline' | 'external' | 'click-to-edit';
   selectMode?:       'single' | 'multi';
@@ -61,4 +64,11 @@ export interface Filter {
 export interface Pager {
   display?: boolean;
   perPage?: number;
+}
+
+
+export interface CreateConfirmData {
+  confirm: any;
+  newData: any;
+  source: LocalDataSource;
 }

@@ -4,10 +4,11 @@
   <ng2-smart-table
     [settings]="settings"
     [source]="data"
+    (createConfirm)="addSystem($event)"
   ></ng2-smart-table>
 </ng-container>
 
-<div class="row" *ngIf="associateTag">
+<div class="row" *ngIf="associateTagId">
   <div class="col-6">
     <ngx-associate-elements (onSave)="goToTable()"></ngx-associate-elements>
   </div>

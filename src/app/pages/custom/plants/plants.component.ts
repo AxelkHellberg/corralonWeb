@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SmartTableSettings } from '../../../@models/smart-table';
+import { SmartTableSettings, CreateConfirmData } from '../../../@models/smart-table';
+import { GeneralService } from '../../../services/general.service';
 
 @Component({
   selector: 'ngx-plants',
@@ -10,14 +11,12 @@ export class PlantsComponent implements OnInit {
 
   data = [
     {
-      id: 1,
-      name: 'Planta 1',
-      description: 'Descripción 1',
+      nombre: 'Planta 1',
+      descripcion: 'Descripción 1',
     },
     {
-      id: 2,
-      name: 'Planta 2',
-      description: 'Descripción 2',
+      nombre: 'Planta 2',
+      descripcion: 'Descripción 2',
     },
   ]
 
@@ -29,6 +28,7 @@ export class PlantsComponent implements OnInit {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true,
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
@@ -39,17 +39,12 @@ export class PlantsComponent implements OnInit {
       deleteButtonContent: '<i class="nb-trash"></i>',
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'text',
-        width: '150px',
-      },
-      name: {
+      nombre: {
         title: 'Nombre',
         type: 'text',
         width: '200px',
       },
-      description: {
+      descripcion: {
         title: 'Descripción',
         type: 'text',
         width: '300px',
@@ -57,9 +52,20 @@ export class PlantsComponent implements OnInit {
     }
   };
 
-  constructor() { }
+  constructor(private generalService: GeneralService) { }
 
   ngOnInit() {
+  }
+
+  async addPlant(data: CreateConfirmData) {
+    console.log(data);
+    const { newData } = data;
+    try {
+      await this.generalService.createPlant(newData);
+      data.confirm.resolve();
+    } catch (error) {
+      data.confirm.reject();
+    }
   }
 
 }

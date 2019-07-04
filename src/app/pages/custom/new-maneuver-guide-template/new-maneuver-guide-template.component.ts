@@ -1,6 +1,8 @@
+import { ManeuverGuideData } from './../../../@models/general';
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
+import { GeneralService } from '../../../services/general.service';
 
 @Component({
   selector: 'ngx-new-maneuver-guide-template',
@@ -105,7 +107,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
   currentIndex: number;
   templateIndex: number;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {}
 
   ngOnInit() {}
 
@@ -166,7 +168,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     this.data.maneuverGuide = this.data.maneuverGuide;
   }
 
-  saveChanges() {
+  async saveChanges() {
     this.enableManeuverGuide = false;
     this.enableSystem = false;
     this.enableSaveButton = false;
@@ -178,6 +180,22 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     }
     this.isCreate = false;
     this.isEdit = false;
+    try {
+      await this.generalService.createManeuverGuideTemplate(this.maneuverGuideName);
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      const maneuverGuideData: ManeuverGuideData = {
+        userId: 1,
+        plantillaGuiaManiobraId: 2,
+        nombre: this.data.maneuverGuide,
+      };
+      await this.generalService.createManeuverGuide(maneuverGuideData);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   saveTemplate() {

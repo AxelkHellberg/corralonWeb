@@ -1,8 +1,9 @@
-import { SystemList } from './../../../@models/systems';
 import { Component, OnInit } from '@angular/core';
-import { SelectComponent } from '../../../@theme/components/custom/select/select.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
+import { GeneralService } from '../../../services/general.service';
+import { CreateConfirmData } from './../../../@models/smart-table';
+import { SystemList } from './../../../@models/systems';
 
 @Component({
   selector: 'ngx-system-list',
@@ -11,24 +12,26 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 })
 export class SystemListComponent implements OnInit {
 
-  associateTag: boolean;
+  associateTagId: boolean;
   data: SystemList[] = [
     {
       id: '1',
-      systemName: 'Auxiliares Uca',
+      nombre: 'Auxiliares Uca',
       systemType: 'ENERGÍA',
       detail: 'Detalle 1',
-      plant: 'Planta A',
-      tag: '<a href="#/pages/system-list?tag=true">Sin Tag</a>',
+      descripcion: 'Detalle 1',
+      plantId: 'Planta A',
+      tagId: '<a href="#/pages/system-list?tag=true">Sin Tag</a>',
       equipment: 'Cargador Evequoz',
     },
     {
       id: '2',
-      systemName: 'Planteamiento de tratamiento de efluentes cloacales',
+      nombre: 'Planteamiento de tratamiento de efluentes cloacales',
       systemType: 'AGUA',
       detail: 'Detalle 2',
-      plant: 'Planta C',
-      tag: '<a href="#/pages/system-list?tag=true">ABC 123</a>',
+      descripcion: 'Detalle 2',
+      plantId: 'Planta C',
+      tagId: '<a href="#/pages/system-list?tag=true">ABC 123</a>',
       equipment: 'Auxiliares UCA',
     },
   ];
@@ -37,6 +40,7 @@ export class SystemListComponent implements OnInit {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true,
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
@@ -52,7 +56,7 @@ export class SystemListComponent implements OnInit {
         title: 'ID',
         type: 'text',
       },
-      systemName: {
+      nombre: {
         title: 'Nombre de Sistema',
         type: 'text',
       },
@@ -64,7 +68,7 @@ export class SystemListComponent implements OnInit {
         title: 'Detalle',
         type: 'text',
       },
-      plant: {
+      plantId: {
         title: 'Planta',
         type: 'text',
         editor: {
@@ -87,16 +91,16 @@ export class SystemListComponent implements OnInit {
           }
         }
       },
-      tag: {
+      tagId: {
         title: 'Tag',
         type: 'html',
       },
     },
   };
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {
     this.route.queryParams.subscribe(queryParams => {
-      this.associateTag = !!queryParams.tag;
+      this.associateTagId = !!queryParams.tag;
     });
   }
 
@@ -105,6 +109,17 @@ export class SystemListComponent implements OnInit {
 
   goToTable() {
     this.router.navigate(['/pages/system-list']);
+  }
+
+  async addSystem(data: CreateConfirmData) {
+    const { newData } = data;
+    try {
+      await this.generalService.createSystem(newData);
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e);
+      data.confirm.reject();
+    }
   }
 
 }

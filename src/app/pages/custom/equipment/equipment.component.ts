@@ -1,3 +1,5 @@
+import { GeneralService } from './../../../services/general.service';
+import { CreateConfirmData } from './../../../@models/smart-table';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Equipment } from '../../../@models/systems';
@@ -14,18 +16,18 @@ export class EquipmentComponent implements OnInit {
   data: Equipment[] = [
     {
       id: '1',
-      equipmentName: 'Auxiliares Uca',
-      system: 'ENERGÍA',
-      detail: 'Detalle 1',
+      nombre: 'Auxiliares Uca',
+      systemId: 'ENERGÍA',
+      detalle: 'Detalle 1',
       attributes: '<a href="#/pages/equipment?attributes=true">Asociar</a>',
       tag: '<a href="#/pages/equipment?tag=true">ABC123</a>',
       equipment: 'Cargador Evequoz',
     },
     {
       id: '2',
-      equipmentName: 'Planteamiento de tratamiento de efluentes cloacales',
-      system: 'AGUA',
-      detail: 'Detalle 2',
+      nombre: 'Planteamiento de tratamiento de efluentes cloacales',
+      systemId: 'AGUA',
+      detalle: 'Detalle 2',
       attributes: '<a href="#/pages/equipment?attributes=true">Asociar</a>',
       tag: '<a href="#/pages/equipment?tag=true">Sin Tag</a>',
       equipment: 'Auxiliares UCA',
@@ -36,6 +38,7 @@ export class EquipmentComponent implements OnInit {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true,
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
@@ -51,11 +54,11 @@ export class EquipmentComponent implements OnInit {
         title: 'ID',
         type: 'text',
       },
-      equipmentName: {
+      nombre: {
         title: 'Nombre de Equipamiento',
         type: 'text',
       },
-      detail: {
+      detalle: {
         title: 'Detalle',
         type: 'text',
       },
@@ -104,7 +107,7 @@ export class EquipmentComponent implements OnInit {
     },
   };
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {
     this.route.queryParams.subscribe(queryParams => {
       if (queryParams.tag) {
         this.associateElements = true;
@@ -128,6 +131,15 @@ export class EquipmentComponent implements OnInit {
   rowSelect() {
     this.associateElements = true;
     this.associateType = 'attributes';
+  }
+
+  async addEquipment(data: CreateConfirmData) {
+    const { newData } = data;
+    try {
+      await this.generalService.createEquipment(newData);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 }
