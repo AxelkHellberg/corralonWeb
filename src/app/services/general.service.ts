@@ -1,15 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { PlantData, EquipmentData, SystemData, UserData, UserBasicData, TagData, ManeuverGuideData, ManeuverGuideFields, RoundFields, RoundTemplateData, RoundData } from '../@models/general';
+import { EquipmentData, ManeuverGuideData, ManeuverGuideFields, PlantData, RoundData, RoundFields, RoundTemplateData, SystemData, TagData, UserBasicData, UserData } from '../@models/general';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GeneralService {
-  headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-  });
 
   constructor(private http: HttpClient) { }
 
@@ -17,7 +14,7 @@ export class GeneralService {
     return this.http.post(`${environment.url}/services/entities/users/`, userData).toPromise();
   }
   login(userData: UserBasicData): Promise<any> {
-    return this.http.post(`${environment.url}/services/auth/login/`, userData, {headers: this.headers}).toPromise();
+    return this.http.post(`${environment.url}/services/auth/login/`, userData).toPromise();
   }
   getUser(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/users/`).toPromise();
@@ -26,11 +23,24 @@ export class GeneralService {
   createPlant(plantData: PlantData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/plantas`, plantData).toPromise();
   }
+  getPlants(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/plantas`).toPromise();
+  }
+
+  deletePlant(id: number): Promise<any> {
+    return this.http.delete(`${environment.url}/services/entities/plantas/${id}`).toPromise();
+  }
   createSystem(systemData: SystemData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/sistemas`, systemData).toPromise();
   }
   createEquipment(equipmentData: EquipmentData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/equipamientos`, equipmentData).toPromise();
+  }
+  getSystems(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/sistemas`).toPromise();
+  }
+  getEquipments(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/equipamientos`).toPromise();
   }
   createTag(tagData: TagData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/tags`, tagData).toPromise();

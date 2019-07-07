@@ -26,7 +26,8 @@ export class LoginComponent extends NbLoginComponent {
       password: form.form.controls.password.value,
     };
     try {
-      await this.generalService.login(userData);
+      const response = await this.generalService.login(userData);
+      localStorage.setItem('token', response.accessToken);
       this.router.navigate(['pages/dashboard']);
     } catch (e) {
       console.log(e);

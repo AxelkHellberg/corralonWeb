@@ -1,5 +1,5 @@
 import { GeneralService } from './../../../services/general.service';
-import { CreateConfirmData } from './../../../@models/smart-table';
+import { ConfirmData } from './../../../@models/smart-table';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Equipment } from '../../../@models/systems';
@@ -133,7 +133,7 @@ export class EquipmentComponent implements OnInit {
     this.associateType = 'attributes';
   }
 
-  async addEquipment(data: CreateConfirmData) {
+  async addEquipment(data: ConfirmData) {
     const { newData } = data;
     try {
       await this.generalService.createEquipment(newData);

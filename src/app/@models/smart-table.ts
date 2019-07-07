@@ -67,8 +67,9 @@ export interface Pager {
 }
 
 
-export interface CreateConfirmData {
+export interface ConfirmData {
   confirm: any;
-  newData: any;
+  newData?: any;
+  data?: any;
   source: LocalDataSource;
 }

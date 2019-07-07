@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SmartTableSettings, CreateConfirmData } from '../../../@models/smart-table';
+import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
 
 @Component({
@@ -9,16 +9,7 @@ import { GeneralService } from '../../../services/general.service';
 })
 export class PlantsComponent implements OnInit {
 
-  data = [
-    {
-      nombre: 'Planta 1',
-      descripcion: 'Descripción 1',
-    },
-    {
-      nombre: 'Planta 2',
-      descripcion: 'Descripción 2',
-    },
-  ]
+  data = [];
 
   settings: SmartTableSettings = {
     attr: {
@@ -37,6 +28,7 @@ export class PlantsComponent implements OnInit {
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
     },
     columns: {
       nombre: {
@@ -54,17 +46,32 @@ export class PlantsComponent implements OnInit {
 
   constructor(private generalService: GeneralService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    try {
+      const response = await this.generalService.getPlants();
+      this.data = response.items;
+    } catch (e) {
+
+    }
   }
 
-  async addPlant(data: CreateConfirmData) {
-    console.log(data);
-    const { newData } = data;
+  async addPlant(plant: ConfirmData) {
+    const { newData } = plant;
     try {
       await this.generalService.createPlant(newData);
-      data.confirm.resolve();
+      plant.confirm.resolve();
     } catch (error) {
-      data.confirm.reject();
+      plant.confirm.reject();
+    }
+  }
+
+  async deletePlant(plant: ConfirmData) {
+    const { id } = plant.data;
+    try {
+      await this.generalService.deletePlant(id);
+      plant.confirm.resolve();
+    } catch (error) {
+      plant.confirm.reject();
     }
   }
 

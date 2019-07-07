@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
-import { CreateConfirmData } from './../../../@models/smart-table';
+import { ConfirmData } from './../../../@models/smart-table';
 import { SystemList } from './../../../@models/systems';
 
 @Component({
@@ -11,30 +11,8 @@ import { SystemList } from './../../../@models/systems';
   styleUrls: ['./system-list.component.scss']
 })
 export class SystemListComponent implements OnInit {
-
   associateTagId: boolean;
-  data: SystemList[] = [
-    {
-      id: '1',
-      nombre: 'Auxiliares Uca',
-      systemType: 'ENERGÍA',
-      detail: 'Detalle 1',
-      descripcion: 'Detalle 1',
-      plantId: 'Planta A',
-      tagId: '<a href="#/pages/system-list?tag=true">Sin Tag</a>',
-      equipment: 'Cargador Evequoz',
-    },
-    {
-      id: '2',
-      nombre: 'Planteamiento de tratamiento de efluentes cloacales',
-      systemType: 'AGUA',
-      detail: 'Detalle 2',
-      descripcion: 'Detalle 2',
-      plantId: 'Planta C',
-      tagId: '<a href="#/pages/system-list?tag=true">ABC 123</a>',
-      equipment: 'Auxiliares UCA',
-    },
-  ];
+  data: SystemList[] = [];
   settings: SmartTableSettings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -68,28 +46,15 @@ export class SystemListComponent implements OnInit {
         title: 'Detalle',
         type: 'text',
       },
-      plantId: {
+      plantaId: {
         title: 'Planta',
         type: 'text',
         editor: {
           type: 'list',
           config: {
-            list: [
-              {
-                title: 'Planta A',
-                value: 'Planta A'
-              },
-              {
-                title: 'Planta B',
-                value: 'Planta B'
-              },
-              {
-                title: 'Planta C',
-                value: 'Planta C'
-              }
-            ]
-          }
-        }
+            list: [],
+          },
+        },
       },
       tagId: {
         title: 'Tag',
@@ -104,17 +69,35 @@ export class SystemListComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    try {
+      const response = await this.generalService.getPlants();
+      const plants = response.items.map(plant => ({
+        title: plant.nombre,
+        value: +plant.id,
+      }));
+      this.settings.columns.plantaId.editor.config.list = plants;
+      this.settings = {...this.settings};
+    } catch (e) {
+
+    }
+
+    try {
+      const response = await this.generalService.getSystems();
+      this.data = response.items;
+    } catch (e) {
+
+    }
   }
 
   goToTable() {
     this.router.navigate(['/pages/system-list']);
   }
 
-  async addSystem(data: CreateConfirmData) {
+  async addSystem(data: ConfirmData) {
     const { newData } = data;
     try {
-      await this.generalService.createSystem(newData);
+      await this.generalService.createSystem({...newData, descripcion: `Descripción ${newData.nombre}`});
       data.confirm.resolve();
     } catch (e) {
       console.log(e);

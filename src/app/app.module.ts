@@ -1,3 +1,5 @@
+import { CanAccessGuard } from './guards/can-access.guard';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.
@@ -7,7 +9,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 
 import { AppComponent } from './app.component';
@@ -31,7 +33,13 @@ import { GeneralService } from './services/general.service';
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
     GeneralService,
+    CanAccessGuard,
   ],
 })
 export class AppModule {
