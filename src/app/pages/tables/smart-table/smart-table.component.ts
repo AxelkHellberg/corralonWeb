@@ -33,27 +33,27 @@ export class SmartTableComponent {
     columns: {
       id: {
         title: 'ID',
-        type: 'number',
+        type: 'text',
       },
       firstName: {
         title: 'First Name',
-        type: 'string',
+        type: 'text',
       },
       lastName: {
         title: 'Last Name',
-        type: 'string',
+        type: 'text',
       },
       username: {
         title: 'Username',
-        type: 'string',
+        type: 'text',
       },
       email: {
         title: 'E-mail',
-        type: 'string',
+        type: 'text',
       },
       age: {
         title: 'Age',
-        type: 'number',
+        type: 'text',
       },
     },
   };
