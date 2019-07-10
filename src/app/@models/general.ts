@@ -13,8 +13,9 @@ export interface UserBasicData {
 }
 
 export interface PlantData {
-  descripcion: string;
-  nombre: string;
+  id?: number;
+  descripcion?: string;
+  nombre?: string;
 }
 
 export interface SystemData {

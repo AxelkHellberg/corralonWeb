@@ -30,14 +30,24 @@ export class GeneralService {
   deletePlant(id: number): Promise<any> {
     return this.http.delete(`${environment.url}/services/entities/plantas/${id}`).toPromise();
   }
+  editPlant(id: number, plantData: PlantData): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/plantas/${id}`, plantData).toPromise();
+  }
   createSystem(systemData: SystemData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/sistemas`, systemData).toPromise();
   }
-  createEquipment(equipmentData: EquipmentData): Promise<any> {
-    return this.http.post(`${environment.url}/services/entities/equipamientos`, equipmentData).toPromise();
+
+  editSystem(id: number, systemData: SystemData): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/sistemas/${id}`, systemData).toPromise();
+  }
+  deleteSystem(id: number): Promise<any> {
+    return this.http.delete(`${environment.url}/services/entities/sistemas/${id}`).toPromise();
   }
   getSystems(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/sistemas`).toPromise();
+  }
+  createEquipment(equipmentData: EquipmentData): Promise<any> {
+    return this.http.post(`${environment.url}/services/entities/equipamientos`, equipmentData).toPromise();
   }
   getEquipments(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/equipamientos`).toPromise();
@@ -47,6 +57,12 @@ export class GeneralService {
   }
   createManeuverGuideTemplate(nombre: string): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/plantillas-guias-maniobra/`, {nombre}).toPromise();
+  }
+  editManeuverGuideTemplate(id: number, nombre: string): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/plantillas-guias-maniobra/${id}`, {nombre}).toPromise();
+  }
+  getManeuverGuideTemplates(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/plantillas-guias-maniobra/`).toPromise();
   }
   createManeuverGuide(maneuverGuideData: ManeuverGuideData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/guias-maniobra/`, maneuverGuideData).toPromise();

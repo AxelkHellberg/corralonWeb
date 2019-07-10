@@ -25,6 +25,7 @@ export class PlantsComponent implements OnInit {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
@@ -59,6 +60,16 @@ export class PlantsComponent implements OnInit {
     const { newData } = plant;
     try {
       await this.generalService.createPlant(newData);
+      plant.confirm.resolve();
+    } catch (error) {
+      plant.confirm.reject();
+    }
+  }
+
+  async editPlant(plant: ConfirmData) {
+    const { id } = plant.data;
+    try {
+      await this.generalService.editPlant(id, plant.newData);
       plant.confirm.resolve();
     } catch (error) {
       plant.confirm.reject();

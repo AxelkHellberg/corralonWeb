@@ -1,4 +1,4 @@
-import { ManeuverGuideData } from './../../../@models/general';
+import { ManeuverGuideData, PlantData, SystemData } from './../../../@models/general';
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
@@ -20,6 +20,8 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
   data: any;
 
   tableData = [];
+  plants: PlantData[] = [];
+  systems: SystemData[] = [];
 
   settings: SmartTableSettings = {
     mode: 'external',
@@ -109,7 +111,17 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
 
   constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    try {
+      const response = await this.generalService.getPlants();
+      this.plants = response.items;
+    } catch (error) { }
+
+    try {
+      const response = await this.generalService.getSystems();
+      this.systems = response.items;
+    } catch (error) { }
+  }
 
   createTemplate() {
     this.isCreate = true;
@@ -181,10 +193,8 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     this.isCreate = false;
     this.isEdit = false;
     try {
-      await this.generalService.createManeuverGuideTemplate(this.maneuverGuideName);
-    } catch (error) {
-      console.log(error);
-    }
+      await this.saveManeuverGuideName();
+    } catch (error) { }
 
     try {
       const maneuverGuideData: ManeuverGuideData = {
@@ -198,22 +208,35 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     }
   }
 
-  saveTemplate() {
-    this.onSave.emit({
-      maneuverGuide: this.maneuverGuideName,
-      indexEdited: this.templateIndex,
-      full: {
-        tableData: this.tableData,
-      },
-    });
+  async saveManeuverGuideName() {
+    try {
+      if (this.templateIndex) {
+        await this.generalService.editManeuverGuideTemplate(this.templateIndex, this.maneuverGuideName);
+      } else {
+        await this.generalService.createManeuverGuideTemplate(this.maneuverGuideName);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async saveTemplate() {
+    try {
+      await this.saveManeuverGuideName();
+      this.onSave.emit({
+        nombre: this.maneuverGuideName,
+        indexEdited: this.templateIndex,
+      });
+    } catch (e) {
+
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.fullData && changes.fullData.currentValue) {
-      const { data } = this.fullData;
-      this.tableData = data.full.tableData;
-      this.maneuverGuideName = data.maneuverGuide;
-      this.templateIndex = this.fullData.index;
+      // this.tableData = data.full.tableData;
+      this.maneuverGuideName = this.fullData.nombre;
+      this.templateIndex = this.fullData.id;
     }
   }
 }

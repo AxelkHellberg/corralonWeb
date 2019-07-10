@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
+import { GeneralService } from '../../../services/general.service';
 
 @Component({
   selector: 'ngx-maneuver-guide-template',
@@ -10,17 +11,17 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 export class ManeuverGuideTemplateComponent implements OnInit {
   showNewTemplate: boolean;
   data = [
-    {
-      id: 1,
-      maneuverGuide: 'Nombreeee',
-      indexEdited: 0,
-      full: {
-        tableData: [
-          { plant: 'Planta B', system: 'System B1', maneuverGuide: 'Nombre 1' },
-          { plant: 'Planta A', system: 'System A2', maneuverGuide: 'Nombre 2' }
-        ],
-      },
-    },
+    // {
+    //   id: 1,
+    //   nombre: 'Nombreeee',
+    //   indexEdited: 0,
+    //   full: {
+    //     tableData: [
+    //       { plant: 'Planta B', system: 'System B1', maneuverGuide: 'Nombre 1' },
+    //       { plant: 'Planta A', system: 'System A2', maneuverGuide: 'Nombre 2' }
+    //     ],
+    //   },
+    // },
   ];
 
   settings: SmartTableSettings = {
@@ -47,7 +48,7 @@ export class ManeuverGuideTemplateComponent implements OnInit {
         type: 'text',
         width: '150px'
       },
-      maneuverGuide: {
+      nombre: {
         title: 'Guía de Maniobra',
         type: 'text',
         width: '300px'
@@ -56,17 +57,29 @@ export class ManeuverGuideTemplateComponent implements OnInit {
   };
   fullData: any;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {
     this.route.queryParams.subscribe(queryParam => {
-      if (queryParam.create || queryParam.edit) {
+      if (queryParam.create || (queryParam.id && queryParam.nombre)) {
         this.showNewTemplate = true;
+        this.fullData = { id: queryParam.id, nombre: queryParam.nombre };
       } else {
         this.showNewTemplate = false;
       }
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getManeuverGuideTemplates();
+  }
+
+  async getManeuverGuideTemplates() {
+    try {
+      const data = await this.generalService.getManeuverGuideTemplates();
+      this.data = data.items;
+    } catch (e) {
+
+    }
+  }
 
   createTemplate(row) {
     this.router.navigate(['pages/maneuver-guide-template'], {
@@ -75,11 +88,12 @@ export class ManeuverGuideTemplateComponent implements OnInit {
       }
     });
   }
-  editTemplate(data) {
+  editTemplate({data}) {
     this.fullData = data;
     this.router.navigate(['pages/maneuver-guide-template'], {
       queryParams: {
-        edit: true
+        id: data.id,
+        nombre: data.nombre,
       }
     });
   }
@@ -90,16 +104,7 @@ export class ManeuverGuideTemplateComponent implements OnInit {
   }
 
   getTemplate(data) {
-    if (data.indexEdited != null) {
-      this.data[data.indexEdited] = { ...this.data[data.indexEdited], ...data };
-      this.data = [...this.data];
-    } else {
-      const template = {
-        id: this.data.length + 1,
-        ...data
-      };
-      this.data = [...this.data, ...[template]];
-    }
+    this.getManeuverGuideTemplates();
     this.router.navigate(['pages/maneuver-guide-template']);
   }
 }

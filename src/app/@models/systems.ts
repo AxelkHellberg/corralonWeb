@@ -5,7 +5,8 @@ export interface SystemList {
   systemType?: string;
   detail?:     string;
   descripcion: string;
-  plantaId:      string;
+  plantaId:      number;
+  plantaNombre?:      string;
   tagId:        string;
   equipment?:  string;
 }

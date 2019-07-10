@@ -41,6 +41,14 @@ export interface Attr {
 }
 
 export interface Columns {
+  [key: string]: Column;
+}
+
+export interface Column {
+  title: string;
+  type: 'html' | 'text' | 'custom';
+  width?: string;
+  editable?: boolean;
   [key: string]: any;
 }
 

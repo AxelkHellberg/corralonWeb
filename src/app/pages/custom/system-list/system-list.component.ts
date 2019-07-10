@@ -4,6 +4,7 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
 import { ConfirmData } from './../../../@models/smart-table';
 import { SystemList } from './../../../@models/systems';
+import { SystemData, PlantData } from '../../../@models/general';
 
 @Component({
   selector: 'ngx-system-list',
@@ -12,6 +13,7 @@ import { SystemList } from './../../../@models/systems';
 })
 export class SystemListComponent implements OnInit {
   associateTagId: boolean;
+  plants: PlantData[] = [];
   data: SystemList[] = [];
   settings: SmartTableSettings = {
     add: {
@@ -24,6 +26,7 @@ export class SystemListComponent implements OnInit {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
@@ -33,6 +36,7 @@ export class SystemListComponent implements OnInit {
       id: {
         title: 'ID',
         type: 'text',
+        editable: false,
       },
       nombre: {
         title: 'Nombre de Sistema',
@@ -41,12 +45,14 @@ export class SystemListComponent implements OnInit {
       systemType: {
         title: 'Tipo de Sistema',
         type: 'text',
+        editable: false,
       },
       detail: {
         title: 'Detalle',
         type: 'text',
+        editable: false,
       },
-      plantaId: {
+      plantaNombre: {
         title: 'Planta',
         type: 'text',
         editor: {
@@ -59,6 +65,7 @@ export class SystemListComponent implements OnInit {
       tagId: {
         title: 'Tag',
         type: 'html',
+        editable: false,
       },
     },
   };
@@ -69,14 +76,22 @@ export class SystemListComponent implements OnInit {
     });
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.getPlantsAndSystem();
+  }
+
+  goToTable() {
+    this.router.navigate(['/pages/system-list']);
+  }
+
+  async getPlantsAndSystem() {
     try {
       const response = await this.generalService.getPlants();
-      const plants = response.items.map(plant => ({
+      this.plants = response.items;
+      this.settings.columns.plantaNombre.editor.config.list = response.items.map(plant => ({
         title: plant.nombre,
-        value: +plant.id,
+        value: plant.nombre,
       }));
-      this.settings.columns.plantaId.editor.config.list = plants;
       this.settings = {...this.settings};
     } catch (e) {
 
@@ -85,23 +100,55 @@ export class SystemListComponent implements OnInit {
     try {
       const response = await this.generalService.getSystems();
       this.data = response.items;
+      this.data.forEach(plant => {
+        plant.plantaNombre = this.plants.find(_plant => _plant.id === plant.plantaId).nombre;
+      });
+      console.log(this.data);
     } catch (e) {
 
     }
   }
 
-  goToTable() {
-    this.router.navigate(['/pages/system-list']);
-  }
-
   async addSystem(data: ConfirmData) {
     const { newData } = data;
+    const systemData: SystemData = {
+      nombre: newData.nombre,
+      descripcion: `Descripción ${newData.nombre}`,
+      plantaId: this.plants.find(_plant => _plant.nombre === newData.plantaNombre).id,
+      tagId: newData.tagId || null,
+    };
     try {
-      await this.generalService.createSystem({...newData, descripcion: `Descripción ${newData.nombre}`});
+      await this.generalService.createSystem(systemData);
       data.confirm.resolve();
     } catch (e) {
       console.log(e);
       data.confirm.reject();
+    }
+  }
+
+  async editSystem(system: ConfirmData) {
+    const { id } = system.data;
+    const data: SystemData = {
+      nombre: system.newData.nombre,
+      descripcion: `Descripción ${system.newData.nombre}`,
+      plantaId: this.plants.find(_plant => _plant.nombre === system.newData.plantaNombre).id,
+      tagId: system.newData.tagId,
+    }
+    try {
+      await this.generalService.editSystem(id, data);
+      system.confirm.resolve();
+    } catch (error) {
+      system.confirm.reject();
+    }
+  }
+
+  async deleteSystem(system: ConfirmData) {
+    const { id } = system.data;
+    try {
+      await this.generalService.deletePlant(id);
+      system.confirm.resolve();
+    } catch (error) {
+      system.confirm.reject();
     }
   }
 
