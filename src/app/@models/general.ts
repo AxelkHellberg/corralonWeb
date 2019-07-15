@@ -19,6 +19,7 @@ export interface PlantData {
 }
 
 export interface SystemData {
+  id?: number;
   descripcion: string;
   nombre: string;
   plantaId: number;
@@ -42,8 +43,10 @@ export interface ManeuverGuideData {
 }
 export interface ManeuverGuideFields {
   nombre: string;
-  systemId: number;
-  plantillaGuiaManiobraId: number;
+  descripcion: string;
+  sistemaId: number;
+  plantaId?: number;
+  plantillaGuiaManiobraId?: number;
 }
 
 export interface MeasurementUnitsData {

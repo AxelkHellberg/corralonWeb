@@ -70,6 +70,14 @@ export class GeneralService {
   createManeuverGuideFields(maneuverGuideFieldsData: ManeuverGuideFields): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/campos-maniobra/`, maneuverGuideFieldsData).toPromise();
   }
+  editManeuverGuideFields(id: number, maneuverGuideFieldsData: ManeuverGuideFields): Promise<any> {
+    // tslint:disable-next-line: max-line-length
+    return this.http.patch(`${environment.url}/services/entities/campos-maniobra/${id}`, maneuverGuideFieldsData).toPromise();
+  }
+  deleteManeuverGuideField(id: number): Promise<any> {
+    // tslint:disable-next-line: max-line-length
+    return this.http.delete(`${environment.url}/services/entities/campos-maniobra/${id}`).toPromise();
+  }
   createMeasurementUnits(nombre: string): Promise<any> {
     return this.http.post(`${environment.url}services/entities/unidades-medida/`, {nombre}).toPromise();
   }
@@ -87,6 +95,15 @@ export class GeneralService {
   }
   createValueRoundFields(maneuverGuideFieldsData: ManeuverGuideFields): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/campos-maniobra/`, maneuverGuideFieldsData).toPromise();
+  }
+
+
+
+
+  // Custom reports
+
+  getManeuverGuideFieldsWithPlants(id: number): Promise<any> {
+    return this.http.post(`${environment.url}/services/reports/execute`, {id}).toPromise();
   }
 
 }
