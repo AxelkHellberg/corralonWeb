@@ -78,7 +78,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
   currentPlantId: number;
   currentSystemId: number;
 
-  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) { }
 
   async ngOnInit() {
     try {
@@ -217,7 +217,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     if (this.isCreate) {
       await this.generalService.createManeuverGuideFields(maneuverGuideData);
     } else if (this.isEdit) {
-      await this.generalService.editManeuverGuideFields(this.maneuverGuideId, maneuverGuideData);
+      await this.generalService.editManeuverGuideFields(this.data.id, maneuverGuideData);
     }
   }
 

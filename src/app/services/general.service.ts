@@ -56,10 +56,10 @@ export class GeneralService {
     return this.http.post(`${environment.url}/services/entities/tags`, tagData).toPromise();
   }
   createManeuverGuideTemplate(nombre: string): Promise<any> {
-    return this.http.post(`${environment.url}/services/entities/plantillas-guias-maniobra/`, {nombre}).toPromise();
+    return this.http.post(`${environment.url}/services/entities/plantillas-guias-maniobra/`, { nombre }).toPromise();
   }
   editManeuverGuideTemplate(id: number, nombre: string): Promise<any> {
-    return this.http.patch(`${environment.url}/services/entities/plantillas-guias-maniobra/${id}`, {nombre}).toPromise();
+    return this.http.patch(`${environment.url}/services/entities/plantillas-guias-maniobra/${id}`, { nombre }).toPromise();
   }
   getManeuverGuideTemplates(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/plantillas-guias-maniobra/`).toPromise();
@@ -79,10 +79,10 @@ export class GeneralService {
     return this.http.delete(`${environment.url}/services/entities/campos-maniobra/${id}`).toPromise();
   }
   createMeasurementUnits(nombre: string): Promise<any> {
-    return this.http.post(`${environment.url}services/entities/unidades-medida/`, {nombre}).toPromise();
+    return this.http.post(`${environment.url}services/entities/unidades-medida/`, { nombre }).toPromise();
   }
   createSchedule(hora: number, minuto: number): Promise<any> {
-    return this.http.post(`${environment.url}/services/entities/horarios/`, {hora, minuto}).toPromise();
+    return this.http.post(`${environment.url}/services/entities/horarios/`, { hora, minuto }).toPromise();
   }
   createRoundFields(roundFieldsData: RoundFields): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/campos-ronda/`, roundFieldsData).toPromise();
@@ -102,8 +102,8 @@ export class GeneralService {
 
   // Custom reports
 
-  getManeuverGuideFieldsWithPlants(id: number): Promise<any> {
-    return this.http.post(`${environment.url}/services/reports/execute`, {id}).toPromise();
+  getManeuverGuideFieldsWithPlants(plantillaGuiaManiobraId: number): Promise<any> {
+    return this.http.post(`${environment.url}/services/reports/execute`, { "id": 1, "filters": { plantillaGuiaManiobraId } }).toPromise();
   }
 
 }
