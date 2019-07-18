@@ -29,7 +29,7 @@ export interface SystemData {
 export interface EquipmentData {
   detalle: string;
   nombre: string;
-  systemId: number;
+  sistemaId: number;
 }
 
 export interface TagData {

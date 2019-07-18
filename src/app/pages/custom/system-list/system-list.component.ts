@@ -42,13 +42,13 @@ export class SystemListComponent implements OnInit {
         title: 'Nombre de Sistema',
         type: 'text',
       },
-      systemType: {
-        title: 'Tipo de Sistema',
-        type: 'text',
-        editable: false,
-      },
-      detail: {
-        title: 'Detalle',
+      // systemType: {
+      //   title: 'Tipo de Sistema',
+      //   type: 'text',
+      //   editable: false,
+      // },
+      descripcion: {
+        title: 'Descripción',
         type: 'text',
         editable: false,
       },

@@ -49,6 +49,12 @@ export class GeneralService {
   createEquipment(equipmentData: EquipmentData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/equipamientos`, equipmentData).toPromise();
   }
+  editEquipment(id: number, equipmentData: EquipmentData): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/equipamientos/${id}`, equipmentData).toPromise();
+  }
+  deleteEquipment(id: number): Promise<any> {
+    return this.http.delete(`${environment.url}/services/entities/equipamientos/${id}`).toPromise();
+  }
   getEquipments(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/equipamientos`).toPromise();
   }
@@ -78,8 +84,17 @@ export class GeneralService {
     // tslint:disable-next-line: max-line-length
     return this.http.delete(`${environment.url}/services/entities/campos-maniobra/${id}`).toPromise();
   }
+  getMeasurementUnits(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/unidades-medida/`).toPromise();
+  }
+  editMeasurementUnits(id: number, nombre: string): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/unidades-medida/${id}`, { nombre }).toPromise();
+  }
+  deleteMeasurementUnits(id: number): Promise<any> {
+    return this.http.delete(`${environment.url}/services/entities/unidades-medida/${id}`).toPromise();
+  }
   createMeasurementUnits(nombre: string): Promise<any> {
-    return this.http.post(`${environment.url}services/entities/unidades-medida/`, { nombre }).toPromise();
+    return this.http.post(`${environment.url}/services/entities/unidades-medida/`, { nombre }).toPromise();
   }
   createSchedule(hora: number, minuto: number): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/horarios/`, { hora, minuto }).toPromise();

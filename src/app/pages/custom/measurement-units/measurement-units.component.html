@@ -3,4 +3,7 @@
 <ng2-smart-table
   [settings]="settings"
   [source]="data"
+  (createConfirm)="addMeasurement($event)"
+  (editConfirm)="editMeasurement($event)"
+  (deleteConfirm)="deleteMeasurement($event)"
 ></ng2-smart-table>

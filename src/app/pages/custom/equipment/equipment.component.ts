@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Equipment } from '../../../@models/systems';
 import { SmartTableSettings } from '../../../@models/smart-table';
+import { EquipmentData } from '../../../@models/general';
 
 @Component({
   selector: 'ngx-equipment',
@@ -13,26 +14,7 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 export class EquipmentComponent implements OnInit {
   associateType: string;
   associateElements: boolean;
-  data: Equipment[] = [
-    {
-      id: '1',
-      nombre: 'Auxiliares Uca',
-      systemId: 'ENERGÍA',
-      detalle: 'Detalle 1',
-      attributes: '<a href="#/pages/equipment?attributes=true">Asociar</a>',
-      tag: '<a href="#/pages/equipment?tag=true">ABC123</a>',
-      equipment: 'Cargador Evequoz',
-    },
-    {
-      id: '2',
-      nombre: 'Planteamiento de tratamiento de efluentes cloacales',
-      systemId: 'AGUA',
-      detalle: 'Detalle 2',
-      attributes: '<a href="#/pages/equipment?attributes=true">Asociar</a>',
-      tag: '<a href="#/pages/equipment?tag=true">Sin Tag</a>',
-      equipment: 'Auxiliares UCA',
-    },
-  ];
+  data: Equipment[] = [];
   settings: SmartTableSettings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -44,6 +26,7 @@ export class EquipmentComponent implements OnInit {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
@@ -53,6 +36,7 @@ export class EquipmentComponent implements OnInit {
       id: {
         title: 'ID',
         type: 'text',
+        editable: false,
       },
       nombre: {
         title: 'Nombre de Equipamiento',
@@ -62,32 +46,25 @@ export class EquipmentComponent implements OnInit {
         title: 'Detalle',
         type: 'text',
       },
-      system: {
+      sistemaId: {
         title: 'Sistema',
         type: 'text',
         editor: {
           type: 'list',
           config: {
-            list: [
-              {
-                title: 'ENERGÍA',
-                value: 'ENERGÍA',
-              },
-              {
-                title: 'AGUA',
-                value: 'AGUA',
-              },
-            ]
-          }
-        }
+            list: []
+          },
+        },
       },
       attributes: {
         title: 'Asociar atributos a medir',
         type: 'html',
+        editable: false,
       },
       tag: {
         title: 'Tag',
         type: 'html',
+        editable: false,
         editor: {
           type: 'list',
           config: {
@@ -120,17 +97,25 @@ export class EquipmentComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  async ngOnInit() {
+    try {
+      const response = await this.generalService.getSystems();
+      // this.plants = response.items;
+      this.settings.columns.sistemaId.editor.config.list = response.items.map(system => ({
+        title: system.nombre,
+        value: system.id,
+      }));
+      this.settings = {...this.settings};
+    } catch (e) {
 
-  goBack() {
-    this.associateElements = false;
-    this.router.navigate(['pages/equipment']);
-  }
+    }
 
-  rowSelect() {
-    this.associateElements = true;
-    this.associateType = 'attributes';
+    try {
+      const response = await this.generalService.getEquipments();
+      this.data = response.items;
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async addEquipment(data: ConfirmData) {
@@ -140,6 +125,44 @@ export class EquipmentComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async editEquipment(data: ConfirmData) {
+    const { newData } = data;
+    const equipmentData: EquipmentData = {
+      nombre: newData.nombre,
+      detalle: newData.detalle,
+      sistemaId: newData.sistemaId,
+    }
+    try {
+      const response = await this.generalService.editEquipment(newData.id, equipmentData);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
+  }
+  async deleteEquipment(data: ConfirmData) {
+    try {
+      const response = await this.generalService.deleteEquipment(data.data.id);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
+  }
+
+
+  goBack() {
+    this.associateElements = false;
+    this.router.navigate(['pages/equipment']);
+  }
+
+  rowSelect() {
+    this.associateElements = true;
+    this.associateType = 'attributes';
   }
 
 }
