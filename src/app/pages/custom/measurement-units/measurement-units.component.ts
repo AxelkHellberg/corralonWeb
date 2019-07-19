@@ -45,12 +45,12 @@ export class MeasurementUnitsComponent implements OnInit {
         type: 'text',
         width: '300px',
       },
-      detail: {
-        title: 'Detalle',
-        type: 'text',
-        width: '100px',
-        editable: false,
-      },
+      // detail: {
+      //   title: 'Detalle',
+      //   type: 'text',
+      //   width: '100px',
+      //   editable: false,
+      // },
     }
   };
 

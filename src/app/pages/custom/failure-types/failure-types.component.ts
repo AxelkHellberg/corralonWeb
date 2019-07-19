@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FailureTypes } from '../../../@models/failures';
-import { SmartTableSettings } from '../../../@models/smart-table';
+import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
+import { GeneralService } from '../../../services/general.service';
 
 @Component({
   selector: 'ngx-failure-types',
@@ -9,18 +10,7 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 })
 export class FailureTypesComponent implements OnInit {
 
-  data: FailureTypes[] = [
-    {
-      id: 1,
-      failureType: 'Error 1',
-      deatil: 'Detalle 1',
-    },
-    {
-      id: 2,
-      failureType: 'Error 2',
-      deatil: 'Detalle 2',
-    },
-  ]
+  data: FailureTypes[] = []
 
   settings: SmartTableSettings = {
     attr: {
@@ -30,14 +20,17 @@ export class FailureTypesComponent implements OnInit {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true,
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
     },
     columns: {
       id: {
@@ -45,22 +38,59 @@ export class FailureTypesComponent implements OnInit {
         type: 'text',
         width: '150px',
       },
-      failureType: {
+      nombre: {
         title: 'Tipo de Falla',
         type: 'text',
         width: '200px',
       },
-      deatil: {
-        title: 'Descripción',
-        type: 'text',
-        width: '300px',
-      },
+      // deatil: {
+      //   title: 'Descripción',
+      //   type: 'text',
+      //   width: '300px',
+      // },
     }
   };
 
-  constructor() { }
+  constructor(private generalService: GeneralService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    try {
+      const response = await this.generalService.getFailureType();
+      this.data = response.items;
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  async addFailureType(data: ConfirmData) {
+    try {
+      const response = await this.generalService.createFailureType(data.newData.nombre);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
+  }
+  async editFailureType(data: ConfirmData) {
+    try {
+      const response = await this.generalService.editFailureType(data.newData.id, data.newData.nombre);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
+  }
+  async deleteFailureType(data: ConfirmData) {
+    try {
+      const response = await this.generalService.deleteFailureType(data.data.id);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
   }
 
 }

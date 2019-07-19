@@ -112,6 +112,19 @@ export class GeneralService {
     return this.http.post(`${environment.url}/services/entities/campos-maniobra/`, maneuverGuideFieldsData).toPromise();
   }
 
+  createFailureType(nombre: string, posicion: number = 1): Promise<any> {
+    return this.http.post(`${environment.url}/services/entities/tipos-falla/`, { nombre, posicion }).toPromise();
+  }
+  getFailureType(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/tipos-falla/`).toPromise();
+  }
+  editFailureType(id: number, nombre: string): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/tipos-falla/${id}`, { nombre }).toPromise();
+  }
+  deleteFailureType(id: number): Promise<any> {
+    return this.http.delete(`${environment.url}/services/entities/tipos-falla/${id}`).toPromise();
+  }
+
 
 
 
