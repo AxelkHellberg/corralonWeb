@@ -11,18 +11,7 @@ import { GeneralService } from '../../../services/general.service';
 })
 export class MeasurementUnitsComponent implements OnInit {
 
-  data: MeasurementUnits[] = [
-    {
-      id: 1,
-      measurement: 'VOLT',
-      detail: 'Detalle 1',
-    },
-    {
-      id: 2,
-      measurement: 'AMP',
-      detail: 'Detalle 2',
-    },
-  ]
+  data: MeasurementUnits[] = []
 
   settings: SmartTableSettings = {
     attr: {
