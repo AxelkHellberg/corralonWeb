@@ -1,3 +1,4 @@
+import { NewManeuverGuideTemplateComponent } from './../new-maneuver-guide-template/new-maneuver-guide-template.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ManeuverGuideTemplateComponent } from './maneuver-guide-template.component';
@@ -11,6 +12,7 @@ import { NewManeuverGuideTemplateModule } from '../new-maneuver-guide-template/n
     NewManeuverGuideTemplateModule,
   ],
   declarations: [ManeuverGuideTemplateComponent],
-  exports: [ManeuverGuideTemplateComponent],
+  entryComponents: [NewManeuverGuideTemplateComponent],
+  exports: [ManeuverGuideTemplateComponent, NewManeuverGuideTemplateComponent],
 })
 export class ManeuverGuideTemplateModule { }

@@ -3,4 +3,7 @@
 <ng2-smart-table
   [settings]="settings"
   [source]="data"
+  (createConfirm)="addProfile($event)"
+  (editConfirm)="editProfile($event)"
+  (deleteConfirm)="deleteProfile($event)"
 ></ng2-smart-table>

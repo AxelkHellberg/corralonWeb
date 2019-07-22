@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableSettings } from '../../../@models/smart-table';
+import { GeneralService } from '../../../services/general.service';
 
 @Component({
   selector: 'ngx-failure-notifications',
@@ -62,7 +63,7 @@ export class FailureNotificationsComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      status: {
+      estadoFalla: {
         title: 'Estado',
         type: 'html',
       },
@@ -70,7 +71,7 @@ export class FailureNotificationsComponent implements OnInit {
         title: 'ID',
         type: 'text',
       },
-      failureType: {
+      tipoFalla: {
         title: 'Tipo de Falla',
         type: 'text',
       },
@@ -96,10 +97,38 @@ export class FailureNotificationsComponent implements OnInit {
       },
     },
   };
+  failureTypes: any;
+  failureStatus: any;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) { }
+  constructor(private changeDetectorRef: ChangeDetectorRef, private generalService: GeneralService) { }
 
-  ngOnInit() { }
+  async ngOnInit() {
+    try {
+      const response = await this.generalService.getFailureType();
+      this.failureTypes = response.items;
+    } catch (error) {
+
+    }
+
+    try {
+      const response = await this.generalService.getStatusFailures();
+      this.failureStatus = response.items;
+    } catch (error) {
+
+    }
+
+    try {
+      const response = await this.generalService.getNotificationsFailures();
+      this.failureData = response.items;
+      this.failureData.forEach(data => {
+        data['estadoFalla'] = this.failureTypes.find(failure => failure.id === data.estadoFallaId).nombre;
+        data['tipoFalla'] = this.failureTypes.find(failure => failure.id === data.tipoFallaId).nombre;
+        data['date'] = data.updateAt;
+      })
+    } catch (error) {
+
+    }
+   }
 
   filterTable(column: string, filterTerm: string): void {
     const noFilter = !!filterTerm;

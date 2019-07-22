@@ -19,14 +19,18 @@ export class GeneralService {
   getUser(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/users/`).toPromise();
   }
-
+  deleteUser(id: number): Promise<any> {
+    return this.http.delete(`${environment.url}/services/entities/users/${id}`).toPromise();
+  }
+  editUser(id: number, userData: UserData): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/users/${id}`, userData).toPromise();
+  }
   createPlant(plantData: PlantData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/plantas`, plantData).toPromise();
   }
   getPlants(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/plantas`).toPromise();
   }
-
   deletePlant(id: number): Promise<any> {
     return this.http.delete(`${environment.url}/services/entities/plantas/${id}`).toPromise();
   }
@@ -36,7 +40,18 @@ export class GeneralService {
   createSystem(systemData: SystemData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/sistemas`, systemData).toPromise();
   }
-
+  getTypeSystems(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/tipos-sistema`).toPromise();
+  }
+  createTypeSystems(nombre: string, posicion: number = 1): Promise<any> {
+    return this.http.post(`${environment.url}/services/entities/tipos-sistema`, { nombre, posicion }).toPromise();
+  }
+  editTypeSystems(id: number, nombre: string): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/tipos-sistema/${id}`, { nombre }).toPromise();
+  }
+  deleteTypeSystems(id: number): Promise<any> {
+    return this.http.delete(`${environment.url}/services/entities/tipos-sistema/${id}`).toPromise();
+  }
   editSystem(id: number, systemData: SystemData): Promise<any> {
     return this.http.patch(`${environment.url}/services/entities/sistemas/${id}`, systemData).toPromise();
   }
@@ -66,6 +81,9 @@ export class GeneralService {
   }
   editManeuverGuideTemplate(id: number, nombre: string): Promise<any> {
     return this.http.patch(`${environment.url}/services/entities/plantillas-guias-maniobra/${id}`, { nombre }).toPromise();
+  }
+  deleteManeuverGuideTemplate(id: number): Promise<any> {
+    return this.http.delete(`${environment.url}/services/entities/plantillas-guias-maniobra/${id}`).toPromise();
   }
   getManeuverGuideTemplates(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/plantillas-guias-maniobra/`).toPromise();
@@ -111,7 +129,12 @@ export class GeneralService {
   createValueRoundFields(maneuverGuideFieldsData: ManeuverGuideFields): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/campos-maniobra/`, maneuverGuideFieldsData).toPromise();
   }
-
+  getNotificationsFailures(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/notificaciones-falla/`).toPromise();
+  }
+  getStatusFailures(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/estados-falla/`).toPromise();
+  }
   createFailureType(nombre: string, posicion: number = 1): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/tipos-falla/`, { nombre, posicion }).toPromise();
   }
@@ -123,6 +146,19 @@ export class GeneralService {
   }
   deleteFailureType(id: number): Promise<any> {
     return this.http.delete(`${environment.url}/services/entities/tipos-falla/${id}`).toPromise();
+  }
+
+  getProfile(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/profiles/`).toPromise();
+  }
+  createProfile(name: string): Promise<any> {
+    return this.http.post(`${environment.url}/services/entities/profiles/`, { name }).toPromise();
+  }
+  editProfile(id: number, name: any): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/profiles/${id}`, { name }).toPromise();
+  }
+  deleteProfile(id: number): Promise<any> {
+    return this.http.delete(`${environment.url}/services/entities/profiles/${id}`).toPromise();
   }
 
 

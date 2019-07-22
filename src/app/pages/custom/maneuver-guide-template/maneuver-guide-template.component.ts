@@ -1,3 +1,4 @@
+import { ConfirmData } from './../../../@models/smart-table';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
@@ -98,9 +99,15 @@ export class ManeuverGuideTemplateComponent implements OnInit {
     });
   }
 
-  deleteTemplate(row) {
-    delete this.data[row.index];
-    this.data = [...this.data];
+  async deleteTemplate(data: ConfirmData) {
+    try {
+      const response = await this.generalService.deleteManeuverGuideTemplate(data.data.id);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
   }
 
   getTemplate(data) {

@@ -83,6 +83,7 @@ export class EquipmentComponent implements OnInit {
       },
     },
   };
+  systems: any;
 
   constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {
     this.route.queryParams.subscribe(queryParams => {
@@ -100,10 +101,10 @@ export class EquipmentComponent implements OnInit {
   async ngOnInit() {
     try {
       const response = await this.generalService.getSystems();
-      // this.plants = response.items;
+      this.systems = response.items;
       this.settings.columns.sistemaId.editor.config.list = response.items.map(system => ({
         title: system.nombre,
-        value: system.id,
+        value: system.nombre,
       }));
       this.settings = {...this.settings};
     } catch (e) {
@@ -113,6 +114,7 @@ export class EquipmentComponent implements OnInit {
     try {
       const response = await this.generalService.getEquipments();
       this.data = response.items;
+      this.data.forEach(data => data.sistemaId = this.systems.find(system => system.id === data.sistemaId).nombre);
     } catch (e) {
       console.log(e)
     }
@@ -120,10 +122,16 @@ export class EquipmentComponent implements OnInit {
 
   async addEquipment(data: ConfirmData) {
     const { newData } = data;
+    const equipmentData: EquipmentData = {
+      nombre: newData.nombre,
+      detalle: newData.detalle,
+      sistemaId: this.systems.find(system => system.nombre === newData.sistemaId).id,
+    };
     try {
-      await this.generalService.createEquipment(newData);
+      await this.generalService.createEquipment(equipmentData);
+      data.confirm.resolve();
     } catch (error) {
-      console.log(error);
+      data.confirm.reject();
     }
   }
 
@@ -132,8 +140,8 @@ export class EquipmentComponent implements OnInit {
     const equipmentData: EquipmentData = {
       nombre: newData.nombre,
       detalle: newData.detalle,
-      sistemaId: newData.sistemaId,
-    }
+      sistemaId: this.systems.find(system => system.nombre === newData.sistemaId).id,
+    };
     try {
       const response = await this.generalService.editEquipment(newData.id, equipmentData);
       console.log(response)

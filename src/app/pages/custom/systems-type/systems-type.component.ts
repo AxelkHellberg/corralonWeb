@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SystemType } from '../../../@models/systems';
-import { SmartTableSettings } from '../../../@models/smart-table';
+import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
+import { GeneralService } from '../../../services/general.service';
 
 @Component({
   selector: 'ngx-systems-type',
@@ -8,18 +9,7 @@ import { SmartTableSettings } from '../../../@models/smart-table';
   styleUrls: ['./systems-type.component.scss']
 })
 export class SystemsTypeComponent implements OnInit {
-  data: SystemType[] = [
-    {
-      id: 1,
-      typeSystemName: 'Energía',
-      detail: 'Detalle 1',
-    },
-    {
-      id: 2,
-      typeSystemName: 'Tratamiento cloacal',
-      detail: 'Detalle 2',
-    },
-  ]
+  data: SystemType[] = []
 
   settings: SmartTableSettings = {
     attr: {
@@ -29,14 +19,17 @@ export class SystemsTypeComponent implements OnInit {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true,
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
     },
     columns: {
       id: {
@@ -44,22 +37,60 @@ export class SystemsTypeComponent implements OnInit {
         type: 'text',
         width: '150px',
       },
-      typeSystemName: {
+      nombre: {
         title: 'Nombre de Tipo de Sistema',
         type: 'text',
         width: '200px',
       },
-      detail: {
-        title: 'Detalle',
-        type: 'text',
-        width: '300px',
-      },
+      // detail: {
+      //   title: 'Detalle',
+      //   type: 'text',
+      //   width: '300px',
+      // },
     }
   };
 
-  constructor() { }
+  constructor(private generalService: GeneralService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    try {
+      const response = await this.generalService.getTypeSystems();
+      this.data = response.items;
+      console.log(this.data)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  async addSystemType(data: ConfirmData) {
+    try {
+      const response = await this.generalService.createTypeSystems(data.newData.nombre);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
+  }
+  async editSystemType(data: ConfirmData) {
+    try {
+      const response = await this.generalService.editTypeSystems(data.newData.id, data.newData.nombre);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
+  }
+  async deleteSystemType(data: ConfirmData) {
+    try {
+      const response = await this.generalService.deleteTypeSystems(data.data.id);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
   }
 
 }

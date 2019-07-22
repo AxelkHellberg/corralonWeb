@@ -3,9 +3,9 @@
 
   <div class="row row-filters-selects">
     <div class="col-4">
-      <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('status', $event)">
+      <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('estadoFalla', $event)">
         <nb-option value="">ESTADO</nb-option>
-        <nb-option *ngFor="let item of failureData | uniqueValues: 'status'" [value]="item">{{item | textFromHtml}}</nb-option>
+        <nb-option *ngFor="let item of failureData | uniqueValues: 'estadoFalla'" [value]="item">{{item | textFromHtml}}</nb-option>
       </nb-select>
     </div>
     <div class="col-4">

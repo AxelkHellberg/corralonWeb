@@ -1,8 +1,9 @@
 import { ManeuverGuideData, PlantData, SystemData, ManeuverGuideFields } from './../../../@models/general';
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, ViewChild, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
+import { NbDialogService, NbDialogRef } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-new-maneuver-guide-template',
@@ -10,6 +11,7 @@ import { GeneralService } from '../../../services/general.service';
   styleUrls: ['./new-maneuver-guide-template.component.scss']
 })
 export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
+  @ViewChild('addOrEdit') addOrEditTemplate: TemplateRef<any>;
   @Output() onSave = new EventEmitter<any>();
   maneuverGuideName: string;
   enableSystem: boolean;
@@ -78,7 +80,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
   currentPlantId: number;
   currentSystemId: number;
 
-  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) { }
+  constructor(private dialogService: NbDialogService, private generalService: GeneralService) { }
 
   async ngOnInit() {
     try {
@@ -122,6 +124,11 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     this.plantSelected = '';
     this.systemSelected = '';
     this.maneuverGuideTitle = '';
+    this.dialogService.open(this.addOrEditTemplate, {
+      context: 'Añadir Elemento',
+      closeOnBackdropClick: false,
+      closeOnEsc: false,
+    });
   }
 
   async editTemplate(row) {
@@ -131,6 +138,11 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     this.enableSaveButton = true;
     this.enableSystem = true;
     this.selectOnEdit(row.data, row.index);
+    this.dialogService.open(this.addOrEditTemplate, {
+      context: 'Añadir Elemento',
+      closeOnBackdropClick: false,
+      closeOnEsc: false,
+    });
   }
 
   async deleteTemplate(row) {
@@ -174,7 +186,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     this.data.maneuverGuide = this.data.maneuverGuide;
   }
 
-  async saveChanges() {
+  async saveChanges(dialog: NbDialogRef<any>) {
     this.enableManeuverGuide = false;
     this.enableSystem = false;
     this.enableSaveButton = false;
@@ -190,6 +202,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
 
     try {
       await this.saveManeuverGuideFields();
+      dialog.close();
     } catch (error) { }
     this.isCreate = false;
     this.isEdit = false;
@@ -200,7 +213,8 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
       if (this.maneuverGuideId) {
         await this.generalService.editManeuverGuideTemplate(this.maneuverGuideId, this.maneuverGuideName);
       } else {
-        await this.generalService.createManeuverGuideTemplate(this.maneuverGuideName);
+        const response = await this.generalService.createManeuverGuideTemplate(this.maneuverGuideName || 'Guía sin nombre');
+        this.maneuverGuideId = response.id;
       }
     } catch (error) {
       console.log(error);

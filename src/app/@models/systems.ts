@@ -13,14 +13,14 @@ export interface SystemList {
 
 export interface SystemType {
   id:             number;
-  typeSystemName: string;
+  nombre: string;
   detail:         string;
 }
 
 export interface Equipment {
   id:            string;
   nombre: string;
-  systemId:        string;
+  sistemaId:        string;
   detalle:        string;
   attributes:    string;
   tag:           string;

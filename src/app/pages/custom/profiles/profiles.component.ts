@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Profiles } from '../../../@models/profiles';
-import { SmartTableSettings } from '../../../@models/smart-table';
+import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
+import { GeneralService } from '../../../services/general.service';
 
 @Component({
   selector: 'ngx-profiles',
@@ -9,40 +10,7 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 })
 export class ProfilesComponent implements OnInit {
 
-  data: Profiles[] = [
-    {
-      id: 1,
-      profileType: 'Administrador',
-    },
-    {
-      id: 2,
-      profileType: 'Operador',
-    },
-    {
-      id: 3,
-      profileType: 'Jefe de turno',
-    },
-    {
-      id: 4,
-      profileType: 'Jefe de operaciones',
-    },
-    {
-      id: 5,
-      profileType: 'Supervisor de mantenimiento',
-    },
-    {
-      id: 6,
-      profileType: 'Jefe de mantenimiento',
-    },
-    {
-      id: 7,
-      profileType: 'Técnico de mantenimiento',
-    },
-    {
-      id: 8,
-      profileType: 'Jefe de Planta',
-    },
-  ];
+  data: Profiles[] = [];
   settings: SmartTableSettings = {
     attr: {
       class: 'general-table',
@@ -51,22 +19,26 @@ export class ProfilesComponent implements OnInit {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true,
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
     },
     columns: {
       id: {
         title: 'ID',
         type: 'text',
         width: '200px',
+        editable: false,
       },
-      profileType: {
+      name: {
         title: 'Tipo de perfil',
         type: 'text',
         width: '230px',
@@ -74,9 +46,47 @@ export class ProfilesComponent implements OnInit {
     },
   };
 
-  constructor() { }
+  constructor(private generalService: GeneralService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    try {
+      const response = await this.generalService.getProfile();
+      this.data = response.items;
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  async addProfile(data: ConfirmData) {
+    try {
+      const response = await this.generalService.createProfile(data.newData.name);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
+  }
+  async editProfile(data: ConfirmData) {
+    try {
+      console.log(data.newData);
+      const response = await this.generalService.editProfile(data.newData.id, data.newData.name);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
+  }
+  async deleteProfile(data: ConfirmData) {
+    try {
+      const response = await this.generalService.deleteProfile(data.data.id);
+      console.log(response)
+      data.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      data.confirm.reject();
+    }
   }
 
 }
