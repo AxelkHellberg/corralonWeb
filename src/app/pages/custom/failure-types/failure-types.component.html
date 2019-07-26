@@ -3,4 +3,7 @@
 <ng2-smart-table
   [settings]="settings"
   [source]="data"
+  (confirmCreate)="addFailureType($event)"
+  (editConfirm)="editFailureType($event)"
+  (deleteConfirm)="deleteFailureType($event)"
 ></ng2-smart-table>

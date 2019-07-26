@@ -71,10 +71,6 @@ export class RoundReportsComponent implements OnInit {
         title: 'Legajo',
         type: 'text',
       },
-      type: {
-        title: 'Tipo',
-        type: 'text',
-      },
       roundName: {
         title: 'Nombre de Ronda',
         type: 'text',

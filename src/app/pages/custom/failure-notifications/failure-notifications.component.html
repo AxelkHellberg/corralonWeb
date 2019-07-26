@@ -15,10 +15,8 @@
       </nb-select>
     </div>
     <div class="col-4">
-      <nb-select placeholder="EQUIPAMIENTO" [(selected)]="equipmentSelectedItem" (selectedChange)="filterTable('equipment', $event)">
-        <nb-option value="">EQUIPAMIENTO</nb-option>
-        <nb-option *ngFor="let item of failureData | uniqueValues: 'equipment'" [value]="item">{{item}}</nb-option>
-      </nb-select>
+      <input nbInput placeholder="Fecha" emptyInput (onEmpty)="filterTable('date', $event)" [nbDatepicker]="rangepicker">
+      <nb-rangepicker #rangepicker  (rangeChange)="filterTable('date', $event)"></nb-rangepicker>
     </div>
   </div>
 

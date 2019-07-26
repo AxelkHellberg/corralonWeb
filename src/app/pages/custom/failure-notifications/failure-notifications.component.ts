@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'ngx-failure-notifications',
   templateUrl: './failure-notifications.component.html',
@@ -14,38 +14,7 @@ export class FailureNotificationsComponent implements OnInit {
   equipmentSelectedItem: string = '';
   showDetail: boolean;
   filterTableSettings: any = {};
-  failureData: any = [
-    {
-      status: `<div class="container-btn btn btn-danger">DETECTADO</div>`,
-      id: '1',
-      failureType: 'Error 1',
-      roundNumber: 47,
-      date: '15/04/2019',
-      time: '15:04:35',
-      system: 'Auxiliares Uca',
-      equipment: 'Cargador Evequoz',
-    },
-    {
-      status: '<div class="container-btn btn btn-warning">EN REPARACIÓN</div>',
-      id: '2',
-      failureType: 'Error 2',
-      roundNumber: 48,
-      date: '15/04/2019',
-      time: '16:04:35',
-      system: 'UPS 2',
-      equipment: 'Auxiliares UCA',
-    },
-    {
-      status: '<div class="container-btn btn btn-success">SOLUCIONADO</div>',
-      id: '1',
-      failureType: 'Error 3',
-      roundNumber: 49,
-      date: '15/04/2019',
-      time: '18:04:35',
-      system: 'UPS 1',
-      equipment: 'Auxiliares UCA',
-    },
-  ];
+  failureData: any = [];
   settings: SmartTableSettings = {
     actions: false,
     add: {
@@ -75,8 +44,8 @@ export class FailureNotificationsComponent implements OnInit {
         title: 'Tipo de Falla',
         type: 'text',
       },
-      roundNumber: {
-        title: 'Nro de Ronda',
+      origin: {
+        title: 'Origen',
         type: 'text',
       },
       date: {
@@ -91,10 +60,6 @@ export class FailureNotificationsComponent implements OnInit {
         title: 'Sistema',
         type: 'text',
       },
-      equipment: {
-        title: 'Equipo',
-        type: 'text',
-      },
     },
   };
   failureTypes: any;
@@ -106,6 +71,7 @@ export class FailureNotificationsComponent implements OnInit {
     try {
       const response = await this.generalService.getFailureType();
       this.failureTypes = response.items;
+      console.log(this.failureTypes);
     } catch (error) {
 
     }
@@ -121,9 +87,10 @@ export class FailureNotificationsComponent implements OnInit {
       const response = await this.generalService.getNotificationsFailures();
       this.failureData = response.items;
       this.failureData.forEach(data => {
-        data['estadoFalla'] = this.failureTypes.find(failure => failure.id === data.estadoFallaId).nombre;
+        data['estadoFalla'] = this.failureStatus.find(failure => failure.id === data.estadoFallaId).nombre;
         data['tipoFalla'] = this.failureTypes.find(failure => failure.id === data.tipoFallaId).nombre;
-        data['date'] = data.updateAt;
+        data['date'] = moment(data.updateAt).format('DD/MM/YYYY');
+        data['time'] = moment(data.updateAt).format('hh:mm:ss');
       })
     } catch (error) {
 

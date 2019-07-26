@@ -5,7 +5,6 @@ import { RoundReportsComponent } from './round-reports.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NbSelectModule, NbInputModule, NbDatepickerModule } from '@nebular/theme';
 import { CustomDirectivesModule } from '../../../@theme/directives/custom-directives.module';
-import { RoundDetailComponent } from '../round-detail/round-detail.component';
 import { RoundDetailModule } from '../round-detail/round-detail.module';
 
 @NgModule({
