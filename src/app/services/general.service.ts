@@ -88,9 +88,6 @@ export class GeneralService {
   getManeuverGuideTemplates(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/plantillas-guias-maniobra/`).toPromise();
   }
-  createManeuverGuide(maneuverGuideData: ManeuverGuideData): Promise<any> {
-    return this.http.post(`${environment.url}/services/entities/guias-maniobra/`, maneuverGuideData).toPromise();
-  }
   createManeuverGuideFields(maneuverGuideFieldsData: ManeuverGuideFields): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/campos-maniobra/`, maneuverGuideFieldsData).toPromise();
   }
