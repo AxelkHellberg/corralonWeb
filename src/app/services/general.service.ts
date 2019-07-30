@@ -114,11 +114,17 @@ export class GeneralService {
   createSchedule(hora: number, minuto: number): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/horarios/`, { hora, minuto }).toPromise();
   }
+  getSchedule(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/horarios/`).toPromise();
+  }
   createRoundFields(roundFieldsData: RoundFields): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/campos-ronda/`, roundFieldsData).toPromise();
   }
   createRoundTemplate(roundTemplateData: RoundTemplateData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/plantillas-ronda/`, roundTemplateData).toPromise();
+  }
+  getRoundTemplate(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/plantillas-ronda/`).toPromise();
   }
   createRound(roundData: RoundData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/rondas/`, roundData).toPromise();

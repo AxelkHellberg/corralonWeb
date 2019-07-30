@@ -23,6 +23,7 @@ import { NewManeuverGuideTemplateModule } from './custom/new-maneuver-guide-temp
 import { NewRoundTemplateModule } from './custom/new-round-template/new-round-template.module';
 import { LoginComponentModule } from './auth/login/login.module';
 import { RegisterComponentModule } from './auth/register/register.module';
+import { ManeuverGuideReportsModule } from './custom/maneuver-guide-reports/maneuver-guide-reports.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -41,6 +42,7 @@ const PAGES_COMPONENTS = [
     FailureTypesModule,
     EquipmentModule,
     RoundReportsModule,
+    ManeuverGuideReportsModule,
     SystemListModule,
     SystemsTypeModule,
     ManeuverGuideTemplateModule,

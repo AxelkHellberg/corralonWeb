@@ -105,22 +105,11 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         title: 'Hora',
         type: 'text',
         width: '50px',
-        valuePrepareFunction: (cell, row) => {
-          const getNumber = cell.replace(/\D/g, '');
-          const validate = getNumber > 12 ? 12 : getNumber;
-          // this.selectTime(row);
-          return validate;
-        }
       },
       minute: {
         title: 'Minuto',
         type: 'text',
         width: '50px',
-        valuePrepareFunction: (value, row) => {
-          const getNumber = value.replace(/\D/g, '');
-          const validate = getNumber > 59 ? 59 : getNumber;
-          return validate;
-        }
       },
     },
   };

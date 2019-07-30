@@ -18,6 +18,7 @@ import { ManeuverGuideTemplateComponent } from './custom/maneuver-guide-template
 import { FailureTypesComponent } from './custom/failure-types/failure-types.component';
 import { SystemListComponent } from './custom/system-list/system-list.component';
 import { EquipmentComponent } from './custom/equipment/equipment.component';
+import { ManeuverGuideReportsComponent } from './custom/maneuver-guide-reports/maneuver-guide-reports.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
       {
         path: 'round-report',
         component: RoundReportsComponent,
+      },
+      {
+        path: 'maneuver-guide-report',
+        component: ManeuverGuideReportsComponent,
       },
       {
         path: 'equipment',

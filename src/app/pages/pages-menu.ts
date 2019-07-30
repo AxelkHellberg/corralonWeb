@@ -17,6 +17,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/round-report',
   },
   {
+    title: 'Reporte de Maniobra',
+    icon: 'nb-compose',
+    link: '/pages/maneuver-guide-report',
+  },
+  {
     title: 'Administración',
     group: true,
   },

@@ -1,0 +1,21 @@
+<ng-container *ngIf="!showDetail">
+  <h4>Reporte de Guías de Maniobras</h4>
+
+  <div class="row row-filters-selects">
+    <div class="col-4">
+      <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('status', $event)">
+        <nb-option value="">ESTADO</nb-option>
+        <nb-option *ngFor="let item of roundsData | uniqueValues: 'status'" [value]="item">{{item | textFromHtml}}</nb-option>
+      </nb-select>
+    </div>
+    <div class="col-4">
+      <input nbInput placeholder="Fecha" emptyInput (onEmpty)="filterTable('date', $event)" [nbDatepicker]="rangepicker">
+      <nb-rangepicker #rangepicker  (rangeChange)="filterTable('date', $event)"></nb-rangepicker>
+    </div>
+  </div>
+
+  <ng2-smart-table
+    [settings]="settings"
+    [source]="roundsData | filterTable: filterTableSettings"
+  ></ng2-smart-table>
+</ng-container>
