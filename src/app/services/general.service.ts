@@ -82,6 +82,9 @@ export class GeneralService {
   editManeuverGuideTemplate(id: number, nombre: string): Promise<any> {
     return this.http.patch(`${environment.url}/services/entities/plantillas-guias-maniobra/${id}`, { nombre }).toPromise();
   }
+  getManeuverGuide(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/guias-maniobra/`).toPromise();
+  }
   deleteManeuverGuideTemplate(id: number): Promise<any> {
     return this.http.delete(`${environment.url}/services/entities/plantillas-guias-maniobra/${id}`).toPromise();
   }
@@ -96,7 +99,6 @@ export class GeneralService {
     return this.http.patch(`${environment.url}/services/entities/campos-maniobra/${id}`, maneuverGuideFieldsData).toPromise();
   }
   deleteManeuverGuideField(id: number): Promise<any> {
-    // tslint:disable-next-line: max-line-length
     return this.http.delete(`${environment.url}/services/entities/campos-maniobra/${id}`).toPromise();
   }
   getMeasurementUnits(): Promise<any> {
@@ -122,6 +124,9 @@ export class GeneralService {
   }
   createRoundTemplate(roundTemplateData: RoundTemplateData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/plantillas-ronda/`, roundTemplateData).toPromise();
+  }
+  editRoundTemplate(id: number, roundTemplateData: RoundTemplateData): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/plantillas-ronda/${id}`, roundTemplateData).toPromise();
   }
   getRoundTemplate(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/plantillas-ronda/`).toPromise();

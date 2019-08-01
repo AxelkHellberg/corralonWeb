@@ -3,19 +3,17 @@
 
   <div class="row row-filters-selects">
     <div class="col-4">
-      <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('status', $event)">
-        <nb-option value="">ESTADO</nb-option>
-        <nb-option *ngFor="let item of roundsData | uniqueValues: 'status'" [value]="item">{{item | textFromHtml}}</nb-option>
-      </nb-select>
-    </div>
-    <div class="col-4">
-      <input nbInput placeholder="Fecha" emptyInput (onEmpty)="filterTable('date', $event)" [nbDatepicker]="rangepicker">
+      <input nbInput class="w-100" placeholder="Fecha" emptyInput (onEmpty)="filterTable('date', $event)" [nbDatepicker]="rangepicker">
       <nb-rangepicker #rangepicker  (rangeChange)="filterTable('date', $event)"></nb-rangepicker>
     </div>
   </div>
 
   <ng2-smart-table
     [settings]="settings"
-    [source]="roundsData | filterTable: filterTableSettings"
+    [source]="data | filterTable: filterTableSettings"
+    (userRowSelect)="selectItem($event)"
   ></ng2-smart-table>
 </ng-container>
+
+
+<ngx-maneuver-guide-detail *ngIf="showDetail" [data]="selectedItem"></ngx-maneuver-guide-detail>

@@ -13,7 +13,7 @@ export class RoundTemplateComponent implements OnInit {
   data = [
     // {
     //   id: 1,
-    //   roundName: 'Plantilla 1',
+    //   nombre: 'Plantilla 1',
     //   time: '9:00 - 12:20',
     //   indexEdited: 1,
     //   full: {
@@ -42,7 +42,7 @@ export class RoundTemplateComponent implements OnInit {
     // },
     // {
     //   id: 2,
-    //   roundName: 'Plantilla 2',
+    //   nombre: 'Plantilla 2',
     //   time: '9:00',
     //   indexEdited: 2,
     //   full: {
@@ -95,7 +95,7 @@ export class RoundTemplateComponent implements OnInit {
         type: 'text',
         width: '150px'
       },
-      roundName: {
+      nombre: {
         title: 'Nombre de Ronda',
         type: 'text',
         width: '200px'
@@ -108,11 +108,13 @@ export class RoundTemplateComponent implements OnInit {
     }
   };
   showRoundTemplate: boolean;
+  roundTemplateId: any;
 
   constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {
     this.route.queryParams.subscribe(queryParam => {
-      if (queryParam.create || queryParam.edit) {
+      if (queryParam.create || queryParam.edit || queryParam.id) {
         this.showRoundTemplate = true;
+        this.roundTemplateId = queryParam.id;
       } else {
         this.showRoundTemplate = false;
       }
@@ -120,6 +122,14 @@ export class RoundTemplateComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.getTemplates();
+    if (this.roundTemplateId) {
+      this.fullData = this.data.find(item => item.id === +this.roundTemplateId);
+      console.log(this.fullData);
+    }
+  }
+
+  async getTemplates() {
     let roundTemplateData;
     try {
       roundTemplateData = await this.generalService.getRoundTemplate();
@@ -137,7 +147,7 @@ export class RoundTemplateComponent implements OnInit {
         .map(_item => ({hour: _item.hora, minute: _item.minuto}));
         return {
           id: item.id,
-          roundName: item.nombre,
+          nombre: item.nombre,
           time,
           full: {
             timeData: {
@@ -145,11 +155,13 @@ export class RoundTemplateComponent implements OnInit {
               time,
             },
             tableTimeData: timer,
+            horarioId: item.horarioId,
+            campoRondaId: item.campoRondaId,
             templateConfig: {
-              systemMandatory: item.obligatorioSistema,
-              systemFunctionality: item.funcionamientoSistema,
-              equipmentMandatory: item.obligatorioEquipo,
-              equipmentFunctionality: item.funcionamientoEquipo,
+              obligatorioSistema: item.obligatorioSistema,
+              funcionamientoSistema: item.funcionamientoSistema,
+              obligatorioEquipo: item.obligatorioEquipo,
+              funcionamientoEquipo: item.funcionamientoEquipo,
             }
           }
         }
@@ -167,11 +179,11 @@ export class RoundTemplateComponent implements OnInit {
     });
   }
 
-  editTemplate(data) {
+  editTemplate({data}) {
     this.fullData = data;
     this.router.navigate(['/pages/round-template'], {
       queryParams: {
-        edit: true,
+        id: data.id,
       }
     });
   }
@@ -181,16 +193,35 @@ export class RoundTemplateComponent implements OnInit {
     this.data = [...this.data];
   }
 
-  onSaveData(data) {
-    if (data.indexEdited != null) {
-      this.data[data.indexEdited] = data;
-      this.data = [...this.data];
+  async onSaveData(data) {
+    const templateData = {
+      nombre: data.nombre,
+      funcionamientoSistema: data.full.templateConfig.funcionamientoSistema,
+      obligatorioSistema: data.full.templateConfig.obligatorioSistema,
+      funcionamientoEquipo: data.full.templateConfig.funcionamientoEquipo,
+      obligatorioEquipo: data.full.templateConfig.obligatorioEquipo,
+      campoRondaId: data.full.campoRondaId || 1,
+      horarioId: data.full.horarioId || -1,
+    };
+    console.log(templateData, data);
+    if (data.id) {
+      try {
+        const response = await this.generalService.editRoundTemplate(data.id, templateData);
+        console.log(response);
+      } catch (error) {
+        console.log(error)
+      }
     } else {
-      data = {
-        ...data,
-        id: this.data.length + 1
-      };
-      this.data = [...this.data, ...[data]];
+      try {
+        const response = await this.generalService.createRoundTemplate(templateData);
+        console.log(response);
+      } catch (error) {
+        console.log(error)
+      }
     }
+    this.getTemplates()
+    console.log(data);
+    this.fullData = null;
+    this.roundTemplateId = null;
   }
 }

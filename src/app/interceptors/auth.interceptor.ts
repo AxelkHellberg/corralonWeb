@@ -29,8 +29,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-
-        if (err.status === 401) {
+        console.log(err);
+        if (err.status === 500 && err.error.userMessage === 'TokenExpiredError: jwt expired') {
           this.router.navigateByUrl('auth/login');
           localStorage.removeItem('token');
         }

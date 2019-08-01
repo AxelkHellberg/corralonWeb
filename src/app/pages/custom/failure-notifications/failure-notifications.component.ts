@@ -89,8 +89,8 @@ export class FailureNotificationsComponent implements OnInit {
       this.failureData.forEach(data => {
         data['estadoFalla'] = this.failureStatus.find(failure => failure.id === data.estadoFallaId).nombre;
         data['tipoFalla'] = this.failureTypes.find(failure => failure.id === data.tipoFallaId).nombre;
-        data['date'] = moment(data.updateAt).format('DD/MM/YYYY');
-        data['time'] = moment(data.updateAt).format('hh:mm:ss');
+        data['date'] = moment(data.updateAt).utc().format('DD/MM/YYYY');
+        data['time'] = moment(data.updateAt).utc().format('hh:mm:ss');
       })
     } catch (error) {
 

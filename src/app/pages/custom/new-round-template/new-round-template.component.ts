@@ -18,10 +18,10 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   selectedPlant: string;
   selectedSystem: string;
   selectedEquipment: string;
-  systemFunctionality: boolean;
-  systemMandatory: boolean;
-  equipmentFunctionality: boolean;
-  equipmentMandatory: boolean;
+  funcionamientoSistema: boolean;
+  obligatorioSistema: boolean;
+  funcionamientoEquipo: boolean;
+  obligatorioEquipo: boolean;
   data: RoundsDetails = {
     plant: '',
     system: '',
@@ -381,7 +381,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.router.navigate(['/pages/round-template']);
     this.onSave.emit({
       id: this.fullData && this.fullData.id || null,
-      roundName: this.roundName,
+      nombre: this.roundName,
       time: this.timeData.time,
       indexEdited: this.templateIndex,
       full: {
@@ -389,10 +389,10 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         timeData: this.timeData,
         tableTimeData: this.tableTimeData,
         templateConfig: {
-          systemFunctionality: this.systemFunctionality,
-          systemMandatory: this.systemMandatory,
-          equipmentFunctionality: this.equipmentFunctionality,
-          equipmentMandatory: this.equipmentMandatory,
+          funcionamientoSistema: this.funcionamientoSistema,
+          obligatorioSistema: this.obligatorioSistema,
+          funcionamientoEquipo: this.funcionamientoEquipo,
+          obligatorioEquipo: this.obligatorioEquipo,
         },
       },
     });
@@ -421,20 +421,19 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.fullData && changes.fullData.currentValue) {
-      const { data } = this.fullData;
-      this.roundName = data.roundName;
-      this.timeData.time = data.time;
-      this.tableData = data.full.tableData;
-      this.timeData = data.full.timeData;
-      this.tableTimeData = data.full.tableTimeData;
+      this.roundName = this.fullData.nombre || null;
+      this.timeData.time = this.fullData.time || null;
+      this.tableData = this.fullData.full.tableData || null;
+      this.timeData = this.fullData.full.timeData || null;
+      this.tableTimeData = this.fullData.full.tableTimeData || null;
       // tslint:disable-next-line: max-line-length
-      const { systemMandatory, systemFunctionality, equipmentMandatory, equipmentFunctionality } = data.full.templateConfig;
-      this.systemMandatory = systemMandatory;
-      this.systemFunctionality = systemFunctionality;
-      this.equipmentMandatory = equipmentMandatory;
-      this.equipmentFunctionality = equipmentFunctionality;
-      this.templateIndex = this.fullData.index;
-      this.fullData.id = data.id;
+      const { obligatorioSistema = null, funcionamientoSistema = null, obligatorioEquipo = null, funcionamientoEquipo = null } = this.fullData.full.templateConfig;
+      this.obligatorioSistema = obligatorioSistema || null;
+      this.funcionamientoSistema = funcionamientoSistema || null;
+      this.obligatorioEquipo = obligatorioEquipo || null;
+      this.funcionamientoEquipo = funcionamientoEquipo || null;
+      this.templateIndex = this.fullData.index || null;
+      this.fullData.id = this.fullData.id || null;
     }
   }
 
