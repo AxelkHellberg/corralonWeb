@@ -32,7 +32,7 @@ export class FailureNotificationsComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      estadoFalla: {
+      estadoFallaNombreBoton: {
         title: 'Estado',
         type: 'html',
       },
@@ -40,7 +40,7 @@ export class FailureNotificationsComponent implements OnInit {
         title: 'ID',
         type: 'text',
       },
-      tipoFalla: {
+      tipoFallaNombre: {
         title: 'Tipo de Falla',
         type: 'text',
       },
@@ -64,6 +64,7 @@ export class FailureNotificationsComponent implements OnInit {
   };
   failureTypes: any;
   failureStatus: any;
+  selectedData: any;
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private generalService: GeneralService) { }
 
@@ -84,26 +85,51 @@ export class FailureNotificationsComponent implements OnInit {
     }
 
     try {
-      const response = await this.generalService.getNotificationsFailures();
-      this.failureData = response.items;
+      this.failureData = await this.generalService.getNotificationsFailuresReport();
+      console.log(this.failureData);
       this.failureData.forEach(data => {
-        data['estadoFalla'] = this.failureStatus.find(failure => failure.id === data.estadoFallaId).nombre;
-        data['tipoFalla'] = this.failureTypes.find(failure => failure.id === data.tipoFallaId).nombre;
+        data['estadoFallaNombre'] = data.estadoFalla.nombre;
+        data['tipoFallaNombre'] = data.tipoFalla.nombre;
+        data['estadoFallaNombreBoton'] = this.setStatusFailureButton(data.estadoFallaNombre.toUpperCase());
         data['date'] = moment(data.updateAt).utc().format('DD/MM/YYYY');
         data['time'] = moment(data.updateAt).utc().format('hh:mm:ss');
-      })
+      });
     } catch (error) {
 
     }
    }
+
+  setStatusFailureButton(status: string) {
+    let button = '';
+    switch (status) {
+      case 'DETECTADO':
+        button = `<div class="container-btn btn btn-danger">${status}</div>`;
+        break;
+
+      case 'SOLUCIONADO':
+        button = `<div class="container-btn btn btn-success">${status}</div>`;
+        break;
+
+      default:
+          button = `<div class="container-btn btn btn-warning">${status}</div>`;
+        break;
+    }
+    return button;
+  }
 
   filterTable(column: string, filterTerm: string): void {
     const noFilter = !!filterTerm;
     this.filterTableSettings = { ...this.filterTableSettings, [column]: noFilter ? filterTerm : null };
   }
 
-  selectRow(event: string) {
+  selectRow({data}) {
     this.showDetail = !this.showDetail;
+    this.selectedData = data;
+  }
+
+  closeDetail(data: any) {
+    data.estadoFallaNombreBoton = this.setStatusFailureButton(data.estadoFallaNombre.toUpperCase());
+    this.showDetail = false;
   }
 
 }

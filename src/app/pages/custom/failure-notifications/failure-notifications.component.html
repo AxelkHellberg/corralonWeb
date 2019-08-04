@@ -3,9 +3,9 @@
 
   <div class="row row-filters-selects">
     <div class="col-4">
-      <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('estadoFalla', $event)">
+      <nb-select placeholder="ESTADO" [(selected)]="statusSelectedItem" (selectedChange)="filterTable('estadoFallaNombre', $event)">
         <nb-option value="">ESTADO</nb-option>
-        <nb-option *ngFor="let item of failureData | uniqueValues: 'estadoFalla'" [value]="item">{{item | textFromHtml}}</nb-option>
+        <nb-option *ngFor="let item of failureData | uniqueValues: 'estadoFallaNombre'" [value]="item">{{item | textFromHtml}}</nb-option>
       </nb-select>
     </div>
     <div class="col-4">
@@ -27,4 +27,4 @@
   ></ng2-smart-table>
 </ng-container>
 
-<ngx-failure-detail *ngIf="showDetail" (onClose)="showDetail = false"></ngx-failure-detail>
+<ngx-failure-detail *ngIf="showDetail" (onClose)="closeDetail($event);" [data]="selectedData"></ngx-failure-detail>

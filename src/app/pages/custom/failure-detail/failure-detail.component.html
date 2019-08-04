@@ -1,4 +1,4 @@
-<h4>Ronda Nro 47</h4>
+<h4></h4>
 
 <nb-card>
   <nb-card-header>
@@ -12,12 +12,10 @@
     <div class="row">
       <div class="col-3 dropdown-container">
         <div class="dropdown btn-group" ngbDropdown>
-          <button type="button" class="btn btn-primary">{{selectedStatus}}</button>
+          <button type="button" class="btn btn-primary">{{data?.estadoFallaNombre}}</button>
           <button type="button" class="btn btn-primary" ngbDropdownToggle></button>
           <ul class="dropdown-menu" ngbDropdownMenu>
-            <li class="dropdown-item" (click)="changeStatus('DETECTADO')">DETECTADO</li>
-            <li class="dropdown-item" (click)="changeStatus('EN REPARACIÓN')">EN REPARACIÓN</li>
-            <li class="dropdown-item" (click)="changeStatus('SOLUCIONADO')">SOLUCIONADO</li>
+            <li class="dropdown-item" *ngFor="let status of statusList" (click)="changeStatus(status)">{{status.nombre}}</li>
           </ul>
         </div>
       </div>
@@ -33,33 +31,33 @@
       <div class="col-5">
         <div class="d-flex">
           <div class="col-6">Operario:</div>
-          <div class="col-6">Juan Rodriguez</div>
+          <div class="col-6">{{findUser(data)}}</div>
         </div>
         <br><br>
         <div class="d-flex">
           <div class="col-6">Tipo de Falla:</div>
-          <div class="col-6">Error 1</div>
+          <div class="col-6">{{data.tipoFallaNombre}}</div>
         </div>
         <br><br>
         <div class="d-flex">
           <div class="col-6">Sistema:</div>
-          <div class="col-6">Auxiliares UCA</div>
+          <div class="col-6"></div>
         </div>
         <br><br>
         <div class="d-flex">
           <div class="col-6">Equipo:</div>
-          <div class="col-6">Cargador Evequoz</div>
+          <div class="col-6"></div>
         </div>
         <br><br>
         <div class="d-flex">
           <div class="col-6">Fecha y Hora:</div>
-          <div class="col-6">15/04/2019 15:04:35</div>
+          <div class="col-6">{{data?.date}} {{data?.time}}</div>
         </div>
       </div>
       <div class="col-7 d-flex align-items-center">
-        <div class="d-flex">
+        <div class="d-flex w-100 flex-justify-start">
           <div class="col-3 text-right">Descripción:</div>
-          <div class="col-9">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates voluptate officia ea vitae consequatur, placeat ab rem praesentium quod omnis.</div>
+          <div class="col-9 word-wrap-break-word">{{data?.descripcion}}</div>
         </div>
       </div>
     </div>
@@ -70,7 +68,7 @@
     <nb-card class="modal-status d-flex justify-content-center">
       <nb-card-header>Cambio de Estado de Falla</nb-card-header>
       <nb-card-body>
-        <textarea name="comments" id="changestatus" cols="110" rows="10"></textarea>
+        <textarea name="comments" id="changestatus" [(ngModel)]="data.descripcion" cols="110" rows="10"></textarea>
       </nb-card-body>
       <nb-card-footer>
         <button nbButton hero status="primary" (click)="modalRef.close(); close()">Guardar Cambios</button>

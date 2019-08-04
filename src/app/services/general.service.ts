@@ -140,6 +140,9 @@ export class GeneralService {
   getNotificationsFailures(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/notificaciones-falla/`).toPromise();
   }
+  editNotificationsFailures(id: number, data: any): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/notificaciones-falla/${id}`, data).toPromise();
+  }
   getStatusFailures(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/estados-falla/`).toPromise();
   }
@@ -176,6 +179,10 @@ export class GeneralService {
 
   getManeuverGuideFieldsWithPlants(plantillaGuiaManiobraId: number): Promise<any> {
     return this.http.post(`${environment.url}/services/reports/execute`, { "id": 1, "filters": { plantillaGuiaManiobraId } }).toPromise();
+  }
+
+  getNotificationsFailuresReport(): Promise<any> {
+    return this.http.post(`${environment.url}/services/reports/execute`, {id: 3}).toPromise();
   }
 
 }
