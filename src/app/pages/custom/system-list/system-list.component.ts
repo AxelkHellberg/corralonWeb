@@ -37,20 +37,25 @@ export class SystemListComponent implements OnInit {
         title: 'ID',
         type: 'text',
         editable: false,
+        addable: false,
       },
       nombre: {
         title: 'Nombre de Sistema',
         type: 'text',
       },
-      // systemType: {
-      //   title: 'Tipo de Sistema',
-      //   type: 'text',
-      //   editable: false,
-      // },
+      tipoSistema: {
+        title: 'Tipo de Sistema',
+        type: 'text',
+        editor: {
+          type: 'list',
+          config: {
+            list: [],
+          },
+        },
+      },
       descripcion: {
         title: 'Descripción',
         type: 'text',
-        editable: false,
       },
       plantaNombre: {
         title: 'Planta',
@@ -62,13 +67,13 @@ export class SystemListComponent implements OnInit {
           },
         },
       },
-      tagId: {
-        title: 'Tag',
-        type: 'html',
-        editable: false,
-      },
+      // tagId: {
+      //   title: 'Tag',
+      //   type: 'html',
+      // },
     },
   };
+  systemTypes: any;
 
   constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {
     this.route.queryParams.subscribe(queryParams => {
@@ -77,14 +82,14 @@ export class SystemListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPlantsAndSystem();
+    this.getAllData();
   }
 
   goToTable() {
     this.router.navigate(['/pages/system-list']);
   }
 
-  async getPlantsAndSystem() {
+  async getAllData() {
     try {
       const response = await this.generalService.getPlants();
       this.plants = response.items;
@@ -98,14 +103,29 @@ export class SystemListComponent implements OnInit {
     }
 
     try {
-      const response = await this.generalService.getSystems();
-      this.data = response.items;
-      this.data.forEach(plant => {
-        plant.plantaNombre = this.plants.find(_plant => _plant.id === plant.plantaId).nombre;
-      });
-      console.log(this.data);
+      const response = await this.generalService.getTypeSystems();
+      this.systemTypes = response.items;
+      console.log(this.systemTypes);
+      this.settings.columns.tipoSistema.editor.config.list = response.items.map(systemType => ({
+        title: systemType.nombre,
+        value: systemType.nombre,
+      }));
+      this.settings = {...this.settings};
     } catch (e) {
 
+    }
+
+    try {
+      const response = await this.generalService.getSystems();
+      this.data = response.items;
+      console.log(this.data);
+      this.data.forEach(system => {
+        system.plantaNombre = (this.plants.find(_plant => _plant.id === system.plantaId) || {nombre: null}).nombre;
+        // tslint:disable-next-line: max-line-length
+        system.tipoSistema = (this.systemTypes.find(_systemType => _systemType.id === system.tipoSistemaId) || {nombre: null}).nombre;
+      });
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -115,6 +135,7 @@ export class SystemListComponent implements OnInit {
       nombre: newData.nombre,
       descripcion: `Descripción ${newData.nombre}`,
       plantaId: this.plants.find(_plant => _plant.nombre === newData.plantaNombre).id,
+      tipoSistemaId: this.systemTypes.find(_systemType => _systemType.nombre === newData.tipoSistema).id,
       tagId: newData.tagId || null,
     };
     try {
@@ -132,6 +153,7 @@ export class SystemListComponent implements OnInit {
       nombre: system.newData.nombre,
       descripcion: `Descripción ${system.newData.nombre}`,
       plantaId: this.plants.find(_plant => _plant.nombre === system.newData.plantaNombre).id,
+      tipoSistemaId: this.systemTypes.find(_systemType => _systemType.nombre === system.newData.tipoSistema).id,
       tagId: system.newData.tagId,
     }
     try {

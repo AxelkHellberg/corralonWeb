@@ -2,10 +2,11 @@
 export interface SystemList {
   id?:         string;
   nombre: string;
-  systemType?: string;
+  tipoSistema?: string;
   detail?:     string;
   descripcion: string;
   plantaId:      number;
+  tipoSistemaId:      number;
   plantaNombre?:      string;
   tagId:        string;
   equipment?:  string;

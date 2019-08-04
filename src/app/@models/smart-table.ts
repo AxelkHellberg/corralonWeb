@@ -49,6 +49,7 @@ export interface Column {
   type: 'html' | 'text' | 'custom';
   width?: string;
   editable?: boolean;
+  addable?: boolean;
   [key: string]: any;
 }
 

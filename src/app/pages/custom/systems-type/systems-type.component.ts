@@ -36,6 +36,8 @@ export class SystemsTypeComponent implements OnInit {
         title: 'ID',
         type: 'text',
         width: '150px',
+        editable: false,
+        addable: false,
       },
       nombre: {
         title: 'Nombre de Tipo de Sistema',

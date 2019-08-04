@@ -23,6 +23,7 @@ export interface SystemData {
   descripcion: string;
   nombre: string;
   plantaId: number;
+  tipoSistemaId: number;
   tagId: number;
 }
 
