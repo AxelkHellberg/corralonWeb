@@ -56,7 +56,7 @@ export class FailureNotificationsComponent implements OnInit {
         title: 'Horario',
         type: 'text',
       },
-      system: {
+      sistema: {
         title: 'Sistema',
         type: 'text',
       },
@@ -93,6 +93,7 @@ export class FailureNotificationsComponent implements OnInit {
         data['estadoFallaNombreBoton'] = this.setStatusFailureButton(data.estadoFallaNombre.toUpperCase());
         data['date'] = moment(data.updateAt).utc().format('DD/MM/YYYY');
         data['time'] = moment(data.updateAt).utc().format('hh:mm:ss');
+        data['sistema'] = this.getSystemName(data)
       });
     } catch (error) {
 
@@ -115,6 +116,15 @@ export class FailureNotificationsComponent implements OnInit {
         break;
     }
     return button;
+  }
+
+  getSystemName(data) {
+    let name = '';
+    if (data) {
+      name = data.valoresCamposManiobras.length ?
+             data.valoresCamposManiobras[0].campoManiobra.sistema.nombre : '';
+    }
+    return name;
   }
 
   filterTable(column: string, filterTerm: string): void {

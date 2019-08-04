@@ -9,9 +9,9 @@
       </nb-select>
     </div>
     <div class="col-4">
-      <nb-select placeholder="SISTEMA" [(selected)]="systemSelectedItem" (selectedChange)="filterTable('system', $event)">
+      <nb-select placeholder="SISTEMA" [(selected)]="systemSelectedItem" (selectedChange)="filterTable('sistema', $event)">
         <nb-option value="">SISTEMA</nb-option>
-        <nb-option *ngFor="let item of failureData | uniqueValues: 'system'" [value]="item">{{item}}</nb-option>
+        <nb-option *ngFor="let item of failureData | uniqueValues: 'sistema'" [value]="item">{{item}}</nb-option>
       </nb-select>
     </div>
     <div class="col-4">
