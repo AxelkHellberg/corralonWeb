@@ -93,6 +93,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Plan de mantenimiento',
     icon: 'nb-star',
-    link: '#',
   },
 ];

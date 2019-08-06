@@ -94,7 +94,7 @@ export class FailureNotificationsComponent implements OnInit {
         data['date'] = moment(data.updateAt).utc().format('DD/MM/YYYY');
         data['time'] = moment(data.updateAt).utc().format('hh:mm:ss');
         data['sistema'] = this.getSystemName(data);
-        data['origen'] = this.getOriginId(data);
+        data['origen'] = this.getOrigin(data);
       });
     } catch (error) {
 
@@ -128,13 +128,15 @@ export class FailureNotificationsComponent implements OnInit {
     return name;
   }
 
-  getOriginId(data) {
-    let name = '';
+  getOrigin(data) {
+    let origin;
     if (data) {
-      name = data.valoresCamposManiobras.length ?
-             data.valoresCamposManiobras[0].guiaManiobraId : '';
+      origin = (data.valoresCamposManiobras.length && 'Guía de Maniobra') ||
+               (data.fallasEquipamiento.length && 'Equipamiento') ||
+               (data.fallasSistema.length && 'Sistema') ||
+               (data.valoresCamposRonda.length && 'Ronda') || 'Desconocido';
     }
-    return name;
+    return origin;
   }
 
   filterTable(column: string, filterTerm: string): void {
