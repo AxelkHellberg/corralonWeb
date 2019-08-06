@@ -178,11 +178,15 @@ export class GeneralService {
   // Custom reports
 
   getManeuverGuideFieldsWithPlants(plantillaGuiaManiobraId: number): Promise<any> {
-    return this.http.post(`${environment.url}/services/reports/execute`, { "id": 1, "filters": { plantillaGuiaManiobraId } }).toPromise();
+    return this.http.post(`${environment.url}/services/reports/execute`, { id: 1, filters: { plantillaGuiaManiobraId } }).toPromise();
   }
 
   getNotificationsFailuresReport(): Promise<any> {
     return this.http.post(`${environment.url}/services/reports/execute`, {id: 3}).toPromise();
+  }
+
+  getUserInfo(): Promise<any> {
+    return this.http.post(`${environment.url}/services/reports/execute`, {id: 4}).toPromise();
   }
 
 }

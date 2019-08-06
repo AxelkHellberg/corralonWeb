@@ -25,13 +25,13 @@
     <nb-card-header>{{dialogData}}</nb-card-header>
     <nb-card-body>
       <div class="row">
-        <div class="col-3">
+        <div class="col-6">
           <p><b>Planta</b></p>
           <nb-select placeholder="planta" [selected]="plantSelected">
             <nb-option *ngFor="let plant of plants" [value]="plant?.id" (click)="selectPlant(plant)">{{plant?.nombre}}</nb-option>
           </nb-select>
         </div>
-        <div class="col-3">
+        <div class="col-6">
           <p><b>Sistema</b></p>
           <nb-select placeholder="sistema" [disabled]="!enableSystem" [selected]="systemSelected">
             <nb-option *ngFor="let system of systems | filterBy: 'plantaId' : currentPlantId" [value]="system?.id" (click)="selectSystem(system)">{{system?.nombre}}</nb-option>
@@ -39,20 +39,25 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-6">
+        <div class="col-12 mt-10">
           <p><b>Nombre</b></p>
-          <input nbInput type="text" class="col-8" [disabled]="!enableManeuverGuide" [(ngModel)]="data.maneuverGuideName" (input)="selectManeuverGuide($event)">
+          <input type="text" nbInput fullWidth fieldSize="medium" [disabled]="!enableManeuverGuide" [(ngModel)]="data.maneuverGuideName" (input)="selectManeuverGuide($event)" placeholder="">
         </div>
-        <div class="col-6">
+        <div class="col-12 mt-10">
           <p><b>Descripcion</b></p>
-          <textarea nbInput [disabled]="!enableManeuverGuide" [(ngModel)]="data.maneuverGuideDescription" (input)="selectManeuverGuide($event)"></textarea>
-        </div>
-        <div class="col-3">
-          <button nbButton status="primary" (click)="saveChanges(dialog)" [disabled]="!enableSaveButton">Guardar</button>
+          <textarea nbInput fullWidth placeholder="" [disabled]="!enableManeuverGuide" [(ngModel)]="data.maneuverGuideDescription" (input)="selectManeuverGuide($event)"></textarea>
         </div>
       </div>
       <br><br>
     </nb-card-body>
+    <nb-card-footer>
+      <div class="row">
+        <div class="col-12 mt-20 d-flex justify-content-center align-items-center">
+          <h5 class="text-hint cursor-pointer pr-4" (click)="discardChanges(dialog)">Cancelar</h5>
+          <button nbButton status="primary" (click)="saveChanges(dialog)" [disabled]="!enableSaveButton">Guardar</button>
+        </div>
+      </div>
+    </nb-card-footer>
   </nb-card>
 </ng-template>
 <div class="row">

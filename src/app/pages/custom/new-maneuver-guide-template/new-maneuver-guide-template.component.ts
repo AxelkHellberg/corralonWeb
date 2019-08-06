@@ -186,6 +186,10 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     this.data.maneuverGuide = this.data.maneuverGuide;
   }
 
+  discardChanges(dialog: NbDialogRef<any>) {
+    dialog.close();
+  }
+
   async saveChanges(dialog: NbDialogRef<any>) {
     this.enableManeuverGuide = false;
     this.enableSystem = false;

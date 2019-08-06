@@ -32,6 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
         if (err.status === 500 && err.error.userMessage === 'TokenExpiredError: jwt expired') {
           this.router.navigateByUrl('auth/login');
           localStorage.removeItem('token');
+          localStorage.removeItem('userInfo');
         }
 
         return throwError( err );

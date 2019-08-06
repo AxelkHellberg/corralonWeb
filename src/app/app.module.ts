@@ -17,6 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralService } from './services/general.service';
+import { MessageBusService } from './services/message-bus.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +40,7 @@ import { GeneralService } from './services/general.service';
       multi: true,
     },
     GeneralService,
+    MessageBusService,
     CanAccessGuard,
   ],
 })

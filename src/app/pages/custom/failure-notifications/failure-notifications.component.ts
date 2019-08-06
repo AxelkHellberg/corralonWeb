@@ -44,7 +44,7 @@ export class FailureNotificationsComponent implements OnInit {
         title: 'Tipo de Falla',
         type: 'text',
       },
-      origin: {
+      origen: {
         title: 'Origen',
         type: 'text',
       },
@@ -56,10 +56,10 @@ export class FailureNotificationsComponent implements OnInit {
         title: 'Horario',
         type: 'text',
       },
-      sistema: {
-        title: 'Sistema',
-        type: 'text',
-      },
+      // sistema: {
+      //   title: 'Sistema',
+      //   type: 'text',
+      // },
     },
   };
   failureTypes: any;
@@ -93,7 +93,8 @@ export class FailureNotificationsComponent implements OnInit {
         data['estadoFallaNombreBoton'] = this.setStatusFailureButton(data.estadoFallaNombre.toUpperCase());
         data['date'] = moment(data.updateAt).utc().format('DD/MM/YYYY');
         data['time'] = moment(data.updateAt).utc().format('hh:mm:ss');
-        data['sistema'] = this.getSystemName(data)
+        data['sistema'] = this.getSystemName(data);
+        data['origen'] = this.getOriginId(data);
       });
     } catch (error) {
 
@@ -123,6 +124,15 @@ export class FailureNotificationsComponent implements OnInit {
     if (data) {
       name = data.valoresCamposManiobras.length ?
              data.valoresCamposManiobras[0].campoManiobra.sistema.nombre : '';
+    }
+    return name;
+  }
+
+  getOriginId(data) {
+    let name = '';
+    if (data) {
+      name = data.valoresCamposManiobras.length ?
+             data.valoresCamposManiobras[0].guiaManiobraId : '';
     }
     return name;
   }
