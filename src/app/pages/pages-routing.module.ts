@@ -19,6 +19,7 @@ import { FailureTypesComponent } from './custom/failure-types/failure-types.comp
 import { SystemListComponent } from './custom/system-list/system-list.component';
 import { EquipmentComponent } from './custom/equipment/equipment.component';
 import { ManeuverGuideReportsComponent } from './custom/maneuver-guide-reports/maneuver-guide-reports.component';
+import { TagListComponent } from './custom/tag-list/tag-list.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
       {
         path: 'equipment',
         component: EquipmentComponent,
+      },
+      {
+        path: 'tags',
+        component: TagListComponent,
       },
       {
         path: 'system-list',

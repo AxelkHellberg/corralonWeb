@@ -63,6 +63,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/equipment',
       },
       {
+        title: 'Listado de tags',
+        link: '/pages/tags',
+      },
+      {
         title: 'Unidades de medida',
         link: '/pages/measurement-units',
       },

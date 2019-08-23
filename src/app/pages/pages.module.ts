@@ -24,6 +24,7 @@ import { NewRoundTemplateModule } from './custom/new-round-template/new-round-te
 import { LoginComponentModule } from './auth/login/login.module';
 import { RegisterComponentModule } from './auth/register/register.module';
 import { ManeuverGuideReportsModule } from './custom/maneuver-guide-reports/maneuver-guide-reports.module';
+import { TagListModule } from './custom/tag-list/tag-list.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -55,6 +56,7 @@ const PAGES_COMPONENTS = [
     MiscellaneousModule,
     LoginComponentModule,
     RegisterComponentModule,
+    TagListModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
