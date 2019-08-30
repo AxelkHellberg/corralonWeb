@@ -33,12 +33,12 @@ export class SystemListComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'text',
-        editable: false,
-        addable: false,
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      //   editable: false,
+      //   addable: false,
+      // },
       nombre: {
         title: 'Nombre de Sistema',
         type: 'text',

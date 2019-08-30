@@ -33,11 +33,11 @@ export class FailureTypesComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'text',
-        width: '150px',
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      //   width: '150px',
+      // },
       nombre: {
         title: 'Tipo de Falla',
         type: 'text',

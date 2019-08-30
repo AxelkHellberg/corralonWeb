@@ -36,10 +36,10 @@ export class ManeuverGuideReportsComponent implements OnInit {
       //   title: 'Estado',
       //   type: 'html',
       // },
-      id: {
-        title: 'ID',
-        type: 'text',
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      // },
       // total: {
       //   title: 'Total',
       //   type: 'text',

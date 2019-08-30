@@ -55,10 +55,10 @@ export class RoundReportsComponent implements OnInit {
         title: 'Estado',
         type: 'html',
       },
-      id: {
-        title: 'ID',
-        type: 'text',
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      // },
       percent: {
         title: 'Tipo de Falla',
         type: 'text',

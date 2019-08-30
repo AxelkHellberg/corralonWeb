@@ -41,13 +41,13 @@ export class TagListComponent implements OnInit {
       deleteButtonContent: '<i class="nb-trash"></i>',
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'text',
-        width: '150px',
-        editable: false,
-        addable: false,
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      //   width: '150px',
+      //   editable: false,
+      //   addable: false,
+      // },
       number: {
         title: 'N° de Tag',
         type: 'text',

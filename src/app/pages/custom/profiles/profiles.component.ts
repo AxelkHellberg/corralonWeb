@@ -32,12 +32,12 @@ export class ProfilesComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'text',
-        width: '200px',
-        editable: false,
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      //   width: '200px',
+      //   editable: false,
+      // },
       name: {
         title: 'Tipo de perfil',
         type: 'text',

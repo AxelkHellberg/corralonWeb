@@ -30,11 +30,11 @@ export class UsersComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'text',
-        editable: false,
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      //   editable: false,
+      // },
       name: {
         title: 'Nombre',
         type: 'text',

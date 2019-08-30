@@ -34,12 +34,12 @@ export class MeasurementUnitsComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'text',
-        width: '150px',
-        editable: false,
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      //   width: '150px',
+      //   editable: false,
+      // },
       nombre: {
         title: 'Medida',
         type: 'text',

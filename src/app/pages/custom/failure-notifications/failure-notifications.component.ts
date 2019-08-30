@@ -36,10 +36,10 @@ export class FailureNotificationsComponent implements OnInit {
         title: 'Estado',
         type: 'html',
       },
-      id: {
-        title: 'ID',
-        type: 'text',
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      // },
       tipoFallaNombre: {
         title: 'Tipo de Falla',
         type: 'text',

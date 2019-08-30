@@ -3,22 +3,22 @@ import { NbMenuItem } from '@nebular/theme';
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Dashboard',
-    icon: 'nb-home',
+    icon: 'fas fa-chart-line fa-2x',
     link: '/pages/dashboard',
   },
   {
     title: 'Notificación de Fallas',
-    icon: 'nb-shuffle',
+    icon: 'fa fa-bug fa-2x',
     link: '/pages/failure-notifications',
   },
   {
     title: 'Reporte de Rondas',
-    icon: 'nb-compose',
+    icon: 'fa fa-route fa-2x',
     link: '/pages/round-report',
   },
   {
-    title: 'Reporte de Maniobra',
-    icon: 'nb-compose',
+    title: 'Reporte de guia de maniobra',
+    icon: 'fa fa-play-circle fa-2x',
     link: '/pages/maneuver-guide-report',
   },
   {
@@ -26,29 +26,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
     group: true,
   },
   {
-    title: 'Rondas',
+    title: 'Plantas',
+    icon: 'fa fa-sitemap fa-2x',
     children: [
       {
-        title: 'Plantillas de rondas',
-        link: '/pages/round-template',
-      },
-      {
-        title: 'Plantas',
-        link: '/pages/plants',
-      },
-    ],
-  },
-  {
-    title: 'Guía de Maniobra',
-    children: [
-      {
-        title: 'Plantilla de maniobra',
-        link: '/pages/maneuver-guide-template',
-      },
-    ],
+        title: 'Listado de plantas',
+        link: '/pages/plants'
+      }
+    ]
   },
   {
     title: 'Sistemas',
+    icon: 'fa fa-object-group fa-2x',
     children: [
       {
         title: 'Listado de sistemas',
@@ -58,22 +47,61 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Tipos de sistemas',
         link: '/pages/systems-type',
       },
+      // {
+      //   title: 'Equipamiento',
+      //   link: '/pages/equipment',
+      // },
       {
-        title: 'Equipamiento',
-        link: '/pages/equipment',
-      },
-      {
-        title: 'Listado de tags',
+        title: 'Tags de sistemas',
         link: '/pages/tags',
+      },
+      // {
+      //   title: 'Unidades de medida',
+      //   link: '/pages/measurement-units',
+      // },
+    ],
+  },
+  {
+    title: 'Equipos',
+    icon: 'fa fa-hdd fa-2x',
+    children: [
+      {
+        title: 'Listado de equipos',
+        link: '/pages/equipment'
       },
       {
         title: 'Unidades de medida',
         link: '/pages/measurement-units',
       },
+      {
+        title: 'Tags de equipo',
+        link: '/pages/tags',
+      }
+    ]
+  },
+  {
+    title: 'Rondas',
+    icon: 'fa fa-clipboard-list fa-2x',
+    children: [
+      {
+        title: 'Plantillas de rondas',
+        link: '/pages/round-template',
+      }
+    ],
+  },
+  {
+    title: 'Guía de Maniobra',
+    icon: 'fa fa-clipboard-list fa-2x',
+    children: [
+      {
+        title: 'Plantilla de maniobra',
+        link: '/pages/maneuver-guide-template',
+      },
     ],
   },
   {
     title: 'Fallas',
+    icon: 'fa fa-bug fa-2x',
     children: [
       {
         title: 'Tipo de fallas',
@@ -83,6 +111,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Usuarios',
+    icon: 'fa fa-users fa-2x',
     children: [
       {
         title: 'Todos los usuarios',
@@ -96,6 +125,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Plan de mantenimiento',
-    icon: 'nb-star',
+    icon: 'fa fa-project-diagram fa-2x',
   },
 ];

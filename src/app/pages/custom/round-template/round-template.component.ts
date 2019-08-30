@@ -90,11 +90,11 @@ export class RoundTemplateComponent implements OnInit {
       deleteButtonContent: '<i class="nb-trash"></i>'
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'text',
-        width: '150px'
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      //   width: '150px'
+      // },
       nombre: {
         title: 'Nombre de Ronda',
         type: 'text',

@@ -31,10 +31,10 @@ export class SmartTableComponent {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'text',
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      // },
       firstName: {
         title: 'First Name',
         type: 'text',

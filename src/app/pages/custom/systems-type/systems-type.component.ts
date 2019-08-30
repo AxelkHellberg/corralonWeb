@@ -32,13 +32,13 @@ export class SystemsTypeComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'text',
-        width: '150px',
-        editable: false,
-        addable: false,
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      //   width: '150px',
+      //   editable: false,
+      //   addable: false,
+      // },
       nombre: {
         title: 'Nombre de Tipo de Sistema',
         type: 'text',

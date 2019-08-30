@@ -33,11 +33,11 @@ export class EquipmentComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'text',
-        editable: false,
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'text',
+      //   editable: false,
+      // },
       nombre: {
         title: 'Nombre de Equipamiento',
         type: 'text',
