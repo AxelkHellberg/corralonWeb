@@ -53,7 +53,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       // },
       {
         title: 'Tags de sistemas',
-        link: '/pages/tags',
+        link: '/pages/tags-system',
       },
       // {
       //   title: 'Unidades de medida',
@@ -75,7 +75,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Tags de equipo',
-        link: '/pages/tags',
+        link: '/pages/tags-equipment',
       }
     ]
   },

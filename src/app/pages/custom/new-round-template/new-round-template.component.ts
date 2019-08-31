@@ -73,7 +73,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         width: '300px',
       },
       component: {
-        title: 'Componente',
+        title: 'Unidad de medida',
         type: 'text',
         width: '300px',
       },
@@ -199,51 +199,65 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     ],
     placeholder: 'Equipamiento',
   };
+  typeData = {
+    selected : '',
+    placeholder: 'Tipo de dato',
+    selectItems: [
+      {
+        text: 'Tipo de dato 1',
+        value: '1'
+      },
+      {
+        text: 'Tipo de dato 2',
+        value: '2'
+      },
+    ]
+  }
   component = {
     selected: '',
     selectItems: [
       {
-        text: 'Component A10',
+        text: 'Unidad de medida A10',
         value: '1',
         equipment: 'Equipment A10',
       },
       {
-        text: 'Component A11',
+        text: 'Unidad de medida A11',
         value: '2',
         equipment: 'Equipment A11',
       },
       {
-        text: 'Component A20',
+        text: 'Unidad de medida A20',
         value: '3',
         equipment: 'Equipment A20',
       },
       {
-        text: 'Component A21',
+        text: 'Unidad de medida A21',
         value: '4',
         equipment: 'Equipment A21',
       },
       {
-        text: 'Component B10',
+        text: 'Unidad de medida B10',
         value: '5',
         equipment: 'Equipment B10',
       },
       {
-        text: 'Component B11',
+        text: 'Unidad de medida B11',
         value: '6',
         equipment: 'Equipment B11',
       },
       {
-        text: 'Component B20',
+        text: 'Unidad de medida B20',
         value: '7',
         equipment: 'Equipment B20',
       },
       {
-        text: 'Component B21',
+        text: 'Unidad de medida B21',
         value: '8',
         equipment: 'Equipment B21',
       },
     ],
-    placeholder: 'Componente',
+    placeholder: 'Unidad de medida',
   };
   isEditorCreate: boolean;
   enableSystem: boolean;

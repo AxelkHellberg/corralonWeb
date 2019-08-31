@@ -25,6 +25,8 @@ import { LoginComponentModule } from './auth/login/login.module';
 import { RegisterComponentModule } from './auth/register/register.module';
 import { ManeuverGuideReportsModule } from './custom/maneuver-guide-reports/maneuver-guide-reports.module';
 import { TagListModule } from './custom/tag-list/tag-list.module';
+import { TagEquipmentModule } from './custom/tag-equipment/tag-equipment.module';
+import { TagSystemModule } from './custom/tag-system/tag-system.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -57,6 +59,8 @@ const PAGES_COMPONENTS = [
     LoginComponentModule,
     RegisterComponentModule,
     TagListModule,
+    TagEquipmentModule,
+    TagSystemModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
