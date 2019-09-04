@@ -141,14 +141,14 @@ export class RoundTemplateComponent implements OnInit {
       console.log(error);
     }
     try {
-      const response = await this.generalService.getSchedule();
-      console.log(response);
+      //const response = await this.generalService.getSchedule();
+      //console.log(response);
       this.data = roundTemplateData.items.map(item => {
         console.log(item)
-        const time = response.items.filter(_item => _item.id === item.horarioId)
-        .map(_item => `${_item.hora}:${_item.minuto}`).join(' - ')
-        const timer = response.items.filter(_item => _item.id === item.horarioId)
-        .map(_item => ({hour: _item.hora, minute: _item.minuto}));
+        //const time = response.items.filter(_item => _item.id === item.horarioId)
+        //.map(_item => `${_item.hora}:${_item.minuto}`).join(' - ')
+        //const timer = response.items.filter(_item => _item.id === item.horarioId)
+        //.map(_item => ({hour: _item.hora, minute: _item.minuto}));
         return {
           id: item.id,
           nombre: item.nombre,
