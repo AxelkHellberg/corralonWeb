@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { RoundsDetails } from '../../../@models/rounds';
 import { SmartTableSettings } from '../../../@models/smart-table';
+import { GeneralService } from '../../../services/general.service';
 
 @Component({
   selector: 'ngx-new-round-template',
@@ -30,6 +31,20 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     timer: new Set(),
     time: '',
   };
+  plantId:any
+  systemId:any
+  equipmentId:any
+  componentId:any
+  plantArray:any = []
+  systemArray:any = []
+  equipmentArray:any = []
+  unitArray:any = []
+  dataTypeArray:any = []
+  dataType:any;
+  min:any;
+  max:any;
+  normal:any;
+  nameField:any;
 
   timeData: TimeData = {
     timer: new Set(),
@@ -269,9 +284,15 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   timeEnd: string;
   currentIndex: any;
   templateIndex: any;
-  constructor(private route: ActivatedRoute, private router: Router, private dialogService: NbDialogService) {}
+  constructor(private generalService: GeneralService, private route: ActivatedRoute, private router: Router, private dialogService: NbDialogService) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.getPlants();
+    await this.getSystem();
+    await this.getEquipment();
+    await this.getUnit();
+    await this.getDataType();
+  }
 
   createTemplate() {
     this.isEditorCreate = true;
@@ -280,6 +301,56 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       closeOnBackdropClick: false,
       closeOnEsc: false,
     });
+  }
+
+  async getPlants(){
+    try {
+      this.plantArray = await this.generalService.getPlants();
+      console.log(this.plantArray)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  async getSystem(){
+    try {
+      this.systemArray = await this.generalService.getSystems();
+      console.log(this.systemArray)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  async getEquipment(){
+    try {
+      this.equipmentArray = await this.generalService.getEquipments();
+      console.log(this.equipmentArray)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  async getUnit(){
+    try {
+      this.unitArray = await this.generalService.getMeasurementUnits();
+      console.log(this.unitArray)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  async getDataType(){
+    try {
+      this.dataTypeArray = await this.generalService.getDataType();
+      console.log(this.dataTypeArray)
+    }
+    catch(err){
+      console.log(err)
+    }
   }
 
   editTemplate(data) {
@@ -315,7 +386,8 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 
   selectPlant(item): void {
     this.enableSystem = true;
-    this.data.plant = item.text;
+    this.data.plant = item.nombre;
+    this.plantId = item.id
     this.enableEquipment = false;
     this.enableSaveButton = false;
     this.maneuverGuideContent = '';
@@ -323,21 +395,32 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   }
   selectSystem(item): void {
     this.enableEquipment = true;
-    this.data.system = item.text;
+    this.systemId = item.id
+    this.data.system = item.nombre;
     this.enableSaveButton = false;
     // this.equipment.selected = this.selectFirstItem(this.equipment, 'system', item.text)
   }
 
   selectEquipment(item): void {
+    this.equipmentId = item.id
     this.enableComponent = true;
-    this.data.equipment = item.text;
+    this.data.equipment = item.nombre;
     this.enableSaveButton = false;
     // this.equipment.selected = this.selectFirstItem(this.component, 'equipment', item.text);
   }
 
   selectComponent(item): void {
+    this.componentId = item.id
+    this.enableSaveButton = false;
+    this.data.component = item.nombre;
+  }
+
+  selectTypeData(item): void {
     this.enableSaveButton = true;
-    this.data.component = item.text;
+    this.max = ''
+    this.min = ''
+    this.normal = ''
+    this.dataType = item.id;
   }
 
   selectTime(data: any, action?: string): void {
@@ -408,8 +491,21 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
           funcionamientoEquipo: this.funcionamientoEquipo,
           obligatorioEquipo: this.obligatorioEquipo,
         },
+        fieldConfig:{
+          nombre: this.nameField,
+	        valorNormal:this.normal,
+	        valorMax:this.max,
+	        valorMin:this.min,
+	        equipamientoId:this.equipmentId,
+	        tipoCampoRondaId: this.dataType,
+	        unidadMedidaId: this.componentId
+        }
       },
     });
+  }
+
+  changeField(e,a){
+    this[a] = e
   }
 
   discardChanges(dialog: NbDialogRef<any>): void {

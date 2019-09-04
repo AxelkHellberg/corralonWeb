@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
+import { RoundTemplateData, RoundFields } from '../../../@models/general';
 
 @Component({
   selector: 'ngx-round-template',
@@ -129,6 +130,8 @@ export class RoundTemplateComponent implements OnInit {
     }
   }
 
+  
+
   async getTemplates() {
     let roundTemplateData;
     try {
@@ -141,6 +144,7 @@ export class RoundTemplateComponent implements OnInit {
       const response = await this.generalService.getSchedule();
       console.log(response);
       this.data = roundTemplateData.items.map(item => {
+        console.log(item)
         const time = response.items.filter(_item => _item.id === item.horarioId)
         .map(_item => `${_item.hora}:${_item.minuto}`).join(' - ')
         const timer = response.items.filter(_item => _item.id === item.horarioId)
@@ -148,13 +152,13 @@ export class RoundTemplateComponent implements OnInit {
         return {
           id: item.id,
           nombre: item.nombre,
-          time,
+          //time,
           full: {
             timeData: {
               timer: {},
-              time,
+              //time,
             },
-            tableTimeData: timer,
+            //tableTimeData: timer,
             horarioId: item.horarioId,
             campoRondaId: item.campoRondaId,
             templateConfig: {
@@ -194,7 +198,7 @@ export class RoundTemplateComponent implements OnInit {
   }
 
   async onSaveData(data) {
-    const templateData = {
+    const templateData:RoundTemplateData = {
       nombre: data.nombre,
       funcionamientoSistema: data.full.templateConfig.funcionamientoSistema,
       obligatorioSistema: data.full.templateConfig.obligatorioSistema,
@@ -203,6 +207,7 @@ export class RoundTemplateComponent implements OnInit {
       campoRondaId: data.full.campoRondaId || 1,
       horarioId: data.full.horarioId || -1,
     };
+    
     console.log(templateData, data);
     if (data.id) {
       try {
@@ -214,7 +219,17 @@ export class RoundTemplateComponent implements OnInit {
     } else {
       try {
         const response = await this.generalService.createRoundTemplate(templateData);
-        console.log(response);
+        const dataTemplate:RoundFields = {
+          nombre: data.full.fieldConfig.nombre,
+          valorNormal: data.full.fieldConfig.valorNormal,
+          valorMax: data.full.fieldConfig.valorMax,
+          valorMin: data.full.fieldConfig.valorMin,
+          equipamientoId: data.full.fieldConfig.equipamientoId,
+          tipoCampoRondaId: data.full.fieldConfig.tipoCampoRondaId,
+          unidadMedidaId: data.full.fieldConfig. unidadMedidaId,
+          plantillaRondaId: response.id
+        }
+        const res = await this.generalService.createRoundFields(dataTemplate)
       } catch (error) {
         console.log(error)
       }

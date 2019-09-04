@@ -189,4 +189,10 @@ export class GeneralService {
     return this.http.post(`${environment.url}/services/reports/execute`, {id: 4}).toPromise();
   }
 
+  // Jose A
+
+  getDataType(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/tipos-campo-ronda`).toPromise();
+  }
+
 }

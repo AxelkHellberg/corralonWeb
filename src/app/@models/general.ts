@@ -72,6 +72,7 @@ export interface RoundFields {
   equipamientoId: number;
   tipoCampoRondaId: number;
   unidadMedidaId: number;
+  plantillaRondaId: number;
 }
 
 export interface RoundTemplateData {
