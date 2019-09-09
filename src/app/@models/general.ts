@@ -82,5 +82,5 @@ export interface RoundTemplateData {
   funcionamientoEquipo:  boolean;
   obligatorioEquipo:     boolean;
   campoRondaId:          number;
-  horarioId:             number;
+  horarios:              any;
 }

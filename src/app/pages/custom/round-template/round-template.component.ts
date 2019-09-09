@@ -125,8 +125,8 @@ export class RoundTemplateComponent implements OnInit {
   async ngOnInit() {
     await this.getTemplates();
     if (this.roundTemplateId) {
+      console.log(this.data)
       this.fullData = this.data.find(item => item.id === +this.roundTemplateId);
-      console.log(this.fullData);
     }
   }
 
@@ -144,21 +144,27 @@ export class RoundTemplateComponent implements OnInit {
       //const response = await this.generalService.getSchedule();
       //console.log(response);
       this.data = roundTemplateData.items.map(item => {
-        console.log(item)
-        //const time = response.items.filter(_item => _item.id === item.horarioId)
-        //.map(_item => `${_item.hora}:${_item.minuto}`).join(' - ')
-        //const timer = response.items.filter(_item => _item.id === item.horarioId)
-        //.map(_item => ({hour: _item.hora, minute: _item.minuto}));
+        console.log(item.horarios)
+        const time = item.horarios ? item.horarios != -1 ? Array.isArray(item.horarios) ? item.horarios.join(' - ') : item.horarios : item.horarios : item.horarios
+        let timer = item.horarios ? item.horarios != -1 ? !Array.isArray(item.horarios) ? item.horarios.split(' - ') : item.horarios : item.horarios : item.horarios
+        timer = timer ? Array.from(timer).map((item:any)=>{
+
+          const _item = item ? item.split(':') : item
+          return {
+            hour: _item[0],
+            minute: _item[1],
+          };
+        }) : timer
         return {
           id: item.id,
           nombre: item.nombre,
-          //time,
+          time,
           full: {
             timeData: {
               timer: {},
-              //time,
+              time,
             },
-            //tableTimeData: timer,
+            tableTimeData: timer,
             horarioId: item.horarioId,
             campoRondaId: item.campoRondaId,
             templateConfig: {
@@ -205,10 +211,10 @@ export class RoundTemplateComponent implements OnInit {
       funcionamientoEquipo: data.full.templateConfig.funcionamientoEquipo,
       obligatorioEquipo: data.full.templateConfig.obligatorioEquipo,
       campoRondaId: data.full.campoRondaId || 1,
-      horarioId: data.full.horarioId || -1,
+      horarios: data.time ? data.time.split(" - ") : -1,
     };
     
-    console.log(templateData, data);
+    console.log(templateData);
     if (data.id) {
       try {
         const response = await this.generalService.editRoundTemplate(data.id, templateData);

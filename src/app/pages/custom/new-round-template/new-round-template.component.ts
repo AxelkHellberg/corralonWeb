@@ -19,10 +19,10 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   selectedPlant: string;
   selectedSystem: string;
   selectedEquipment: string;
-  funcionamientoSistema: boolean;
-  obligatorioSistema: boolean;
-  funcionamientoEquipo: boolean;
-  obligatorioEquipo: boolean;
+  funcionamientoSistema: boolean = false;
+  obligatorioSistema: boolean = false;
+  funcionamientoEquipo: boolean = false;
+  obligatorioEquipo: boolean = false;
   data: RoundsDetails = {
     plant: '',
     system: '',
@@ -120,11 +120,15 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         title: 'Hora',
         type: 'text',
         width: '50px',
+        min: 0,
+        max: 23
       },
       minute: {
         title: 'Minuto',
         type: 'text',
         width: '50px',
+        min: 0,
+        max: 59
       },
     },
   };
@@ -483,7 +487,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       indexEdited: this.templateIndex,
       full: {
         tableData: this.tableData,
-        timeData: this.timeData,
+        timeData: this.timeData.timer,
         tableTimeData: this.tableTimeData,
         templateConfig: {
           funcionamientoSistema: this.funcionamientoSistema,
@@ -531,6 +535,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.fullData && changes.fullData.currentValue) {
+      console.log(this.fullData)
       this.roundName = this.fullData.nombre || null;
       this.timeData.time = this.fullData.time || null;
       this.tableData = this.fullData.full.tableData || null;
