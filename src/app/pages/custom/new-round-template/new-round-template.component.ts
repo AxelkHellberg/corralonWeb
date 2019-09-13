@@ -455,6 +455,8 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 
   saveChanges(dialog: NbDialogRef<any>): void {
     this.disableAll();
+    if(!this.tableData)
+    this.tableData = []
     if (this.currentIndex != null) {
       this.tableData[this.currentIndex] = this.data;
       this.tableData = [...this.tableData];
@@ -462,6 +464,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     } else {
       this.tableData = [...this.tableData, ...[this.data]];
     }
+    console.log(this.tableData)
     this.currentIndex = null;
     this.plant.selected = '';
     this.system.selected = '';

@@ -141,8 +141,21 @@ export class RoundTemplateComponent implements OnInit {
       console.log(error);
     }
     try {
-      //const response = await this.generalService.getSchedule();
-      //console.log(response);
+      var dataFiel = []
+      console.log(this.roundTemplateId)
+      //if(this.roundTemplateId){
+        const response = await this.generalService.getFieldTemplate(this.roundTemplateId);
+        console.log(response)
+        response.forEach(element => {
+          dataFiel.push({
+            component: element.unidadMedidaId,
+            equipment: element.equipamiento.nombre,
+            plant:  element.equipamiento.sistema.planta.nombre,
+            system: element.equipamiento.sistema.nombre
+          })
+        });
+        
+      //}
       this.data = roundTemplateData.items.map(item => {
         console.log(item.horarios)
         const time = item.horarios ? item.horarios != -1 ? Array.isArray(item.horarios) ? item.horarios.join(' - ') : item.horarios : item.horarios : item.horarios
@@ -164,6 +177,7 @@ export class RoundTemplateComponent implements OnInit {
               timer: {},
               time,
             },
+            tableData: dataFiel,
             tableTimeData: timer,
             horarioId: item.horarioId,
             campoRondaId: item.campoRondaId,

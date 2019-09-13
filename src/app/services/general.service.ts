@@ -195,4 +195,8 @@ export class GeneralService {
     return this.http.get(`${environment.url}/services/entities/tipos-campo-ronda`).toPromise();
   }
 
+  getFieldTemplate(id:any): Promise<any> {
+    return this.http.post(`${environment.url}/services/reports/execute`, {id: 6, filters:{plantillaRondaId: id}}).toPromise();
+  }
+
 }
