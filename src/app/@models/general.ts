@@ -25,17 +25,21 @@ export interface SystemData {
   plantaId: number;
   tipoSistemaId: number;
   tagId: number;
+  KKS: string;
 }
 
 export interface EquipmentData {
   detalle: string;
   nombre: string;
   sistemaId: number;
+  tagId: number;
 }
 
 export interface TagData {
   nombre: string;
   obligatorio: boolean;
+  tipoTagId: number;
+  status: string;
 }
 export interface ManeuverGuideData {
   userId: number;

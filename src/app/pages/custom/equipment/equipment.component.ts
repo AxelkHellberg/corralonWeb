@@ -15,6 +15,7 @@ export class EquipmentComponent implements OnInit {
   associateType: string;
   associateElements: boolean;
   data: Equipment[] = [];
+  tag: any[] = [];
   settings: SmartTableSettings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -61,23 +62,13 @@ export class EquipmentComponent implements OnInit {
         type: 'html',
         editable: false,
       },
-      tag: {
+      tagId: {
         title: 'Tag',
-        type: 'html',
-        editable: false,
+        type: 'text',
         editor: {
           type: 'list',
           config: {
-            list: [
-              {
-                value: '<a href="#/pages/equipment?tag=true" href="javascript:void(0)">ABC123</a>',
-                title: 'ABC123',
-              },
-              {
-                value: '<a href="#/pages/equipment?tag=true" href="javascript:void(0)">Sin Tag</a>',
-                title: 'Sin Tag',
-              },
-            ],
+            list: [],
           },
         },
       },
@@ -99,6 +90,17 @@ export class EquipmentComponent implements OnInit {
   }
 
   async ngOnInit() {
+    try {
+      const response = await this.generalService.getTag(2);
+      this.tag = response.items;
+      this.settings.columns.tagId.editor.config.list = response.items.map(tag => ({
+        title: tag.nombre,
+        value: tag.nombre,
+      }));
+      this.settings = {...this.settings};
+    } catch (e) {
+
+    }
     try {
       const response = await this.generalService.getSystems();
       this.systems = response.items;
@@ -126,6 +128,7 @@ export class EquipmentComponent implements OnInit {
       nombre: newData.nombre,
       detalle: newData.detalle,
       sistemaId: this.systems.find(system => system.nombre === newData.sistemaId).id,
+      tagId: this.tag.find(tag => tag.nombre === newData.tagId).id,
     };
     try {
       await this.generalService.createEquipment(equipmentData);
@@ -141,6 +144,7 @@ export class EquipmentComponent implements OnInit {
       nombre: newData.nombre,
       detalle: newData.detalle,
       sistemaId: this.systems.find(system => system.nombre === newData.sistemaId).id,
+      tagId: this.tag.find(tag => tag.nombre === newData.tagId).id,
     };
     try {
       const response = await this.generalService.editEquipment(newData.id, equipmentData);

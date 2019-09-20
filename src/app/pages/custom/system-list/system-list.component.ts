@@ -14,6 +14,7 @@ import { SystemData, PlantData } from '../../../@models/general';
 export class SystemListComponent implements OnInit {
   associateTagId: boolean;
   plants: PlantData[] = [];
+  tag: any[] = [];
   data: SystemList[] = [];
   settings: SmartTableSettings = {
     add: {
@@ -57,8 +58,22 @@ export class SystemListComponent implements OnInit {
         title: 'Descripción',
         type: 'text',
       },
+      KKS: {
+        title: 'KKS',
+        type: 'text',
+      },
       plantaNombre: {
         title: 'Planta',
+        type: 'text',
+        editor: {
+          type: 'list',
+          config: {
+            list: [],
+          },
+        },
+      },
+      tagId: {
+        title: 'Tag',
         type: 'text',
         editor: {
           type: 'list',
@@ -90,6 +105,18 @@ export class SystemListComponent implements OnInit {
   }
 
   async getAllData() {
+    try {
+      const response = await this.generalService.getTag(1);
+      this.tag = response.items;
+      this.settings.columns.tagId.editor.config.list = response.items.map(tag => ({
+        title: tag.nombre,
+        value: tag.nombre,
+      }));
+      this.settings = {...this.settings};
+    } catch (e) {
+
+    }
+
     try {
       const response = await this.generalService.getPlants();
       this.plants = response.items;
@@ -133,6 +160,7 @@ export class SystemListComponent implements OnInit {
     const { newData } = data;
     const systemData: SystemData = {
       nombre: newData.nombre,
+      KKS: newData.KKS,
       descripcion: `Descripción ${newData.nombre}`,
       plantaId: this.plants.find(_plant => _plant.nombre === newData.plantaNombre).id,
       tipoSistemaId: this.systemTypes.find(_systemType => _systemType.nombre === newData.tipoSistema).id,
@@ -151,6 +179,7 @@ export class SystemListComponent implements OnInit {
     const { id } = system.data;
     const data: SystemData = {
       nombre: system.newData.nombre,
+      KKS: system.newData.KKS,
       descripcion: `Descripción ${system.newData.nombre}`,
       plantaId: this.plants.find(_plant => _plant.nombre === system.newData.plantaNombre).id,
       tipoSistemaId: this.systemTypes.find(_systemType => _systemType.nombre === system.newData.tipoSistema).id,

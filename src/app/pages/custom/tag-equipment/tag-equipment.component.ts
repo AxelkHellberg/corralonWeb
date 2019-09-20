@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SmartTableSettings } from '../../../@models/smart-table';
+import { GeneralService } from '../../../services/general.service';
 
 @Component({
   selector: 'ngx-tag-equipment',
@@ -9,18 +10,18 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 export class TagEquipmentComponent implements OnInit {
 
   data = [
-    {
-      id: 1,
-      number: 'TAG-324',
-      status: 'Encendido',
-      mandatory: 'Si',
-    },
-    {
-      id: 2,
-      number: 'TAG-564',
-      status: 'Apagado',
-      mandatory: 'No',
-    },
+    // {
+    //   id: 1,
+    //   number: 'TAG-324',
+    //   status: 'Encendido',
+    //   mandatory: 'Si',
+    // },
+    // {
+    //   id: 2,
+    //   number: 'TAG-564',
+    //   status: 'Apagado',
+    //   mandatory: 'No',
+    // },
   ];
 
   settings: SmartTableSettings = {
@@ -31,6 +32,7 @@ export class TagEquipmentComponent implements OnInit {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true,
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
@@ -48,7 +50,7 @@ export class TagEquipmentComponent implements OnInit {
       //   editable: false,
       //   addable: false,
       // },
-      number: {
+      nombre: {
         title: 'N° de Tag',
         type: 'text',
         width: '200px',
@@ -73,7 +75,7 @@ export class TagEquipmentComponent implements OnInit {
           },
         },
       },
-      mandatory: {
+      obligatorio: {
         title: 'Obligatorio',
         type: 'text',
         width: '150px',
@@ -83,11 +85,11 @@ export class TagEquipmentComponent implements OnInit {
             list: [
               {
                 title: 'Si',
-                value: 'Si',
+                value: true,
               },
               {
                 title: 'No',
-                value: 'No',
+                value: false,
               },
             ],
           },
@@ -95,10 +97,37 @@ export class TagEquipmentComponent implements OnInit {
       },
     },
   };
-
-  constructor() { }
+  constructor(private generalService: GeneralService) { }
 
   ngOnInit() {
+    this.getTag()
+  }
+
+  async getTag(){
+    try{
+      const response = await this.generalService.getTag(2);
+      console.log(response)
+      this.data = response.items
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  async createEquipment(event){
+    try{   
+      var data = {
+        nombre: event.newData.nombre,
+        obligatorio: event.newData.obligatorio,
+        status: event.newData.status,
+        tipoTagId: 2
+      }
+      const response = await this.generalService.createTag(data);
+      console.log(response)
+      event.confirm.resolve();
+    } catch (e) {
+      console.log(e)
+      event.confirm.reject();
+    }
   }
 
 }

@@ -141,27 +141,11 @@ export class RoundTemplateComponent implements OnInit {
       console.log(error);
     }
     try {
-      var dataFiel = []
-      console.log(this.roundTemplateId)
-      //if(this.roundTemplateId){
-        const response = await this.generalService.getFieldTemplate(this.roundTemplateId);
-        console.log(response)
-        response.forEach(element => {
-          dataFiel.push({
-            component: element.unidadMedidaId,
-            equipment: element.equipamiento.nombre,
-            plant:  element.equipamiento.sistema.planta.nombre,
-            system: element.equipamiento.sistema.nombre
-          })
-        });
-        
-      //}
       this.data = roundTemplateData.items.map(item => {
         console.log(item.horarios)
         const time = item.horarios ? item.horarios != -1 ? Array.isArray(item.horarios) ? item.horarios.join(' - ') : item.horarios : item.horarios : item.horarios
         let timer = item.horarios ? item.horarios != -1 ? !Array.isArray(item.horarios) ? item.horarios.split(' - ') : item.horarios : item.horarios : item.horarios
         timer = timer ? Array.from(timer).map((item:any)=>{
-
           const _item = item ? item.split(':') : item
           return {
             hour: _item[0],
@@ -177,7 +161,7 @@ export class RoundTemplateComponent implements OnInit {
               timer: {},
               time,
             },
-            tableData: dataFiel,
+            tableData: [],
             tableTimeData: timer,
             horarioId: item.horarioId,
             campoRondaId: item.campoRondaId,
@@ -203,7 +187,18 @@ export class RoundTemplateComponent implements OnInit {
     });
   }
 
-  editTemplate({data}) {
+  async editTemplate({data}) {
+    var dataFiel = []
+    const response = await this.generalService.getFieldTemplate(data.id);
+    response.forEach(element => {
+      dataFiel.push({
+        component: element.unidadMedida.nombre,
+        equipment: element.equipamiento.nombre,
+        plant:  element.equipamiento.sistema.planta.nombre,
+        system: element.equipamiento.sistema.nombre
+      })
+    });      
+    data.full.tableData = dataFiel
     this.fullData = data;
     this.router.navigate(['/pages/round-template'], {
       queryParams: {
@@ -255,7 +250,6 @@ export class RoundTemplateComponent implements OnInit {
       }
     }
     this.getTemplates()
-    console.log(data);
     this.fullData = null;
     this.roundTemplateId = null;
   }

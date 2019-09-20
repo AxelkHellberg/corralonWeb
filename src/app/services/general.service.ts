@@ -76,6 +76,9 @@ export class GeneralService {
   createTag(tagData: TagData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/tags`, tagData).toPromise();
   }
+  getTag(type:any): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/tags?q=tipoTagId=${type}` ).toPromise();
+  }
   createManeuverGuideTemplate(nombre: string): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/plantillas-guias-maniobra/`, { nombre }).toPromise();
   }
@@ -146,14 +149,14 @@ export class GeneralService {
   getStatusFailures(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/estados-falla/`).toPromise();
   }
-  createFailureType(nombre: string, posicion: number = 1): Promise<any> {
-    return this.http.post(`${environment.url}/services/entities/tipos-falla/`, { nombre, posicion }).toPromise();
+  createFailureType(nombre: string, codificacionDeFalla: string, posicion: number = 1): Promise<any> {
+    return this.http.post(`${environment.url}/services/entities/tipos-falla/`, { nombre, codificacionDeFalla, posicion }).toPromise();
   }
   getFailureType(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/tipos-falla/`).toPromise();
   }
-  editFailureType(id: number, nombre: string): Promise<any> {
-    return this.http.patch(`${environment.url}/services/entities/tipos-falla/${id}`, { nombre }).toPromise();
+  editFailureType(id: number, nombre: string, codificacionDeFalla:string): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/tipos-falla/${id}`, { nombre, codificacionDeFalla }).toPromise();
   }
   deleteFailureType(id: number): Promise<any> {
     return this.http.delete(`${environment.url}/services/entities/tipos-falla/${id}`).toPromise();

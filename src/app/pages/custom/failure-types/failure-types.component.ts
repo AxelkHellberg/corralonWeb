@@ -43,6 +43,11 @@ export class FailureTypesComponent implements OnInit {
         type: 'text',
         width: '200px',
       },
+      codificacionDeFalla: {
+        title: 'Codificación de Falla',
+        type: 'text',
+        width: '200px',
+      },
       // deatil: {
       //   title: 'Descripción',
       //   type: 'text',
@@ -64,7 +69,7 @@ export class FailureTypesComponent implements OnInit {
 
   async addFailureType(data: ConfirmData) {
     try {
-      const response = await this.generalService.createFailureType(data.newData.nombre);
+      const response = await this.generalService.createFailureType(data.newData.nombre, data.newData.codificacionDeFalla);
       console.log(response)
       data.confirm.resolve();
     } catch (e) {
@@ -74,7 +79,7 @@ export class FailureTypesComponent implements OnInit {
   }
   async editFailureType(data: ConfirmData) {
     try {
-      const response = await this.generalService.editFailureType(data.newData.id, data.newData.nombre);
+      const response = await this.generalService.editFailureType(data.newData.id, data.newData.nombre, data.newData.codificacionDeFalla);
       console.log(response)
       data.confirm.resolve();
     } catch (e) {
