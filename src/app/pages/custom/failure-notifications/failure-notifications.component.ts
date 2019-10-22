@@ -86,14 +86,13 @@ export class FailureNotificationsComponent implements OnInit {
 
     try {
       this.failureData = await this.generalService.getNotificationsFailuresReport();
-      console.log(this.failureData);
       this.failureData.forEach(data => {
         data['estadoFallaNombre'] = data.estadoFalla.nombre;
         data['tipoFallaNombre'] = data.tipoFalla.nombre;
         data['estadoFallaNombreBoton'] = this.setStatusFailureButton(data.estadoFallaNombre.toUpperCase());
         data['date'] = moment(data.updateAt).utc().format('DD/MM/YYYY');
         data['time'] = moment(data.updateAt).utc().format('hh:mm:ss');
-        data['sistema'] = this.getSystemName(data);
+        // data['sistema'] = this.getSystemName(data);
         data['origen'] = this.getOrigin(data);
       });
     } catch (error) {

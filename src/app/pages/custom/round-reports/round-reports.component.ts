@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NbDateService } from '@nebular/theme';
 import { SmartTableSettings } from '../../../@models/smart-table';
+import { GeneralService } from '../../../services/general.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'ngx-round-reports',
@@ -12,28 +14,7 @@ export class RoundReportsComponent implements OnInit {
   typeSelectedItem: string = '';
   filterTableSettings: any = {};
   showDetail: boolean;
-  roundsData: any = [
-    {
-      status: `<div class="container-btn btn btn-success">COMPLETA</div>`,
-      id: '1',
-      percent: '100%',
-      operator: 'Juan Rodríguez',
-      file: '454676',
-      type: 'Ronda',
-      roundName: 'Plantilla 1',
-      time: '15/04/2019 15:04',
-    },
-    {
-      status: '<div class="container-btn btn btn-danger">INCOMPLETA</div>',
-      id: '2',
-      percent: '70%',
-      operator: 'Juan Rodríguez',
-      file: '454676',
-      type: 'Ronda',
-      roundName: 'Plantilla 1',
-      time: '16/04/2019 15:04',
-    }
-  ];
+  roundsData: any = [];
   settings: SmartTableSettings = {
     actions: false,
     add: {
@@ -55,42 +36,70 @@ export class RoundReportsComponent implements OnInit {
         title: 'Estado',
         type: 'html',
       },
-      // id: {
-      //   title: 'ID',
+      // percent: {
+      //   title: 'Tipo de Falla',
       //   type: 'text',
       // },
-      percent: {
-        title: 'Tipo de Falla',
+      id: {
+        title: 'ID',
         type: 'text',
       },
       operator: {
         title: 'Operador',
         type: 'text',
       },
-      file: {
-        title: 'Legajo',
+      roundName: {
+        title: 'Nombre de la Ronda',
         type: 'text',
       },
-      roundName: {
-        title: 'Nombre de Ronda',
+      date: {
+        title: 'Fecha',
         type: 'text',
       },
       time: {
-        title: 'Fecha',
+        title: 'Hora',
         type: 'text',
       },
     },
   };
-  min: Date;
-  max: Date;
 
-  constructor(protected dateService: NbDateService<Date>) { }
+  constructor(private generalService: GeneralService) { }
 
-  ngOnInit() {
-    this.min = this.dateService.addDay(this.dateService.today(), -5);
-    this.max = this.dateService.addDay(this.dateService.today(), 5);
+  async ngOnInit() {
+    let maneuverGuides;
+    try {
+      const response = await this.generalService.getRounds();
+      maneuverGuides = response.items;
+    } catch (e) { }
+
+    try {
+      const response = await this.generalService.getUser();
+      const userFullName = (item) => {
+        const data = response.items.find(user => item.userId === user.id);
+        return `${data.name} ${data.lastName}`;
+      };
+      const getDate = (date: any, format: string) => {
+        date = new Date(date);
+        return moment(date).format(format);
+      }
+      this.roundsData = maneuverGuides.map(item => ({
+        status: this.setRoundStatus(item.porcentaje),
+        id: item.id,
+        roundName: item.nombre,
+        date: moment(item.createdAt).utc().format('DD/MM/YYYY'),
+        time: moment(item.createdAt).utc().format('HH:mm'),
+        operator: userFullName(item)
+      }));
+    } catch (error) {
+
+    }
   }
 
+  setRoundStatus(percent: number) {
+    return percent < 100 ?
+    '<div class="container-btn btn btn-danger">INCOMPLETA</div>' :
+    '<div class="container-btn btn btn-success">COMPLETA</div>';
+  }
   filterTable(column: string, filterTerm: string): void {
     const noFilter = !!filterTerm;
     this.filterTableSettings = { ...this.filterTableSettings, [column]: noFilter ? filterTerm : null};
