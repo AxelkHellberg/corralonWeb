@@ -140,6 +140,9 @@ export class GeneralService {
   getRounds(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/rondas/`).toPromise();
   }
+  getRoundsStatus(): Promise<any> {
+    return this.http.get(`${environment.url}/services/entities/estados-ronda/`).toPromise();
+  }
   createValueRoundFields(maneuverGuideFieldsData: ManeuverGuideFields): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/campos-maniobra/`, maneuverGuideFieldsData).toPromise();
   }

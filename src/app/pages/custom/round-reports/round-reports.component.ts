@@ -78,12 +78,10 @@ export class RoundReportsComponent implements OnInit {
         const data = response.items.find(user => item.userId === user.id);
         return `${data.name} ${data.lastName}`;
       };
-      const getDate = (date: any, format: string) => {
-        date = new Date(date);
-        return moment(date).format(format);
-      }
+      const {items: roundStatus} = await this.generalService.getRoundsStatus();
+
       this.roundsData = maneuverGuides.map(item => ({
-        status: this.setRoundStatus(item.porcentaje),
+        status: this.setRoundStatus(roundStatus, item.estadoRondaId),
         id: item.id,
         roundName: item.nombre,
         date: moment(item.createdAt).utc().format('DD/MM/YYYY'),
@@ -95,10 +93,9 @@ export class RoundReportsComponent implements OnInit {
     }
   }
 
-  setRoundStatus(percent: number) {
-    return percent < 100 ?
-    '<div class="container-btn btn btn-danger">INCOMPLETA</div>' :
-    '<div class="container-btn btn btn-success">COMPLETA</div>';
+  setRoundStatus(roundsStatus: any[], statusId: number) {
+    const {nombre: status} = roundsStatus.find(_status => _status.id === statusId);
+    return `<div class="container-btn btn btn-success">${status}</div>`;
   }
   filterTable(column: string, filterTerm: string): void {
     const noFilter = !!filterTerm;
