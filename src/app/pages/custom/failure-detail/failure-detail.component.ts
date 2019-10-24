@@ -12,6 +12,7 @@ export class FailureDetailComponent implements OnInit {
   @Output() onClose = new EventEmitter<void>();
   statusList: any;
   @ViewChild('changestatus') changeStatusTemplate: TemplateRef<any>;
+  users: any;
 
   constructor(private dialogService: NbDialogService, private generalService: GeneralService) { }
 
@@ -19,10 +20,19 @@ export class FailureDetailComponent implements OnInit {
     try {
       const response = await this.generalService.getStatusFailures();
       this.statusList = response.items;
-      console.log(response, this.statusList);
     } catch (error) {
 
     }
+
+    try {
+      const response = await this.generalService.getUser();
+      this.users = response.items;
+      console.log(this.users);
+    } catch (error) {
+
+    }
+    this.data = { ...this.data, operator: this.findUser() };
+    console.log(this.data)
   }
 
   async changeStatus(status: any) {
@@ -41,14 +51,29 @@ export class FailureDetailComponent implements OnInit {
 
     }
   }
-  findUser(data) {
-    if (data) {
-      const name = data.valoresCamposManiobras.length ?
-                   data.valoresCamposManiobras[0].guiaManiobra.user.name : '';
-      const lastName = data.valoresCamposManiobras.length ?
-                       data.valoresCamposManiobras[0].guiaManiobra.user.lastName : '';
-      return `${name} ${lastName}`;
+  findUser() {
+    let user: string;
+    const { valoresCamposRonda, valoresCamposManiobras, fallasSistema, fallasEquipamiento } = this.data;
+    if (valoresCamposRonda.length) {
+      const { userId } = this.data.valoresCamposRonda[0].ronda;
+      const { name, lastName } = this.users.find(_user => _user.id === userId);
+      user = `${name} ${lastName}`;
     }
+
+    if (valoresCamposManiobras.length) {
+      const { userId } = this.data.valoresCamposManiobras[0].guiaManiobra.userId;
+      const { name, lastName } = this.users.find(_user => _user.id === userId);
+      user = `${name} ${lastName}`;
+    }
+
+    if (fallasSistema) {
+
+    }
+
+    if (fallasEquipamiento) {
+
+    }
+    return user;
   }
 
   close() {

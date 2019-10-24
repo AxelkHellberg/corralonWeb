@@ -16,4 +16,4 @@
 </ng-container>
 
 
-<ngx-maneuver-guide-detail *ngIf="showDetail" [data]="selectedItem"></ngx-maneuver-guide-detail>
+<ngx-maneuver-guide-detail *ngIf="showDetail" [data]="selectedItem" (onClose)="showDetail = false"></ngx-maneuver-guide-detail>

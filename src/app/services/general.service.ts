@@ -76,7 +76,7 @@ export class GeneralService {
   createTag(tagData: TagData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/tags`, tagData).toPromise();
   }
-  getTag(type:any): Promise<any> {
+  getTag(type: any): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/tags?q=tipoTagId=${type}` ).toPromise();
   }
   createManeuverGuideTemplate(nombre: string): Promise<any> {
@@ -86,7 +86,7 @@ export class GeneralService {
     return this.http.patch(`${environment.url}/services/entities/plantillas-guias-maniobra/${id}`, { nombre }).toPromise();
   }
   getManeuverGuide(): Promise<any> {
-    return this.http.get(`${environment.url}/services/entities/guias-maniobra/`).toPromise();
+    return this.http.get(`${environment.url}/services/entities/guias-maniobra/?order=["id","DESC"]`).toPromise();
   }
   deleteManeuverGuideTemplate(id: number): Promise<any> {
     return this.http.delete(`${environment.url}/services/entities/plantillas-guias-maniobra/${id}`).toPromise();
@@ -138,7 +138,7 @@ export class GeneralService {
     return this.http.post(`${environment.url}/services/entities/rondas/`, roundData).toPromise();
   }
   getRounds(): Promise<any> {
-    return this.http.get(`${environment.url}/services/entities/rondas/`).toPromise();
+    return this.http.get(`${environment.url}/services/entities/rondas/?order=["id","DESC"]`).toPromise();
   }
   getRoundsStatus(): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/estados-ronda/`).toPromise();

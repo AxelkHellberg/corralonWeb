@@ -17,9 +17,9 @@
   <ng2-smart-table
     [settings]="settings"
     [source]="roundsData | filterTable: filterTableSettings"
-    (userRowSelect)="showDetail = true"
+    (userRowSelect)="selectItem($event)"
   ></ng2-smart-table>
 </ng-container>
 
 
-<ngx-round-detail *ngIf="showDetail"></ngx-round-detail>
+<ngx-round-detail *ngIf="showDetail" [data]="selectedItem" (onClose)="showDetail = false"></ngx-round-detail>

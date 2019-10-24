@@ -189,6 +189,7 @@ export class SystemListComponent implements OnInit {
       await this.generalService.editSystem(id, data);
       system.confirm.resolve();
     } catch (error) {
+      console.log(error)
       system.confirm.reject();
     }
   }
@@ -199,6 +200,7 @@ export class SystemListComponent implements OnInit {
       await this.generalService.deletePlant(id);
       system.confirm.resolve();
     } catch (error) {
+      console.log(error)
       system.confirm.reject();
     }
   }

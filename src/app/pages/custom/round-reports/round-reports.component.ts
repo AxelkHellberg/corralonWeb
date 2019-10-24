@@ -62,6 +62,7 @@ export class RoundReportsComponent implements OnInit {
       },
     },
   };
+  selectedItem: any;
 
   constructor(private generalService: GeneralService) { }
 
@@ -100,6 +101,11 @@ export class RoundReportsComponent implements OnInit {
   filterTable(column: string, filterTerm: string): void {
     const noFilter = !!filterTerm;
     this.filterTableSettings = { ...this.filterTableSettings, [column]: noFilter ? filterTerm : null};
+  }
+
+  selectItem({data}) {
+    this.selectedItem = data;
+    this.showDetail = true;
   }
 
 }

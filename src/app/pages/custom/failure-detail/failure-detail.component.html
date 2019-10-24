@@ -1,10 +1,12 @@
-<h4></h4>
-
+<h4 (click)="close()"> <b><i class="nb-arrow-left"></i></b> Volver</h4>
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-12 mb-10">
+      <div class="col-6 mb-10">
           Estado
+      </div>
+      <div class="col-6 mb-10">
+          Origen
       </div>
     </div>
   </nb-card-header>
@@ -19,6 +21,9 @@
           </ul>
         </div>
       </div>
+      <div class="offset-3 col-6">
+        <h6>{{data?.origen}}</h6>
+      </div>
     </div>
   </nb-card-body>
   <br>
@@ -31,7 +36,7 @@
       <div class="col-5">
         <div class="d-flex">
           <div class="col-6">Operario:</div>
-          <div class="col-6">{{findUser(data)}}</div>
+          <div class="col-6">{{data.operator}}</div>
         </div>
         <br><br>
         <div class="d-flex">

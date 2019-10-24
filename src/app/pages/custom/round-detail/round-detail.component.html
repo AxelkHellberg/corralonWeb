@@ -1,4 +1,6 @@
-<h4>Ronda Nro 47</h4>
+<h4 (click)="onClose.emit()"> <b><i class="nb-arrow-left"></i></b> Volver</h4>
+
+<h5>{{data.roundName}}</h5>
 
 <nb-card>
   <nb-card-header>
@@ -10,12 +12,7 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row">
-      <div class="col-3 dropdown-container">
-        <button nbButton status="danger">INCOMPLETA</button> 70%
-      </div>
-      <div class="col-9 d-flex ">
-        <h5>Causa:</h5>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error nam, nostrum corporis quasi numquam ipsa maxime nulla commodi. Quis earum sint beatae ipsam nam nostrum consequatur quod magni deserunt tenetur, nemo hic, minima maxime tempore voluptates nesciunt cum assumenda. Vel nisi optio, error nesciunt, velit doloremque, exercitationem deleniti vero aliquam ducimus pariatur laborum sit quaerat sed repellat. Perspiciatis aut id ipsa nostrum harum. Culpa aperiam quisquam harum odit nostrum sapiente amet quae quos explicabo mollitia? Doloribus veritatis quisquam autem officiis, cum quos cumque? Praesentium, vel quod dolores atque impedit nostrum iusto blanditiis delectus dignissimos voluptas laborum unde maiores, odio ut.</p>
+      <div class="col-3 dropdown-container" [innerHTML]="data.status">
       </div>
     </div>
   </nb-card-body>
@@ -30,24 +27,8 @@
     <div class="row">
       <div class="col-5">
         <div class="d-flex">
-          <div class="col-6">Turno:</div>
-          <div class="col-6">15:00hs</div>
-        </div>
-        <br><br>
-        <div class="d-flex">
           <div class="col-6">Fecha y Hora:</div>
-          <div class="col-6">15/04/2019 00:20:36</div>
-        </div>
-      </div>
-      <div class="col-7 ">
-        <div class="d-flex">
-          <div class="col-6">Tiempo estimado:</div>
-          <div class="col-6">15:00hs</div>
-        </div>
-        <br><br>
-        <div class="d-flex">
-          <div class="col-6">Tiempo de ronda:</div>
-          <div class="col-6">15/04/2019 00:20:36</div>
+          <div class="col-6">{{data.date}} {{data.time}}</div>
         </div>
       </div>
     </div>
@@ -102,7 +83,7 @@
   </nb-card-body>
 </nb-card>
 
-<nb-card>
+<!-- <nb-card>
     <nb-card-header>
       Historial de Tags
     </nb-card-header>
@@ -159,5 +140,5 @@
         </nb-accordion-item>
       </nb-accordion>
     </nb-card-body>
-  </nb-card>
+  </nb-card> -->
 

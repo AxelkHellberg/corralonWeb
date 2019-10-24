@@ -25,6 +25,7 @@ export interface Equipment {
   detalle:        string;
   attributes:    string;
   tag:           string;
+  tagId:           string;
   equipment:     string;
 }
 

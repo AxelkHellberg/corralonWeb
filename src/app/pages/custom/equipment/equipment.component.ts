@@ -116,7 +116,10 @@ export class EquipmentComponent implements OnInit {
     try {
       const response = await this.generalService.getEquipments();
       this.data = response.items;
-      this.data.forEach(data => data.sistemaId = this.systems.find(system => system.id === data.sistemaId).nombre);
+      this.data.forEach(data => {
+        data.sistemaId = this.systems.find(system => system.id === data.sistemaId).nombre;
+        data.tagId = this.tag.find(tag => tag.id === data.tagId).nombre;
+      });
     } catch (e) {
       console.log(e)
     }

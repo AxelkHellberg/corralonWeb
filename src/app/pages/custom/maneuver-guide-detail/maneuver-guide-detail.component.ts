@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'ngx-maneuver-guide-detail',
@@ -8,9 +8,12 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ManeuverGuideDetailComponent implements OnInit {
   @Input() data: any;
 
+  @Output() onClose = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
+    console.log(this.data)
   }
 
 }

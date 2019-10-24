@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'ngx-round-detail',
@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./round-detail.component.scss']
 })
 export class RoundDetailComponent implements OnInit {
+  @Input() data: any;
 
+  @Output() onClose = new EventEmitter();
   nodes = [{
     name: 'Cargador Evequoz 220VCC',
     children: [{
@@ -60,6 +62,7 @@ export class RoundDetailComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.data);
   }
 
 }

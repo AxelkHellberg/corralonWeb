@@ -87,6 +87,7 @@ export class ManeuverGuideReportsComponent implements OnInit {
         return moment(date).format(format);
       }
       this.data = maneuverGuides.map(item => ({
+        ...item,
         id: item.id,
         maneuverGuideName: item.nombre,
         date: moment(item.createdAt).utc().format('DD/MM/YYYY'),
