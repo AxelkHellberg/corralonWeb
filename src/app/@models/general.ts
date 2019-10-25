@@ -70,13 +70,13 @@ export interface RoundData {
 
 export interface RoundFields {
   nombre: string;
-  valorNormal: number;
-  valorMax: number;
-  valorMin: number;
-  equipamientoId: number;
-  tipoCampoRondaId: number;
-  unidadMedidaId: number;
-  plantillaRondaId: number;
+  valorNormal: string;
+  valorMax: string;
+  valorMin: string;
+  equipamientoId: string;
+  tipoCampoRondaId: string;
+  unidadMedidaId: string;
+  plantillaRondaId: string;
 }
 
 export interface RoundTemplateData {
@@ -85,6 +85,6 @@ export interface RoundTemplateData {
   obligatorioSistema:    boolean;
   funcionamientoEquipo:  boolean;
   obligatorioEquipo:     boolean;
-  campoRondaId:          number;
+  campoRondaId?:          number;
   horarios:              any;
 }

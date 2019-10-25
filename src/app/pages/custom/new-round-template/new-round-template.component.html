@@ -11,7 +11,7 @@
 
   <ng2-smart-table
   [settings]="settings"
-  [source]="tableData"
+  [source]="fieldsData"
   (create)="createTemplate()"
   (edit)="editTemplate($event)"
   (delete)="deleteTemplate($event)"
@@ -68,53 +68,53 @@
         <div class="row">
             <div class="col-6">
               <label class="label" for="plant">Planta</label>
-              <nb-select id="plant" [placeholder]="plant?.placeholder" [selected]="plant.selected">
+              <nb-select id="plant" [placeholder]="plant?.placeholder" [selected]="data.plantId">
                 <nb-option *ngFor="let item of plantArray?.items" [value]="item?.id" (click)="selectPlant(item)">{{item?.nombre}}</nb-option>
               </nb-select>
             </div>
             <div class="col-6">
               <label class="label" for="system">Sistema</label>
-              <nb-select id="system" [placeholder]="system?.placeholder" [disabled]="!enableSystem" [selected]="system.selected">
+              <nb-select id="system" [placeholder]="system?.placeholder" [disabled]="!enableSystem" [selected]="data.systemId">
                 <nb-option *ngFor="let item of systemArray?.items | filterBy: 'plantaId': plantId; let i = index" [value]="item?.id" (click)="selectSystem(item)">{{item?.nombre}}</nb-option>
               </nb-select>
             </div>
             <div class="col-6">
               <label class="label" for="equipment">Equipo</label>
-              <nb-select id="equipment" [placeholder]="equipment?.placeholder" [disabled]="!enableEquipment" [selected]="equipment.selected">
+              <nb-select id="equipment" [placeholder]="equipment?.placeholder" [disabled]="!enableEquipment" [selected]="data.equipmentId">
                 <nb-option *ngFor="let item of equipmentArray?.items | filterBy: 'sistemaId': systemId; let i = index" [value]="item?.id" (click)="selectEquipment(item)">{{item?.nombre}}</nb-option>
               </nb-select>
             </div>
             <div class="col-6">
               <label class="label" for="unity">Unidad de medida</label>
-              <nb-select id="unity" [placeholder]="component?.placeholder" [selected]="component.selected">
+              <nb-select id="unity" [placeholder]="unit?.placeholder" [selected]="data.unitId">
                 <nb-option *ngFor="let item of unitArray?.items" [value]="item?.id" (click)="selectComponent(item)">{{item?.nombre}}</nb-option>
               </nb-select>
             </div>
             <div class="col-6">
               <label class="label" for="name">Nombre</label>
-              <input name="nameField" (ngModelChange)="changeField($event,'nameField')" [(ngModel)]="nameField" id="name" class="form-control" placeholder="Nombre" type="text"/>
+              <input name="nameField" (ngModelChange)="changeField($event,'nameField')" [(ngModel)]="data.name" id="name" class="form-control" placeholder="Nombre" type="text"/>
             </div>
             <div class="col-6">
               <label class="label" for="type">Tipo de dato</label>
-              <nb-select id="type" [placeholder]="typeData?.placeholder" [selected]="typeData.selected">
+              <nb-select id="type" [placeholder]="typeData?.placeholder" [selected]="data.typeId">
                 <nb-option *ngFor="let item of dataTypeArray?.items " [value]="item?.id" (click)="selectTypeData(item)">{{item?.nombre}}</nb-option>
               </nb-select>
             </div>
-            <div class="col-4" *ngIf="dataType < 3">
+            <div class="col-4" *ngIf="data.type < 3">
               <label class="label" for="min">Valor Mínimo</label>
-              <input (ngModelChange)="changeField($event,'min')" name="min" [(ngModel)]="min" id="min" class="form-control" placeholder="Valor Mínimo" type="{{dataType == 1 ? 'number' : 'text'}}"/>
+              <input name="min" [(ngModel)]="data.minValue" id="min" class="form-control" placeholder="Valor Mínimo" type="{{data.type == 1 ? 'number' : 'text'}}"/>
             </div>
-            <div class="col-4" *ngIf="dataType < 3">
+            <div class="col-4" *ngIf="data.type < 3">
               <label class="label" for="max">Valor Máximo</label>
-              <input (ngModelChange)="changeField($event,'max')" name="max" [(ngModel)]="max" id="max" class="form-control" placeholder="Valor Máximo" type="{{dataType == 1 ? 'number' : 'text'}}"/>
+              <input name="max" [(ngModel)]="data.maxValue" id="max" class="form-control" placeholder="Valor Máximo" type="{{data.type == 1 ? 'number' : 'text'}}"/>
             </div>
-            <div class="col-4" *ngIf="dataType < 3">
+            <div class="col-4" *ngIf="data.type < 3">
               <label class="label" for="normal">Valor Normal</label>
-              <input (ngModelChange)="changeField($event,'normal')" name="normal" [(ngModel)]="normal" id="normal" class="form-control" placeholder="Valor Normal" type="{{dataType == 1 ? 'number' : 'text'}}"/>
+              <input name="normal" [(ngModel)]="data.normalValue" id="normal" class="form-control" placeholder="Valor Normal" type="{{data.type == 1 ? 'number' : 'text'}}"/>
             </div>
-            <div class="col-4" *ngIf="dataType > 2">
+            <div class="col-4" *ngIf="data.type > 2">
               <label class="label" for="normal">Valor Normal</label>
-              <nb-select (ngModelChange)="changeField($event,'normal')" name="normal" [(ngModel)]="normal" id="type">
+              <nb-select [selected]="true" name="normal" [(ngModel)]="data.normalValue" id="type">
                 <nb-option [value]="true">Verdadero</nb-option>
                 <nb-option [value]="false">Falso</nb-option>
               </nb-select>

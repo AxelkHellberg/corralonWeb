@@ -1,3 +1,4 @@
+import { RoundsDetails } from './../../../@models/rounds';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
@@ -11,66 +12,7 @@ import { RoundTemplateData, RoundFields } from '../../../@models/general';
 })
 export class RoundTemplateComponent implements OnInit {
   fullData: any;
-  data = [
-    // {
-    //   id: 1,
-    //   nombre: 'Plantilla 1',
-    //   time: '9:00 - 12:20',
-    //   indexEdited: 1,
-    //   full: {
-    //     tableData: [
-    //       {
-    //         plant: 'Planta A',
-    //         system: 'System A2',
-    //         equipment: 'Equipment A20',
-    //         component: 'Component A20',
-    //         timer: {},
-    //         time: '',
-    //       },
-    //       {
-    //         plant: 'Planta B',
-    //         system: 'System B1',
-    //         equipment: 'Equipment B10',
-    //         component: 'Component B10',
-    //         timer: {},
-    //         time: '',
-    //       },
-    //     ],
-    //     timeData: { timer: {}, time: '9:00 - 12:20' },
-    //     tableTimeData: [{ hour: '9', minute: '00' }, { hour: '12', minute: '20' }],
-    //     templateConfig: { systemMandatory: true, equipmentFunctionality: true },
-    //   }
-    // },
-    // {
-    //   id: 2,
-    //   nombre: 'Plantilla 2',
-    //   time: '9:00',
-    //   indexEdited: 2,
-    //   full: {
-    //     tableData: [
-    //       {
-    //         plant: 'Planta A',
-    //         system: 'System A2',
-    //         equipment: 'Equipment A20',
-    //         component: 'Component A20',
-    //         timer: {},
-    //         time: '',
-    //       },
-    //       {
-    //         plant: 'Planta B',
-    //         system: 'System B1',
-    //         equipment: 'Equipment B10',
-    //         component: 'Component B10',
-    //         timer: {},
-    //         time: '',
-    //       },
-    //     ],
-    //     timeData: { timer: {}, time: '9:00' },
-    //     tableTimeData: [{ hour: '9', minute: '00' }],
-    //     templateConfig: { systemMandatory: true, equipmentFunctionality: true },
-    //   }
-    // }
-  ];
+  data = [];
 
   settings: SmartTableSettings = {
     mode: 'external',
@@ -91,11 +33,6 @@ export class RoundTemplateComponent implements OnInit {
       deleteButtonContent: '<i class="nb-trash"></i>'
     },
     columns: {
-      // id: {
-      //   title: 'ID',
-      //   type: 'text',
-      //   width: '150px'
-      // },
       nombre: {
         title: 'Nombre de Ronda',
         type: 'text',
@@ -125,24 +62,40 @@ export class RoundTemplateComponent implements OnInit {
   async ngOnInit() {
     await this.getTemplates();
     if (this.roundTemplateId) {
-      console.log(this.data)
-      this.fullData = this.data.find(item => item.id === +this.roundTemplateId);
+      const fullData = this.data.find(item => item.id === +this.roundTemplateId);
+      try {
+        const response = await this.generalService.getFieldTemplate(this.roundTemplateId);
+        fullData.full.fieldsData = response.map(field => (<RoundsDetails>{
+          unit: field.unidadMedida.nombre,
+          equipment: field.equipamiento.nombre,
+          plant:  field.equipamiento.sistema.planta.nombre,
+          system: field.equipamiento.sistema.nombre,
+          name: field.nombre,
+          minValue: field.valorMin,
+          normalValue: field.valorNormal,
+          maxValue: field.valorMax,
+          type: field.tipoCampoRondaId,
+          roundFieldId: field.id,
+          roundTemplateId: field.plantillaRondaId,
+        }));
+        this.fullData = fullData;
+      } catch (error) {
+
+      }
+
     }
   }
 
-  
+
 
   async getTemplates() {
     let roundTemplateData;
     try {
       roundTemplateData = await this.generalService.getRoundTemplate();
-      console.log(roundTemplateData);
     } catch (error) {
-      console.log(error);
     }
     try {
       this.data = roundTemplateData.items.map(item => {
-        console.log(item.horarios)
         const time = item.horarios ? item.horarios != -1 ? Array.isArray(item.horarios) ? item.horarios.join(' - ') : item.horarios : item.horarios : item.horarios
         let timer = item.horarios ? item.horarios != -1 ? !Array.isArray(item.horarios) ? item.horarios.split(' - ') : item.horarios : item.horarios : item.horarios
         timer = timer ? Array.from(timer).map((item:any)=>{
@@ -161,7 +114,7 @@ export class RoundTemplateComponent implements OnInit {
               timer: {},
               time,
             },
-            tableData: [],
+            fieldsData: [],
             tableTimeData: timer,
             horarioId: item.horarioId,
             campoRondaId: item.campoRondaId,
@@ -185,20 +138,28 @@ export class RoundTemplateComponent implements OnInit {
         create: true,
       }
     });
+    this.fullData = null;
   }
 
   async editTemplate({data}) {
-    var dataFiel = []
+    const dataFields = []
     const response = await this.generalService.getFieldTemplate(data.id);
-    response.forEach(element => {
-      dataFiel.push({
-        component: element.unidadMedida.nombre,
-        equipment: element.equipamiento.nombre,
-        plant:  element.equipamiento.sistema.planta.nombre,
-        system: element.equipamiento.sistema.nombre
+    response.forEach(field => {
+      dataFields.push(<RoundsDetails>{
+        unit: field.unidadMedida.nombre,
+        equipment: field.equipamiento.nombre,
+        plant:  field.equipamiento.sistema.planta.nombre,
+        system: field.equipamiento.sistema.nombre,
+        name: field.nombre,
+        minValue: field.valorMin,
+        normalValue: field.valorNormal,
+        maxValue: field.valorMax,
+        type: field.tipoCampoRondaId,
+        roundFieldId: field.id,
+        roundTemplateId: field.plantillaRondaId,
       })
-    });      
-    data.full.tableData = dataFiel
+    });
+    data.full.fieldsData = dataFields;
     this.fullData = data;
     this.router.navigate(['/pages/round-template'], {
       queryParams: {
@@ -207,50 +168,60 @@ export class RoundTemplateComponent implements OnInit {
     });
   }
 
-  deleteTemplate(row) {
-    delete this.data[row.index];
-    this.data = [...this.data];
+  async deleteTemplate(template) {
+    const { id } = template.data;
+    try {
+      await this.generalService.deleteRoundTemplate(id);
+      delete this.data[template.index];
+      this.data = [...this.data];
+    } catch (error) {
+      console.log(error)
+      template.confirm.reject();
+    }
   }
 
   async onSaveData(data) {
-    const templateData:RoundTemplateData = {
+    const templateData: RoundTemplateData = {
       nombre: data.nombre,
-      funcionamientoSistema: data.full.templateConfig.funcionamientoSistema,
-      obligatorioSistema: data.full.templateConfig.obligatorioSistema,
-      funcionamientoEquipo: data.full.templateConfig.funcionamientoEquipo,
-      obligatorioEquipo: data.full.templateConfig.obligatorioEquipo,
-      campoRondaId: data.full.campoRondaId || 1,
-      horarios: data.time ? data.time.split(" - ") : -1,
+      funcionamientoSistema: !!data.full.templateConfig.funcionamientoSistema,
+      obligatorioSistema: !!data.full.templateConfig.obligatorioSistema,
+      funcionamientoEquipo: !!data.full.templateConfig.funcionamientoEquipo,
+      obligatorioEquipo: !!data.full.templateConfig.obligatorioEquipo,
+      horarios: data.time ? data.time.split(' - ') : '',
     };
-    
-    console.log(templateData);
     if (data.id) {
       try {
-        const response = await this.generalService.editRoundTemplate(data.id, templateData);
-        console.log(response);
+        await this.generalService.editRoundTemplate(data.id, templateData);
       } catch (error) {
         console.log(error)
       }
     } else {
       try {
-        const response = await this.generalService.createRoundTemplate(templateData);
-        const dataTemplate:RoundFields = {
-          nombre: data.full.fieldConfig.nombre,
-          valorNormal: data.full.fieldConfig.valorNormal,
-          valorMax: data.full.fieldConfig.valorMax,
-          valorMin: data.full.fieldConfig.valorMin,
-          equipamientoId: data.full.fieldConfig.equipamientoId,
-          tipoCampoRondaId: data.full.fieldConfig.tipoCampoRondaId,
-          unidadMedidaId: data.full.fieldConfig. unidadMedidaId,
-          plantillaRondaId: response.id
-        }
-        const res = await this.generalService.createRoundFields(dataTemplate)
+        const { id } = await this.generalService.createRoundTemplate(templateData);
+        data.id = id;
+        await this.saveRoundsFields(data);
       } catch (error) {
         console.log(error)
       }
     }
-    this.getTemplates()
+    this.getTemplates();
     this.fullData = null;
     this.roundTemplateId = null;
+  }
+
+  async saveRoundsFields(data) {
+    data.full.fieldsData.forEach(async (field: RoundsDetails) => {
+      const dataTemplate: RoundFields = {
+        nombre: field.name,
+        valorNormal: field.normalValue,
+        valorMax: field.maxValue,
+        valorMin: field.minValue,
+        equipamientoId: field.equipmentId,
+        tipoCampoRondaId: field.typeId,
+        unidadMedidaId: field.unitId,
+        plantillaRondaId: data.id,
+      }
+      await this.generalService.createRoundFields(dataTemplate);
+    });
   }
 }

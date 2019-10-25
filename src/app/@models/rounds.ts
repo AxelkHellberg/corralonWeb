@@ -14,12 +14,24 @@ export interface FullData {
 }
 
 export interface RoundsDetails {
-  plant:     string;
-  system:    string;
-  equipment: string;
-  component: string;
+  plant?:     string;
+  system?:    string;
+  equipment?: string;
+  unit?: string;
+  type?: any;
+  plantId?:     string;
+  systemId?:    string;
+  equipmentId?: string;
+  unitId?: string;
+  typeId?: string;
   timer?:     any;
   time?:      string;
+  name?: string;
+  minValue?: string;
+  maxValue?: string;
+  normalValue?: string;
+  roundFieldId?: string;
+  roundTemplateId?: string;
 }
 
 export interface TableTimeData {
