@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { SmartTableSettings } from '../../../@models/smart-table';
-import { GeneralService } from '../../../services/general.service';
+import { Component, OnInit } from "@angular/core";
+import { SmartTableSettings } from "../../../@models/smart-table";
+import { GeneralService } from "../../../services/general.service";
 
 @Component({
-  selector: 'ngx-tag-system',
-  templateUrl: './tag-system.component.html',
-  styleUrls: ['./tag-system.component.scss']
+  selector: "ngx-tag-system",
+  templateUrl: "./tag-system.component.html",
+  styleUrls: ["./tag-system.component.scss"]
 })
 export class TagSystemComponent implements OnInit {
-
   data = [
     // {
     //   id: 1,
@@ -26,7 +25,7 @@ export class TagSystemComponent implements OnInit {
 
   settings: SmartTableSettings = {
     attr: {
-      class: 'general-table',
+      class: "general-table"
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -38,9 +37,11 @@ export class TagSystemComponent implements OnInit {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
     },
     columns: {
       // id: {
@@ -53,9 +54,9 @@ export class TagSystemComponent implements OnInit {
       nombre: {
         title: 'N° de Tag',
         type: 'text',
-        width: '200px',
+        width: '200px'
       },
-      status: {
+      habilitado: {
         title: 'Estado',
         type: 'text',
         width: '150px',
@@ -71,9 +72,9 @@ export class TagSystemComponent implements OnInit {
                 title: 'Apagado',
                 value: 'Apagado',
               }
-            ],
-          },
-        },
+            ]
+          }
+        }
       },
       obligatorio: {
         title: 'Obligatorio',
@@ -85,50 +86,65 @@ export class TagSystemComponent implements OnInit {
             list: [
               {
                 title: 'Si',
-                value: true,
+                value: 'Si',
               },
               {
                 title: 'No',
-                value: false,
-              },
-            ],
-          },
-        },
-      },
-    },
+                value: 'No',
+              }
+            ]
+          }
+        }
+      }
+    }
   };
 
-  constructor(private generalService: GeneralService) { }
+  constructor(private generalService: GeneralService) {}
 
   ngOnInit() {
-    this.getTag()
+    this.getTag();
   }
 
-  async getTag(){
-    try{
+  async getTag() {
+    try {
       const response = await this.generalService.getTag(1);
-      console.log(response)
-      this.data = response.items
+      console.log(response);
+      this.data = response.items.map(item => ({
+        ...item,
+        obligatorio: item.obligatorio ? 'Si' : 'No',
+        habilitado: item.habilitado ? 'Encendido' : 'Apagado'
+      }));
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
-  async createEquipment(event){
-    try{   
-      var data = {
+  async createOrEditEquipment(event, isEdit = false) {
+    try {
+      const data = {
         nombre: event.newData.nombre,
-        obligatorio: event.newData.obligatorio,
-        status: event.newData.status,
-        tipoTagId: 1
+        obligatorio: event.newData.obligatorio === 'Si' ? true : false,
+        habilitado: event.newData.habilitado === 'Encendido' ? true : false,
+        tipoTagId: 1,
+      };
+      if ( isEdit ) {
+        await this.generalService.editTag(data);
+      } else {
+        await this.generalService.createTag(data);
       }
-      const response = await this.generalService.createTag(data);
-      console.log(response)
       event.confirm.resolve();
     } catch (e) {
-      console.log(e)
+      console.log(e);
       event.confirm.reject();
     }
   }
 
+  async deleteEquipment(event) {
+    try {
+      await this.generalService.deleteTag(event.data.id);
+      event.confirm.resolve();
+    } catch (e) {
+      event.confirm.reject();
+    }
+  }
 }

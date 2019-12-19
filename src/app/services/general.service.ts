@@ -76,6 +76,12 @@ export class GeneralService {
   createTag(tagData: TagData): Promise<any> {
     return this.http.post(`${environment.url}/services/entities/tags`, tagData).toPromise();
   }
+  editTag(tagData: TagData): Promise<any> {
+    return this.http.patch(`${environment.url}/services/entities/tags`, tagData).toPromise();
+  }
+  deleteTag(id: number): Promise<any> {
+    return this.http.delete(`${environment.url}/services/entities/tags/${id}`).toPromise();
+  }
   getTag(type: any): Promise<any> {
     return this.http.get(`${environment.url}/services/entities/tags?q=tipoTagId=${type}` ).toPromise();
   }

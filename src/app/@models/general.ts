@@ -37,9 +37,9 @@ export interface EquipmentData {
 
 export interface TagData {
   nombre: string;
-  obligatorio: boolean;
+  obligatorio: any;
   tipoTagId: number;
-  status: string;
+  habilitado: any;
 }
 export interface ManeuverGuideData {
   userId: number;
