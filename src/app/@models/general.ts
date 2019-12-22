@@ -8,6 +8,7 @@ export interface UserData {
 }
 
 export interface UserBasicData {
+  domain: string;
   username: string;
   password: string;
 }
