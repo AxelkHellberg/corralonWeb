@@ -46,6 +46,7 @@ Ambos archivos poseen una única propiedad llamada **"url"** donde va nuestro do
 Hay que tener en cuenta que estas configuraciones aplican para cuando estamos desarrollando y cuando nuestra app está buildeada.
 
  **Cuando estamos desarrollando**
+ 
  Los archivos de configuración están en *src/assets/config* 
  
 |Comando  |Archivo  |
@@ -54,6 +55,7 @@ Hay que tener en cuenta que estas configuraciones aplican para cuando estamos de
 |ng serve --prod | config.prod.json |
 
  **Cuando nuestra app está buildeada**
+ 
  Los archivos de configuración están en *dist/assets/config*
  
 |Comando  |Archivo  |
