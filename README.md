@@ -47,6 +47,7 @@ Hay que tener en cuenta que estas configuraciones aplican para cuando estamos de
 
  **Cuando estamos desarrollando**
  Los archivos de configuración están en *src/assets/config* 
+ 
 |Comando  |Archivo  |
 |--|--|
 |ng serve  | config.json |
@@ -54,6 +55,7 @@ Hay que tener en cuenta que estas configuraciones aplican para cuando estamos de
 
  **Cuando nuestra app está buildeada**
  Los archivos de configuración están en *dist/assets/config*
+ 
 |Comando  |Archivo  |
 |--|--|
 |ng build| config.json |
