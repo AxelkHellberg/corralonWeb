@@ -45,6 +45,13 @@ Ambos archivos poseen una única propiedad llamada **"url"** donde va nuestro do
 
 Hay que tener en cuenta que estas configuraciones aplican para cuando estamos desarrollando y cuando nuestra app está buildeada.
 
+**Advertencia:** La url debe terminar sin barra al final:
+
+**MAL:** https://www.midominio.com/
+
+**BIEN:** https://www.midominio.com
+
+
  **Cuando estamos desarrollando**
  
  Los archivos de configuración están en *src/assets/config* 
