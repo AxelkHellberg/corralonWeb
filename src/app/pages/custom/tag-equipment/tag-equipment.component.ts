@@ -38,9 +38,11 @@ export class TagEquipmentComponent implements OnInit {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
     },
     columns: {
       // id: {
@@ -55,7 +57,7 @@ export class TagEquipmentComponent implements OnInit {
         type: 'text',
         width: '200px',
       },
-      status: {
+      habilitado: {
         title: 'Estado',
         type: 'text',
         width: '150px',
@@ -85,11 +87,11 @@ export class TagEquipmentComponent implements OnInit {
             list: [
               {
                 title: 'Si',
-                value: true,
+                value: 'Si',
               },
               {
                 title: 'No',
-                value: false,
+                value: 'No',
               },
             ],
           },
@@ -107,25 +109,41 @@ export class TagEquipmentComponent implements OnInit {
     try{
       const response = await this.generalService.getTag(2);
       console.log(response)
-      this.data = response.items
+      this.data = response.items.map(item => ({
+        ...item,
+        obligatorio: item.obligatorio ? 'Si' : 'No',
+        habilitado: item.habilitado ? 'Encendido' : 'Apagado',
+      }));
     } catch (e) {
       console.log(e)
     }
   }
 
-  async createEquipment(event){
-    try{   
-      var data = {
+  async createOrEditEquipment(event, isEdit = false) {
+    try {
+      const data = {
         nombre: event.newData.nombre,
-        obligatorio: event.newData.obligatorio,
-        status: event.newData.status,
-        tipoTagId: 2
+        obligatorio: event.newData.obligatorio === 'Si' ? true : false,
+        habilitado: event.newData.habilitado === 'Encendido' ? true : false,
+        tipoTagId: 1,
+      };
+      if ( isEdit ) {
+        await this.generalService.editTag(data);
+      } else {
+        await this.generalService.createTag(data);
       }
-      const response = await this.generalService.createTag(data);
-      console.log(response)
       event.confirm.resolve();
     } catch (e) {
-      console.log(e)
+      console.log(e);
+      event.confirm.reject();
+    }
+  }
+
+  async deleteEquipment(event) {
+    try {
+      await this.generalService.deleteTag(event.data.id);
+      event.confirm.resolve();
+    } catch (e) {
       event.confirm.reject();
     }
   }

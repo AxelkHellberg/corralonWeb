@@ -4,6 +4,8 @@
   <ng2-smart-table
     [settings]="settings"
     [source]="data"
-    (createConfirm)="createEquipment($event)"
+    (createConfirm)="createOrEditEquipment($event)"
+    (editConfirm)="createOrEditEquipment($event, true)"
+    (deleteConfirm)="deleteEquipment($event)"
   ></ng2-smart-table>
 </ng-container>
