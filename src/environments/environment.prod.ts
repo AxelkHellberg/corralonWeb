@@ -5,5 +5,6 @@
  */
 export const environment = {
   production: true,
-  url: 'https://us-central1-proyecto-s2i.cloudfunctions.net'
+  url: 'https://us-central1-proyecto-s2i.cloudfunctions.net',
+  configFile: 'config.prod.json'
 };
