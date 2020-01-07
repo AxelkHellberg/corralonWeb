@@ -3,7 +3,56 @@
 <ng2-smart-table
   [settings]="settings"
   [source]="data"
-  (createConfirm)="addPlant($event)"
-  (editConfirm)="editPlant($event)"
-  (deleteConfirm)="deletePlant($event)"
+  (create)="addPlant()"
+  (edit)="editPlant($event)"
+  (delete)="deletePlant($event)"
 ></ng2-smart-table>
+
+
+<ng-template #newPlantTemplate let-modalRef="dialogRef">
+  <nb-card class="modal-status d-flex justify-content-center">
+    <nb-card-header>Nueva Planta</nb-card-header>
+    <nb-card-body>
+      <div class="d-flex justify-content-start">
+        <div class="d-flex flex-column ml-2 mr-2">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" name="name" nbInput [(ngModel)]="plant.nombre">
+        </div>
+        <div class="d-flex flex-column ml-2 mr-2">
+          <label for="description">Descripción</label>
+          <input name="description" id="description" width="500" nbInput [(ngModel)]="plant.descripcion">
+        </div>
+      </div>
+      <div *ngIf="errorMessage" class="mt-2 alert alert-danger" role="alert">
+        {{errorMessage}}
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton [disabled]="loading" hero status="primary" (click)="addPlant(modalRef)">Agregar Planta</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+<ng-template #editPlantTemplate let-modalRef="dialogRef">
+  <nb-card class="modal-status d-flex justify-content-center">
+    <nb-card-header>Editar Planta</nb-card-header>
+    <nb-card-body>
+      <div class="d-flex justify-content-start">
+        <div class="d-flex flex-column ml-2 mr-2">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" name="name" nbInput [(ngModel)]="plant.nombre">
+        </div>
+        <div class="d-flex flex-column ml-2 mr-2">
+          <label for="description">Descripción</label>
+          <input name="description" id="description" width="500" nbInput [(ngModel)]="plant.descripcion">
+        </div>
+      </div>
+      <div *ngIf="errorMessage" class="mt-2 alert alert-danger" role="alert">
+        {{errorMessage}}
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton [disabled]="loading" hero status="primary" (click)="editPlant(plant, modalRef)">Editar Planta</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

@@ -4,11 +4,107 @@
   <ng2-smart-table
     [settings]="settings"
     [source]="data"
-    (createConfirm)="addSystem($event)"
-    (editConfirm)="editSystem($event)"
-    (deleteConfirm)="deleteSystem($event)"
+    (create)="addSystem()"
+    (edit)="editSystem($event)"
+    (delete)="deleteSystem($event)"
   ></ng2-smart-table>
 </ng-container>
+
+<ng-template #newSystemTemplate let-modalRef="dialogRef">
+  <nb-card class="modal-status d-flex justify-content-center">
+    <nb-card-header>Nuevo Sistema</nb-card-header>
+    <nb-card-body>
+      <div class="d-flex justify-content-start">
+        <div class="d-flex flex-column col-4">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" name="name" nbInput [(ngModel)]="system.nombre">
+        </div>
+        <div class="d-flex flex-column col-4">
+          <label for="system-type">Tipo de Sistema</label>
+          <nb-select placeholder="Seleccione" [(selected)]="system.tipoSistemaId">
+            <nb-option *ngFor="let systemType of systemTypes" [value]="systemType.id">{{systemType.nombre}}</nb-option>
+          </nb-select>
+        </div>
+        <div class="d-flex flex-column col-4">
+          <label for="description">Descripción</label>
+          <input name="description" id="description" width="500" nbInput [(ngModel)]="system.descripcion">
+        </div>
+      </div>
+      <div class="d-flex justify-content-start">
+        <div class="d-flex flex-column col-4">
+          <label for="KKS">KKS</label>
+          <input type="text" id="KKS" name="KKS" nbInput [(ngModel)]="system.KKS">
+        </div>
+        <div class="d-flex flex-column col-4">
+          <label for="system-type">Planta</label>
+          <nb-select placeholder="Seleccione" [(selected)]="system.plantaId">
+            <nb-option *ngFor="let plant of plants" [value]="plant.id">{{plant.nombre}}</nb-option>
+          </nb-select>
+        </div>
+        <div class="d-flex flex-column col-4">
+          <label for="description">TAG</label>
+          <nb-select placeholder="Seleccione" [(selected)]="system.tagId">
+            <nb-option *ngFor="let tag of tags" [value]="tag.id">{{tag.nombre}}</nb-option>
+          </nb-select>
+        </div>
+      </div>
+      <div *ngIf="errorMessage" class="mt-2 alert alert-danger" role="alert">
+        {{errorMessage}}
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton [disabled]="loading" hero status="primary" (click)="addSystem(modalRef)">Agregar Sistema</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+<ng-template #editSystemTemplate let-modalRef="dialogRef">
+  <nb-card class="modal-status d-flex justify-content-center">
+    <nb-card-header>Editar Sistema</nb-card-header>
+    <nb-card-body>
+      <div class="d-flex justify-content-start mb-2">
+        <div class="d-flex flex-column col-4">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" name="name" nbInput [(ngModel)]="system.nombre">
+        </div>
+        <div class="d-flex flex-column col-4">
+          <label for="system-type">Tipo de Sistema</label>
+          <nb-select placeholder="Seleccione" [(selected)]="system.tipoSistemaId">
+            <nb-option *ngFor="let systemType of systemTypes" [value]="systemType.id">{{systemType.nombre}}</nb-option>
+          </nb-select>
+        </div>
+        <div class="d-flex flex-column col-4">
+          <label for="description">Descripción</label>
+          <input name="description" id="description" width="500" nbInput [(ngModel)]="system.descripcion">
+        </div>
+      </div>
+      <div class="d-flex justify-content-start">
+        <div class="d-flex flex-column col-4">
+          <label for="KKS">KKS</label>
+          <input type="text" id="KKS" name="KKS" nbInput [(ngModel)]="system.KKS">
+        </div>
+        <div class="d-flex flex-column col-4">
+          <label for="system-type">Planta</label>
+          <nb-select placeholder="Seleccione" [(selected)]="system.plantaId">
+            <nb-option *ngFor="let plant of plants" [value]="plant.id">{{plant.nombre}}</nb-option>
+          </nb-select>
+        </div>
+        <div class="d-flex flex-column col-4">
+          <label for="description">TAG</label>
+          <nb-select placeholder="Seleccione" [(selected)]="system.tagId">
+            <nb-option *ngFor="let tag of tags" [value]="tag.id">{{tag.nombre}}</nb-option>
+          </nb-select>
+        </div>
+      </div>
+      <div *ngIf="errorMessage" class="mt-2 alert alert-danger" role="alert">
+        {{errorMessage}}
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton [disabled]="loading" hero status="primary" (click)="editSystem(system, modalRef)">Editar Sistema</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
 
 <div class="row" *ngIf="associateTagId">
   <div class="col-6">

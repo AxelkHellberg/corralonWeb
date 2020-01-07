@@ -9,6 +9,7 @@ export interface SystemList {
   tipoSistemaId:      number;
   plantaNombre?:      string;
   tagId:        string;
+  tagNombre: string;
   equipment?:  string;
 }
 

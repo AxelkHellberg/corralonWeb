@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { PlantData } from './../../../@models/general';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
+import { NbDialogService, NbDialogRef } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-plants',
@@ -8,10 +10,15 @@ import { GeneralService } from '../../../services/general.service';
   styleUrls: ['./plants.component.scss']
 })
 export class PlantsComponent implements OnInit {
-
+  @ViewChild('newPlantTemplate') newPlantTemplate: TemplateRef<any>;
+  @ViewChild('editPlantTemplate') editPlantTemplate: TemplateRef<any>;
   data = [];
-
+  plant: PlantData = {} as PlantData;
+  loading: boolean;
+  errorMessage: string;
   settings: SmartTableSettings = {
+    mode: 'external',
+    noDataMessage: 'Sin Plantas',
     attr: {
       class: 'general-table',
     },
@@ -19,17 +26,14 @@ export class PlantsComponent implements OnInit {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
-      confirmCreate: true,
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
-      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
     },
     columns: {
       nombre: {
@@ -45,9 +49,16 @@ export class PlantsComponent implements OnInit {
     }
   };
 
-  constructor(private generalService: GeneralService) { }
+  constructor(
+    private generalService: GeneralService,
+    private dialogService: NbDialogService,
+    ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.getPlants();
+  }
+
+  async getPlants() {
     try {
       const response = await this.generalService.getPlants();
       this.data = response.items;
@@ -56,23 +67,47 @@ export class PlantsComponent implements OnInit {
     }
   }
 
-  async addPlant(plant: ConfirmData) {
-    const { newData } = plant;
+  async addPlant(dialog: NbDialogRef<any>) {
+    this.errorMessage = null;
+    if (!dialog) {
+      this.dialogService.open(this.newPlantTemplate);
+      return false;
+    }
     try {
-      await this.generalService.createPlant(newData);
-      plant.confirm.resolve();
-    } catch (error) {
-      plant.confirm.reject();
+      this.loading = true;
+      await this.generalService.createPlant(this.plant);
+      this.getPlants();
+      this.plant = {} as PlantData;
+      dialog.close();
+    } catch ({error}) {
+      this.errorMessage = (error || {}).userMessage;
+    } finally {
+      this.loading = false;
     }
   }
 
-  async editPlant(plant: ConfirmData) {
-    const { id } = plant.data;
+  async editPlant(plant, dialog?) {
+    this.errorMessage = null;
+    if (plant) {
+      const { id, nombre, descripcion } = (plant || {}).data || plant;
+      this.plant = { nombre, descripcion, id };
+    }
+
+    if (!dialog) {
+
+      this.dialogService.open(this.editPlantTemplate);
+      return false;
+    }
     try {
-      await this.generalService.editPlant(id, plant.newData);
-      plant.confirm.resolve();
-    } catch (error) {
-      plant.confirm.reject();
+      this.loading = true;
+      await this.generalService.editPlant(this.plant.id, this.plant);
+      this.getPlants();
+      dialog.close();
+      this.plant = {} as PlantData;
+    } catch ({error}) {
+      this.errorMessage = (error || {}).userMessage;
+    } finally {
+      this.loading = false;
     }
   }
 
@@ -80,10 +115,8 @@ export class PlantsComponent implements OnInit {
     const { id } = plant.data;
     try {
       await this.generalService.deletePlant(id);
-      plant.confirm.resolve();
-    } catch (error) {
-      plant.confirm.reject();
-    }
+      this.getPlants();
+    } catch (error) {}
   }
 
 }
