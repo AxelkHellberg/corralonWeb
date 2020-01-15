@@ -1,45 +1,55 @@
+import { RoundsByUserData } from './../../../@models/dashboard';
 import { BarHorizontalChartData } from './../../../@models/charts/bar-horizontal-chart';
 import { Component, OnInit } from '@angular/core';
 import { PieChartData } from '../../../@models/charts/pie-chart';
+import { GeneralService } from '../../../services/general.service';
+import { RoundsQuantity } from '../../../@models/dashboard';
 
 @Component({
   selector: 'ngx-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   pieChartData: PieChartData;
   barHorizontalChartData: BarHorizontalChartData;
 
-  constructor() { }
+  constructor(private generalService: GeneralService) {
+    this.getRoundsQuantity();
+    this.getRoundsByUser();
+  }
 
-  ngOnInit() {
-    this.pieChartData = {
-      labels: ['Completas', 'Incompletas',],
-      datasets: [{
-        data: [800, 200],
-        backgroundColor: ['#88afff', '#c492ee'],
-      }],
-    };
+  async getRoundsQuantity() {
+    try {
+      const response: RoundsQuantity = await this.generalService.getRoundsQuantity();
+      this.pieChartData = {
+        labels: ['Completas', 'Incompletas'],
+        datasets: [{
+          data: [+response.cantidadCompleta, +response.cantidadSinCompletar],
+          backgroundColor: ['#88afff', '#c492ee'],
+        }]
+      }
+    } catch (error) {
 
-    const randomNumber = () => Math.round(Math.random() * 100);
+    }
+  }
 
-    this.barHorizontalChartData = {
-      labels: ['Usuario 1', 'Usuario 2', 'Usuario 3', 'Usuario 4', 'Usuario 5', 'Usuario 6'],
-      datasets: [
-        {
-          label: 'Incompletas',
-          backgroundColor: '#88afff',
-          borderWidth: 1,
-          data: [randomNumber(), randomNumber(), randomNumber(), randomNumber(), randomNumber(), randomNumber()],
-        },
-        {
-          label: 'Completas',
-          backgroundColor: '#c492ee',
-          data: [randomNumber(), randomNumber(), randomNumber(), randomNumber(), randomNumber(), randomNumber()],
-        },
-      ],
-    };
+  async getRoundsByUser() {
+    try {
+      const response: RoundsByUserData[] = await this.generalService.getRoundsByUser();
+      this.barHorizontalChartData = {
+        labels: response.map(user => `${user.user_name} ${user.user_lastName}`),
+        datasets: [
+          {
+            label: 'Completas',
+            backgroundColor: '#c492ee',
+            data: response.map(user => +user.cantidadRondasHechas),
+          },
+        ]
+      }
+    } catch (error) {
+
+    }
   }
 
 }

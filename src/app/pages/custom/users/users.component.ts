@@ -1,3 +1,4 @@
+import { UserData } from './../../../@models/general';
 import { Component, OnInit } from '@angular/core';
 import { Users } from '../../../@models/users';
 import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
@@ -9,7 +10,7 @@ import * as moment from 'moment';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent {
 
   data: Users[] = [];
   settings: SmartTableSettings = {
@@ -53,10 +54,10 @@ export class UsersComponent implements OnInit {
           },
         },
       },
-      email: {
-        title: 'E-mail',
-        type: 'text',
-      },
+      // email: {
+      //   title: 'E-mail',
+      //   type: 'text',
+      // },
       lastSession: {
         title: 'Última Sesión',
         type: 'text',
@@ -66,9 +67,11 @@ export class UsersComponent implements OnInit {
   };
   profiles: any;
 
-  constructor(private generalService: GeneralService) { }
+  constructor(private generalService: GeneralService) {
+    this.getUsers();
+  }
 
-  async ngOnInit() {
+  async getUsers() {
     try {
       const response = await this.generalService.getProfile();
       this.profiles = response.items;
@@ -86,11 +89,27 @@ export class UsersComponent implements OnInit {
       this.data = response.items;
       this.data.forEach(item => {
         item['profile'] = this.profiles.find(profile => profile.id === item.profileId).name;
-        item['lastSession'] = item.updateAt;
+        item['lastSession'] = moment(item.updateAt).utc().format('DD/MM/YYYY hh:mm');
       });
       console.log(this.data)
     } catch (e) {
       console.log(e)
+    }
+  }
+
+  async createUser(data: ConfirmData) {
+    const userData: UserData = data.newData;
+    userData.username = `${userData.name.charAt(0)}${userData.lastName.replace(/ /g, '').toLowerCase()}`;
+    userData.password = '123456';
+    userData.dni = 'prueba';
+    userData.profile = this.profiles.find(profile => profile.name === userData.profile).id;
+    delete (userData as any).lastSession;
+    try {
+      const response = await this.generalService.createUser(userData);
+      this.getUsers();
+      data.confirm.resolve();
+    } catch (error) {
+      data.confirm.reject();
     }
   }
   async editUser(data: ConfirmData) {

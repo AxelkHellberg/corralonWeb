@@ -9,8 +9,11 @@ import { EnvironmentService } from './environment.service';
 export class GeneralService {
   constructor(private http: HttpClient) { }
 
-  createUser(userData: UserData): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/users/`, userData).toPromise();
+  getRoundsQuantity(): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute/1`, {}).toPromise();
+  }
+  getRoundsByUser(): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute/2`, {}).toPromise();
   }
   login(userData: UserBasicData): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/auth/login/`, userData).toPromise();
@@ -18,11 +21,14 @@ export class GeneralService {
   getUser(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/users/`).toPromise();
   }
-  deleteUser(id: number): Promise<any> {
-    return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/users/${id}`).toPromise();
+  createUser(userData: UserData): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/users/`, userData).toPromise();
   }
   editUser(id: number, userData: UserData): Promise<any> {
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/users/${id}`, userData).toPromise();
+  }
+  deleteUser(id: number): Promise<any> {
+    return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/users/${id}`).toPromise();
   }
   createPlant(plantData: PlantData): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantas`, plantData).toPromise();

@@ -178,14 +178,12 @@ export class SystemListComponent implements OnInit {
     }
   }
 
-  async deleteSystem(system: ConfirmData) {
+  async deleteSystem(system) {
     const { id } = system.data;
     try {
-      await this.generalService.deletePlant(id);
-      system.confirm.resolve();
+      await this.generalService.deleteSystem(id);
+      this.getAllData();
     } catch (error) {
-      console.log(error)
-      system.confirm.reject();
     }
   }
 

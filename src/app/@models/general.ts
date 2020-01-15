@@ -5,6 +5,7 @@ export interface UserData {
   lastName: string;
   fileNumber: string;
   dni: string;
+  profile?: string;
 }
 
 export interface UserBasicData {
