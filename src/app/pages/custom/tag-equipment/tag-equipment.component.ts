@@ -125,7 +125,7 @@ export class TagEquipmentComponent implements OnInit {
         nombre: event.newData.nombre,
         obligatorio: event.newData.obligatorio === 'Si' ? true : false,
         habilitado: event.newData.habilitado === 'Encendido' ? true : false,
-        tipoTagId: 1,
+        tipoTagId: 2,
       };
       if ( isEdit ) {
         await this.generalService.editTag(data);

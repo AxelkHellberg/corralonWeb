@@ -103,9 +103,8 @@ export class EquipmentComponent implements OnInit {
         value: tag.nombre,
       }));
       this.settings = {...this.settings};
-    } catch (e) {
+    } catch (e) { }
 
-    }
     try {
       const response = await this.generalService.getSystems();
       this.systems = response.items;
@@ -114,20 +113,16 @@ export class EquipmentComponent implements OnInit {
         value: system.nombre,
       }));
       this.settings = {...this.settings};
-    } catch (e) {
-
-    }
+    } catch (e) { }
 
     try {
       const response = await this.generalService.getEquipments();
       this.data = response.items;
       this.data.forEach(data => {
-        data.sistemaId = this.systems.find(system => system.id === data.sistemaId).nombre;
-        data.tagId = this.tag.find(tag => tag.id === data.tagId).nombre;
+        data.sistemaId = (this.systems.find(system => system.id === data.sistemaId) || {} as any).nombre || 'Desconocido';
+        data.tagId = (this.tag.find(tag => tag.id === data.tagId) || {} as any).nombre || 'Desconocido';
       });
-    } catch (e) {
-      console.log(e)
-    }
+    } catch (e) { }
   }
 
   async addEquipment(data: ConfirmData) {
@@ -136,7 +131,7 @@ export class EquipmentComponent implements OnInit {
       nombre: newData.nombre,
       detalle: newData.detalle,
       sistemaId: this.systems.find(system => system.nombre === newData.sistemaId).id,
-      tagId: this.tag.find(tag => tag.nombre === newData.tagId).id,
+      tagId: (this.tag.find(tag => tag.nombre === newData.tagId) || {} as any).id || -1,
     };
     try {
       await this.generalService.createEquipment(equipmentData);
@@ -156,20 +151,16 @@ export class EquipmentComponent implements OnInit {
     };
     try {
       const response = await this.generalService.editEquipment(newData.id, equipmentData);
-      console.log(response)
       data.confirm.resolve();
     } catch (e) {
-      console.log(e)
       data.confirm.reject();
     }
   }
   async deleteEquipment(data: ConfirmData) {
     try {
       const response = await this.generalService.deleteEquipment(data.data.id);
-      console.log(response)
       data.confirm.resolve();
     } catch (e) {
-      console.log(e)
       data.confirm.reject();
     }
   }
