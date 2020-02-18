@@ -20,6 +20,7 @@ export class SystemsTypeComponent implements OnInit {
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
       confirmCreate: true,
+
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
@@ -54,33 +55,45 @@ export class SystemsTypeComponent implements OnInit {
 
   constructor(private generalService: GeneralService) { }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.getSystemTypes();
+  }
+
+  async getSystemTypes() {
     try {
       const response = await this.generalService.getTypeSystems();
       this.data = response.items;
-      console.log(this.data)
+      console.log(this.data);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
   async addSystemType(data: ConfirmData) {
-    try {
-      const response = await this.generalService.createTypeSystems(data.newData.nombre);
-      console.log(response)
-      data.confirm.resolve();
-    } catch (e) {
-      console.log(e)
+    if (data.newData.nombre) {
+      try {
+        await this.generalService.createTypeSystems(data.newData.nombre);
+        this.getSystemTypes();
+        data.confirm.resolve();
+      } catch (e) {
+        console.log(e)
+        data.confirm.reject();
+      }
+    } else {
       data.confirm.reject();
     }
   }
   async editSystemType(data: ConfirmData) {
-    try {
-      const response = await this.generalService.editTypeSystems(data.newData.id, data.newData.nombre);
-      console.log(response)
-      data.confirm.resolve();
-    } catch (e) {
-      console.log(e)
+    if (data.newData.nombre) {
+      try {
+        const response = await this.generalService.editTypeSystems(data.newData.id, data.newData.nombre);
+        console.log(response)
+        data.confirm.resolve();
+      } catch (e) {
+        console.log(e)
+        data.confirm.reject();
+      }
+    } else {
       data.confirm.reject();
     }
   }

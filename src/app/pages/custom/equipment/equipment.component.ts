@@ -94,7 +94,11 @@ export class EquipmentComponent implements OnInit {
     });
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.getData();
+  }
+
+  async getData() {
     try {
       const response = await this.generalService.getTag(2);
       this.tag = response.items;
@@ -135,6 +139,7 @@ export class EquipmentComponent implements OnInit {
     };
     try {
       await this.generalService.createEquipment(equipmentData);
+      this.getData();
       data.confirm.resolve();
     } catch (error) {
       data.confirm.reject();

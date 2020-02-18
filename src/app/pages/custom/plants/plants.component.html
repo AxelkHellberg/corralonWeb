@@ -13,22 +13,22 @@
   <nb-card class="modal-status d-flex justify-content-center">
     <nb-card-header>Nueva Planta</nb-card-header>
     <nb-card-body>
-      <div class="d-flex justify-content-start">
+      <form class="d-flex justify-content-start" #newPlantForm="ngForm">
         <div class="d-flex flex-column ml-2 mr-2">
           <label for="name">Nombre</label>
-          <input type="text" id="name" name="name" nbInput [(ngModel)]="plant.nombre">
+          <input type="text" id="name" name="name" nbInput [(ngModel)]="plant.nombre" required>
         </div>
         <div class="d-flex flex-column ml-2 mr-2">
           <label for="description">Descripción</label>
-          <input name="description" id="description" width="500" nbInput [(ngModel)]="plant.descripcion">
+          <input name="description" id="description" width="500" nbInput [(ngModel)]="plant.descripcion" required>
         </div>
-      </div>
+      </form>
       <div *ngIf="errorMessage" class="mt-2 alert alert-danger" role="alert">
         {{errorMessage}}
       </div>
     </nb-card-body>
     <nb-card-footer>
-      <button nbButton [disabled]="loading" hero status="primary" (click)="addPlant(modalRef)">Agregar Planta</button>
+      <button nbButton [disabled]="loading || newPlantForm.invalid" hero status="primary" (click)="addPlant(modalRef)">Agregar Planta</button>
     </nb-card-footer>
   </nb-card>
 </ng-template>
@@ -37,22 +37,22 @@
   <nb-card class="modal-status d-flex justify-content-center">
     <nb-card-header>Editar Planta</nb-card-header>
     <nb-card-body>
-      <div class="d-flex justify-content-start">
+      <form class="d-flex justify-content-start" #newPlantForm="ngForm">
         <div class="d-flex flex-column ml-2 mr-2">
           <label for="name">Nombre</label>
-          <input type="text" id="name" name="name" nbInput [(ngModel)]="plant.nombre">
+          <input type="text" id="name" name="name" nbInput [(ngModel)]="plant.nombre" required>
         </div>
         <div class="d-flex flex-column ml-2 mr-2">
           <label for="description">Descripción</label>
-          <input name="description" id="description" width="500" nbInput [(ngModel)]="plant.descripcion">
+          <input name="description" id="description" width="500" nbInput [(ngModel)]="plant.descripcion" required>
         </div>
-      </div>
+      </form>
       <div *ngIf="errorMessage" class="mt-2 alert alert-danger" role="alert">
         {{errorMessage}}
       </div>
     </nb-card-body>
     <nb-card-footer>
-      <button nbButton [disabled]="loading" hero status="primary" (click)="editPlant(plant, modalRef)">Editar Planta</button>
+      <button nbButton [disabled]="loading || newPlantForm.invalid" hero status="primary" (click)="editPlant(plant, modalRef)">Editar Planta</button>
     </nb-card-footer>
   </nb-card>
 </ng-template>

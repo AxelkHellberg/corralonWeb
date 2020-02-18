@@ -56,7 +56,11 @@ export class MeasurementUnitsComponent implements OnInit {
 
   constructor(private generalService: GeneralService) { }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.getMeasurement();
+  }
+
+  async getMeasurement() {
     try {
       const response = await this.generalService.getMeasurementUnits();
       this.data = response.items;
@@ -69,6 +73,7 @@ export class MeasurementUnitsComponent implements OnInit {
     try {
       const response = await this.generalService.createMeasurementUnits(data.newData.nombre);
       console.log(response)
+      this.getMeasurement();
       data.confirm.resolve();
     } catch (e) {
       console.log(e)
