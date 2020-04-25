@@ -8,13 +8,13 @@
 
 <br><br>
 
-  <ng2-smart-table
-  [settings]="settings"
-  [source]="tableData"
-  (create)="createTemplate()"
-  (edit)="editTemplate($event)"
-  (delete)="deleteTemplate($event)"
-  ></ng2-smart-table>
+    <ng2-smart-table
+    [settings]="settings"
+    [source]="tableData"
+    (create)="createTemplate()"
+    (edit)="editTemplate($event)"
+    (delete)="deleteTemplate($event)"
+    ></ng2-smart-table>
 </ng-container>
 
 <br><br>
@@ -22,7 +22,7 @@
 
 <ng-template #addOrEdit let-dialog="dialogRef" let-dialogData>
   <nb-card>
-    <nb-card-header>{{dialogData}}</nb-card-header>
+    <nb-card-header>{{dialogData.title}}</nb-card-header>
     <nb-card-body>
       <div class="row">
         <div class="col-6">
@@ -41,11 +41,11 @@
       <div class="row">
         <div class="col-12 mt-10">
           <p><b>Nombre</b></p>
-          <input type="text" nbInput fullWidth fieldSize="medium" [disabled]="!enableManeuverGuide" [(ngModel)]="data.maneuverGuideName" (input)="selectManeuverGuide($event)" placeholder="">
+          <input type="text" nbInput fullWidth fieldSize="medium" [disabled]="!enableManeuverGuide" [(ngModel)]="dialogData.data.maneuverGuideName" (input)="selectManeuverGuide($event)" placeholder="">
         </div>
         <div class="col-12 mt-10">
           <p><b>Descripcion</b></p>
-          <textarea nbInput fullWidth placeholder="" [disabled]="!enableManeuverGuide" [(ngModel)]="data.maneuverGuideDescription" (input)="selectManeuverGuide($event)"></textarea>
+          <textarea nbInput fullWidth placeholder="" [disabled]="!enableManeuverGuide" [(ngModel)]="dialogData.data.maneuverGuideDescription" (input)="selectManeuverGuide($event)"></textarea>
         </div>
       </div>
       <br><br>
@@ -54,7 +54,7 @@
       <div class="row">
         <div class="col-12 mt-20 d-flex justify-content-center align-items-center">
           <h5 class="text-hint cursor-pointer pr-4" (click)="discardChanges(dialog)">Cancelar</h5>
-          <button nbButton status="primary" (click)="saveChanges(dialog)" [disabled]="!enableSaveButton">Guardar</button>
+          <button nbButton status="primary" (click)="saveChanges(dialog, dialogData)" [disabled]="!enableSaveButton">Guardar</button>
         </div>
       </div>
     </nb-card-footer>

@@ -62,31 +62,39 @@
 
 
 <ng-template #addOrEdit let-dialog="dialogRef" let-dialogData>
-  <nb-card>
+  <nb-card class="roundModal">
     <nb-card-header>{{dialogData}}</nb-card-header>
     <nb-card-body>
         <div class="row">
             <div class="col-6">
               <label class="label" for="plant">Planta</label>
-              <nb-select id="plant" [placeholder]="plant?.placeholder" [selected]="data.plantId">
+              <nb-select id="plant" placeholder="Seleccione" [selected]="data.plantId">
                 <nb-option *ngFor="let item of plantArray?.items" [value]="item?.id" (click)="selectPlant(item)">{{item?.nombre}}</nb-option>
               </nb-select>
             </div>
             <div class="col-6">
               <label class="label" for="system">Sistema</label>
-              <nb-select id="system" [placeholder]="system?.placeholder" [disabled]="!enableSystem" [selected]="data.systemId">
-                <nb-option *ngFor="let item of systemArray?.items | filterBy: 'plantaId': plantId; let i = index" [value]="item?.id" (click)="selectSystem(item)">{{item?.nombre}}</nb-option>
-              </nb-select>
+              <ng-container *ngIf="(systemArray?.items | filterBy: 'plantaId': data.plantId)?.length">
+                <nb-select id="system" placeholder="Seleccione" [selected]="data.systemId" [disabled]="!data.plantId">
+                  <nb-option *ngFor="let item of systemArray?.items | filterBy: 'plantaId': data.plantId" [value]="item?.id" (click)="selectSystem(item)">{{item?.nombre}}</nb-option>
+                </nb-select>
+              </ng-container>
+              <p class="text-danger" *ngIf="!(systemArray?.items | filterBy: 'plantaId': data.plantId)?.length">No hay sistemas disponibles para la planta elegida.</p>
+              <p class="text-danger" *ngIf="(systemArray?.items | filterBy: 'plantaId': data.plantId)?.length && data.plantId && !data.systemId">Seleccione un sistema.</p>
             </div>
             <div class="col-6">
               <label class="label" for="equipment">Equipo</label>
-              <nb-select id="equipment" [placeholder]="equipment?.placeholder" [disabled]="!enableEquipment" [selected]="data.equipmentId">
-                <nb-option *ngFor="let item of equipmentArray?.items | filterBy: 'sistemaId': systemId; let i = index" [value]="item?.id" (click)="selectEquipment(item)">{{item?.nombre}}</nb-option>
-              </nb-select>
+              <ng-container *ngIf="(equipmentArray?.items | filterBy: 'sistemaId': data.systemId)?.length && (systemArray?.items | filterBy: 'plantaId': data.plantId)?.length">
+                <nb-select id="equipment" placeholder="Seleccione" [selected]="data.equipmentId" [disabled]="!data.systemId">
+                  <nb-option *ngFor="let item of equipmentArray?.items | filterBy: 'sistemaId': data.systemId" [value]="item?.id" (click)="selectEquipment(item)">{{item?.nombre}}</nb-option>
+                </nb-select>
+              </ng-container>
+              <p class="text-danger" *ngIf="!(equipmentArray?.items | filterBy: 'sistemaId': data.systemId)?.length || !(systemArray?.items | filterBy: 'plantaId': data.plantId)?.length">No hay equipos disponibles para el sistema elegido.</p>
+              <p class="text-danger" *ngIf="((equipmentArray?.items | filterBy: 'sistemaId': data.systemId)?.length && (systemArray?.items | filterBy: 'plantaId': data.plantId)?.length) && data.systemId && !data.equipmentId">Seleccione un equipo.</p>
             </div>
             <div class="col-6">
               <label class="label" for="unity">Unidad de medida</label>
-              <nb-select id="unity" [placeholder]="unit?.placeholder" [selected]="data.unitId">
+              <nb-select id="unity" placeholder="Seleccione" [selected]="data.unitId">
                 <nb-option *ngFor="let item of unitArray?.items" [value]="item?.id" (click)="selectComponent(item)">{{item?.nombre}}</nb-option>
               </nb-select>
             </div>
@@ -96,7 +104,7 @@
             </div>
             <div class="col-6">
               <label class="label" for="type">Tipo de dato</label>
-              <nb-select id="type" [placeholder]="typeData?.placeholder" [selected]="data.typeId">
+              <nb-select id="type" placeholder="Seleccione" [selected]="data.typeId">
                 <nb-option *ngFor="let item of dataTypeArray?.items " [value]="item?.id" (click)="selectTypeData(item)">{{item?.nombre}}</nb-option>
               </nb-select>
             </div>
@@ -114,9 +122,9 @@
             </div>
             <div class="col-4" *ngIf="data.type > 2">
               <label class="label" for="normal">Valor Normal</label>
-              <nb-select [selected]="true" name="normal" [(ngModel)]="data.normalValue" id="type">
-                <nb-option [value]="true">Verdadero</nb-option>
-                <nb-option [value]="false">Falso</nb-option>
+              <nb-select [(selected)]="data.normalValue" name="normal" id="type" placeholder="Seleccione">
+                <nb-option value="1">Verdadero</nb-option>
+                <nb-option value="0">Falso</nb-option>
               </nb-select>
             </div>
           </div>

@@ -65,8 +65,8 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
       }
     }
   };
-  plantSelected: string;
-  systemSelected: string;
+  plantSelected: number;
+  systemSelected: number;
   isCreate: boolean;
   isEdit: boolean;
   enableManeuverGuide: boolean;
@@ -82,23 +82,20 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
 
   constructor(private dialogService: NbDialogService, private generalService: GeneralService) { }
 
-  async ngOnInit() {
-    try {
-      const response = await this.generalService.getPlants();
-      this.plants = response.items;
-      console.log(this.plants);
-    } catch (error) { }
+  ngOnInit() {
+    this.getAllData();
+  }
 
-    try {
-      const response = await this.generalService.getSystems();
-      this.systems = response.items;
-      console.log(this.systems);
-    } catch (error) { }
-
-    try {
-      const response = await this.generalService.getManeuverGuideFieldsWithPlants(this.maneuverGuideId);
-      console.log(response)
-      this.tableData = response.map(res => ({
+  async getAllData() {
+    this.settings = {...this.settings, attr: {class: 'general-table disabled'}};
+    Promise.all([
+      await this.generalService.getPlants(),
+      await this.generalService.getSystems(),
+      await this.generalService.getManeuverGuideFieldsWithPlants(this.maneuverGuideId)
+    ]).then(([{items: plants}, {items: systems}, maneuverGuideFieldsWithPlants]) => {
+      this.plants = plants;
+      this.systems = systems;
+      this.tableData = maneuverGuideFieldsWithPlants.map(res => ({
         id: res.id,
         plant: res.sistema.planta.nombre,
         plantaId: res.sistema.planta.plantaId,
@@ -106,10 +103,9 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
         sistemaId: res.sistema.sistemaId,
         maneuverGuideName: res.nombre,
         maneuverGuideDescription: res.descripcion,
-      }))
-    } catch (error) {
-
-    }
+      }));
+      this.settings = {...this.settings, attr: {class: 'general-table'}};
+    }).catch(() => {});
   }
 
   createTemplate() {
@@ -121,11 +117,11 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
       maneuverGuideName: '',
       maneuverGuideDescription: '',
     };
-    this.plantSelected = '';
-    this.systemSelected = '';
+    this.plantSelected = null;
+    this.systemSelected = null;
     this.maneuverGuideTitle = '';
     this.dialogService.open(this.addOrEditTemplate, {
-      context: 'Añadir Elemento',
+      context: {title: 'Añadir Elemento', data: this.data},
       closeOnBackdropClick: false,
       closeOnEsc: false,
     });
@@ -139,7 +135,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     this.enableSystem = true;
     this.selectOnEdit(row.data, row.index);
     this.dialogService.open(this.addOrEditTemplate, {
-      context: 'Añadir Elemento',
+      context: {title: 'Editar Elemento', data: this.data},
       closeOnBackdropClick: false,
       closeOnEsc: false,
     });
@@ -160,7 +156,6 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     this.enableSaveButton = false;
     this.maneuverGuideTitle = '';
     this.currentPlantId = plant.id;
-    // this.system.selected = this.selectFirstItem(this.system, 'plant', this.data.plant);
   }
   selectSystem(item) {
     this.enableManeuverGuide = true;
@@ -172,17 +167,10 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     this.enableSaveButton = !!event.data;
   }
 
-  // selectFirstItem(data, filterProperty, filterValue) {
-  //   const filteredData = data.selectItems.find(
-  //     item => item[filterProperty] === filterValue
-  //   );
-  //   return filteredData.value;
-  // }
-
   selectOnEdit(data: any, index: number) {
     this.data = data;
-    this.plantSelected = data.plantaId;
-    this.systemSelected = data.sistemaId;
+    this.plantSelected = this.plants.find(plant => plant.nombre === data.plant).id;
+    this.systemSelected = this.systems.find(system => system.nombre === data.system).id;
     this.data.maneuverGuide = this.data.maneuverGuide;
   }
 
@@ -190,24 +178,28 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     dialog.close();
   }
 
-  async saveChanges(dialog: NbDialogRef<any>) {
+  async saveChanges(dialog: NbDialogRef<any>, dialogData: any) {
+    this.data = dialogData.data;
     this.enableManeuverGuide = false;
     this.enableSystem = false;
     this.enableSaveButton = false;
-    if (this.isCreate) {
-      this.tableData = [...this.tableData, ...[this.data]];
-    } else if (this.isEdit) {
-      this.tableData[this.currentIndex] = this.data;
-      this.tableData = [...this.tableData];
-    }
     try {
       await this.saveManeuverGuideName();
     } catch (error) { }
 
     try {
       await this.saveManeuverGuideFields();
+      if (this.isCreate) {
+        this.tableData = [...this.tableData, ...[this.data]];
+      } else if (this.isEdit) {
+        this.tableData[this.currentIndex] = this.data;
+        this.tableData = [...this.tableData];
+      }
+
+    } catch (error) { } finally {
+      this.getAllData();
       dialog.close();
-    } catch (error) { }
+    }
     this.isCreate = false;
     this.isEdit = false;
   }
@@ -230,6 +222,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
       plantillaGuiaManiobraId: this.maneuverGuideId,
       nombre: this.data.maneuverGuideName,
       descripcion: this.data.maneuverGuideDescription,
+      plantaId: this.currentPlantId,
       sistemaId: this.currentSystemId,
     };
     if (this.isCreate) {

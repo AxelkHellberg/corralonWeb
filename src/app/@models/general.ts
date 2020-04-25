@@ -71,11 +71,13 @@ export interface RoundData {
 
 export interface RoundFields {
   nombre: string;
-  valorNormal: string;
+  valorNormal: string | boolean;
   valorMax: string;
   valorMin: string;
   equipamientoId: string;
-  tipoCampoRondaId: string;
+  sistemaId?: string;
+  plantaId?: string;
+  tipoCampoRondaId: string | number;
   unidadMedidaId: string;
   plantillaRondaId: string;
 }

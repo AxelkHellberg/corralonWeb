@@ -1,22 +1,11 @@
-import { RoundFields } from './../../../@models/general';
-import { TimeData } from './../../../@models/rounds';
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  Output,
-  EventEmitter,
-  Input,
-  OnChanges,
-  SimpleChange,
-  SimpleChanges
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { RoundsDetails } from '../../../@models/rounds';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
+import { RoundFields } from './../../../@models/general';
+import { TimeData } from './../../../@models/rounds';
 
 @Component({
   selector: 'ngx-new-round-template',
@@ -26,6 +15,7 @@ import { GeneralService } from '../../../services/general.service';
 export class NewRoundTemplateComponent implements OnInit, OnChanges {
   @ViewChild('addOrEdit') addOrEditTemplate: TemplateRef<any>;
   @Output() onSave = new EventEmitter<any>();
+  @Output() onRefreshRoundTemplate = new EventEmitter();
   @Input() fullData: any;
   roundName: string;
   selectedPlant: string;
@@ -192,7 +182,6 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   enableSystem: boolean;
   enableEquipment: boolean;
   enableComponent: boolean;
-  enableSaveButton: boolean;
   maneuverGuideContent: string;
   timeStart: string;
   timeEnd: string;
@@ -202,16 +191,30 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     private generalService: GeneralService,
     private route: ActivatedRoute,
     private router: Router,
-    private dialogService: NbDialogService
+    private dialogService: NbDialogService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
-  async ngOnInit() {
-    console.log(this.fullData);
-    await this.getPlants();
-    await this.getSystem();
-    await this.getEquipment();
-    await this.getUnit();
-    await this.getDataType();
+  ngOnInit() {
+    this.getAllData();
+  }
+
+  async getAllData() {
+    this.settings = {...this.settings, attr: {class: 'general-table disabled'}};
+    Promise.all([
+      this.generalService.getPlants(),
+      this.generalService.getSystems(),
+      this.generalService.getEquipments(),
+      this.generalService.getMeasurementUnits(),
+      this.generalService.getDataType(),
+    ]).then(([plants, systems, equipments, measurementUnits, dataTypes]) => {
+      this.plantArray = plants;
+      this.systemArray = systems;
+      this.equipmentArray = equipments;
+      this.unitArray = measurementUnits;
+      this.dataTypeArray = dataTypes;
+      this.settings = {...this.settings, attr: {class: 'general-table'}};
+    }).catch(() => {});
   }
 
   createTemplate() {
@@ -223,46 +226,6 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     });
   }
 
-  async getPlants() {
-    try {
-      this.plantArray = await this.generalService.getPlants();
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async getSystem() {
-    try {
-      this.systemArray = await this.generalService.getSystems();
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async getEquipment() {
-    try {
-      this.equipmentArray = await this.generalService.getEquipments();
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async getUnit() {
-    try {
-      this.unitArray = await this.generalService.getMeasurementUnits();
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async getDataType() {
-    try {
-      this.dataTypeArray = await this.generalService.getDataType();
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   editTemplate(data) {
     this.data = data.data;
     this.currentIndex = data.index;
@@ -270,7 +233,6 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.enableSystem = true;
     this.enableComponent = true;
     this.enableEquipment = true;
-    this.enableSaveButton = true;
     this.data.plantId = this.plantArray.items.find(
       plant => plant.nombre === data.data.plant
     ).id;
@@ -302,41 +264,43 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.data.plant = item.nombre;
     this.data.plantId = item.id;
     this.enableEquipment = false;
-    this.enableSaveButton = false;
     this.maneuverGuideContent = '';
-    // this.system.selected = this.selectFirstItem(this.system, 'plant', item.text);
+    this.data.systemId = null;
+    this.data.equipmentId = null;
   }
   selectSystem(item): void {
     this.enableEquipment = true;
     this.data.systemId = item.id;
     this.data.system = item.nombre;
-    this.enableSaveButton = false;
-    // this.equipment.selected = this.selectFirstItem(this.equipment, 'system', item.text)
+    this.data.equipmentId = null;
   }
 
   selectEquipment(item): void {
     this.data.equipmentId = item.id;
     this.enableComponent = true;
     this.data.equipment = item.nombre;
-    this.enableSaveButton = false;
-    // this.equipment.selected = this.selectFirstItem(this.unit, 'equipment', item.text);
   }
 
   selectComponent(item): void {
     this.data.unitId = item.id;
-    this.enableSaveButton = false;
     this.data.unit = item.nombre;
   }
 
   selectTypeData(item): void {
-    this.enableSaveButton = true;
     this.data.type = item.id;
     this.data.typeId = item.id;
+    this.data = {
+      ...this.data,
+      normalValue: '',
+      minValue: '',
+      maxValue: '',
+    };
   }
 
   selectTime(data: any, action?: string): void {
     data.confirm.resolve();
     let _data = data.newData || data.data;
+
     if (action === 'delete') {
       const deleteIndex = this.tableTimeData.indexOf(_data);
       this.tableTimeData.splice(deleteIndex, 1);
@@ -345,8 +309,8 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       this.timeData.timer = new Set();
       for (let i = 0; i < this.tableTimeData.length; i++) {
         this.tableTimeData[i].hour =
-          this.tableTimeData[i].hour.replace(/\D/g, '') > 12
-            ? '12'
+          this.tableTimeData[i].hour.replace(/\D/g, '') > 24
+            ? '24'
             : this.tableTimeData[i].hour.replace(/\D/g, '');
         this.tableTimeData[i].minute =
           this.tableTimeData[i].minute.replace(/\D/g, '') > 59
@@ -450,20 +414,35 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.enableEquipment = false;
     this.enableSystem = false;
     this.enableComponent = false;
-    this.enableSaveButton = false;
+  }
+
+  get enableSaveButton(): boolean {
+    return [
+      this.data.plantId,
+      this.data.systemId,
+      this.data.equipmentId,
+      this.data.unitId,
+      this.data.typeId,
+      this.data.name,
+      +this.data.typeId < 3 ? this.data.minValue : true,
+      +this.data.typeId < 3 ? this.data.maxValue : true,
+      this.data.normalValue].every(key => !!key);
   }
 
   async saveOrDeleteRoundsFields(field: RoundsDetails, isDelete = false) {
-    if (field.roundTemplateId) {
+    const roundTemplateId = field.roundTemplateId || (this.route.snapshot.queryParams || {} as any).id;
+    if (roundTemplateId) {
       const dataTemplate: RoundFields = {
         nombre: field.name,
-        valorNormal: field.normalValue,
+        valorNormal: +field.typeId === 3 ? !!field.normalValue : field.normalValue,
         valorMax: field.maxValue,
         valorMin: field.minValue,
+        // plantaId: field.plantId,
+        // sistemaId: field.systemId,
         equipamientoId: field.equipmentId,
         tipoCampoRondaId: field.typeId,
         unidadMedidaId: field.unitId,
-        plantillaRondaId: field.roundTemplateId,
+        plantillaRondaId: roundTemplateId,
       }
 
       if (field.roundFieldId && isDelete) {
@@ -473,6 +452,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       } else {
         await this.generalService.createRoundFields(dataTemplate);
       }
+      this.onRefreshRoundTemplate.emit();
     }
 
     if (!field.roundTemplateId && isDelete) {
@@ -483,12 +463,11 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.fullData && changes.fullData.currentValue) {
-      console.log(this.fullData);
       this.roundName = this.fullData.nombre || null;
       this.timeData.time = this.fullData.time || null;
       this.fieldsData = this.fullData.full.fieldsData || null;
       this.timeData = this.fullData.full.timeData || null;
-      this.tableTimeData = this.fullData.full.tableTimeData || null;
+      this.tableTimeData = this.fullData.full.tableTimeData || [];
       // tslint:disable-next-line: max-line-length
       const {
         obligatorioSistema = null,

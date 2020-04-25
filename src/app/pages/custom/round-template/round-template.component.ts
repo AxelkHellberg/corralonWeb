@@ -61,6 +61,10 @@ export class RoundTemplateComponent implements OnInit {
 
   async ngOnInit() {
     await this.getTemplates();
+    this.getFieldsRoundTemplate();
+  }
+
+  async getFieldsRoundTemplate() {
     if (this.roundTemplateId) {
       const fullData = this.data.find(item => item.id === +this.roundTemplateId);
       try {
@@ -78,15 +82,12 @@ export class RoundTemplateComponent implements OnInit {
           roundFieldId: field.id,
           roundTemplateId: field.plantillaRondaId,
         }));
-        this.fullData = fullData;
+        this.fullData = {...fullData};
       } catch (error) {
 
       }
-
     }
   }
-
-
 
   async getTemplates() {
     let roundTemplateData;

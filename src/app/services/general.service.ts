@@ -33,8 +33,8 @@ export class GeneralService {
   createPlant(plantData: PlantData): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantas`, plantData).toPromise();
   }
-  getPlants(): Promise<any> {
-    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/plantas`).toPromise();
+  getPlants(filter: string = ''): Promise<any> {
+    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/plantas?q=${filter}`).toPromise();
   }
   deletePlant(id: number): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/plantas/${id}`).toPromise();
@@ -63,8 +63,8 @@ export class GeneralService {
   deleteSystem(id: number): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/sistemas/${id}`).toPromise();
   }
-  getSystems(): Promise<any> {
-    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/sistemas`).toPromise();
+  getSystems(filter: string = ''): Promise<any> {
+    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/sistemas?q=${filter}`).toPromise();
   }
   createEquipment(equipmentData: EquipmentData): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/equipamientos`, equipmentData).toPromise();
@@ -75,8 +75,8 @@ export class GeneralService {
   deleteEquipment(id: number): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/equipamientos/${id}`).toPromise();
   }
-  getEquipments(): Promise<any> {
-    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/equipamientos`).toPromise();
+  getEquipments(filter: string = ''): Promise<any> {
+    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/equipamientos?q=${filter}`).toPromise();
   }
   createTag(tagData: TagData): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/tags`, tagData).toPromise();
