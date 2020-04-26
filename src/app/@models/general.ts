@@ -50,7 +50,8 @@ export interface ManeuverGuideData {
 export interface ManeuverGuideFields {
   nombre: string;
   descripcion: string;
-  sistemaId: number;
+  equipamientoId?: number;
+  sistemaId?: number;
   plantaId?: number;
   plantillaGuiaManiobraId?: number;
 }

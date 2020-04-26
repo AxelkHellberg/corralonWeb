@@ -53,6 +53,11 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
         type: 'text',
         width: '300px',
       },
+      equipment: {
+        title: 'Equipo',
+        type: 'text',
+        width: '300px',
+      },
       maneuverGuideName: {
         title: 'Nombre',
         type: 'text',
@@ -70,15 +75,16 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
   isCreate: boolean;
   isEdit: boolean;
   enableManeuverGuide: boolean;
-
-  enableSaveButton: boolean;
-
   maneuverGuideTitle: string;
   maneuverGuideDescription: string;
   currentIndex: number;
   maneuverGuideId: number;
   currentPlantId: number;
   currentSystemId: number;
+  currentEquipmentId: number;
+  equipments: any;
+  enableEquipment: boolean;
+  equipmentSelected: any;
 
   constructor(private dialogService: NbDialogService, private generalService: GeneralService) { }
 
@@ -91,16 +97,20 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     Promise.all([
       await this.generalService.getPlants(),
       await this.generalService.getSystems(),
-      await this.generalService.getManeuverGuideFieldsWithPlants(this.maneuverGuideId)
-    ]).then(([{items: plants}, {items: systems}, maneuverGuideFieldsWithPlants]) => {
+      await this.generalService.getEquipments(),
+      await this.generalService.getManeuverGuideFieldsWithPlants(this.maneuverGuideId),
+    ]).then(([{items: plants}, {items: systems}, {items: equipments}, maneuverGuideFieldsWithPlants]) => {
       this.plants = plants;
       this.systems = systems;
+      this.equipments = equipments;
       this.tableData = maneuverGuideFieldsWithPlants.map(res => ({
         id: res.id,
-        plant: res.sistema.planta.nombre,
-        plantaId: res.sistema.planta.plantaId,
-        system: res.sistema.nombre,
-        sistemaId: res.sistema.sistemaId,
+        plant: res.equipamiento.sistema.planta.nombre,
+        plantaId: res.equipamiento.sistema.planta.id,
+        system: res.equipamiento.sistema.nombre,
+        sistemaId: res.equipamiento.sistema.id,
+        equipment: res.equipamiento.nombre,
+        equipmentId: res.equipamiento.id,
         maneuverGuideName: res.nombre,
         maneuverGuideDescription: res.descripcion,
       }));
@@ -131,8 +141,8 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     this.isEdit = true;
     this.isCreate = false;
     this.enableManeuverGuide = true;
-    this.enableSaveButton = true;
     this.enableSystem = true;
+    this.enableEquipment = true;
     this.selectOnEdit(row.data, row.index);
     this.dialogService.open(this.addOrEditTemplate, {
       context: {title: 'Editar Elemento', data: this.data},
@@ -151,27 +161,38 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
 
   selectPlant(plant) {
     this.enableSystem = true;
+    this.enableEquipment = false;
+    this.systemSelected = null;
     this.data.plant = plant.nombre;
-    this.enableManeuverGuide = false;
-    this.enableSaveButton = false;
     this.maneuverGuideTitle = '';
     this.currentPlantId = plant.id;
+    this.currentSystemId = null;
   }
   selectSystem(item) {
-    this.enableManeuverGuide = true;
     this.data.system = item.nombre;
+    this.enableEquipment = true;
+    this.equipmentSelected = null;
     this.currentSystemId = item.id;
+    this.currentEquipmentId = null;
   }
-
-  selectManeuverGuide(event: any) {
-    this.enableSaveButton = !!event.data;
+  selectEquipment(item) {
+    this.data.equipment = item.nombre;
+    this.currentEquipmentId = item.id;
   }
 
   selectOnEdit(data: any, index: number) {
     this.data = data;
     this.plantSelected = this.plants.find(plant => plant.nombre === data.plant).id;
     this.systemSelected = this.systems.find(system => system.nombre === data.system).id;
+    this.equipmentSelected = this.equipments.find(equipment => equipment.nombre === data.equipment).id;
+    this.currentPlantId = this.plantSelected;
+    this.currentSystemId = this.systemSelected;
+    this.currentEquipmentId = this.equipmentSelected;
     this.data.maneuverGuide = this.data.maneuverGuide;
+  }
+
+  get enableSaveButton(): boolean {
+    return [this.currentPlantId, this.currentSystemId, this.currentEquipmentId].every(item => !!item);
   }
 
   discardChanges(dialog: NbDialogRef<any>) {
@@ -182,7 +203,6 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
     this.data = dialogData.data;
     this.enableManeuverGuide = false;
     this.enableSystem = false;
-    this.enableSaveButton = false;
     try {
       await this.saveManeuverGuideName();
     } catch (error) { }
@@ -222,8 +242,7 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
       plantillaGuiaManiobraId: this.maneuverGuideId,
       nombre: this.data.maneuverGuideName,
       descripcion: this.data.maneuverGuideDescription,
-      plantaId: this.currentPlantId,
-      sistemaId: this.currentSystemId,
+      equipamientoId: this.currentEquipmentId,
     };
     if (this.isCreate) {
       await this.generalService.createManeuverGuideFields(maneuverGuideData);

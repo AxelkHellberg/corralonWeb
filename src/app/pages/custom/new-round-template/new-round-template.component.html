@@ -78,9 +78,9 @@
                 <nb-select id="system" placeholder="Seleccione" [selected]="data.systemId" [disabled]="!data.plantId">
                   <nb-option *ngFor="let item of systemArray?.items | filterBy: 'plantaId': data.plantId" [value]="item?.id" (click)="selectSystem(item)">{{item?.nombre}}</nb-option>
                 </nb-select>
+                <p class="text-danger" *ngIf="data.plantId && !data.systemId">Seleccione un sistema.</p>
               </ng-container>
               <p class="text-danger" *ngIf="!(systemArray?.items | filterBy: 'plantaId': data.plantId)?.length">No hay sistemas disponibles para la planta elegida.</p>
-              <p class="text-danger" *ngIf="(systemArray?.items | filterBy: 'plantaId': data.plantId)?.length && data.plantId && !data.systemId">Seleccione un sistema.</p>
             </div>
             <div class="col-6">
               <label class="label" for="equipment">Equipo</label>
@@ -88,9 +88,9 @@
                 <nb-select id="equipment" placeholder="Seleccione" [selected]="data.equipmentId" [disabled]="!data.systemId">
                   <nb-option *ngFor="let item of equipmentArray?.items | filterBy: 'sistemaId': data.systemId" [value]="item?.id" (click)="selectEquipment(item)">{{item?.nombre}}</nb-option>
                 </nb-select>
+                <p class="text-danger" *ngIf="data.systemId && !data.equipmentId">Seleccione un equipo.</p>
               </ng-container>
               <p class="text-danger" *ngIf="!(equipmentArray?.items | filterBy: 'sistemaId': data.systemId)?.length || !(systemArray?.items | filterBy: 'plantaId': data.plantId)?.length">No hay equipos disponibles para el sistema elegido.</p>
-              <p class="text-danger" *ngIf="((equipmentArray?.items | filterBy: 'sistemaId': data.systemId)?.length && (systemArray?.items | filterBy: 'plantaId': data.plantId)?.length) && data.systemId && !data.equipmentId">Seleccione un equipo.</p>
             </div>
             <div class="col-6">
               <label class="label" for="unity">Unidad de medida</label>
