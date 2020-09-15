@@ -105,8 +105,8 @@ export class TagEquipmentComponent implements OnInit {
     this.getTag()
   }
 
-  async getTag(){
-    try{
+  async getTag() {
+    try {
       const response = await this.generalService.getTag(2);
       console.log(response)
       this.data = response.items.map(item => ({
@@ -120,22 +120,42 @@ export class TagEquipmentComponent implements OnInit {
   }
 
   async createOrEditEquipment(event, isEdit = false) {
-    try {
-      const data = {
-        nombre: event.newData.nombre,
-        obligatorio: event.newData.obligatorio === 'Si' ? true : false,
-        habilitado: event.newData.habilitado === 'Encendido' ? true : false,
-        tipoTagId: 2,
-      };
-      if ( isEdit ) {
-        await this.generalService.editTag(data);
-      } else {
-        await this.generalService.createTag(data);
+    if (event.newData.nombre != '') {
+      const response = await this.generalService.getTag(2);
+      console.log(response);
+      let datos = response.items
+      let repetido = false;
+      for (let dato of datos) {
+        if (dato.nombre == event.newData.nombre) {
+          repetido = true;
+        }
       }
-      event.confirm.resolve();
-    } catch (e) {
-      console.log(e);
-      event.confirm.reject();
+      if (!repetido) {
+        try {
+          const data = {
+            nombre: event.newData.nombre,
+            obligatorio: event.newData.obligatorio === 'Si' ? true : false,
+            habilitado: event.newData.habilitado === 'Encendido' ? true : false,
+            tipoTagId: 2,
+          };
+          if (isEdit) {
+            await this.generalService.editTag(data);
+          } else {
+            await this.generalService.createTag(data);
+          }
+          event.confirm.resolve();
+        } catch (e) {
+          console.log(e);
+          event.confirm.reject();
+        }
+
+      }
+      else {
+        alert('campo repetido');
+      }
+    }
+    else {
+      alert('Inserte un Nombre')
     }
   }
 

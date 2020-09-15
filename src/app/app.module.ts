@@ -21,6 +21,7 @@ import { GeneralService } from './services/general.service';
 import { MessageBusService } from './services/message-bus.service';
 import { EnvironmentService } from './services/environment.service';
 
+
 export function init_environment(env: EnvironmentService) {
   return () => env.loadEnvironment(environment['configFile'] || '');
 }

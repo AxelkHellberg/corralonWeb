@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { MeasurementUnits } from '../../../@models/systems';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
+import { throwError } from 'rxjs';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'ngx-measurement-units',
@@ -71,10 +73,31 @@ export class MeasurementUnitsComponent implements OnInit {
 
   async addMeasurement(data: ConfirmData) {
     try {
-      const response = await this.generalService.createMeasurementUnits(data.newData.nombre);
-      console.log(response)
-      this.getMeasurement();
-      data.confirm.resolve();
+      let repetidos = false;
+      const res = await this.generalService.getMeasurementUnits();
+      let datos = res.items;
+      if (data.newData.nombre != '') {
+        for (let dato of datos) {
+          console.log(dato.nombre + data.newData.nombre)
+          if (data.newData.nombre == dato.nombre) {
+            alert('campo repetido.');
+            repetidos = true;
+            break;
+          }
+        }
+
+        if (!repetidos) {
+          const response = await this.generalService.createMeasurementUnits(data.newData.nombre);
+          console.log(response)
+          this.getMeasurement();
+          data.confirm.resolve();
+        }
+      }
+
+
+      else {
+        alert('complete el campo.');
+      }
     } catch (e) {
       console.log(e)
       data.confirm.reject();

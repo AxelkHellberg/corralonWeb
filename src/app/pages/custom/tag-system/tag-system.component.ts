@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { forEach } from '@angular/router/src/utils/collection';
 import { SmartTableSettings } from "../../../@models/smart-table";
 import { GeneralService } from "../../../services/general.service";
 
@@ -120,6 +121,20 @@ export class TagSystemComponent implements OnInit {
   }
 
   async createOrEditEquipment(event, isEdit = false) {
+    if(event.newData.nombre != '')
+    {
+      const response = await this.generalService.getTag(1);
+      console.log(response);
+      let datos = response.items
+      let repetido = false;
+      for(let dato of datos)
+      {
+        if(dato.nombre == event.newData.nombre)
+        {
+          repetido = true;
+        }
+      }
+      if(!repetido){
     try {
       const data = {
         nombre: event.newData.nombre,
@@ -136,7 +151,14 @@ export class TagSystemComponent implements OnInit {
     } catch (e) {
       console.log(e);
       event.confirm.reject();
+    }}
+    else{
+      alert('campo repetido');
     }
+  }
+  else{
+    alert('Inserte un Nombre')
+  }
   }
 
   async deleteEquipment(event) {

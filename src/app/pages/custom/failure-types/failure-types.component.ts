@@ -67,10 +67,12 @@ export class FailureTypesComponent implements OnInit {
     }
   }
 
+
   async addFailureType(data: ConfirmData) {
+    console.log('funcionando');
     try {
       const response = await this.generalService.createFailureType(data.newData.nombre, data.newData.codificacionDeFalla);
-      console.log(response)
+      console.log(response);
       data.confirm.resolve();
     } catch (e) {
       console.log(e)
@@ -78,6 +80,7 @@ export class FailureTypesComponent implements OnInit {
     }
   }
   async editFailureType(data: ConfirmData) {
+    console.log(data);
     try {
       const response = await this.generalService.editFailureType(data.newData.id, data.newData.nombre, data.newData.codificacionDeFalla);
       console.log(response)
