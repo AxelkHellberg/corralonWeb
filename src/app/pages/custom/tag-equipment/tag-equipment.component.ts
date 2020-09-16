@@ -130,7 +130,7 @@ export class TagEquipmentComponent implements OnInit {
           repetido = true;
         }
       }
-      if (!repetido) {
+      
         try {
           const data = {
             nombre: event.newData.nombre,
@@ -139,9 +139,14 @@ export class TagEquipmentComponent implements OnInit {
             tipoTagId: 2,
           };
           if (isEdit) {
-            await this.generalService.editTag(data);
+            await this.generalService.editTag(event.newData.id,data);
           } else {
+            if (!repetido) {
             await this.generalService.createTag(data);
+          }
+          else {
+            alert('campo repetido');
+          }
           }
           event.confirm.resolve();
         } catch (e) {
@@ -149,10 +154,7 @@ export class TagEquipmentComponent implements OnInit {
           event.confirm.reject();
         }
 
-      }
-      else {
-        alert('campo repetido');
-      }
+     
     }
     else {
       alert('Inserte un Nombre')

@@ -57,16 +57,6 @@ export class EquipmentComponent implements OnInit {
           },
         },
       },
-      attributes: {
-        title: 'Asociar atributos a medir',
-        type: 'text',
-        editor: {
-          type: 'list',
-          config: {
-            list: []
-          },
-        },
-      },
       tagId: {
         title: 'Tag',
         type: 'text',
@@ -106,7 +96,7 @@ export class EquipmentComponent implements OnInit {
         title: tag.nombre,
         value: tag.nombre,
       }));
-      this.settings = {...this.settings};
+      this.settings = { ...this.settings };
     } catch (e) { }
 
     try {
@@ -116,7 +106,7 @@ export class EquipmentComponent implements OnInit {
         title: system.nombre,
         value: system.nombre,
       }));
-      this.settings = {...this.settings};
+      this.settings = { ...this.settings };
     } catch (e) { }
 
     try {
@@ -131,18 +121,33 @@ export class EquipmentComponent implements OnInit {
 
   async addEquipment(data: ConfirmData) {
     const { newData } = data;
-    const equipmentData: EquipmentData = {
-      nombre: newData.nombre,
-      detalle: newData.detalle,
-      sistemaId: this.systems.find(system => system.nombre === newData.sistemaId).id,
-      tagId: (this.tag.find(tag => tag.nombre === newData.tagId) || {} as any).id || -1,
-    };
-    try {
-      await this.generalService.createEquipment(equipmentData);
-      this.getData();
-      data.confirm.resolve();
-    } catch (error) {
-      data.confirm.reject();
+    if (newData.nombre != '' && newData.tagId != '' && newData.sistemaId != '') {
+      const equipmentData: EquipmentData = {
+        nombre: newData.nombre,
+        detalle: newData.detalle,
+        sistemaId: this.systems.find(system => system.nombre === newData.sistemaId).id,
+        tagId: (this.tag.find(tag => tag.nombre === newData.tagId) || {} as any).id || -1,
+      };
+      try {
+        await this.generalService.createEquipment(equipmentData);
+        this.getData();
+        data.confirm.resolve();
+      } catch (error) {
+        data.confirm.reject();
+      }
+    }
+    else {
+      if (newData.nombre == '') {
+        alert("Ingese un Nombre al Equipo");
+      }
+      if(newData.tagId == '')
+      {
+        alert("Seleccione un Tag de Equipo");
+      }
+      if(newData.sistemaId == '')
+      {
+        alert("Seleccione un Sistema");
+      }
     }
   }
 

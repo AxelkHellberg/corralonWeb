@@ -120,7 +120,7 @@ export class TagSystemComponent implements OnInit {
     }
   }
 
-  async createOrEditEquipment(event, isEdit = false) {
+  async createOrEditEquipment(event, isEdit) {
     if(event.newData.nombre != '')
     {
       const response = await this.generalService.getTag(1);
@@ -134,7 +134,7 @@ export class TagSystemComponent implements OnInit {
           repetido = true;
         }
       }
-      if(!repetido){
+      
     try {
       const data = {
         nombre: event.newData.nombre,
@@ -143,17 +143,18 @@ export class TagSystemComponent implements OnInit {
         tipoTagId: 1,
       };
       if ( isEdit ) {
-        await this.generalService.editTag(data);
+        await this.generalService.editTag(event.newData.id,data);
       } else {
+        if(!repetido){
         await this.generalService.createTag(data);
+        }else{
+          alert('campo repetido');
+        }
       }
       event.confirm.resolve();
     } catch (e) {
       console.log(e);
       event.confirm.reject();
-    }}
-    else{
-      alert('campo repetido');
     }
   }
   else{

@@ -81,8 +81,8 @@ export class GeneralService {
   createTag(tagData: TagData): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/tags`, tagData).toPromise();
   }
-  editTag(tagData: TagData): Promise<any> {
-    return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/tags`, tagData).toPromise();
+  editTag(id: number,tagData: TagData): Promise<any> {
+    return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/tags/${id}`, tagData).toPromise();
   }
   deleteTag(id: number): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/tags/${id}`).toPromise();
