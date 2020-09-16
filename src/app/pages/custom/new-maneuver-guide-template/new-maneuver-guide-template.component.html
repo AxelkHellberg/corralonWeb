@@ -28,29 +28,29 @@
         <div class="col-6">
           <p><b>Planta</b></p>
           <nb-select placeholder="Seleccione" [selected]="plantSelected">
-            <nb-option *ngFor="let plant of plants" [value]="plant?.id" (click)="selectPlant(plant)">{{plant?.nombre}}</nb-option>
+            <nb-option *ngFor="let plant of plantArray?.items" [value]="plant?.id" (click)="selectPlant(plant)">{{plant?.nombre}}</nb-option>
           </nb-select>
         </div>
         <div class="col-6">
           <p><b>Sistema</b></p>
-          <ng-container *ngIf="(systems | filterBy: 'plantaId' : currentPlantId)?.length">
+          <ng-container *ngIf="(systemArray?.items | filterBy: 'plantaId' : currentPlantId)?.length">
             <nb-select placeholder="Seleccione" [disabled]="!enableSystem" [selected]="systemSelected">
-              <nb-option *ngFor="let system of systems | filterBy: 'plantaId' : currentPlantId" [value]="system?.id" (click)="selectSystem(system)">{{system?.nombre}}</nb-option>
+              <nb-option *ngFor="let system of systemArray?.items | filterBy: 'plantaId' : currentPlantId" [value]="system?.id" (click)="selectSystem(system)">{{system?.nombre}}</nb-option>
             </nb-select>
             <p class="text-danger" *ngIf="currentPlantId && !currentSystemId">Selecciona un sistema.</p>
           </ng-container>
-          <p class="text-danger" *ngIf="!(systems | filterBy: 'plantaId' : currentPlantId)?.length">No hay sistemas disponibles para la planta elegida.</p>
+          <p class="text-danger" *ngIf="!(systemArray?.items | filterBy: 'plantaId' : currentPlantId)?.length">No hay sistemas disponibles para la planta elegida.</p>
 
         </div>
         <div class="col-6">
           <p><b>Equipo</b></p>
-          <ng-container *ngIf="(equipments | filterBy: 'sistemaId' : currentSystemId)?.length && (systems | filterBy: 'plantaId' : currentPlantId)?.length">
+          <ng-container *ngIf="(equipmentArray?.items | filterBy: 'sistemaId' : currentSystemId)?.length && (systemArray?.items | filterBy: 'plantaId' : currentPlantId)?.length">
             <nb-select placeholder="Seleccione" [disabled]="!enableEquipment" [selected]="equipmentSelected">
-              <nb-option *ngFor="let equipment of equipments | filterBy: 'sistemaId' : currentSystemId" [value]="equipment?.id" (click)="selectEquipment(equipment)">{{equipment?.nombre}}</nb-option>
+              <nb-option *ngFor="let equipment of equipmentArray?.items | filterBy: 'sistemaId' : currentSystemId" [value]="equipment?.id" (click)="selectEquipment(equipment)">{{equipment?.nombre}}</nb-option>
             </nb-select>
             <p class="text-danger" *ngIf="currentSystemId && !currentEquipmentId">Selecciona un equipo.</p>
           </ng-container>
-          <p class="text-danger" *ngIf="!(equipments | filterBy: 'sistemaId' : currentSystemId)?.length || !(systems | filterBy: 'plantaId' : currentPlantId)?.length">No hay equipos disponibles para el sistema elegido.</p>
+          <p class="text-danger" *ngIf="!(equipmentArray?.items | filterBy: 'sistemaId' : currentSystemId)?.length || !(systemArray?.items | filterBy: 'plantaId' : currentPlantId)?.length">No hay equipos disponibles para el sistema elegido.</p>
         </div>
       </div>
       <div class="row">

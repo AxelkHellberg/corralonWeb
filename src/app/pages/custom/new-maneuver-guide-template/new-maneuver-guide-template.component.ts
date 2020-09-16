@@ -86,6 +86,12 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
   enableEquipment: boolean;
   equipmentSelected: any;
 
+
+  plantArray: any = [];
+  systemArray: any = [];
+  equipmentArray: any = [];
+
+
   constructor(private dialogService: NbDialogService, private generalService: GeneralService) { }
 
   ngOnInit() {
@@ -95,15 +101,15 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
   async getAllData() {
     this.settings = {...this.settings, attr: {class: 'general-table disabled'}};
     Promise.all([
-      await this.generalService.getPlants(),
-      await this.generalService.getSystems(),
-      await this.generalService.getEquipments(),
-      await this.generalService.getManeuverGuideFieldsWithPlants(this.maneuverGuideId),
-    ]).then(([{items: plants}, {items: systems}, {items: equipments}, maneuverGuideFieldsWithPlants]) => {
-      this.plants = plants;
-      this.systems = systems;
-      this.equipments = equipments;
-      this.tableData = maneuverGuideFieldsWithPlants.map(res => ({
+       this.generalService.getPlants(),
+       this.generalService.getSystems(),
+       this.generalService.getEquipments(),
+       //this.generalService.getManeuverGuideFieldsWithPlants(this.maneuverGuideId),
+    ]).then(([plants, systems,equipments/*,maneuverGuideFieldsWithPlants*/]) => {
+      this.plantArray = plants;
+      this.systemArray = systems;
+      this.equipmentArray = equipments;
+      /*this.tableData = maneuverGuideFieldsWithPlants.map(res => ({
         id: res.id,
         plant: res.equipamiento.sistema.planta.nombre,
         plantaId: res.equipamiento.sistema.planta.id,
@@ -112,11 +118,32 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
         equipment: res.equipamiento.nombre,
         equipmentId: res.equipamiento.id,
         maneuverGuideName: res.nombre,
-        maneuverGuideDescription: res.descripcion,
-      }));
+        maneuverGuideDescription: res.descripcion
+      }));*/
       this.settings = {...this.settings, attr: {class: 'general-table'}};
+      console.log(plants)
     }).catch(() => {});
-  }
+
+    Promise.all([
+     
+      this.generalService.getManeuverGuideFieldsWithPlants(this.maneuverGuideId),
+   ]).then(([maneuverGuideFieldsWithPlants]) => {
+    
+     this.tableData = maneuverGuideFieldsWithPlants.map(res => ({
+       id: res.id,
+       plant: res.equipamiento.sistema.planta.nombre,
+       plantaId: res.equipamiento.sistema.planta.id,
+       system: res.equipamiento.sistema.nombre,
+       sistemaId: res.equipamiento.sistema.id,
+       equipment: res.equipamiento.nombre,
+       equipmentId: res.equipamiento.id,
+       maneuverGuideName: res.nombre,
+       maneuverGuideDescription: res.descripcion
+     }));
+
+
+   }).catch(() => {});
+}
 
   createTemplate() {
     this.isCreate = true;
