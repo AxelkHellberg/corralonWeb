@@ -68,8 +68,10 @@ export class FailureTypesComponent implements OnInit {
   }
 
 
+
   async addFailureType(data: ConfirmData) {
-    console.log('funcionando');
+    if(data.newData.nombre != '')
+    {
     try {
       const response = await this.generalService.createFailureType(data.newData.nombre, data.newData.codificacionDeFalla);
       console.log(response);
@@ -77,10 +79,14 @@ export class FailureTypesComponent implements OnInit {
     } catch (e) {
       console.log(e)
       data.confirm.reject();
+    }}
+    else{
+      alert('Ingrese un Nombre');
     }
   }
   async editFailureType(data: ConfirmData) {
-    console.log(data);
+    if(data.newData.nombre != '')
+    {
     try {
       const response = await this.generalService.editFailureType(data.newData.id, data.newData.nombre, data.newData.codificacionDeFalla);
       console.log(response)
@@ -88,6 +94,9 @@ export class FailureTypesComponent implements OnInit {
     } catch (e) {
       console.log(e)
       data.confirm.reject();
+    }}
+    else{
+      alert('Ingrese un Nombre');
     }
   }
   async deleteFailureType(data: ConfirmData) {
