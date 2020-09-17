@@ -86,9 +86,13 @@ export class FailureNotificationsComponent implements OnInit {
 
     try {
       this.failureData = await this.generalService.getNotificationsFailuresReport();
+      console.log(this.failureData);
+     // if(this.failureData.estadoFalla == null)
+     // {console.log('Es NULL')}
       this.failureData.forEach(data => {
         data['estadoFallaNombre'] = data.estadoFalla.nombre;
-        data['tipoFallaNombre'] = data.tipoFalla.nombre;
+        //console.log('Nombre:     ' + data.tipoFalla.nombre);
+        data['tipoFallaNombre'] = (data.tipoFalla == null ?  'NULL': data.tipoFalla.nombre  );
         data['estadoFallaNombreBoton'] = this.setStatusFailureButton(data.estadoFallaNombre.toUpperCase());
         data['date'] = moment(data.updateAt).utc().format('DD/MM/YYYY');
         data['time'] = moment(data.updateAt).utc().format('hh:mm:ss');
