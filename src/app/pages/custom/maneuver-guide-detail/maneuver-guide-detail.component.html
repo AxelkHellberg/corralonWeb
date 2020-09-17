@@ -1,7 +1,7 @@
 <h4 class="cursor-pointer" (click)="onClose.emit()"> <b><i class="nb-arrow-left"></i></b> Volver</h4>
 
 <h5>{{data?.maneuverGuideName}}</h5>
-
+<!----
 <nb-card>
   <nb-card-header>
     <div class="row">
@@ -18,7 +18,7 @@
   </nb-card-body>
   <br>
 </nb-card>
-
+-->
 <nb-card>
   <nb-card-header>
     Detalle
@@ -29,13 +29,15 @@
         <div class="d-flex">
           <div class="col-6">Fecha y Hora:</div>
           <div class="col-6">{{data?.date}} {{data?.time}}</div>
+          <div class="col-6">Operador:</div>
+          <div class="col-6"> {{data?.operator}}</div>
         </div>
       </div>
     </div>
   </nb-card-body>
 </nb-card>
 
-
+<!--
 <nb-card>
   <nb-card-header>
     Planta: Planta ejemplo 1
@@ -82,7 +84,7 @@
     </nb-accordion>
   </nb-card-body>
 </nb-card>
-
+-->
 <!-- <nb-card>
     <nb-card-header>
       Historial de Tags

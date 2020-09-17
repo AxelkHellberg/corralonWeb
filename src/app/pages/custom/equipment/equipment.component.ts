@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Equipment } from '../../../@models/systems';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { EquipmentData } from '../../../@models/general';
-
+import { NbToastrService } from '@nebular/theme';
 @Component({
   selector: 'ngx-equipment',
   templateUrl: './equipment.component.html',
@@ -71,7 +71,7 @@ export class EquipmentComponent implements OnInit {
   };
   systems: any;
 
-  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {
+  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService, private toastrService: NbToastrService) {
     this.route.queryParams.subscribe(queryParams => {
       if (queryParams.tag) {
         this.associateElements = true;
@@ -87,7 +87,24 @@ export class EquipmentComponent implements OnInit {
   ngOnInit() {
     this.getData();
   }
-
+  showToastNombre(position, status) {
+    this.toastrService.show(
+      'Los Equipos deben tener Nombre',
+      `Ingese un Nombre al Equipo.`,
+      { position, status });
+    }
+    showToastTagEquipo(position, status) {
+      this.toastrService.show(
+        '',
+        `Seleccione un Tag de Equipo.`,
+        { position, status });
+      }
+      showToastSistema(position, status) {
+        this.toastrService.show(
+          '',
+          `Seleccione un Sistema.`,
+          { position, status });
+        }
   async getData() {
     try {
       const response = await this.generalService.getTag(2);
@@ -138,15 +155,15 @@ export class EquipmentComponent implements OnInit {
     }
     else {
       if (newData.nombre == '') {
-        alert("Ingese un Nombre al Equipo");
+        this.showToastNombre('top-right','warning');
       }
       if(newData.tagId == '')
       {
-        alert("Seleccione un Tag de Equipo");
+        this.showToastTagEquipo('top-right','warning');
       }
       if(newData.sistemaId == '')
       {
-        alert("Seleccione un Sistema");
+        this.showToastSistema('top-right','warning');
       }
     }
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
-
+import { NbToastrService } from '@nebular/theme';
 @Component({
   selector: 'ngx-tag-equipment',
   templateUrl: './tag-equipment.component.html',
@@ -99,7 +99,7 @@ export class TagEquipmentComponent implements OnInit {
       },
     },
   };
-  constructor(private generalService: GeneralService) { }
+  constructor(private generalService: GeneralService, private toastrService: NbToastrService) { }
 
   ngOnInit() {
     this.getTag()
@@ -118,6 +118,17 @@ export class TagEquipmentComponent implements OnInit {
       console.log(e)
     }
   }
+  showToastRepetido(position, status) {
+    this.toastrService.show(
+      'Los Nombres de los Tag no pueden Repetirce',
+      `Nombre de Tag Repetido.`,
+      { position, status });
+    }
+    showToastNombre(position, status) {
+      this.toastrService.show(
+        'Los Tags deben tener Nombre',
+        `Ingrese un Nombre.`,
+        { position, status });}
 
   async createOrEditEquipment(event, isEdit = false) {
     if (event.newData.nombre != '') {
@@ -145,7 +156,7 @@ export class TagEquipmentComponent implements OnInit {
             await this.generalService.createTag(data);
           }
           else {
-            alert('campo repetido');
+            this.showToastRepetido('top-right','warning');;
           }
           }
           event.confirm.resolve();
@@ -157,7 +168,7 @@ export class TagEquipmentComponent implements OnInit {
      
     }
     else {
-      alert('Inserte un Nombre')
+      this.showToastNombre('top-right','warning');
     }
   }
 

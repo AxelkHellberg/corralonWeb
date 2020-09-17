@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SystemType } from '../../../@models/systems';
 import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
-
+import { NbToastrService } from '@nebular/theme';
 @Component({
   selector: 'ngx-systems-type',
   templateUrl: './systems-type.component.html',
@@ -53,7 +53,7 @@ export class SystemsTypeComponent implements OnInit {
     }
   };
 
-  constructor(private generalService: GeneralService) { }
+  constructor(private generalService: GeneralService, private toastrService: NbToastrService) { }
 
   ngOnInit() {
     this.getSystemTypes();
@@ -68,9 +68,14 @@ export class SystemsTypeComponent implements OnInit {
       console.log(e);
     }
   }
-
+  showToastNombre(position, status) {
+    this.toastrService.show(
+      'Los Deben tenr un Nombre',
+      `Ingrese un Nombre.`,
+      { position, status });
+    }
   async addSystemType(data: ConfirmData) {
-    if (data.newData.nombre) {
+    if (data.newData.nombre != '') {
       try {
         await this.generalService.createTypeSystems(data.newData.nombre);
         this.getSystemTypes();
@@ -80,11 +85,11 @@ export class SystemsTypeComponent implements OnInit {
         data.confirm.reject();
       }
     } else {
-      data.confirm.reject();
+      this.showToastNombre('top-right','warning');
     }
   }
   async editSystemType(data: ConfirmData) {
-    if (data.newData.nombre) {
+    if (data.newData.nombre != '') {
       try {
         const response = await this.generalService.editTypeSystems(data.newData.id, data.newData.nombre);
         console.log(response)
@@ -94,7 +99,7 @@ export class SystemsTypeComponent implements OnInit {
         data.confirm.reject();
       }
     } else {
-      data.confirm.reject();
+      this.showToastNombre('top-right','warning');
     }
   }
   async deleteSystemType(data: ConfirmData) {

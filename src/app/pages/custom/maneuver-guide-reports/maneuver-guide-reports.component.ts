@@ -86,13 +86,15 @@ export class ManeuverGuideReportsComponent implements OnInit {
         date = new Date(date);
         return moment(date).format(format);
       }
+      
       this.data = maneuverGuides.map(item => ({
         ...item,
         id: item.id,
         maneuverGuideName: item.nombre,
         date: moment(item.createdAt).utc().format('DD/MM/YYYY'),
         time: moment(item.createdAt).utc().format('HH:mm'),
-        operator: userFullName(item)
+        operator: userFullName(item),
+        status: item.status
       }));
     } catch (error) {
 
@@ -105,6 +107,7 @@ export class ManeuverGuideReportsComponent implements OnInit {
   }
 
   selectItem({data}) {
+    console.log(data);
     this.selectedItem = data;
     this.showDetail = true;
   }

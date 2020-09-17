@@ -5,6 +5,7 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
 import { throwError } from 'rxjs';
 import { forEach } from '@angular/router/src/utils/collection';
+import { NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-measurement-units',
@@ -56,7 +57,7 @@ export class MeasurementUnitsComponent implements OnInit {
     }
   };
 
-  constructor(private generalService: GeneralService) { }
+  constructor(private generalService: GeneralService,private toastrService: NbToastrService) { }
 
   ngOnInit() {
     this.getMeasurement();
@@ -70,7 +71,18 @@ export class MeasurementUnitsComponent implements OnInit {
       console.log(e)
     }
   }
-
+  showToastNombre(position, status) {
+    this.toastrService.show(
+      'Las Unidades de Medida deben tener Nombre',
+      `Ingrese un Nombre.`,
+      { position, status });
+  }
+  showToastRepetido(position, status) {
+    this.toastrService.show(
+      'Los Nombres no se pueden Repetir',
+      `Nombre Repetido.`,
+      { position, status });
+  }
   async addMeasurement(data: ConfirmData) {
     try {
       let repetidos = false;
@@ -80,7 +92,7 @@ export class MeasurementUnitsComponent implements OnInit {
         for (let dato of datos) {
           console.log(dato.nombre + data.newData.nombre)
           if (data.newData.nombre == dato.nombre) {
-            alert('campo repetido.');
+            this.showToastRepetido('top-right','warning');
             repetidos = true;
             break;
           }
@@ -96,7 +108,7 @@ export class MeasurementUnitsComponent implements OnInit {
 
 
       else {
-        alert('complete el campo.');
+        this.showToastNombre('top-right','warning');
       }
     } catch (e) {
       console.log(e)
@@ -104,6 +116,7 @@ export class MeasurementUnitsComponent implements OnInit {
     }
   }
   async editMeasurement(data: ConfirmData) {
+    if (data.newData.nombre != '') {
     try {
       const response = await this.generalService.editMeasurementUnits(data.newData.id, data.newData.nombre);
       console.log(response)
@@ -111,6 +124,10 @@ export class MeasurementUnitsComponent implements OnInit {
     } catch (e) {
       console.log(e)
       data.confirm.reject();
+    }}
+    else
+    {
+      this.showToastNombre('top-right','warning');
     }
   }
   async deleteMeasurement(data: ConfirmData) {

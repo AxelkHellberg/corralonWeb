@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FailureTypes } from '../../../@models/failures';
 import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
-
+import { NbToastrService } from '@nebular/theme';
 @Component({
   selector: 'ngx-failure-types',
   templateUrl: './failure-types.component.html',
@@ -56,7 +56,7 @@ export class FailureTypesComponent implements OnInit {
     }
   };
 
-  constructor(private generalService: GeneralService) { }
+  constructor(private generalService: GeneralService, private toastrService: NbToastrService) { }
 
   async ngOnInit() {
     try {
@@ -81,8 +81,14 @@ export class FailureTypesComponent implements OnInit {
       data.confirm.reject();
     }}
     else{
-      alert('Ingrese un Nombre');
+      this.showToast('top-right','warning');
     }
+  }
+  showToast(position, status) {
+    this.toastrService.show(
+      'Los Tipos de Falla deben tener Nombre',
+      `Ingrese un Nombre.`,
+      { position, status });
   }
   async editFailureType(data: ConfirmData) {
     if(data.newData.nombre != '')
@@ -96,7 +102,7 @@ export class FailureTypesComponent implements OnInit {
       data.confirm.reject();
     }}
     else{
-      alert('Ingrese un Nombre');
+      this.showToast('top-right','warning');
     }
   }
   async deleteFailureType(data: ConfirmData) {
