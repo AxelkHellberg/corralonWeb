@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Profiles } from '../../../@models/profiles';
 import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
-
+import { NbToastrService } from '@nebular/theme';
 @Component({
   selector: 'ngx-profiles',
   templateUrl: './profiles.component.html',
@@ -46,7 +46,7 @@ export class ProfilesComponent implements OnInit {
     },
   };
 
-  constructor(private generalService: GeneralService) { }
+  constructor(private generalService: GeneralService, private toastrService: NbToastrService) { }
 
   async ngOnInit() {
     try {
@@ -56,26 +56,41 @@ export class ProfilesComponent implements OnInit {
       console.log(e)
     }
   }
-
+  showToastNombre(position, status) {
+    this.toastrService.show(
+      'Los Roles deben tener Nombre',
+      `Ingrese un Nombre.`,
+      { position, status });
+  }
   async addProfile(data: ConfirmData) {
-    try {
-      const response = await this.generalService.createProfile(data.newData.name);
-      console.log(response)
-      data.confirm.resolve();
-    } catch (e) {
-      console.log(e)
-      data.confirm.reject();
+    if (data.newData.name != '') {
+      try {
+        const response = await this.generalService.createProfile(data.newData.name);
+        //console.log(response)
+        data.confirm.resolve();
+      } catch (e) {
+        console.log(e)
+        data.confirm.reject();
+      }
+    }
+    else {
+      this.showToastNombre('top-right', 'warning');
     }
   }
   async editProfile(data: ConfirmData) {
-    try {
-      console.log(data.newData);
-      const response = await this.generalService.editProfile(data.newData.id, data.newData.name);
-      console.log(response)
-      data.confirm.resolve();
-    } catch (e) {
-      console.log(e)
-      data.confirm.reject();
+    if (data.newData.name != '') {
+      try {
+        console.log(data.newData);
+        const response = await this.generalService.editProfile(data.newData.id, data.newData.name);
+        console.log(response)
+        data.confirm.resolve();
+      } catch (e) {
+        console.log(e)
+        data.confirm.reject();
+      }
+    }
+    else {
+      this.showToastNombre('top-right', 'warning');
     }
   }
   async deleteProfile(data: ConfirmData) {
