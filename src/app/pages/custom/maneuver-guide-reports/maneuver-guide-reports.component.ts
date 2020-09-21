@@ -121,7 +121,7 @@ export class ManeuverGuideReportsComponent implements OnInit {
       }
     }).then((res) => { dataAenviar = {
       data,
-      datAux:res[0]
+      datAux:res
       
              
     };console.log(dataAenviar); 
