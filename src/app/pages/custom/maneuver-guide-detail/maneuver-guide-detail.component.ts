@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
+import { GeneralService } from '../../../services/general.service';
 @Component({
   selector: 'ngx-maneuver-guide-detail',
   templateUrl: './maneuver-guide-detail.component.html',
@@ -10,10 +10,12 @@ export class ManeuverGuideDetailComponent implements OnInit {
 
   @Output() onClose = new EventEmitter();
 
-  constructor() { }
+  constructor(private generalService: GeneralService) { }
+
 
   ngOnInit() {
     console.log(this.data)
+
   }
 
 }

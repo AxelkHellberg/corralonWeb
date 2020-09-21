@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EquipmentData, ManeuverGuideFields, PlantData, RoundData, RoundFields, RoundTemplateData, SystemData, TagData, UserBasicData, UserData } from '../@models/general';
+import { EquipmentData, infoGuia, ManeuverGuideFields, PlantData, RoundData, RoundFields, RoundTemplateData, SystemData, TagData, UserBasicData, UserData } from '../@models/general';
 import { EnvironmentService } from './environment.service';
 
 @Injectable({
@@ -8,7 +8,10 @@ import { EnvironmentService } from './environment.service';
 })
 export class GeneralService {
   constructor(private http: HttpClient) { }
-
+  
+  getGuiaManiobraCampos(Guia : any): Promise <any>{
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`,Guia).toPromise();
+  }
   getRoundsQuantity(): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute/1`, {}).toPromise();
   }
@@ -227,5 +230,6 @@ export class GeneralService {
   getFieldTemplate(id:any): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`, {id: 6, filters:{plantillaRondaId: id}}).toPromise();
   }
+
 
 }

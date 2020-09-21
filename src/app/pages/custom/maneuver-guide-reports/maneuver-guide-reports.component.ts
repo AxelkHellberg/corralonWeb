@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
 import * as moment from 'moment';
+import { infoGuia } from '../../../@models/general';
 
 @Component({
   selector: 'ngx-maneuver-guide-reports',
@@ -15,6 +16,7 @@ export class ManeuverGuideReportsComponent implements OnInit {
   filterTableSettings: any = {};
   showDetail: boolean;
   data: any = [];
+  dataDetalle: any = [];
   settings: SmartTableSettings = {
     actions: false,
     add: {
@@ -86,7 +88,7 @@ export class ManeuverGuideReportsComponent implements OnInit {
         date = new Date(date);
         return moment(date).format(format);
       }
-      
+
       this.data = maneuverGuides.map(item => ({
         ...item,
         id: item.id,
@@ -95,21 +97,48 @@ export class ManeuverGuideReportsComponent implements OnInit {
         time: moment(item.createdAt).utc().format('HH:mm'),
         operator: userFullName(item),
         status: item.status
-      }));
-    } catch (error) {
+      })
 
+      );
+    } catch (error) {
     }
+
   }
 
   filterTable(column: string, filterTerm: string): void {
     const noFilter = !!filterTerm;
-    this.filterTableSettings = { ...this.filterTableSettings, [column]: noFilter ? filterTerm : null};
+    this.filterTableSettings = { ...this.filterTableSettings, [column]: noFilter ? filterTerm : null };
   }
 
-  selectItem({data}) {
-    console.log(data);
-    this.selectedItem = data;
-    this.showDetail = true;
-  }
+  selectItem({ data }) {
+    let datAux : any[]; 
+    let dataAenviar: any;
+    this.generalService.getGuiaManiobraCampos({
+      id: 2,
+      filters: {
+        guiaManiobraId: data.id,
+        plantillaGuiaManiobraId: data.plantillaGuiaManiobraId
+      }
+    }).then((res) => { dataAenviar = {
+      data,
+      datAux:res[0]
+      
+             
+    };console.log(dataAenviar); 
+    this.selectedItem = dataAenviar;
+    this.showDetail = true;});
+    
+    //console.log(data);
+    
 
+    //console.log(this.dataDetalle/*.__zone_symbol__value*/)
+  }
+  // this.dataDetalle = {
+  //   id:2,
+  //   filters:{
+  //  guiaManiobraId = 1,
+  // plantillaGuiaManiobraId = 1
+  //}
+  //}
+  //console.log(this.dataDetalle);
 }

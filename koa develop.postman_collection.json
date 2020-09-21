@@ -1,0 +1,1353 @@
+{
+	"info": {
+		"_postman_id": "0f0506cd-03b8-44d8-a8f6-b969ebebfc33",
+		"name": "koa develop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Create user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"amt\",\n\t\"password\":\"123456\",\n    \"name\": \"Ariel\",\n    \"lastName\": \"Tarsitano\",\n    \"fileNumber\": \"123\",\n    \"dni\": \"prueba\"\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/users/",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1. Get User",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjA4MjgwMTksImV4cCI6MTU2MDg3MTIxOSwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.JtQP16Pv3jgzSVguqSfVu19IZuKsdkSyDj2s71C1pBMgMHIb1klnPUtXNESSLgoQViKPLaL_NXCtWcwrsfpPoGuSBq4ND4vCzYd78infddCr-It6mJ3DqvbFANmxyDDvbDsFR4214K4XCEQrGTNj_OhX2zH7w2Qqna76UL2_YjxDjYFqcsF3DCrJnw-zSHs5P3ghGMr-Cl4ohOgchr3n6yBgEp_uxjIqm3uIxFrhWgoYzumRAKQ7h8eRkZVsEykZ1Xe8_FFonfkcNcgZrSK-OeLDmXETYVMk7uyISAHT4NHbktxhiRcb85Rg0FyQwIC-cocVWcnjak_7i2ovVENvnQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/users/",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjIzMzg2ODksImV4cCI6MTU2MjM4MTg4OSwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJBbWVyaWNhblRvd2VyIiwic3ViIjoic29tZUB1c2VyLmNvbSJ9.eS1f0C6YMeiUdkrkU7kDaVcLmYjI13tYXEAhcwQ9kTvw7rT7hgXj0eU9zu-uqlSFg0aBHhw9WfJk9UZjBV-3uynNNVLKgfziQed24zzUAJDyLx91tI5mB6DbfWzSc1RXMHbq2vIdMTNhkrXHTkkMbKst_ILEL6X3t4ZWd4ALwfrs7g6B1LMLx_0sBhe9tw4VadgVsN4VZPG7vsJGBAzlvdOXCQTmxqAbIvBgYfo7j3uESWuOHDz7MXLcPAHka5hwDAw5QI2e4Z1--NJ98rwDdzMuxXDjTqJW-f6t0b-W1cghbR7TvrNGyRf_HQsgwxQyTsWosqve_hI-wKbKjUNTgQ"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"admin\",\n\t\"password\":\"123456\"\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/auth/login/",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"auth",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.1. Retrieve Tipo Tag",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1Njc0ODExNzMsImV4cCI6MTU2NzUyNDM3MywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.LqlX3DYTZnwXebKNS5T1iLwY_itRD2SDfa8oxrltQ08Hp0HeZhNXesqjiw0c2yU8rSsZHfJIevCF-Uorwfo8hp1ZSmzDAOMUylOIFSKfBLRMfMSoo3TOEYaMZWjDZp98tCb4xuue_7arox1Cj0F6Nq7MvFvffNtGsmt8w31egDO73U_kOow1RncOR5pag4FhL-fZ3JhqANmdi6qxgaEDypU1aBnnTdsM0iGezdkL3CHpioK_M0WnZjuAQvqaqsxxQSv_OSs-4NOzgEgVsBzxWPjWviLB8FIbOJdyJakW7CegSTRfoyvhVZ8zOZz2GW0hEBYhl1VFtqEoJAl-I2LaXg",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/tipos-tag",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"tipos-tag"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.2 Create Tag",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1Njc0ODExNzMsImV4cCI6MTU2NzUyNDM3MywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.LqlX3DYTZnwXebKNS5T1iLwY_itRD2SDfa8oxrltQ08Hp0HeZhNXesqjiw0c2yU8rSsZHfJIevCF-Uorwfo8hp1ZSmzDAOMUylOIFSKfBLRMfMSoo3TOEYaMZWjDZp98tCb4xuue_7arox1Cj0F6Nq7MvFvffNtGsmt8w31egDO73U_kOow1RncOR5pag4FhL-fZ3JhqANmdi6qxgaEDypU1aBnnTdsM0iGezdkL3CHpioK_M0WnZjuAQvqaqsxxQSv_OSs-4NOzgEgVsBzxWPjWviLB8FIbOJdyJakW7CegSTRfoyvhVZ8zOZz2GW0hEBYhl1VFtqEoJAl-I2LaXg",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"TAG 123\",\n\t\"tipoTagId\":1,\n\t\"obligatorio\":false\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/tags",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"tags"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. crear planta",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjEyMjQyODEsImV4cCI6MTU2MTI2NzQ4MSwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.R1leTDicWO7wIdpCRQpT4oTGHNyrScLlEnZ0j62JQRgK6qHdbE3qNxRXgSDy8MDAmTTkcp87EWuGjtO2dCyT_rfSJoMCBNrkqD7kmqOeJ-hCLVTv-kmi15j_Ow6Ygk2qSoelSTUEvm9-qBMnaPIAFtbMtfrrn9eBkFQEpWoVCrMRMmyeWdyK75eHdNMuHcFHq4Fnvk4OYqusDi6sPXAzFtcrlN1fsE8snsj2dsbfu385X9hgIXdUV8Y_TWZgS2nhlRMT2Nn3JVdCFkSdmSyX-E3UrsPvMqFfpyget-DpqRctg0qPoSP1BeTGt5r4uZYC0zJHVwI4ONdkeM1qUBGRyQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"descripcion\":\"Descripcion plnta 1\",\n\t\"nombre\":\"Planta 1\"\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/plantas",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"plantas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. crear sistema",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjY4NzMzNTcsImV4cCI6MTU2NjkxNjU1NywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.IgfjAJVH5BYNQahMetlyYhXGGNcHfWMlvhQanyl2XDM0RSxxWaD7GLTXqw4xyksITULhfnaowr3kE6TL05d5aWUV6nVuUcUN3M8nQpUitHpUkJjlIm2EIQOEXT_PU32yY8QzEm_OOc7opjT5zQhuH8tBYI1qy2MCGucd_e4k6j-Q9m1X9NaeSC58vZ5gI9Q7qzr_NZI7OttvUShJcH0VE_wSd58ubQxOiowavDDhuvXoR3en5zk447B2Z_Bd3OgwOg39eXwRmUI290NvaE8lhHSQoEX9nWDD5DXr097vhzPBY6gjfqNcLmTo89UMovHL88QefST-oKaA0ob88QXsdA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"descripcion\":\"Descripcion sistema 1\",\n\t\"nombre\":\"Sistema 1\",\n\t\"plantaId\":1,\n\t\"tipoSistemaId\":1,\n\t\"KKS\":\"kks 1\",\n\t\"tagId\":null\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/sistemas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"sistemas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5.1 crear tipo de sistema",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjM3MzA5MjAsImV4cCI6MTU2Mzc3NDEyMCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.SaPxQr4331xsqk75Z2dfSP8MUlaskCSb2BS7ukCxxNL4X26jWrzp1yZ5oB-SHT68CbV6vJxy-QKMu9DnHd29zh7uM3DyYofqxTsyDD2mvzuREUaZD6rQni5Myl9qww4iGwv3FJW3394dNsXo_mG0i479k7ZfZBsX8Xo2N-7wk0ZtoNywHl1iHPUHAhrYKvblPXwWh-Ltn0klRQf8-XUFLhVVP3WMWBUMU5PCprjbwPDc45tCP88a6XKctyqWLSMx0nHH1X_ZBJs77FQ4jyrL6E2JoIEjXTNy2_94Cr5_iPKxzcZaISgTNlxdn0gt7pXPLMTrZLhmchgMbcsZlr1XtQ"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"posicion\":1,\n\t\"nombre\":\"Tipo sistema 1\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/tipos-sistema",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"tipos-sistema"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5.2 crear equipamiento",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjE2ODgwMDMsImV4cCI6MTU2MTczMTIwMywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.TPOgt0lJ3VSO9vTi-9VUTmeHg0ai0W6Zo4Y-gRuOHXcg6rnEB0EQQIQxbe6RAy8faokQVinLiqKpa_Bc00l1ZKkS5rordmsXf04btoEtshoc4OSvs-fah0rwPlprtCz_JxHqppptdxwTqE98kZ0QEq86xbDs52KScBqfdTJPSxFDNeEYB3XeGx7w-fhT3wXwR5c4061_yabC3MOP4fKTz7I0qOJHqoMJCsu-C1GuEsbDHWXKi5S3um6zWyXp5RqGM55nkVkDTtsGAOQus3ato2m-ex4ggkFW9sTvRfZqUXNzjlWZ8X3VANrSysyPrsPEKA8o6xA3F3i20LoSSgmFUw"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"detalle\":\"Descripcion Equipamiento 1\",\n\t\"nombre\":\"Equipamiento 1\",\n\t\"sistemaId\":1\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/equipamientos",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"equipamientos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Crear Plantilla guia Maniobra",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjEzMTE0NTYsImV4cCI6MTU2MTM1NDY1NiwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.C41TNH-NHTmfy6mUsi04uP6qUcjd6eRiwQpm02y37ZecdzgcuWRgkrBVZ6FF02SC8GKtavz8FAn231C2BbISYzQYS6e11xC4uaBeQDIN4fhR8naD1m6m2hHEpzrgl7SMT8ZHqHD15HM8J0nTmWUUPAaSMR_Oa1WvdCyXdGXME-0vPLjojdtN_L5bNCbvSPU412Fgt713FgjwiklxO8vbptAZoHtj1ejqIXUa6y9DYSobQwRn87UmdPpCsxb3yY_y6OXY0FLUcjDhmZbpyHSdOgGubJEM9QMtXGpcQZfh8IHFsX9BzW7HuA195kxhOJaCZk5O-NN2xMwK3pystZOgVg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"Plantilla 1\"\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/plantillas-guias-maniobra/",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"plantillas-guias-maniobra",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Crear Campos guia-maniobra",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjMwNDIyNTMsImV4cCI6MTU2MzA4NTQ1MywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.GkoWColYyHDnAfZIPuUIxwbm3a7X4yEO_dSLPU-W9I9gCYbk-jfyClH9ZZq-9LFnWsGjRdbVebch3MpBgXpwjHlxqe4LJzQ5yJnaIx4cXZd9pE8gS1ZUOT9K5RqbOnEP02XKG5KzHs7bi5kebBfp9m4NvcsLD_H-DeQy4Qt3TuxRhUoXkyYletBeuEBF6uo8sQh5UuOToWyDmpmQ53RRqPUGsEVa9tzhd0nmrZREMyHoR4JARhStWqhhT1wpbQ7l6wNAGx8XoqSfXzb74KyMzhbe70JmxdqzbSAugJBDYxfGdTmji3kX2rRFfX-rNTs0MSiJt6wO7w0iE8HpgMsEWA",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"Verificó electricidad\",\n\t\"descripcion\":\"descripcion de pruebaaaaaaaaaaaaaaaaaaaaaaaapruebaaaaaaaaaaaaaaaaaaaaaaaapruebaaaaaaaaaaaaaaaaaaaaaaaapruebaaaaaaaaaaaaaaaaaaaaaaaapruebaaaaaaaaaaaaaaaaaaaaaaaapruebaaaaaaaaaaaaaaaaaaaaaaaa\",\n\t\"sistemaId\":1,\n\t\"plantillaGuiaManiobraId\":1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/campos-maniobra/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"campos-maniobra",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Crear Guia Maniobra",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjEzMTE0NTYsImV4cCI6MTU2MTM1NDY1NiwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.C41TNH-NHTmfy6mUsi04uP6qUcjd6eRiwQpm02y37ZecdzgcuWRgkrBVZ6FF02SC8GKtavz8FAn231C2BbISYzQYS6e11xC4uaBeQDIN4fhR8naD1m6m2hHEpzrgl7SMT8ZHqHD15HM8J0nTmWUUPAaSMR_Oa1WvdCyXdGXME-0vPLjojdtN_L5bNCbvSPU412Fgt713FgjwiklxO8vbptAZoHtj1ejqIXUa6y9DYSobQwRn87UmdPpCsxb3yY_y6OXY0FLUcjDhmZbpyHSdOgGubJEM9QMtXGpcQZfh8IHFsX9BzW7HuA195kxhOJaCZk5O-NN2xMwK3pystZOgVg",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\":2,\n\t\"nombre\":\"Guia maniobra 1\",\n\t\"plantillaGuiaManiobraId\":1\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/guias-maniobra/",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"guias-maniobra",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8.1 crear valores-campos-maniobras",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjM0MTIxNDAsImV4cCI6MTU2MzQ1NTM0MCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.SLzpvaEADX99X6xQ5KLZAQuOblRgWH4KsqQ9JTlkKram3CZQ-q7jeV_4laXiLKhTH9bI-5CEytA5gXDA2t6nABoL6v-B2n5K6oFu776d_NpIjaOAKHZHJ7fDh0N2Zw2t3KwmJMsyRQKspV2jBpS0yFFkbU0NZ-X8APiSMoOAynvujNdWvCJLcFv_kz6HA3zRGHFU2I3TdomoIsm7QNNGEbqGWPp_XlmLyUl98FAOYryRPqlgfpI6Jj7q1TKm-PtmpwpMtx6yJSUyFfRrpMFSHl6-orYDMkmeJjOJDpmw4K8EURA4UobTsXro0XXHiPwflCYf_XelGs-mRk-oAXXMZQ"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"valor\":true,\n\t\"guiaManiobraId\":6,\n\t\"campoManiobraId\":2,\n\t\"notificacionFallaId\":4\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/valores-campos-maniobra/",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"valores-campos-maniobra",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8.2 completar guia maniobra valores fallas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjQwNzIzMDAsImV4cCI6MTU2NDExNTUwMCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.Cp6cvkRtzQ3Ul2I9oNQ4H6e37iXKDdgnH4IsvvTCSw-LeVWTS-ZJ6W0yivfIuFUHhlMTNvlkOlhQP4w1sts7aGCXfSbU825RzG86uA2AGTi5NyoR7JMr5NSq_3d1PgTq-fzktZCOW2MUHDAZ5WcujQOpB9Ii4woBvz8xJrbSNbin83gBJCApHjoyrakyHX27jbktmrAbpGduyAH0s2vVitq959HZFeytwl3CjH42kNRvgamlJLiKVb2EwcTw-4p7HJGX_29pJRyl7nwS_eBkJV5ApkwvhyYvTECxOxxgsrkEZ7jt3dgfNo-Vb5c1o5EHIzo3QApH-ASS3xcZXzZrvA"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n\t\"valor\":true,\n\t\"campoManiobraId\":1,\n\t\"notificacionFalla\":{\n\t\t\"descripcion\":\"descripcion de falla\",\n\t\t\"estadoFallaId\":1,\n\t\t\"tipoFallaId\":1\n\t}\n},\n{\n\t\"valor\":true,\n\t\"campoManiobraId\":2\n}\n\n]"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/guias-maniobra/7/valores-fallas",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"guias-maniobra",
+						"7",
+						"valores-fallas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9 crear unidades-medida",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjE2ODgwMDMsImV4cCI6MTU2MTczMTIwMywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.TPOgt0lJ3VSO9vTi-9VUTmeHg0ai0W6Zo4Y-gRuOHXcg6rnEB0EQQIQxbe6RAy8faokQVinLiqKpa_Bc00l1ZKkS5rordmsXf04btoEtshoc4OSvs-fah0rwPlprtCz_JxHqppptdxwTqE98kZ0QEq86xbDs52KScBqfdTJPSxFDNeEYB3XeGx7w-fhT3wXwR5c4061_yabC3MOP4fKTz7I0qOJHqoMJCsu-C1GuEsbDHWXKi5S3um6zWyXp5RqGM55nkVkDTtsGAOQus3ato2m-ex4ggkFW9sTvRfZqUXNzjlWZ8X3VANrSysyPrsPEKA8o6xA3F3i20LoSSgmFUw",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"Metros\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/unidades-medida",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"unidades-medida"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10 crear horarios",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjE2ODgwMDMsImV4cCI6MTU2MTczMTIwMywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.TPOgt0lJ3VSO9vTi-9VUTmeHg0ai0W6Zo4Y-gRuOHXcg6rnEB0EQQIQxbe6RAy8faokQVinLiqKpa_Bc00l1ZKkS5rordmsXf04btoEtshoc4OSvs-fah0rwPlprtCz_JxHqppptdxwTqE98kZ0QEq86xbDs52KScBqfdTJPSxFDNeEYB3XeGx7w-fhT3wXwR5c4061_yabC3MOP4fKTz7I0qOJHqoMJCsu-C1GuEsbDHWXKi5S3um6zWyXp5RqGM55nkVkDTtsGAOQus3ato2m-ex4ggkFW9sTvRfZqUXNzjlWZ8X3VANrSysyPrsPEKA8o6xA3F3i20LoSSgmFUw"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"hora\":20,\n\t\"minuto\":20\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/horarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"horarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11 crear tipo campo ronda",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjY2MjEyNTQsImV4cCI6MTU2NjY2NDQ1NCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.ZJFQHLsrj0ZfcICGmVUUTt_saPc6BM4QJ0bZ3z8O2YIAVz8ljrltXSB8H4bOmOrA-BYf9mCP9jz8iGFCjwsAh_D0_UYh93Llss4cS4sFeZm-ZA8DyEHDbD8ew_gVep0dVrDRI0CX9doJ3ym5Bn02lbXKMRU8ak0JB9OPRyWRbqtubofWryai0jQAtTuja-HolHsIpkCmy6ogjumIuZQVW-4WlD3PNrhlt3D51MuwkexDOQrLutsT1zrFBEVlmISytWLvzgpM00is4jeUSs3ZxRPRsjISAuvIKp1MjQXAokRRDUHKdiqcE41Tqx6fIBofaF9yF1IjY95aWgfKFedX7Q"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n            \"nombre\": \"booleano\"\r\n  }"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/tipos-campo-ronda",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"tipos-campo-ronda"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12 crear plantillas-ronda",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjY4NzMzNTcsImV4cCI6MTU2NjkxNjU1NywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.IgfjAJVH5BYNQahMetlyYhXGGNcHfWMlvhQanyl2XDM0RSxxWaD7GLTXqw4xyksITULhfnaowr3kE6TL05d5aWUV6nVuUcUN3M8nQpUitHpUkJjlIm2EIQOEXT_PU32yY8QzEm_OOc7opjT5zQhuH8tBYI1qy2MCGucd_e4k6j-Q9m1X9NaeSC58vZ5gI9Q7qzr_NZI7OttvUShJcH0VE_wSd58ubQxOiowavDDhuvXoR3en5zk447B2Z_Bd3OgwOg39eXwRmUI290NvaE8lhHSQoEX9nWDD5DXr097vhzPBY6gjfqNcLmTo89UMovHL88QefST-oKaA0ob88QXsdA"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"Plantilla test\",\n\t\"funcionamientoSistema\":true,\n\t\"obligatorioSistema\":true,\n\t\"funcionamientoEquipo\":true,\n\t\"obligatorioEquipo\":true,\n    \"horarios\": [\"12:30\",\"13:30\",\"11:20\"]\n\t\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/plantillas-ronda",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"plantillas-ronda"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12.1 crear campo-ronda",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjE2ODgwMDMsImV4cCI6MTU2MTczMTIwMywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.TPOgt0lJ3VSO9vTi-9VUTmeHg0ai0W6Zo4Y-gRuOHXcg6rnEB0EQQIQxbe6RAy8faokQVinLiqKpa_Bc00l1ZKkS5rordmsXf04btoEtshoc4OSvs-fah0rwPlprtCz_JxHqppptdxwTqE98kZ0QEq86xbDs52KScBqfdTJPSxFDNeEYB3XeGx7w-fhT3wXwR5c4061_yabC3MOP4fKTz7I0qOJHqoMJCsu-C1GuEsbDHWXKi5S3um6zWyXp5RqGM55nkVkDTtsGAOQus3ato2m-ex4ggkFW9sTvRfZqUXNzjlWZ8X3VANrSysyPrsPEKA8o6xA3F3i20LoSSgmFUw"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"Velocidad de la cinta\",\n\t\"valorNormal\":100,\n\t\"valorMax\":140,\n\t\"valorMin\":70,\n\t\"equipamientoId\":1,\n\t\"tipoCampoRondaId\":1,\n\t\"unidadMedidaId\":1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/campos-ronda",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"campos-ronda"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12.2 crear tipos-campos-ronda",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1Njc0Nzg3MjQsImV4cCI6MTU2NzUyMTkyNCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.CoO7f8npQpd-XjMdGIQjiVEGZ07aP_Q4af4Jzv679A_a6VQXK_9ufm_db9FZZKeCcGnmxo1ZgzaD9T3kQYF5k-Ef0UPtJOZK5geUmjgfvtNxGPrQijqCJ478WiuZP7Q_g8pzx0uTlpfdeSp6GSdDXF3Jc2yBtZ_EscObYESbuyclo3x9hEitG-etYWKjdjJc71Rg-V7ieieBxxUsu-cs5iTMEXVSD0Rd9wdOWbNM4eR7gcDjHvkm8rCSMtdSCL24k1NsREnbLLU4IEGMYjnIsx3AbA2Nn6JTGQUAHTFgzXaCWD9HTZ1HhQjBMUo_0JFfHmd35hCeLLO7YnPjQU_LNA"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/tipos-campo-ronda",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"tipos-campo-ronda"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12.3 crear unidades-medida",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjY2MjEyNTQsImV4cCI6MTU2NjY2NDQ1NCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.ZJFQHLsrj0ZfcICGmVUUTt_saPc6BM4QJ0bZ3z8O2YIAVz8ljrltXSB8H4bOmOrA-BYf9mCP9jz8iGFCjwsAh_D0_UYh93Llss4cS4sFeZm-ZA8DyEHDbD8ew_gVep0dVrDRI0CX9doJ3ym5Bn02lbXKMRU8ak0JB9OPRyWRbqtubofWryai0jQAtTuja-HolHsIpkCmy6ogjumIuZQVW-4WlD3PNrhlt3D51MuwkexDOQrLutsT1zrFBEVlmISytWLvzgpM00is4jeUSs3ZxRPRsjISAuvIKp1MjQXAokRRDUHKdiqcE41Tqx6fIBofaF9yF1IjY95aWgfKFedX7Q"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"nombre\": \"Kilometros\"\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/unidades-medida",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"unidades-medida"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13 crear ronda",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjE2ODgwMDMsImV4cCI6MTU2MTczMTIwMywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.TPOgt0lJ3VSO9vTi-9VUTmeHg0ai0W6Zo4Y-gRuOHXcg6rnEB0EQQIQxbe6RAy8faokQVinLiqKpa_Bc00l1ZKkS5rordmsXf04btoEtshoc4OSvs-fah0rwPlprtCz_JxHqppptdxwTqE98kZ0QEq86xbDs52KScBqfdTJPSxFDNeEYB3XeGx7w-fhT3wXwR5c4061_yabC3MOP4fKTz7I0qOJHqoMJCsu-C1GuEsbDHWXKi5S3um6zWyXp5RqGM55nkVkDTtsGAOQus3ato2m-ex4ggkFW9sTvRfZqUXNzjlWZ8X3VANrSysyPrsPEKA8o6xA3F3i20LoSSgmFUw"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"porcentaje\":80,\n\t\"tiempoRondaMinutos\":15,\n\t\"userId\":2,\n\t\"estadoRondaId\":1,\n\t\"plantillaRondaId\":1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/rondas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"rondas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "14 crear valores-campos-ronda",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjE2ODgwMDMsImV4cCI6MTU2MTczMTIwMywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.TPOgt0lJ3VSO9vTi-9VUTmeHg0ai0W6Zo4Y-gRuOHXcg6rnEB0EQQIQxbe6RAy8faokQVinLiqKpa_Bc00l1ZKkS5rordmsXf04btoEtshoc4OSvs-fah0rwPlprtCz_JxHqppptdxwTqE98kZ0QEq86xbDs52KScBqfdTJPSxFDNeEYB3XeGx7w-fhT3wXwR5c4061_yabC3MOP4fKTz7I0qOJHqoMJCsu-C1GuEsbDHWXKi5S3um6zWyXp5RqGM55nkVkDTtsGAOQus3ato2m-ex4ggkFW9sTvRfZqUXNzjlWZ8X3VANrSysyPrsPEKA8o6xA3F3i20LoSSgmFUw"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"porcentaje\":80,\n\t\"tiempoRondaMinutos\":15,\n\t\"userId\":2,\n\t\"estadoRondaId\":1,\n\t\"plantillaRondaId\":1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/rondas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"rondas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "15 crear tipo falla",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjY4NzMzNTcsImV4cCI6MTU2NjkxNjU1NywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.IgfjAJVH5BYNQahMetlyYhXGGNcHfWMlvhQanyl2XDM0RSxxWaD7GLTXqw4xyksITULhfnaowr3kE6TL05d5aWUV6nVuUcUN3M8nQpUitHpUkJjlIm2EIQOEXT_PU32yY8QzEm_OOc7opjT5zQhuH8tBYI1qy2MCGucd_e4k6j-Q9m1X9NaeSC58vZ5gI9Q7qzr_NZI7OttvUShJcH0VE_wSd58ubQxOiowavDDhuvXoR3en5zk447B2Z_Bd3OgwOg39eXwRmUI290NvaE8lhHSQoEX9nWDD5DXr097vhzPBY6gjfqNcLmTo89UMovHL88QefST-oKaA0ob88QXsdA"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "     {\r\n            \"nombre\": \"Electricidad\",\r\n            \"codificacionDeFalla\": \"codificacion 1\",\r\n            \"posicion\": 1\r\n        }"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/tipos-falla",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"tipos-falla"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "16 crear estado falla",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjMyMzk1MjgsImV4cCI6MTU2MzI4MjcyOCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.C0x1v4gVLebySsgqF_nj7Hg3Djf3j7-OBx2vL-KmIP7jzrtuMwHJNsd_4Mg5gKTqcSPMC-TsylS8UBmSJ8MK_CmKq1qJkK8NjJ3e-W3gSO72m_-KnYAQ4_8gJ98DCsn87-6kSQ9NOQOR6oxY1QPMCHlYoI3cSJlMHZXsbJtBPvzHPQxQFm0YcqxOSyH_tb1ISBO0rLGFoe5BmK7-kqFXdyKX5ExVjA315S9_aWt-FkyUiu7h4m6zG5Q-4JeF8FaQpjCapre6FA6yveEH1bEW1cp2SFsI-wQhpJeEA5LzSTCg3codpcfhuOroM0ESZ4jVtkEVLJgUrfD_wSwFvnS1Eg"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"estados falla 1\",\n\t\"posicion\":1\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/estados-falla",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"estados-falla"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "17 notificacion falla",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjMyMzk1MjgsImV4cCI6MTU2MzI4MjcyOCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.C0x1v4gVLebySsgqF_nj7Hg3Djf3j7-OBx2vL-KmIP7jzrtuMwHJNsd_4Mg5gKTqcSPMC-TsylS8UBmSJ8MK_CmKq1qJkK8NjJ3e-W3gSO72m_-KnYAQ4_8gJ98DCsn87-6kSQ9NOQOR6oxY1QPMCHlYoI3cSJlMHZXsbJtBPvzHPQxQFm0YcqxOSyH_tb1ISBO0rLGFoe5BmK7-kqFXdyKX5ExVjA315S9_aWt-FkyUiu7h4m6zG5Q-4JeF8FaQpjCapre6FA6yveEH1bEW1cp2SFsI-wQhpJeEA5LzSTCg3codpcfhuOroM0ESZ4jVtkEVLJgUrfD_wSwFvnS1Eg"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"descripcion\":\"testttttttttttttttttt\",\n\t\"estadoFallaId\":1,\n\t\"tipoFallaId\":1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/notificaciones-falla",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"notificaciones-falla"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "17 falla sistema",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjMyMzk1MjgsImV4cCI6MTU2MzI4MjcyOCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.C0x1v4gVLebySsgqF_nj7Hg3Djf3j7-OBx2vL-KmIP7jzrtuMwHJNsd_4Mg5gKTqcSPMC-TsylS8UBmSJ8MK_CmKq1qJkK8NjJ3e-W3gSO72m_-KnYAQ4_8gJ98DCsn87-6kSQ9NOQOR6oxY1QPMCHlYoI3cSJlMHZXsbJtBPvzHPQxQFm0YcqxOSyH_tb1ISBO0rLGFoe5BmK7-kqFXdyKX5ExVjA315S9_aWt-FkyUiu7h4m6zG5Q-4JeF8FaQpjCapre6FA6yveEH1bEW1cp2SFsI-wQhpJeEA5LzSTCg3codpcfhuOroM0ESZ4jVtkEVLJgUrfD_wSwFvnS1Eg"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sistemaId\":1,\n\t\"notificacionFallaId\":2\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/fallas-sistema",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"fallas-sistema"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "17 falla equipamiento",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjMyMzk1MjgsImV4cCI6MTU2MzI4MjcyOCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.C0x1v4gVLebySsgqF_nj7Hg3Djf3j7-OBx2vL-KmIP7jzrtuMwHJNsd_4Mg5gKTqcSPMC-TsylS8UBmSJ8MK_CmKq1qJkK8NjJ3e-W3gSO72m_-KnYAQ4_8gJ98DCsn87-6kSQ9NOQOR6oxY1QPMCHlYoI3cSJlMHZXsbJtBPvzHPQxQFm0YcqxOSyH_tb1ISBO0rLGFoe5BmK7-kqFXdyKX5ExVjA315S9_aWt-FkyUiu7h4m6zG5Q-4JeF8FaQpjCapre6FA6yveEH1bEW1cp2SFsI-wQhpJeEA5LzSTCg3codpcfhuOroM0ESZ4jVtkEVLJgUrfD_wSwFvnS1Eg"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"equipamientoId\":1,\n\t\"notificacionFallaId\":3\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/proyecto-s2i/us-central1/services/entities/fallas-equipamiento",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"proyecto-s2i",
+						"us-central1",
+						"services",
+						"entities",
+						"fallas-equipamiento"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "14.2 completar ronda maniobra valores fallas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjQwNzIzMDAsImV4cCI6MTU2NDExNTUwMCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.Cp6cvkRtzQ3Ul2I9oNQ4H6e37iXKDdgnH4IsvvTCSw-LeVWTS-ZJ6W0yivfIuFUHhlMTNvlkOlhQP4w1sts7aGCXfSbU825RzG86uA2AGTi5NyoR7JMr5NSq_3d1PgTq-fzktZCOW2MUHDAZ5WcujQOpB9Ii4woBvz8xJrbSNbin83gBJCApHjoyrakyHX27jbktmrAbpGduyAH0s2vVitq959HZFeytwl3CjH42kNRvgamlJLiKVb2EwcTw-4p7HJGX_29pJRyl7nwS_eBkJV5ApkwvhyYvTECxOxxgsrkEZ7jt3dgfNo-Vb5c1o5EHIzo3QApH-ASS3xcZXzZrvA"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n\t\"valor\":true,\n\t\"campoManiobraId\":1,\n\t\"notificacionFalla\":{\n\t\t\"descripcion\":\"descripcion de falla\",\n\t\t\"estadoFallaId\":1,\n\t\t\"tipoFallaId\":1\n\t}\n},\n{\n\t\"valor\":true,\n\t\"campoManiobraId\":2\n}\n\n]"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/guias-maniobra/7/valores-fallas",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"guias-maniobra",
+						"7",
+						"valores-fallas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R.1 recuperar plantilla guia maniobra con planta",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjMyMzE5OTMsImV4cCI6MTU2MzI3NTE5MywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.dk2gOSHcRdNH7dTcU54a6mM7iUviw_uihH9OXawrMAqxSxUoJj2eWrZd8WcCMFECcNSiMNedSMg5NL_7LeV76mfHIVDpXso4uk4kt0XoHdoa5cQVtNh_Xmo5PzP_Wr4xwwLnvRvlehhiIX6R6yE8ALAxRUUIfoC9G-_X1BNgpAK_gC8F4xq3HGjf3xcZcph49xAbtI34awE3Rnd8ltA4Pt7gGLEShxgEO39yj5Sseipom_sjBfcZtKpegw26hGGbaa841t-smjwtaxERVqaZ3AzcTBsa1YP3eZCIyiS0LfPv9ztTXn_X6lp-37vE0VA6lhzzcKg5pmUmduK0oZn_jw"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":1,\n\t\"filters\":{\n\t\t\"plantillaGuiaManiobraId\":\"3\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/reports/execute",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"reports",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R.6 recuperar plantilla de ronda con plant",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjgxNjMzNDAsImV4cCI6MTU2ODIwNjU0MCwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.J6wKg_PKDLgBVjbzGrnybxDFnwJIWZGqy0atsWGzbsONV09zsrr20GPHg-WxeGjNgiy1cR4pYTJU8NcZC_3wE09UOtkE98s28sP3npV4lSKa_b91ngsO_N__E7WLBRaNbmuEGHUAfj7kV9cUD2oIpQz8AmtbraEWZaxFoKv5NuyKHi3eHfEs0AkKSuplFLzxVevig4S2Eh9Kay-5XpVI5tNA2OtEy5lswVcjd4LyStbrhozaTSYEsp1CwYMnVFLts8WNOBAC8C8ZoXcepGsoZdjM_9ryS2nwTJHbk7Yeu3RHGcMTAl4nIdgUFF4NXi9qBgTOnHNdQTBcy7tPlQxlqg"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":6,\n\t\"filters\":{\n\t\t\"plantillaRondaId\":\"1\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/reports/execute",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"reports",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R.2 Recuperar guia de maniobra planta/sistema/campos/valores",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjMyMzE5OTMsImV4cCI6MTU2MzI3NTE5MywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.dk2gOSHcRdNH7dTcU54a6mM7iUviw_uihH9OXawrMAqxSxUoJj2eWrZd8WcCMFECcNSiMNedSMg5NL_7LeV76mfHIVDpXso4uk4kt0XoHdoa5cQVtNh_Xmo5PzP_Wr4xwwLnvRvlehhiIX6R6yE8ALAxRUUIfoC9G-_X1BNgpAK_gC8F4xq3HGjf3xcZcph49xAbtI34awE3Rnd8ltA4Pt7gGLEShxgEO39yj5Sseipom_sjBfcZtKpegw26hGGbaa841t-smjwtaxERVqaZ3AzcTBsa1YP3eZCIyiS0LfPv9ztTXn_X6lp-37vE0VA6lhzzcKg5pmUmduK0oZn_jw"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":2,\n\t\"filters\":{\n\t\t\"guiaManiobraId\":\"3\",\n\t\t\"plantillaGuiaManiobraId\":\"3\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/reports/execute",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"reports",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R.5 Recuperar ronda planta/sistema/equipamientos/campos/valores",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjMyMzE5OTMsImV4cCI6MTU2MzI3NTE5MywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.dk2gOSHcRdNH7dTcU54a6mM7iUviw_uihH9OXawrMAqxSxUoJj2eWrZd8WcCMFECcNSiMNedSMg5NL_7LeV76mfHIVDpXso4uk4kt0XoHdoa5cQVtNh_Xmo5PzP_Wr4xwwLnvRvlehhiIX6R6yE8ALAxRUUIfoC9G-_X1BNgpAK_gC8F4xq3HGjf3xcZcph49xAbtI34awE3Rnd8ltA4Pt7gGLEShxgEO39yj5Sseipom_sjBfcZtKpegw26hGGbaa841t-smjwtaxERVqaZ3AzcTBsa1YP3eZCIyiS0LfPv9ztTXn_X6lp-37vE0VA6lhzzcKg5pmUmduK0oZn_jw"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":2,\n\t\"filters\":{\n\t\t\"guiaManiobraId\":\"3\",\n\t\t\"plantillaGuiaManiobraId\":\"3\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/reports/execute",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"reports",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R.3 Recuperar informacion fallas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjQ3Njg2NDMsImV4cCI6MTU2NDgxMTg0MywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.YJ5WyfK6UnRtJhX4VUBRcclQHb73LFIoTK4RQn_lbe9frA8DH9JYu6XRn1jJ9pT90WQGvTJGpqXqugTdFdxI4nhU4CHdMAyLDPOmQR7edg6MWZYr21vxRHhJUS0Kceo420zb8-OAEhUB0zG7b-brrUdpZ6alAkXTVou-Fld6HrQVd1iUUSirHVkTXVze8JpYkr9uuw7HvDcbZTvd4FRBtoHU0XKD6T0aq1CIA1KIyeDnx2sJrsd8vYzCbTKuHtL5iTxjr1OZfw-5d0gvnm2xYnG_y3y-B5vOojFRcmQbd6-qjgb7S91e7M8azllURYb2K237cTAyaNDnxjbMKjtHUw"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":3\n\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/reports/execute",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"reports",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R.4 Recuperar informacion usuario por token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjQ3Njg2NDMsImV4cCI6MTU2NDgxMTg0MywiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.YJ5WyfK6UnRtJhX4VUBRcclQHb73LFIoTK4RQn_lbe9frA8DH9JYu6XRn1jJ9pT90WQGvTJGpqXqugTdFdxI4nhU4CHdMAyLDPOmQR7edg6MWZYr21vxRHhJUS0Kceo420zb8-OAEhUB0zG7b-brrUdpZ6alAkXTVou-Fld6HrQVd1iUUSirHVkTXVze8JpYkr9uuw7HvDcbZTvd4FRBtoHU0XKD6T0aq1CIA1KIyeDnx2sJrsd8vYzCbTKuHtL5iTxjr1OZfw-5d0gvnm2xYnG_y3y-B5vOojFRcmQbd6-qjgb7S91e7M8azllURYb2K237cTAyaNDnxjbMKjtHUw"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":4\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/reports/execute",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"reports",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4.2 modificar planta",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoxLCJwIjoxLCJpYXQiOjE1NjI3MTAwODksImV4cCI6MTU2Mjc1MzI4OSwiYXVkIjoiaHR0cDovL215c29mdGNvcnAuaW4iLCJpc3MiOiJLT0EiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.AtrTgqe9bRfH5_WHcNvIGCvJ1f2fD4NHR6Pam8_jrTozRhS0Yrb-tOoKLceY4rjzcl3KYEwVAewpt1cypYg3JdsXFIcCKGvTUiutRpkjS9_py4kdwsQBD6RROpZvBeM7yhcMNkPqAw2CgoczN17N4u0kE5Ho6tdXAJqdUTFY_DNHupFDRTAs7KnBZaFt1an6U6TFhapVuAtic7k5opPj5XPhyctOE79yiWceMEwtPpnBO5WlugrTdrNBYLqswYiU3hMHHkclpPg3yxOmASCx6Teksef7b_xaREGiNKELGO1L8Q9xSaTJEl0GQIAfSSffuoQYOogWutfBIvDTaIrusw",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"planta modificada por patch 2222\",\n\t\"descripcion\":\"Otra modificacion\"\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-proyecto-s2i.cloudfunctions.net/services/entities/plantas/1",
+					"protocol": "https",
+					"host": [
+						"us-central1-proyecto-s2i",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"services",
+						"entities",
+						"plantas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

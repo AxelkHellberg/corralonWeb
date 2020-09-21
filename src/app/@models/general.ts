@@ -8,6 +8,16 @@ export interface UserData {
   profile?: string;
 }
 
+export interface infoGuia{
+  
+    id:2,
+    filters:{
+      guiaManiobraId: any,
+      plantillaGuiaManiobraId:any
+    }
+  
+}
+
 export interface UserBasicData {
   username: string;
   password: string;

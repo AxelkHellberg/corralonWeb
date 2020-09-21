@@ -1,6 +1,6 @@
 <h4 class="cursor-pointer" (click)="onClose.emit()"> <b><i class="nb-arrow-left"></i></b> Volver</h4>
 
-<h5>{{data?.maneuverGuideName}}</h5>
+<h5>{{data?.data.maneuverGuideName}}</h5>
 <!----
 <nb-card>
   <nb-card-header>
@@ -28,9 +28,22 @@
       <div class="col-5">
         <div class="d-flex">
           <div class="col-6">Fecha y Hora:</div>
-          <div class="col-6">{{data?.date}} {{data?.time}}</div>
+          <div class="col-6">{{data?.data.date}} {{data?.data.time}}</div>
           <div class="col-6">Operador:</div>
-          <div class="col-6"> {{data?.operator}}</div>
+          <div class="col-6"> {{data?.data.operator}}</div>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-5">
+        <div class="d-flex">
+          <div class="col-6">Planta: </div>
+          <div class="col-6">{{data?.datAux.nombre}}</div>
+          <div class="col-6">Valores: </div>
+          <div *ngFor="let campo of data?.datAux.sistemas[0].equipamientos[0].camposManiobras" class="col-6"><div  *ngIf="campo.valoresCamposManiobras[0]" class="col-6">Valor: {{campo.valoresCamposManiobras[0].valor}}</div></div>
+         
         </div>
       </div>
     </div>
