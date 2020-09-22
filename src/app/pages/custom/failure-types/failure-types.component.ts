@@ -70,18 +70,32 @@ export class FailureTypesComponent implements OnInit {
 
 
   async addFailureType(data: ConfirmData) {
-    if(data.newData.nombre != '')
-    {
-    try {
-      const response = await this.generalService.createFailureType(data.newData.nombre, data.newData.codificacionDeFalla);
-      console.log(response);
-      data.confirm.resolve();
-    } catch (e) {
-      console.log(e)
-      data.confirm.reject();
-    }}
-    else{
-      this.showToast('top-right','warning');
+    if (data.newData.nombre != '') {
+      {
+        const response = await this.generalService.getFailureType();
+        let datos = response.items;
+        let repetido = false;
+        for (let dato of datos) {
+          if (dato.nombre == data.newData.nombre && dato.id != data.newData.id) {
+            repetido = true;
+          }
+        }
+        if (repetido == false) {
+          try {
+            const response = await this.generalService.createFailureType(data.newData.nombre, data.newData.codificacionDeFalla);
+            console.log(response);
+            data.confirm.resolve();
+          } catch (e) {
+            console.log(e)
+            data.confirm.reject();
+          }
+        } else {
+          this.showToastRepetido('top-right', 'warning');
+        }
+      }
+    }
+    else {
+      this.showToast('top-right', 'warning');
     }
   }
   showToast(position, status) {
@@ -90,19 +104,38 @@ export class FailureTypesComponent implements OnInit {
       `Ingrese un Nombre.`,
       { position, status });
   }
+  showToastRepetido(position, status) {
+    this.toastrService.show(
+      'Los Tipos de Falla deben tener Nombres distintos',
+      `Nombres repetidos.`,
+      { position, status });
+  }
   async editFailureType(data: ConfirmData) {
-    if(data.newData.nombre != '')
-    {
-    try {
-      const response = await this.generalService.editFailureType(data.newData.id, data.newData.nombre, data.newData.codificacionDeFalla);
-      console.log(response)
-      data.confirm.resolve();
-    } catch (e) {
-      console.log(e)
-      data.confirm.reject();
-    }}
-    else{
-      this.showToast('top-right','warning');
+    if (data.newData.nombre != '') {
+      const response = await this.generalService.getFailureType();
+      let datos = response.items;
+      let repetido = false;
+      for (let dato of datos) {
+        if (dato.nombre == data.newData.nombre && dato.id != data.newData.id) {
+          repetido = true;
+        }
+      }
+      if (repetido == false) {
+        try {
+          const response = await this.generalService.editFailureType(data.newData.id, data.newData.nombre, data.newData.codificacionDeFalla);
+          console.log(response)
+          data.confirm.resolve();
+        } catch (e) {
+          console.log(e)
+          data.confirm.reject();
+        }
+      }
+      else {
+        this.showToastRepetido('top-right', 'warning');
+      }
+    }
+    else {
+      this.showToast('top-right', 'warning');
     }
   }
   async deleteFailureType(data: ConfirmData) {

@@ -62,12 +62,35 @@ export class ProfilesComponent implements OnInit {
       `Ingrese un Nombre.`,
       { position, status });
   }
+  showToastRepetido(position, status) {
+    this.toastrService.show(
+      `2 o Mas Roles tienen el mismo Nombre.`,
+      'Los Nombres no pueden Repetirce',
+      { position, status });
+  }
   async addProfile(data: ConfirmData) {
     if (data.newData.name != '') {
       try {
-        const response = await this.generalService.createProfile(data.newData.name);
-        //console.log(response)
-        data.confirm.resolve();
+        const perfiles = await this.generalService.getProfile();
+        let datos = perfiles.items;
+        console.log(datos);
+        let repetido: boolean = false;
+        for (let perfil of datos) {
+          if (data.newData.name == perfil.name) {
+            repetido = true;
+
+            break;
+          }
+        }
+        if (repetido != true) {
+          const response = await this.generalService.createProfile(data.newData.name);
+          //console.log(response)
+          data.confirm.resolve();
+        }
+        else {
+          this.showToastRepetido('top-right', 'warning');
+          data.confirm.reject();
+        }
       } catch (e) {
         console.log(e)
         data.confirm.reject();
@@ -75,6 +98,7 @@ export class ProfilesComponent implements OnInit {
     }
     else {
       this.showToastNombre('top-right', 'warning');
+      data.confirm.reject();
     }
   }
   async editProfile(data: ConfirmData) {

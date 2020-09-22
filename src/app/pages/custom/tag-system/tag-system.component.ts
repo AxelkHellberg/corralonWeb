@@ -140,9 +140,10 @@ export class TagSystemComponent implements OnInit {
       let repetido = false;
       for(let dato of datos)
       {
-        if(dato.nombre == event.newData.nombre)
+        if(dato.nombre == event.newData.nombre && dato.id != event.newData.id)
         {
           repetido = true;
+          break;
         }
       }
       
@@ -153,16 +154,18 @@ export class TagSystemComponent implements OnInit {
         habilitado: event.newData.habilitado === 'Encendido' ? true : false,
         tipoTagId: 1,
       };
-      if ( isEdit ) {
+      if ( isEdit && !repetido) {
         await this.generalService.editTag(event.newData.id,data);
+        event.confirm.resolve();
       } else {
         if(!repetido){
         await this.generalService.createTag(data);
+        event.confirm.resolve();
         }else{
           this.showToastRepetido('top-right','warning');
         }
       }
-      event.confirm.resolve();
+      
     } catch (e) {
       console.log(e);
       event.confirm.reject();
