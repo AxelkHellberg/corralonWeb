@@ -36,18 +36,21 @@
     </div>
   </nb-card-body>
   <nb-card-body>
-    <div class="row">
-      <div class="col-5">
-        <div class="d-flex">
-          <div class="col-6"*ngFor="let dataAux of data?.datAux">
-            <div class="col-6"*ngFor="let sistema of dataAux.sistemas">
-              <div class="col-6"*ngFor="let equipo of sistema.equipamientos">
-                <div class="col-6"*ngFor="let campo of equipo.camposManiobras">
-                  <div class="col-6"*ngFor="let valorCampo of campo.valoresCamposManiobras">
-                    <div class="col-6">Nombre: {{dataAux.nombre}}</div>
-                    <div class="col-6">Valores:</div>
+    
+          <div *ngFor="let dataAux of data?.datAux">
+            <div *ngFor="let sistema of dataAux.sistemas">
+              <div *ngFor="let equipo of sistema.equipamientos">
+                <div *ngFor="let campo of equipo.camposManiobras">
+                  <div *ngFor="let valorCampo of campo.valoresCamposManiobras">
+                    <div class="row">
+                      <div class="col-5">
+                                    <div class="d-flex">
+                    <div class="col-6">Sistema: {{sistema.nombre}}</div>
+                    <div class="col-6">Planta: {{dataAux.nombre}} </div>
+                    <div class="col-6">Equipo: {{equipo.nombre}} </div>
+                    <div class="col-2">Valor: </div>
                     <div class="container-btn btn btn-success">{{valorCampo.valor}}</div>
-                  </div>
+                                      </div>
                 </div>
               </div>
             </div>
