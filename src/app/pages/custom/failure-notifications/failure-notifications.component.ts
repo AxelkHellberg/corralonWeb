@@ -89,7 +89,7 @@ export class FailureNotificationsComponent implements OnInit {
       console.log(this.failureData);
       this.failureData.forEach(data => {
         data['estadoFallaNombre'] = data.estadoFalla.nombre;
-        data['tipoFallaNombre'] = (data.tipoFalla == null ?  'NULL': data.tipoFalla.nombre  );
+        data['tipoFallaNombre'] = (data.tipoFalla == null ?  'Desconocido': data.tipoFalla.nombre  );
         data['estadoFallaNombreBoton'] = this.setStatusFailureButton(data.estadoFallaNombre.toUpperCase());
         data['date'] = moment(data.updateAt).utc().format('DD/MM/YYYY');
         data['time'] = moment(data.updateAt).utc().format('hh:mm:ss');

@@ -98,14 +98,24 @@ export class UsersComponent {
   }
 
   async createUser(data: ConfirmData) {
-    const userData: UserData = data.newData;
-    userData.username = `${userData.name.charAt(0)}${userData.lastName.replace(/ /g, '').toLowerCase()}`;
-    userData.password = '123456';
-    userData.dni = 'prueba';
-    userData.profile = this.profiles.find(profile => profile.name === userData.profile).id;
+    let userData = data;
+    //let perfiles: any = this.generalService.getProfile();
+    userData.newData.username = `${userData.newData.name.charAt(0)}${userData.newData.lastName.replace(/ /g, '').toLowerCase()}`;
+    userData.newData.password = '123456';
+    userData.newData.dni = 'prueba';
+    /*for(let perfil of this.profiles)
+    {
+      if(perfil.name == userData.profile)
+        {
+          userData.profile = perfil.id;
+          break; 
+        }
+    }*/
+    userData.newData.profileId = this.profiles.find(profile => profile.name == userData.newData.profile).id;
     delete (userData as any).lastSession;
     try {
-      const response = await this.generalService.createUser(userData);
+      const response = await this.generalService.createUser(userData.newData);
+      console.log( userData);
       this.getUsers();
       data.confirm.resolve();
     } catch (error) {
@@ -120,7 +130,7 @@ export class UsersComponent {
       newData.profileId = this.profiles.find(profile => profile.name === newData.profile).id;
       delete newData.profile;
       const response = await this.generalService.editUser(newData.id, newData);
-      console.log(response)
+      console.log(response);
       data.confirm.resolve();
     } catch (e) {
       console.log(e)

@@ -68,6 +68,12 @@ export class ProfilesComponent implements OnInit {
       'Los Nombres no pueden Repetirce',
       { position, status });
   }
+  showToastUso(position, status) {
+    this.toastrService.show(
+      ``,
+      'No pueden Eliminarce Perfiles en uso',
+      { position, status });
+  }
   async addProfile(data: ConfirmData) {
     if (data.newData.name != '') {
       try {
@@ -91,10 +97,12 @@ export class ProfilesComponent implements OnInit {
           this.showToastRepetido('top-right', 'warning');
           data.confirm.reject();
         }
+
       } catch (e) {
         console.log(e)
         data.confirm.reject();
       }
+      
     }
     else {
       this.showToastNombre('top-right', 'warning');
@@ -125,6 +133,7 @@ export class ProfilesComponent implements OnInit {
     } catch (e) {
       console.log(e)
       data.confirm.reject();
+      this.showToastUso('top-right', 'warning');
     }
   }
 
