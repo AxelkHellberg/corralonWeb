@@ -65,13 +65,13 @@ export class ProfilesComponent implements OnInit {
   showToastRepetido(position, status) {
     this.toastrService.show(
       `2 o Mas Roles tienen el mismo Nombre.`,
-      'Los Nombres no pueden Repetirce',
+      'Los Nombres no pueden Repetir',
       { position, status });
   }
   showToastUso(position, status) {
     this.toastrService.show(
       ``,
-      'No pueden Eliminarce Perfiles en uso',
+      'No pueden Eliminarse Perfiles en uso',
       { position, status });
   }
   async addProfile(data: ConfirmData) {

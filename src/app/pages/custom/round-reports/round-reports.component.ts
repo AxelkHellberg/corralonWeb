@@ -71,26 +71,30 @@ export class RoundReportsComponent implements OnInit {
     try {
       const response = await this.generalService.getRounds();
       maneuverGuides = response.items;
+      console.log("maneuverGuies");
+      console.log(maneuverGuides);
     } catch (e) { }
 
     try {
       const response = await this.generalService.getUser();
       const userFullName = (item) => {
         const data = response.items.find(user => item.userId === user.id);
+        console.log(`${data.name} ${data.lastName}`);
         return `${data.name} ${data.lastName}`;
       };
       const {items: roundStatus} = await this.generalService.getRoundsStatus();
-
+      console.log(this.generalService.getRoundsStatus())
+      
       this.roundsData = maneuverGuides.map(item => ({
         status: this.setRoundStatus(roundStatus, item.estadoRondaId),
         id: item.id,
         roundName: item.nombre,
         date: moment(item.createdAt).utc().format('DD/MM/YYYY'),
         time: moment(item.createdAt).utc().format('HH:mm'),
-        operator: userFullName(item)
+        operator: item.userId
       }));
     } catch (error) {
-
+      
     }
   }
 

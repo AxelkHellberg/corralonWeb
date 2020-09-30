@@ -95,7 +95,7 @@ export class ManeuverGuideReportsComponent implements OnInit {
         maneuverGuideName: item.nombre,
         date: moment(item.createdAt).utc().format('DD/MM/YYYY'),
         time: moment(item.createdAt).utc().format('HH:mm'),
-        operator: userFullName(item),
+        operator: item.userId,
         status: item.status
       })
 

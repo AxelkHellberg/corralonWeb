@@ -32,6 +32,7 @@ export class FailureDetailComponent implements OnInit {
 
     }
     this.data = { ...this.data, operator: this.findUser() };
+    console.log("detail");
     console.log(this.data)
   }
 
@@ -43,6 +44,7 @@ export class FailureDetailComponent implements OnInit {
       estadoFallaId: status.id,
       tipoFallaId: this.data.tipoFallaId,
     };
+
     console.log(data);
     try {
       const response = await this.generalService.editNotificationsFailures(this.data.id, data);

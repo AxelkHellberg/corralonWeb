@@ -106,9 +106,9 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
        this.generalService.getEquipments(),
        //this.generalService.getManeuverGuideFieldsWithPlants(this.maneuverGuideId),
     ]).then(([plants, systems,equipments/*,maneuverGuideFieldsWithPlants*/]) => {
-      this.plantArray = plants;
-      this.systemArray = systems;
-      this.equipmentArray = equipments;
+      this.plantArray = plants.items;
+      this.systemArray = systems.items;
+      this.equipmentArray = equipments.items;
       /*this.tableData = maneuverGuideFieldsWithPlants.map(res => ({
         id: res.id,
         plant: res.equipamiento.sistema.planta.nombre,
@@ -209,9 +209,9 @@ export class NewManeuverGuideTemplateComponent implements OnInit, OnChanges {
 
   selectOnEdit(data: any, index: number) {
     this.data = data;
-    this.plantSelected = this.plants.find(plant => plant.nombre === data.plant).id;
-    this.systemSelected = this.systems.find(system => system.nombre === data.system).id;
-    this.equipmentSelected = this.equipments.find(equipment => equipment.nombre === data.equipment).id;
+    this.plantSelected = this.plantArray.find(plant => plant.nombre === data.plant).id;
+    this.systemSelected = this.systemArray.find(system => system.nombre === data.system).id;
+    this.equipmentSelected = this.equipmentArray.find(equipment => equipment.nombre === data.equipment).id;
     this.currentPlantId = this.plantSelected;
     this.currentSystemId = this.systemSelected;
     this.currentEquipmentId = this.equipmentSelected;

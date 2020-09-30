@@ -105,6 +105,12 @@ export class EquipmentComponent implements OnInit {
           `Seleccione un Sistema.`,
           { position, status });
         }
+        showToastTagRepetido(position, status) {
+          this.toastrService.show(
+            '',
+            `El tag ya esta en uso.`,
+            { position, status });
+          }
   async getData() {
     try {
       const response = await this.generalService.getTag(2);
@@ -134,11 +140,31 @@ export class EquipmentComponent implements OnInit {
         data.tagId = (this.tag.find(tag => tag.id === data.tagId) || {} as any).nombre || 'Desconocido';
       });
     } catch (e) { }
+
   }
 
   async addEquipment(data: ConfirmData) {
     const { newData } = data;
-    if (newData.nombre != '' && newData.tagId != '' && newData.sistemaId != '') {
+    let tag_repetido = false;
+      const response = await this.generalService.getEquipments();
+      let equipos = response.items;
+      equipos.forEach(data => {
+        data.sistemaId = (this.systems.find(system => system.id === data.sistemaId) || {} as any).nombre || 'Desconocido';
+        data.tagId = (this.tag.find(tag => tag.id === data.tagId) || {} as any).nombre || 'Desconocido';
+      });
+      console.log("equipos");
+      console.log(equipos);
+      for(let equipo of equipos){
+      
+        if(newData.tagId == equipo.tagId)
+        {
+          tag_repetido= true;
+          break;
+        }
+      
+      }
+
+    if (newData.nombre != '' && newData.tagId != '' && newData.sistemaId != '' && !tag_repetido) {
       const equipmentData: EquipmentData = {
         nombre: newData.nombre,
         detalle: newData.detalle,
@@ -164,6 +190,10 @@ export class EquipmentComponent implements OnInit {
       if(newData.sistemaId == '')
       {
         this.showToastSistema('top-right','warning');
+      }
+      if(tag_repetido)
+      {
+        this.showToastTagRepetido('top-right','warning');
       }
     }
   }
