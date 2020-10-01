@@ -17,6 +17,8 @@ export class FailureDetailComponent implements OnInit {
   constructor(private dialogService: NbDialogService, private generalService: GeneralService) { }
 
   async ngOnInit() {
+    console.log("this.data");
+    console.log(this.data);
     try {
       const response = await this.generalService.getStatusFailures();
       this.statusList = response.items;
@@ -57,13 +59,15 @@ export class FailureDetailComponent implements OnInit {
     let user: string;
     const { valoresCamposRonda, valoresCamposManiobras, fallasSistema, fallasEquipamiento } = this.data;
     if (valoresCamposRonda.length) {
-      const { userId } = this.data.valoresCamposRonda[0].ronda;
+      let userId = this.data.valoresCamposRonda[0].ronda;
       const { name, lastName } = this.users.find(_user => _user.id === userId);
       user = `${name} ${lastName}`;
     }
 
     if (valoresCamposManiobras.length) {
-      const { userId } = this.data.valoresCamposManiobras[0].guiaManiobra.userId;
+      let  userId  = this.data.valoresCamposManiobras[0].guiaManiobra.userId;
+      console.log("finduser/userId");
+      console.log(userId);
       const { name, lastName } = this.users.find(_user => _user.id === userId);
       user = `${name} ${lastName}`;
     }

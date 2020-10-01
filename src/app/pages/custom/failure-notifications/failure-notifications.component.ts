@@ -86,6 +86,7 @@ export class FailureNotificationsComponent implements OnInit {
 
     try {
       this.failureData = await this.generalService.getNotificationsFailuresReport();
+     console.log("failureData");
       console.log(this.failureData);
       this.failureData.forEach(data => {
         data['estadoFallaNombre'] = data.estadoFalla.nombre;
@@ -93,9 +94,12 @@ export class FailureNotificationsComponent implements OnInit {
         data['estadoFallaNombreBoton'] = this.setStatusFailureButton(data.estadoFallaNombre.toUpperCase());
         data['date'] = moment(data.updateAt).utc().format('DD/MM/YYYY');
         data['time'] = moment(data.updateAt).utc().format('hh:mm:ss');
-        // data['sistema'] = this.getSystemName(data);
-        data['origen'] = this.getOrigin(data);
+        //data['sistema'] = this.getSystemName(data);
+        //data['origen'] = this.getOrigin(data);
+        //data['operador'] = data.valoresCamposManiobras.guiaManiobra.user.username;
       });
+      console.log("data");
+      console.log(this.failureData);
     } catch (error) {
 
     }
