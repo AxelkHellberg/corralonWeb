@@ -1,5 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
 import { DashboardPageComponent } from './dashboard/dashboard.component';
@@ -22,12 +22,22 @@ import { ManeuverGuideReportsComponent } from './custom/maneuver-guide-reports/m
 import { TagListComponent } from './custom/tag-list/tag-list.component';
 import { TagEquipmentComponent } from './custom/tag-equipment/tag-equipment.component';
 import { TagSystemComponent } from './custom/tag-system/tag-system.component';
+import {CalendarioComponent} from './custom/calendario/calendario.component';
+import {TareaComponent} from './custom/tarea/tarea.component';
 
 const routes: Routes = [
   {
     path: '',
     component: PagesComponent,
     children: [
+      {
+        path: 'tarea',
+        component: TareaComponent,
+      },
+     {
+        path: 'calendario',
+        component: CalendarioComponent,
+      },
       {
         path: 'dashboard',
         component: DashboardComponent,

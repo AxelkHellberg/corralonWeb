@@ -84,6 +84,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-clipboard-list fa-2x',
     children: [
       {
+        title: 'Tarea',
+        link: '/pages/tarea'
+      },
+      {
         title: 'Plantillas de rondas',
         link: '/pages/round-template',
       }
@@ -123,8 +127,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
+
+  {
+    title: 'Calendario',
+    icon: 'fa fa-calendar fa-2x',
+    children: [
+      {
+        title: 'Calendario',
+        link: '/pages/calendario',
+        
+      }
+    ]
+  },
+
   {
     title: 'Plan de mantenimiento',
     icon: 'fa fa-project-diagram fa-2x',
   },
+
 ];

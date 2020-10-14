@@ -1,0 +1,10 @@
+<ng2-smart-table
+  [settings]="settings"
+  [source]="data"
+  (createConfirm)="prueba()"
+  (editConfirm)="prueba()"
+  (deleteConfirm)="prueba()"
+  *ngIf="!Nueva"></ng2-smart-table>
+
+
+<ngx-nueva-tarea *ngIf="Nueva"></ngx-nueva-tarea>

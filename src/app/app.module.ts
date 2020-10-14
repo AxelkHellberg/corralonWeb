@@ -22,6 +22,9 @@ import { MessageBusService } from './services/message-bus.service';
 import { EnvironmentService } from './services/environment.service';
 
 
+
+
+
 export function init_environment(env: EnvironmentService) {
   return () => env.loadEnvironment(environment['configFile'] || '');
 }
@@ -37,7 +40,7 @@ export function init_environment(env: EnvironmentService) {
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
-  ],
+    ],
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },

@@ -1,9 +1,11 @@
 import { UserData } from './../../../@models/general';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Users } from '../../../@models/users';
 import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
 import * as moment from 'moment';
+import { NbDialogService } from '@nebular/theme';
+
 
 @Component({
   selector: 'ngx-users',
@@ -67,10 +69,13 @@ export class UsersComponent {
   };
   profiles: any;
 
-  constructor(private generalService: GeneralService) {
+  constructor(private generalService: GeneralService, private dialogService: NbDialogService) {
     this.getUsers();
+    
   }
-
+  open(dialog: TemplateRef<any>) {
+    this.dialogService.open(dialog, { context: 'No se puede eliminar el usuario Administrador' });
+  }
   async getUsers() {
     try {
       const response = await this.generalService.getProfile();
@@ -138,6 +143,7 @@ export class UsersComponent {
     }
   }
   async deleteUser(data: ConfirmData) {
+    /*if(data.data.id != 1){
     try {
       const response = await this.generalService.deleteUser(data.data.id);
       console.log(response)
@@ -146,6 +152,10 @@ export class UsersComponent {
       console.log(e)
       data.confirm.reject();
     }
+  }
+  else{
+    open("Cuidado");
+  }*/
   }
 
 }

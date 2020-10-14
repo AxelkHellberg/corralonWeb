@@ -2,6 +2,7 @@ import { FailureTypesModule } from './custom/failure-types/failure-types.module'
 import { FailureNotificationsModule } from './custom/failure-notifications/failure-notifications.module';
 import { NgModule } from '@angular/core';
 
+
 import { PagesComponent } from './pages.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DashboardModule as CustomDashboardModule } from './custom/dashboard/dashboard.module';
@@ -27,6 +28,12 @@ import { ManeuverGuideReportsModule } from './custom/maneuver-guide-reports/mane
 import { TagListModule } from './custom/tag-list/tag-list.module';
 import { TagEquipmentModule } from './custom/tag-equipment/tag-equipment.module';
 import { TagSystemModule } from './custom/tag-system/tag-system.module';
+import {TareaModule} from './custom/tarea/tarea.module';
+
+
+import { CalendarioModule } from './custom/calendario/calendario.module';
+import { NbCalendarModule } from '@nebular/theme';
+import { NuevaTareaModule } from './custom/nueva-tarea/nueva-tarea.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -60,10 +67,16 @@ const PAGES_COMPONENTS = [
     RegisterComponentModule,
     TagListModule,
     TagEquipmentModule,
-    TagSystemModule
+    TagSystemModule,
+    CalendarioModule,
+    NbCalendarModule,
+    TareaModule,
+    NuevaTareaModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    //CalendarioComponent,
+    
   ],
 })
 export class PagesModule {
