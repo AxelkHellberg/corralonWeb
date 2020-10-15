@@ -143,7 +143,7 @@ export class UsersComponent {
     }
   }
   async deleteUser(data: ConfirmData) {
-    /*if(data.data.id != 1){
+    
     try {
       const response = await this.generalService.deleteUser(data.data.id);
       console.log(response)
@@ -153,9 +153,7 @@ export class UsersComponent {
       data.confirm.reject();
     }
   }
-  else{
-    open("Cuidado");
-  }*/
-  }
+
+  
 
 }

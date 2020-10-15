@@ -1,13 +1,31 @@
-<br><br>
+<h1>Nueva Tarea</h1>
 
-  <ng2-smart-table
-  [settings]="settings"
-  [source]="fieldsData"
-  (create)="prueba()"
-  (edit)="prueba()"
-  (delete)="prueba()"
-  ></ng2-smart-table>
+<ng2-smart-table [settings]="settings" [source]="fieldsData" (create)="prueba()" (edit)="prueba()" (delete)="prueba()">
+</ng2-smart-table>
 
 
 <br><br>
-<nb-calendar [(date)]="date"></nb-calendar>
+<!--nb-card>
+    <nb-calendar [(date)]="date">{{date}}</nb-calendar>
+    <nb-card-body>
+        <nb-card-body><label>{{date}}</label></nb-card-body>
+    </nb-card-body>
+</nb-card-->
+
+
+<nb-card>
+    <nb-card-body>
+        <nb-checkbox (click)="updateNbCheckBox()">Some text</nb-checkbox>.
+        <nb-card-body>
+            <label>Checked:</label> {{ checked }}
+        </nb-card-body>
+        <nb-checkbox (click)="updateNbCheckBox()">Some text</nb-checkbox>.
+        <nb-card-body>
+            <label>Checked:</label> {{ checked }}
+        </nb-card-body>
+        <nb-checkbox (click)="updateNbCheckBox()">Some text</nb-checkbox>.
+        <nb-card-body>
+            <label>Checked:</label> {{ checked }}
+        </nb-card-body>
+    </nb-card-body>
+</nb-card>

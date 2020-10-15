@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbCheckboxComponent, NbDialogRef, NbDialogService } from '@nebular/theme';
 import { RoundsDetails } from '../../../@models/rounds';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
@@ -14,6 +14,7 @@ import { TimeData } from './../../../@models/rounds';
   styleUrls: ['./nueva-tarea.component.scss']
 })
 export class NuevaTareaComponent implements OnInit {
+  checked: boolean = false;
   settings: SmartTableSettings = {
     noDataMessage: '',
     mode: 'external',
@@ -129,8 +130,21 @@ export class NuevaTareaComponent implements OnInit {
     placeholder: 'Unidad de medida'
   };
 
-  prueba(){console.log("FUNCIONANDO!");}
-  constructor() { }
+  prueba() { console.log("FUNCIONANDO!"); }
+
+   cont;
+  updateNbCheckBox() {
+    
+    if (this.cont %2== 0) {
+      console.log("Funcionando");
+      this.checked = !this.checked;
+      console.log(this.checked)
+    }
+    this.cont += 1;
+  }
+
+
+  constructor() {this.cont = 0 }
 
   ngOnInit() {
   }

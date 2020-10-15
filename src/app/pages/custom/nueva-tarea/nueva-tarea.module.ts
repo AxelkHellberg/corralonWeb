@@ -21,6 +21,7 @@ import { NbCalendarModule } from '@nebular/theme';
     NbCheckboxModule,
     NgbTimepickerModule,
     NbCalendarModule,
+    NbCheckboxModule,
   ],
   declarations: [NuevaTareaComponent],
   providers: [NbDialogService],

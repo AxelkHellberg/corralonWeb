@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+
+
+
+
+
+
 @Component({
   selector: 'ngx-calendario',
   templateUrl: './calendario.component.html',
@@ -7,13 +13,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalendarioComponent implements OnInit {
 
-  date = new Date();
 
 
-
-  constructor() {
-    
-  }
+    constructor() {
+        
+    }
 
   ngOnInit() {
   }
