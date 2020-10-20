@@ -1,10 +1,10 @@
 <ng2-smart-table
   [settings]="settings"
   [source]="data"
-  (createConfirm)="prueba()"
-  (editConfirm)="prueba()"
-  (deleteConfirm)="prueba()"
+  (create)="prueba()"
+  (edit)="prueba()"
+  (delete)="prueba()"
   *ngIf="!Nueva"></ng2-smart-table>
 
 
-<ngx-nueva-tarea *ngIf="Nueva"></ngx-nueva-tarea>
+<ngx-nueva-tarea *ngIf="Nueva"[fullData]="fullData" (onSave)="onSaveData($event)" (onRefreshRoundTemplate)="getFieldsRoundTemplate()"></ngx-nueva-tarea>

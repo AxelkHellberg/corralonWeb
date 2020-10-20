@@ -38,11 +38,16 @@ export class RoundTemplateComponent implements OnInit {
         type: 'text',
         width: '200px'
       },
-      time: {
-        title: 'Horario',
+      plantillaRondaId: {
+        title: 'Nombre de Ronda Id',
         type: 'text',
-        width: '300px'
-      }
+        width: '200px'
+      },
+      id: {
+        title: 'Tarea Id',
+        type: 'text',
+        width: '200px'
+      },
     }
   };
   showRoundTemplate: boolean;
@@ -60,8 +65,9 @@ export class RoundTemplateComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.getTemplates();
-    this.getFieldsRoundTemplate();
+    //await this.getTemplates();
+    //this.getFieldsRoundTemplate();
+    this.traerCamposRonda();
   }
 
   async getFieldsRoundTemplate() {
@@ -72,7 +78,7 @@ export class RoundTemplateComponent implements OnInit {
         fullData.full.fieldsData = response.map(field => (<RoundsDetails>{
           unit: field.unidadMedida.nombre,
           equipment: field.equipamiento.nombre,
-          plant:  field.equipamiento.sistema.planta.nombre,
+          plant: field.equipamiento.sistema.planta.nombre,
           system: field.equipamiento.sistema.nombre,
           name: field.nombre,
           minValue: field.valorMin,
@@ -82,7 +88,7 @@ export class RoundTemplateComponent implements OnInit {
           roundFieldId: field.id,
           roundTemplateId: field.plantillaRondaId,
         }));
-        this.fullData = {...fullData};
+        this.fullData = { ...fullData };
       } catch (error) {
 
       }
@@ -99,7 +105,7 @@ export class RoundTemplateComponent implements OnInit {
       this.data = roundTemplateData.items.map(item => {
         const time = item.horarios ? item.horarios != -1 ? Array.isArray(item.horarios) ? item.horarios.join(' - ') : item.horarios : item.horarios : item.horarios
         let timer = item.horarios ? item.horarios != -1 ? !Array.isArray(item.horarios) ? item.horarios.split(' - ') : item.horarios : item.horarios : item.horarios
-        timer = timer ? Array.from(timer).map((item:any)=>{
+        timer = timer ? Array.from(timer).map((item: any) => {
           const _item = item ? item.split(':') : item
           return {
             hour: _item[0],
@@ -142,14 +148,14 @@ export class RoundTemplateComponent implements OnInit {
     this.fullData = null;
   }
 
-  async editTemplate({data}) {
+  async editTemplate({ data }) {
     const dataFields = []
     const response = await this.generalService.getFieldTemplate(data.id);
     response.forEach(field => {
       dataFields.push(<RoundsDetails>{
-        unit: field.unidadMedida.nombre,
+        /*unit: field.unidadMedida.nombre,
         equipment: field.equipamiento.nombre,
-        plant:  field.equipamiento.sistema.planta.nombre,
+        plant: field.equipamiento.sistema.planta.nombre,
         system: field.equipamiento.sistema.nombre,
         name: field.nombre,
         minValue: field.valorMin,
@@ -157,10 +163,10 @@ export class RoundTemplateComponent implements OnInit {
         maxValue: field.valorMax,
         type: field.tipoCampoRondaId,
         roundFieldId: field.id,
-        roundTemplateId: field.plantillaRondaId,
+        roundTemplateId: field.plantillaRondaId,*/
       })
     });
-    data.full.fieldsData = dataFields;
+    //data.full.fieldsData = dataFields;
     this.fullData = data;
     this.router.navigate(['/pages/round-template'], {
       queryParams: {
@@ -225,4 +231,36 @@ export class RoundTemplateComponent implements OnInit {
       await this.generalService.createRoundFields(dataTemplate);
     });
   }
+
+
+
+  async traerCamposRonda() {
+    let data: any;
+    data = await this.generalService.getRoundFields();
+    this.fullData =data.items;
+
+    console.log("Datos: ");
+    console.log(this.fullData);
+  }
+
+  async actualizarCaposRoda(plantillaRonda: any, Id: any) {
+    let data: any;
+    data = await this.generalService.getRoundFields();
+    const infoAEnviar = {
+      plantillaRondaId: plantillaRonda ,
+      };
+    this.generalService.updateRoundFileds(infoAEnviar, Id);
+    let data1 = await this.generalService.getRoundFields();
+
+  }
+
+
+
+
+
+
+
+
+
+
 }

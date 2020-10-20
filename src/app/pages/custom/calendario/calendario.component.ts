@@ -13,13 +13,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalendarioComponent implements OnInit {
 
-
-
+date = new Date;
     constructor() {
         
     }
 
   ngOnInit() {
+}
+selectDate(date: any)
+{
+  console.log(date);
+}
+
   }
 
-}
+

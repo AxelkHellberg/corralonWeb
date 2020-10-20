@@ -1,14 +1,22 @@
 <ng-container *ngIf="!showRoundTemplate">
+
   <h4 class="mb-20">Plantilla de Rondas</h4>
 
   <ng2-smart-table
     [settings]="settings"
-    [source]="data"
+    [source]="fullData"
     (create)="createTemplate()"
     (edit)="editTemplate($event)"
     (delete)="deleteTemplate($event)"
   ></ng2-smart-table>
 </ng-container>
+<!--button nbButton (click)="traerCamposRonda()">traer campos rondas</button>
+<button nbButton (click)="actualizarCaposRoda(99,1)">actualizar compos rondas</button-->
+
+
 
 
 <ngx-new-round-template [fullData]="fullData" (onSave)="onSaveData($event)" *ngIf="showRoundTemplate" (onRefreshRoundTemplate)="getFieldsRoundTemplate()"></ngx-new-round-template>
+
+
+  Estamos Trabajando

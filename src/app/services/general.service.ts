@@ -9,6 +9,9 @@ import { EnvironmentService } from './environment.service';
 export class GeneralService {
   constructor(private http: HttpClient) { }
   
+  
+  
+  
   getGuiaManiobraCampos(Guia : any): Promise <any>{
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`,Guia).toPromise();
   }
@@ -136,6 +139,15 @@ export class GeneralService {
   getSchedule(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/horarios/`).toPromise();
   }
+  //nuevo---------------------------
+  getRoundFields(): Promise<any>{
+    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/`).toPromise();
+  }
+
+  updateRoundFileds(PlantiallaRondaId: any, id):Promise<any>{
+    return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`,PlantiallaRondaId).toPromise();
+}
+//--------------------------------------
   createRoundFields(roundFieldsData: RoundFields): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/`, roundFieldsData).toPromise();
   }
