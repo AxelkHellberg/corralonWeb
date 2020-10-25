@@ -1,9 +1,9 @@
 <ng2-smart-table
   [settings]="settings"
   [source]="data"
-  (create)="prueba()"
-  (edit)="prueba()"
-  (delete)="prueba()"
+  (create)="createTemplate()"
+  (edit)="editTemplate($event)"
+  (delete)="deleteTemplate($event)"
   *ngIf="!Nueva"></ng2-smart-table>
 
 

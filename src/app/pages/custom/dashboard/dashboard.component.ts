@@ -21,7 +21,10 @@ export class DashboardComponent {
 
   async getRoundsQuantity() {
     try {
-      const response: RoundsQuantity = await this.generalService.getRoundsQuantity();
+      const response: RoundsQuantity = await this.generalService.getRoundsQuantity(1);
+      console.log("respose");
+      console.log(response);
+
       this.pieChartData = {
         labels: ['Completas', 'Incompletas'],
         datasets: [{
@@ -30,13 +33,14 @@ export class DashboardComponent {
         }]
       }
     } catch (error) {
+      console.log(error)
 
     }
   }
 
   async getRoundsByUser() {
     try {
-      const response: RoundsByUserData[] = await this.generalService.getRoundsByUser();
+      const response: RoundsByUserData[] = await this.generalService.getRoundsByUser(2);
       this.barHorizontalChartData = {
         labels: response.map(user => `${user.user_name} ${user.user_lastName}`),
         datasets: [

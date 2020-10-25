@@ -375,9 +375,11 @@ export class NuevaTareaComponent implements OnInit {
 
   saveTemplate() {
     console.log("save template");
+    console.log(this.fullData);
     this.router.navigate(['/pages/tarea']);
     this.onSave.emit({
       id: (this.fullData && this.fullData.id) || null,
+     // id: this.fullData? (this.fullData.id? this.fullData : null) : null,
       nombre: this.roundName,
       time: this.timeData.time,
       indexEdited: this.templateIndex,
@@ -441,8 +443,8 @@ export class NuevaTareaComponent implements OnInit {
         valorNormal: +field.typeId === 3 ? !!field.normalValue : field.normalValue,
         valorMax: field.maxValue,
         valorMin: field.minValue,
-        // plantaId: field.plantId,
-        // sistemaId: field.systemId,
+         plantaId: field.plantId,
+         sistemaId: field.systemId,
         equipamientoId: field.equipmentId,
         tipoCampoRondaId: field.typeId,
         unidadMedidaId: field.unitId,

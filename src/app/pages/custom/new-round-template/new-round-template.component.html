@@ -63,14 +63,34 @@
     <nb-card-header>{{dialogData}}</nb-card-header>
     <nb-card-body>
       <div class="row">
-        <div class="col-6">
+        <!--div class="col-6">
           <label class="label" for="plant">Planta</label>
           <nb-select id="plant" placeholder="Seleccione" [selected]="data.plantId">
             <nb-option *ngFor="let item of plantArray?.items" [value]="item?.id" (click)="selectPlant(item)">
               {{item?.nombre}}</nb-option>
           </nb-select>
-        </div>
-        <div class="col-6">
+        </div-->
+
+
+     
+          <div class="col-6">
+            <label class="label" for="plant">Tarea</label>
+            <nb-select id="tarea" placeholder="Tarea" [selected]="data.plantId">
+              <nb-option *ngFor="let item of tareaArray?.items" [value]="item?.id" (click)="selectTarea(item)">
+                {{item?.nombre}}</nb-option>
+            </nb-select>
+          </div>
+
+          <!--div class="col-6">
+            <label class="label" for="plant">Ronda</label>
+            <nb-select id="ronda" placeholder="Ronda" [selected]="data.plantId">
+              <nb-option *ngFor="let item of rondaArray?.items" [value]="item?.id" (click)="selectRonda(item)">
+                {{item?.nombre}}</nb-option>
+            </nb-select>
+          </div-->
+
+
+        <!--div class="col-6">
           <label class="label" for="system">Sistema</label>
           <ng-container *ngIf="(systemArray?.items | filterBy: 'plantaId': data.plantId)?.length">
             <nb-select id="system" placeholder="Seleccione" [selected]="data.systemId" [disabled]="!data.plantId">
@@ -137,7 +157,7 @@
             <nb-option value="1">Verdadero</nb-option>
             <nb-option value="0">Falso</nb-option>
           </nb-select>
-        </div>
+        </div-->
       </div>
     </nb-card-body>
 
@@ -154,8 +174,10 @@
       <div class="row">
         <div class="col-12 d-flex justify-content-center align-items-baseline">
           <h5 class="text-hint cursor-pointer pr-4" (click)="discardChanges(dialog)">Cancelar</h5>
-          <button nbButton status="primary" (click)="saveChanges(dialog)"
-            [disabled]="!enableSaveButton">Guardar</button>
+          <!--button nbButton status="primary" (click)="saveChanges(dialog)"
+            [disabled]="!enableSaveButton">Guardar</button-->
+            <button nbButton status="primary" (click)="saveChanges(dialog)"
+            >Guardar</button>
         </div>
       </div>
     </nb-card-footer>

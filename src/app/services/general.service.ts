@@ -9,17 +9,42 @@ import { EnvironmentService } from './environment.service';
 export class GeneralService {
   constructor(private http: HttpClient) { }
   
-  
-  
-  
+  //nuevo---------------------------
+  getTarea(): Promise<any>{
+    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/`).toPromise();
+  }
+
+  createRonda(ronda_tarea : any):Promise<any>{
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-tarea-plantilla`,ronda_tarea).toPromise();
+  }
+
+
+  getRondas(): Promise <any>{
+    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda`).toPromise();
+  }
+
   getGuiaManiobraCampos(Guia : any): Promise <any>{
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`,Guia).toPromise();
   }
-  getRoundsQuantity(): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute/1`, {}).toPromise();
+  getRondasCompletas(): Promise <any>{
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/tareas`,{"id": 0}).toPromise();
   }
-  getRoundsByUser(): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute/2`, {}).toPromise();
+  getRondasCompletas1(idB : any): Promise <any>{
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/tareas`,{"id": 0,"filters":{
+          "id": idB    }}).toPromise();
+  }
+
+
+
+  //--------------------------------------
+  
+  
+
+  getRoundsQuantity(tipo: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute`, {tipo}).toPromise();
+  }
+  getRoundsByUser(tipo: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute`, {tipo}).toPromise();
   }
   login(userData: UserBasicData): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/auth/login/`, userData).toPromise();
@@ -139,15 +164,7 @@ export class GeneralService {
   getSchedule(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/horarios/`).toPromise();
   }
-  //nuevo---------------------------
-  getRoundFields(): Promise<any>{
-    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/`).toPromise();
-  }
-
-  updateRoundFileds(PlantiallaRondaId: any, id):Promise<any>{
-    return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`,PlantiallaRondaId).toPromise();
-}
-//--------------------------------------
+  
   createRoundFields(roundFieldsData: RoundFields): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/`, roundFieldsData).toPromise();
   }
@@ -157,8 +174,8 @@ export class GeneralService {
   deleteRoundFields(roundFieldsData: RoundFields, id): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`).toPromise();
   }
-  createRoundTemplate(roundTemplateData: RoundTemplateData): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/`, roundTemplateData).toPromise();
+  createRoundTemplate(roundTemplateData: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/`, {nombre:roundTemplateData}).toPromise();
   }
   editRoundTemplate(id: number, roundTemplateData: RoundTemplateData): Promise<any> {
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/${id}`, roundTemplateData).toPromise();

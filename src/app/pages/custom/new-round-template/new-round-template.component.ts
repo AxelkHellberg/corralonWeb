@@ -25,8 +25,8 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   obligatorioSistema: boolean = false;
   funcionamientoEquipo: boolean = false;
   obligatorioEquipo: boolean = false;
-  data: RoundsDetails = {
-    plant: '',
+  data: any = {
+    /*plant: '',
     system: '',
     equipment: '',
     unit: '',
@@ -41,7 +41,12 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     name: '',
     minValue: '',
     maxValue: '',
-    normalValue: '',
+    normalValue: '',*/
+    nombre: '',
+    tarea: '',
+    tareaId: null,
+    ronda: '',
+    rodnaId: null,
   };
   plantId: any;
   systemId: any;
@@ -57,6 +62,35 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   max: any;
   normal: any;
   nameField: any;
+
+  //tareas
+  rondaArray: any[];
+  tareaArray: any[];
+  selectTarea(item): void {
+    //console.log("this.full.data");
+ 
+    this.data.tareaId = item.id;
+    this.data.tarea = item.nombre;
+   // this.data.rodnaID = 1;
+    console.log("this.data");
+    console.log(this.data);
+    console.log("item");
+    console.log(item);
+    
+  }
+  selectRonda(item): void {
+    
+    this.data.rondaId = item.id;
+    this.data.ronda = item.nombre;
+   // this.data.rodnaID = 1;
+    console.log(this.data);
+    console.log("this.data");
+    console.log(this.data);
+    console.log("item");
+    console.log(item);
+  }
+
+
 
   timeData: TimeData = {
     timer: new Set(),
@@ -89,8 +123,8 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         type: 'text',
         width: '300px'
       },
-      descripcion: {
-        title: 'Descripcion',
+      ronda: {
+        title: 'RodaId',
         type: 'text',
         width: '300px'
       },
@@ -186,26 +220,35 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
+    console.log("queryParams");
+    console.log(this.route.snapshot.queryParams);
     this.getAllData();
+   // console.log("ArratTareas");
+   // console.log(this.generalService.getTareas());
   }
 
   async getAllData() {
     this.settings = {...this.settings, attr: {class: 'general-table disabled'}};
     Promise.all([
-      this.generalService.getPlants(),
-      this.generalService.getSystems(),
-      this.generalService.getEquipments(),
-      this.generalService.getMeasurementUnits(),
-      this.generalService.getDataType(),
-    ]).then(([plants, systems, equipments, measurementUnits, dataTypes]) => {
-      this.plantArray = plants;
-      this.systemArray = systems;
-      this.equipmentArray = equipments;
-      this.unitArray = measurementUnits;
-      this.dataTypeArray = dataTypes;
+      
+      this.generalService.getRondas(),
+      this.generalService.getTarea(),
+    ]).then(([tarea,ronda]) => {
+      
+      this.rondaArray=ronda;
+      console.log("RondaArray");
+      console.log(this.rondaArray);
+      this.tareaArray=tarea;
+      console.log("TareaArray");
+      console.log(this.tareaArray);
+      
       this.settings = {...this.settings, attr: {class: 'general-table'}};
     }).catch(() => {});
   }
+
+  
+
+
 
   createTemplate() {
     this.isEditorCreate = true;
@@ -249,44 +292,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.fieldsData = [...this.fieldsData];
   }
 
-  selectPlant(item): void {
-    this.enableSystem = true;
-    this.data.plant = item.nombre;
-    this.data.plantId = item.id;
-    this.enableEquipment = false;
-    this.maneuverGuideContent = '';
-    this.data.systemId = null;
-    this.data.equipmentId = null;
-  }
-  selectSystem(item): void {
-    this.enableEquipment = true;
-    this.data.systemId = item.id;
-    this.data.system = item.nombre;
-    this.data.equipmentId = null;
-  }
-
-  selectEquipment(item): void {
-    this.data.equipmentId = item.id;
-    this.enableComponent = true;
-    this.data.equipment = item.nombre;
-  }
-
-  selectComponent(item): void {
-    this.data.unitId = item.id;
-    this.data.unit = item.nombre;
-  }
-
-  selectTypeData(item): void {
-    this.data.type = item.id;
-    this.data.typeId = item.id;
-    this.data = {
-      ...this.data,
-      normalValue: '',
-      minValue: '',
-      maxValue: '',
-    };
-  }
-
+ 
   selectTime(data: any, action?: string): void {
     data.confirm.resolve();
     let _data = data.newData || data.data;
@@ -321,6 +327,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   }
 
   selectFirstItem(data, filterProperty, filterValue): string {
+    console.log("selectFristItem")
     const filteredData = data.selectItems.find(
       item => item[filterProperty] === filterValue
     );
@@ -340,47 +347,26 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       this.fieldsData = [...this.fieldsData, ...[this.data]];
     }
     this.currentIndex = null;
-    this.data = {
-      plant: '',
-      system: '',
-      equipment: '',
-      unit: '',
-      type: undefined,
-      plantId: null,
-      systemId: null,
-      equipmentId: null,
-      unitId: null,
-      typeId: null,
-      timer: new Set(),
-      time: '',
-      name: '',
-      minValue: '',
-      maxValue: '',
-      normalValue: '',
-    };
+    
     dialog.close();
   }
 
-  saveTemplate() {
+  async saveTemplate() {
+    let res =  await this.generalService.createRoundTemplate(this.roundName);
+    this.data.rondaId = res.id;
+    console.log("this.data");
+    console.log(this.data);
     this.router.navigate(['/pages/round-template']);
-    this.onSave.emit({
-      id: (this.fullData && this.fullData.id) || null,
-      nombre: this.roundName,
-      time: this.timeData.time,
-      indexEdited: this.templateIndex,
-      full: {
-        fieldsData: this.fieldsData,
-        timeData: this.timeData.timer,
-        tableTimeData: this.tableTimeData,
-        templateConfig: {
-          funcionamientoSistema: this.funcionamientoSistema,
-          obligatorioSistema: this.obligatorioSistema,
-          funcionamientoEquipo: this.funcionamientoEquipo,
-          obligatorioEquipo: this.obligatorioEquipo
-        },
-      }
+    this.onSave.emit({rondaId: this.data.rondaId ,
+      tareaId:this.data.tareaId,
+    
     });
+    
   }
+
+ 
+
+
 
   changeField(e, a) {
     this[a] = e;
@@ -427,8 +413,6 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         valorNormal: +field.typeId === 3 ? !!field.normalValue : field.normalValue,
         valorMax: field.maxValue,
         valorMin: field.minValue,
-        // plantaId: field.plantId,
-        // sistemaId: field.systemId,
         equipamientoId: field.equipmentId,
         tipoCampoRondaId: field.typeId,
         unidadMedidaId: field.unitId,

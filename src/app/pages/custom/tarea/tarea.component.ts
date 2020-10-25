@@ -12,7 +12,7 @@ import { RoundsDetails } from '../../../@models/rounds';
 })
 export class TareaComponent implements OnInit {
   fullData: any;
-  data: any[];
+  data: any;
   Nueva: boolean;
   showRoundTemplate: boolean;
   roundTemplateId: any;
@@ -20,6 +20,7 @@ export class TareaComponent implements OnInit {
 
 
   settings: SmartTableSettings = {
+    mode: 'external',
     attr: {
       class: 'general-table',
     },
@@ -66,6 +67,7 @@ export class TareaComponent implements OnInit {
  
   async onSaveData(data) {
     console.log("onsave");
+    console.log(data)
     const templateData: RoundTemplateData = {
       nombre: data.nombre,
       funcionamientoSistema: !!data.full.templateConfig.funcionamientoSistema,
@@ -82,8 +84,11 @@ export class TareaComponent implements OnInit {
       }
     } else {
       try {
+        //const { id } = await this.generalService.createRoundTemplate(templateData);
         const { id } = await this.generalService.createRoundTemplate(templateData);
         data.id = id;
+        console.log("templetaData");
+        console.log(templateData);
         await this.saveRoundsFields(data);
       } catch (error) {
         console.log(error)
@@ -176,6 +181,8 @@ export class TareaComponent implements OnInit {
         unidadMedidaId: field.unitId,
         plantillaRondaId: data.id,
       }
+      console.log("dataTemplate");
+      console.log(dataTemplate);
       await this.generalService.createRoundFields(dataTemplate);
     });
   }
@@ -192,10 +199,71 @@ export class TareaComponent implements OnInit {
   console.log(this.Nueva)
  }
   async ngOnInit() {
-    await this.getTemplates();
-    this.getFieldsRoundTemplate();
+    this.getTemplates();
+    //this.getFieldsRoundTemplate();
     console.log("data");
     console.log(this.data);
   }
+
+
+  createTemplate() {
+    this.router.navigate(['/pages/tarea'], {
+      queryParams: {
+        Nueva: true,
+      }
+    });
+    this.fullData = null;
+  }
+
+  async editTemplate({ data }) {
+    console.log("edit data");
+    console.log(data);
+    const dataFields = []
+    const response = await this.generalService.getRondasCompletas1(data.id);
+    console.log("edit respose");
+    console.log(response[0].campoRondaPlantillaRonda[0]);
+    //resisar el caso de que tenga muchos
+    let res = response[0].campoRondaPlantillaRonda
+    res.forEach(field => {
+      dataFields.push(<RoundsDetails>{
+        unit: field.campoRonda.unidadMedidaId,
+        equipment: field.campoRonda.equipamientoId,
+        //plant: field.equipamiento.sistema.planta.nombre,
+        //system: field.equipamiento.sistema.nombre,
+        name: field.campoRonda.nombre,
+        minValue: field.campoRonda.valorMin,
+        normalValue: field.campoRonda.valorNormal,
+        maxValue: field.campoRonda.valorMax,
+        type: field.campoRonda.tipoCampoRondaId,
+        roundFieldId: field.campoRonda.id,
+        roundTemplateId: field.campoRonda.plantillaRondaId,
+      })
+    });
+    data.full.fieldsData = dataFields;
+    this.fullData = data;
+    this.router.navigate(['/pages/tarea'], {
+      queryParams: {
+        Nueva: true,
+        id: data.id,
+      }
+    });
+  }
+
+  async deleteTemplate(template) {
+    console.log(template);
+    const { id } = template.data;
+    try {
+      await this.generalService.deleteRoundTemplate(id);
+      delete this.data[template.index];
+      this.data = [...this.data];
+    } catch (error) {
+      console.log(error)
+      template.confirm.reject();
+    }
+  }
+
+
+
+
 
 }
