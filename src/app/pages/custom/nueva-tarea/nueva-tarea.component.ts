@@ -194,14 +194,20 @@ export class NuevaTareaComponent implements OnInit {
     private router: Router,
     private dialogService: NbDialogService,
     private changeDetectorRef: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getAllData();
+    if (this.fullData) {
+      this.editTemplate(this.fullData);
+    }
+    else {
+      this.createTemplate();
+    }
   }
 
   async getAllData() {
-    this.settings = {...this.settings, attr: {class: 'general-table disabled'}};
+    this.settings = { ...this.settings, attr: { class: 'general-table disabled' } };
     Promise.all([
       this.generalService.getPlants(),
       this.generalService.getSystems(),
@@ -214,8 +220,8 @@ export class NuevaTareaComponent implements OnInit {
       this.equipmentArray = equipments;
       this.unitArray = measurementUnits;
       this.dataTypeArray = dataTypes;
-      this.settings = {...this.settings, attr: {class: 'general-table'}};
-    }).catch(() => {});
+      this.settings = { ...this.settings, attr: { class: 'general-table' } };
+    }).catch(() => { });
   }
 
   createTemplate() {
@@ -229,24 +235,28 @@ export class NuevaTareaComponent implements OnInit {
 
   editTemplate(data) {
     this.data = data.data;
-    this.currentIndex = data.index;
-    this.isEditorCreate = true;
-    this.enableSystem = true;
-    this.enableComponent = true;
-    this.enableEquipment = true;
-    this.data.plantId = this.plantArray.items.find(
-      plant => plant.nombre === data.data.plant
-    ).id;
-    this.data.systemId = this.systemArray.items.find(
-      system => system.nombre === data.data.system
-    ).id;
-    this.data.equipmentId = this.equipmentArray.items.find(
-      equipment => equipment.nombre === data.data.equipment
-    ).id;
-    this.data.unitId = this.unitArray.items.find(
-      type => type.nombre === data.data.unit
-    ).id;
-    this.data.typeId = this.data.type;
+    console.log("editTemplate");
+    console.log(this.data);
+    //this.currentIndex = data.index;
+    //this.isEditorCreate = true;
+    //this.enableSystem = true;
+    //this.enableComponent = true;
+   // this.enableEquipment = true;
+    //this.data.plantId = data;
+    // this.data.plantId = this.plantArray.items.find(
+    //   plant => plant.nombre === data.data.plant
+    // ).id;
+    // this.data.systemId = this.systemArray.items.find(
+    //   system => system.nombre === data.data.system
+    // ).id;
+    //  this.data.equipmentId = this.equipmentArray.items.find(
+    //    equipment => equipment.nombre === data.data.equipamientoId
+    //  ).id;
+    // this.data.equipmentId = data.data.equipamientoId;
+    // this.data.unitId = this.unitArray.items.find(
+    //  type => type.nombre === data.data.nidadMedidaId
+    //  ).id;
+    //this.data.typeId = data.data.tipoCampoRondaId;
     this.dialogService.open(this.addOrEditTemplate, {
       context: 'Editar Elemento',
       closeOnBackdropClick: false,
@@ -340,6 +350,7 @@ export class NuevaTareaComponent implements OnInit {
 
   async saveChanges(dialog: NbDialogRef<any>) {
     console.log("save changes");
+    console.log(dialog);
     this.disableAll();
     if (!this.fieldsData) this.fieldsData = [];
     if (this.currentIndex != null) {
@@ -347,6 +358,8 @@ export class NuevaTareaComponent implements OnInit {
       this.fieldsData[this.currentIndex] = this.data;
       this.fieldsData = [...this.fieldsData];
       this.currentIndex = null;
+      console.log("save changes this.data");
+      console.log(this.data);
     } else {
       await this.saveOrDeleteRoundsFields(this.data);
       this.fieldsData = [...this.fieldsData, ...[this.data]];
@@ -373,28 +386,29 @@ export class NuevaTareaComponent implements OnInit {
     dialog.close();
   }
 
-  saveTemplate() {
+
+  saveTarea() {
     console.log("save template");
     console.log(this.fullData);
     this.router.navigate(['/pages/tarea']);
-    this.onSave.emit({
-      id: (this.fullData && this.fullData.id) || null,
-     // id: this.fullData? (this.fullData.id? this.fullData : null) : null,
-      nombre: this.roundName,
-      time: this.timeData.time,
-      indexEdited: this.templateIndex,
-      full: {
-        fieldsData: this.fieldsData,
-        timeData: this.timeData.timer,
-        tableTimeData: this.tableTimeData,
-        templateConfig: {
-          funcionamientoSistema: this.funcionamientoSistema,
-          obligatorioSistema: this.obligatorioSistema,
-          funcionamientoEquipo: this.funcionamientoEquipo,
-          obligatorioEquipo: this.obligatorioEquipo
-        },
-      }
-    });
+    /* this.onSave.emit({
+       id: (this.fullData && this.fullData.id) || null,
+      // id: this.fullData? (this.fullData.id? this.fullData : null) : null,
+       nombre: this.roundName,
+       time: this.timeData.time,
+       indexEdited: this.templateIndex,
+       full: {
+         fieldsData: this.fieldsData,
+         timeData: this.timeData.timer,
+         tableTimeData: this.tableTimeData,
+         templateConfig: {
+           funcionamientoSistema: this.funcionamientoSistema,
+           obligatorioSistema: this.obligatorioSistema,
+           funcionamientoEquipo: this.funcionamientoEquipo,
+           obligatorioEquipo: this.obligatorioEquipo
+         },
+       }
+     });*/
   }
 
   changeField(e, a) {
@@ -412,6 +426,8 @@ export class NuevaTareaComponent implements OnInit {
       timer: new Set(),
       time: ''
     };
+    console.log(this.fullData);
+    this.router.navigate(['/pages/tarea']);
     dialog.close();
   }
 
@@ -438,17 +454,17 @@ export class NuevaTareaComponent implements OnInit {
     console.log("guardar campos ronda");
     const roundTemplateId = field.roundTemplateId || (this.route.snapshot.queryParams || {} as any).id;
     if (roundTemplateId) {
-      const dataTemplate: RoundFields = {
+      const dataTemplate: any = {
         nombre: field.name,
         valorNormal: +field.typeId === 3 ? !!field.normalValue : field.normalValue,
         valorMax: field.maxValue,
         valorMin: field.minValue,
-         plantaId: field.plantId,
-         sistemaId: field.systemId,
+        plantaId: field.plantId,
+        sistemaId: field.systemId,
         equipamientoId: field.equipmentId,
         tipoCampoRondaId: field.typeId,
         unidadMedidaId: field.unitId,
-        plantillaRondaId: roundTemplateId,
+        //plantillaRondaId: roundTemplateId,
       }
 
       if (field.roundFieldId && isDelete) {
@@ -456,6 +472,8 @@ export class NuevaTareaComponent implements OnInit {
       } else if (field.roundFieldId) {
         await this.generalService.editRoundFields(dataTemplate, field.roundFieldId);
       } else {
+        console.log("CreatRoundFields");
+        console.log(dataTemplate);
         await this.generalService.createRoundFields(dataTemplate);
       }
       this.onRefreshRoundTemplate.emit();
@@ -466,6 +484,27 @@ export class NuevaTareaComponent implements OnInit {
     }
 
   }
+
+
+  guardarTarea(dialog: NbDialogRef<any>): void {
+    console.log("guardarTarea");
+    const campRondaInfo = {
+      nombre: this.data.name,
+      descripcion: "",
+      valorNormal: this.data.normalValue,
+      valorMax: this.data.maxValue,
+      valorMin: this.data.minValue,
+      equipamientoId: this.data.equipmentId,
+      tipoCampoRondaId: this.data.typeId,
+      unidadMedidaId: -1,
+    };
+    this.generalService.createRoundFields(campRondaInfo);
+    console.log(this.fullData);
+    this.router.navigate(['/pages/tarea']);
+    dialog.close();
+  }
+
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.fullData && changes.fullData.currentValue) {

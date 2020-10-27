@@ -13,6 +13,7 @@ import { RoundTemplateData, RoundFields } from '../../../@models/general';
 export class RoundTemplateComponent implements OnInit {
   fullData = [];
   data = [];
+  DatosTabla = [];
 
   settings: SmartTableSettings = {
     mode: 'external',
@@ -35,23 +36,23 @@ export class RoundTemplateComponent implements OnInit {
     columns: {
 
 
-      plantillaRondaId: {
+      3: {
         title: 'Ronda Id',
         type: 'text',
         width: '200px'
       },
-      campoRonda0: {
+      2: {
         title: 'Ronda Id',
         type: 'text',
         width: '200px'
       },
-      campoRondaId: {
+      0: {
         title: 'TareaID',
         type: 'text',
         width: '200px'
       },
 
-      campoRondaId1: {
+      1: {
         title: 'Tarea',
         type: 'text',
         width: '200px'
@@ -75,12 +76,21 @@ export class RoundTemplateComponent implements OnInit {
   async ngOnInit() {
     this.data = await this.generalService.getRondasCompletas();
     console.log(this.data)
-    for (let i = 0; i < this.data.length; i++) {
-      //let aux = aux.concat(this.data[i].campoRondaPlantillaRonda,this.data[i].nombre)
-      this.fullData = this.fullData.concat(this.data[i].campoRondaPlantillaRonda);
+    this.data.forEach(data => {
+   // data['nombreRonda']=data.nombre;
+    data.Tareas=[];
+    for(let i = 0; i < data.campoRondaPlantillaRonda.length;i++){
+    data.Tareas[i]=[data.campoRondaPlantillaRonda[i].campoRondaId , data.campoRondaPlantillaRonda[i].campoRonda!= undefined?(data.campoRondaPlantillaRonda[i].campoRonda.nombre):null,data.campoRondaPlantillaRonda[i].plantillaRondaId,data.nombre]};
+
+      
+    });
+    
+   for (let i = 0; i < this.data.length; i++) {
+     // let aux = aux.concat(this.data[i].Tarea)
+      this.DatosTabla = this.DatosTabla.concat(this.data[i].Tareas);
     }
 
-    console.log(this.fullData);
+    console.log(this.DatosTabla);
     //this.getFieldsRoundTemplate();
     //this.traerCamposRonda();
   }

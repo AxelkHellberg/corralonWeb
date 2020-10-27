@@ -29,12 +29,17 @@
         </nb-card-body>
     </nb-card-body>
 </nb-card-->
-<h4 class="mb-20">Nueva Tarea: '{{!roundName ? 'Sin Titulo' : roundName}}'</h4>
+
+
+
+
+
+<!--h4 class="mb-20">Nueva Tarea: '{{!data.name ? 'Sin Titulo' : data.name}}'</h4>
 <br><br>
 <ng-container>
   <div class="d-flex justify-content-between">
     <input nbInput type="text" class="col-6" [(ngModel)]="roundName" placeholder="Nombre de la Ronda">
-    <button nbButton status="primary" class="col-4 col-offset-2" (click)="saveTemplate()">Guardar Tarea</button>
+    <button nbButton status="primary" class="col-4 col-offset-2" (click)="saveTarea()">Guardar Tarea</button>
   </div>
 
   <br><br>
@@ -56,7 +61,7 @@
     </ng2-smart-table>
     <br>
   </div-->
-</div>
+<!--/div>
 <div class="row">
   <div class="col-12">
     <h5>Configuración</h5>
@@ -78,7 +83,7 @@
     </div>
   </div>
 </div>
-<br><br>
+<br><br-->
 
 
 <!--nb-card>
@@ -174,18 +179,11 @@
 
 
 
-
-
-    
-
-
-
-
     <nb-card-footer>
       <div class="row">
         <div class="col-12 d-flex justify-content-center align-items-baseline">
           <h5 class="text-hint cursor-pointer pr-4" (click)="discardChanges(dialog)">Cancelar</h5>
-          <button nbButton status="primary" (click)="saveChanges(dialog)"
+          <button nbButton status="primary" (click)="guardarTarea(dialog)"
             [disabled]="!enableSaveButton">Guardar</button>
         </div>
       </div>

@@ -2,9 +2,10 @@
   [settings]="settings"
   [source]="data"
   (create)="createTemplate()"
-  (edit)="editTemplate($event)"
-  (delete)="deleteTemplate($event)"
+  (edit)="editTarea($event)"
+  (delete)="deleteTarea($event)"
   *ngIf="!Nueva"></ng2-smart-table>
+
 
 
 <ngx-nueva-tarea *ngIf="Nueva"[fullData]="fullData" (onSave)="onSaveData($event)" (onRefreshRoundTemplate)="getFieldsRoundTemplate()"></ngx-nueva-tarea>

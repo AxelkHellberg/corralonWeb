@@ -165,13 +165,13 @@ export class GeneralService {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/horarios/`).toPromise();
   }
   
-  createRoundFields(roundFieldsData: RoundFields): Promise<any> {
+  createRoundFields(roundFieldsData: any): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/`, roundFieldsData).toPromise();
   }
-  editRoundFields(roundFieldsData: RoundFields, id): Promise<any> {
+  editRoundFields(roundFieldsData: any, id): Promise<any> {
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`, roundFieldsData).toPromise();
   }
-  deleteRoundFields(roundFieldsData: RoundFields, id): Promise<any> {
+  deleteRoundFields(roundFieldsData: any, id): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`).toPromise();
   }
   createRoundTemplate(roundTemplateData: any): Promise<any> {

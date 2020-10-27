@@ -233,7 +233,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       
       this.generalService.getRondas(),
       this.generalService.getTarea(),
-    ]).then(([tarea,ronda]) => {
+    ]).then(([ronda,tarea,]) => {
       
       this.rondaArray=ronda;
       console.log("RondaArray");

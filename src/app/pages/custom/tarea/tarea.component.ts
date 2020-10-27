@@ -47,28 +47,27 @@ export class TareaComponent implements OnInit {
         type: 'text',
         width: '200px'
       },
-      time: {
-        title: 'Horario',
-        type: 'text',
-        width: '300px'
-      }
+
     },
-      
 
-    
+
+
   };
- constructor(private route: ActivatedRoute,private router : Router,private generalService: GeneralService) {this.route.queryParams.subscribe(queryParam => {
-  if (queryParam.Nueva) {
-    this.Nueva = true;
+  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {
+    this.route.queryParams.subscribe(queryParam => {
+      if (queryParam.Nueva) {
+        this.Nueva = true;
 
-  } else {
-    this.Nueva = false;
-  } });}
- 
+      } else {
+        this.Nueva = false;
+      }
+    });
+  }
+
   async onSaveData(data) {
     console.log("onsave");
     console.log(data)
-    const templateData: RoundTemplateData = {
+    /*const templateData: RoundTemplateData = {
       nombre: data.nombre,
       funcionamientoSistema: !!data.full.templateConfig.funcionamientoSistema,
       obligatorioSistema: !!data.full.templateConfig.obligatorioSistema,
@@ -93,7 +92,7 @@ export class TareaComponent implements OnInit {
       } catch (error) {
         console.log(error)
       }
-    }
+    }*/
     this.getTemplates();
     this.fullData = null;
     this.roundTemplateId = null;
@@ -187,22 +186,26 @@ export class TareaComponent implements OnInit {
     });
   }
 
-
-
- 
- prueba(){
-  this.router.navigate(['/pages/tarea'], {
-    queryParams: {
-      Nueva: true,
-    }
-  });
-  console.log(this.Nueva)
- }
-  async ngOnInit() {
-    this.getTemplates();
-    //this.getFieldsRoundTemplate();
-    console.log("data");
+  async getTareas() {
+    const response = await this.generalService.getTarea();
+    this.data = response.items;
     console.log(this.data);
+  }
+
+
+  prueba() {
+    this.router.navigate(['/pages/tarea'], {
+      queryParams: {
+        Nueva: true,
+      }
+    });
+    console.log(this.Nueva)
+  }
+  async ngOnInit() {
+    this.getTareas();
+    //this.getFieldsRoundTemplate();
+    //console.log("data");
+    //console.log(this.data);
   }
 
 
@@ -215,6 +218,7 @@ export class TareaComponent implements OnInit {
     this.fullData = null;
   }
 
+  //descartar
   async editTemplate({ data }) {
     console.log("edit data");
     console.log(data);
@@ -241,6 +245,8 @@ export class TareaComponent implements OnInit {
     });
     data.full.fieldsData = dataFields;
     this.fullData = data;
+    console.log("this.full data (tarea)");
+    console.log(this.fullData);
     this.router.navigate(['/pages/tarea'], {
       queryParams: {
         Nueva: true,
@@ -248,8 +254,9 @@ export class TareaComponent implements OnInit {
       }
     });
   }
-
+  //descartar
   async deleteTemplate(template) {
+    console.log("delete");
     console.log(template);
     const { id } = template.data;
     try {
@@ -262,8 +269,24 @@ export class TareaComponent implements OnInit {
     }
   }
 
+  async deleteTarea(tarea) {
+    console.log("deleteTarea");
+    const dataTarea = tarea.data;
+    this.generalService.deleteRoundFields({}, dataTarea.id);
+  }
 
+  async editTarea(tarea) {
+    this.router.navigate(['/pages/tarea'], {
+      queryParams: {
+        Nueva: true,
+        id: tarea.data.id,
 
-
+      }
+    });
+    
+    this.fullData = tarea;
+    console.log("this.full data (tarea)");
+    console.log(this.fullData);
+  }
 
 }
