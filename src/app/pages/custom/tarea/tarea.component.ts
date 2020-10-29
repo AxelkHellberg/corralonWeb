@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RoundFields, RoundTemplateData } from '../../../@models/general';
 import { GeneralService } from '../../../services/general.service';
 import { RoundsDetails } from '../../../@models/rounds';
+import { elementEnd } from '@angular/core/src/render3';
 
 @Component({
   selector: 'ngx-tarea',
@@ -272,10 +273,18 @@ export class TareaComponent implements OnInit {
   async deleteTarea(tarea) {
     console.log("deleteTarea");
     const dataTarea = tarea.data;
-    this.generalService.deleteRoundFields({}, dataTarea.id);
+    console.log(dataTarea.id);
+    this.generalService.deleteRoundFields(dataTarea.id);
   }
 
   async editTarea(tarea) {
+    const res = await this.generalService.getTareaCompleta();
+    res.forEach(element => {if(element.id == tarea.data.id)
+    {
+      this.fullData=element;
+    }
+      
+    });
     this.router.navigate(['/pages/tarea'], {
       queryParams: {
         Nueva: true,
@@ -283,8 +292,9 @@ export class TareaComponent implements OnInit {
 
       }
     });
-    
-    this.fullData = tarea;
+    //this.generalService.getTareaCompleta();
+    //console.log("tarea Completa");
+    //
     console.log("this.full data (tarea)");
     console.log(this.fullData);
   }

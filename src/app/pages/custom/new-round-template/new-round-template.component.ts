@@ -118,13 +118,8 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       deleteButtonContent: '<i class="nb-trash"></i>'
     },
     columns: {
-      tarea: {
+      nombre: {
         title: 'Tarea',
-        type: 'text',
-        width: '300px'
-      },
-      ronda: {
-        title: 'RodaId',
         type: 'text',
         width: '300px'
       },
@@ -217,14 +212,19 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     private router: Router,
     private dialogService: NbDialogService,
     private changeDetectorRef: ChangeDetectorRef,
-  ) {}
-
+    ) {}
+    dataTarea: any[];
+    agregarTarea : boolean = false;
+    edit : boolean = false;
   ngOnInit() {
-    console.log("queryParams");
-    console.log(this.route.snapshot.queryParams);
-    this.getAllData();
-   // console.log("ArratTareas");
-   // console.log(this.generalService.getTareas());
+   if(this.fullData){ console.log("this.fullData");
+    console.log(this.fullData);
+    
+    this.roundName = this.fullData.data.nombreRonda;
+  }this.getAllData();
+  this.dataTarea = this.fullData.dataFiels;
+    console.log("dataTarea");
+   console.log(this.dataTarea);
   }
 
   async getAllData() {
@@ -249,9 +249,9 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   
 
 
-
   createTemplate() {
     this.isEditorCreate = true;
+    this.agregarTarea=true;
     this.dialogService.open(this.addOrEditTemplate, {
       context: 'Añadir Elemento',
       closeOnBackdropClick: false,
@@ -260,7 +260,11 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   }
 
   editTemplate(data) {
-    this.data = data.data;
+    console.log("editTemplate");
+    this.data.tareaId = data.data.id;
+    console.log(this.data.tareaId);
+    
+    /*this.data = data.data;
     this.currentIndex = data.index;
     this.isEditorCreate = true;
     this.enableSystem = true;
@@ -278,7 +282,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.data.unitId = this.unitArray.items.find(
       type => type.nombre === data.data.unit
     ).id;
-    this.data.typeId = this.data.type;
+    this.data.typeId = this.data.type;*/
     this.dialogService.open(this.addOrEditTemplate, {
       context: 'Editar Elemento',
       closeOnBackdropClick: false,
@@ -334,8 +338,22 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     return filteredData.value;
   }
 
+
+
+
   async saveChanges(dialog: NbDialogRef<any>) {
-    this.disableAll();
+   console.log("saveChages");
+   if(this.agregarTarea){
+    //console.log(this.fullData); 
+    this.generalService.createRonda(this.data.tareaId,this.fullData.data.id);
+   }
+   else{
+     if(this.edit){
+       //elimino la tarea y agrego la nueva
+     }
+   }
+   
+    /* this.disableAll();
     if (!this.fieldsData) this.fieldsData = [];
     if (this.currentIndex != null) {
       await this.saveOrDeleteRoundsFields(this.data);
@@ -346,9 +364,18 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       await this.saveOrDeleteRoundsFields(this.data);
       this.fieldsData = [...this.fieldsData, ...[this.data]];
     }
-    this.currentIndex = null;
+    this.currentIndex = null;*/
+    
+    
+   /* console.log("this.data");
+    this.data.nombre=this.roundName;
+    if(this.fullData != null)this.data.rondaId=this.fullData.data.id;
+    console.log(this.data);
+    
+    this.generalService.createRonda(this.data.nombre,this.data.rondaId);*/
     
     dialog.close();
+    this.agregarTarea = false;
   }
 
   async saveTemplate() {
@@ -365,7 +392,10 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   }
 
  
-
+  selectDate(fecha: Date){
+    console.log("fecha: ");
+    console.log(fecha.getUTCDay(), fecha.getUTCMonth(), fecha.getUTCFullYear() );
+  }
 
 
   changeField(e, a) {
@@ -406,7 +436,8 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   }
 
   async saveOrDeleteRoundsFields(field: RoundsDetails, isDelete = false) {
-    const roundTemplateId = field.roundTemplateId || (this.route.snapshot.queryParams || {} as any).id;
+    console.log("saveOrDeleteRoundFields");
+    /*const roundTemplateId = field.roundTemplateId || (this.route.snapshot.queryParams || {} as any).id;
     if (roundTemplateId) {
       const dataTemplate: RoundFields = {
         nombre: field.name,
@@ -420,7 +451,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       }
 
       if (field.roundFieldId && isDelete) {
-        await this.generalService.deleteRoundFields(dataTemplate, field.roundFieldId);
+        await this.generalService.deleteRoundFields(field.roundFieldId);
       } else if (field.roundFieldId) {
         await this.generalService.editRoundFields(dataTemplate, field.roundFieldId);
       } else {
@@ -431,7 +462,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 
     if (!field.roundTemplateId && isDelete) {
       return true;
-    }
+    }*/
 
   }
 

@@ -8,7 +8,7 @@
 
   <br><br>
 
-  <ng2-smart-table [settings]="settings" [source]="fieldsData" (create)="createTemplate()" (edit)="editTemplate($event)"
+  <ng2-smart-table [settings]="settings" [source]="dataTarea" (create)="createTemplate()" (edit)="editTemplate($event)"
     (delete)="deleteTemplate($event)"></ng2-smart-table>
 </ng-container>
 
@@ -25,34 +25,32 @@
     </ng2-smart-table>
     <br>
   </div>
-</div>
-<div class="row">
-  <div class="col-12">
-    <h5>Configuración</h5>
-  </div>
-  <br><br>
-  <div class="col-12">
-    <p><b>Sistemas</b></p>
-    <div class="d-flex">
-      <nb-checkbox status="primary" [(ngModel)]="funcionamientoSistema">Funcionamiento</nb-checkbox>
-      <nb-checkbox status="primary" [(ngModel)]="obligatorioSistema">Obligatorio</nb-checkbox>
-    </div>
-  </div>
-  <br><br>
-  <div class="col-12">
-    <p><b>Equipmaiento</b></p>
-    <div class="d-flex">
-      <nb-checkbox status="primary" [(ngModel)]="funcionamientoEquipo">Funcionamiento</nb-checkbox>
-      <nb-checkbox status="primary" [(ngModel)]="obligatorioEquipo">Obligatorio</nb-checkbox>
-    </div>
-  </div>
+  <nb-card>
+    <nb-calendar [(date)]="date" (dateChange)="selectDate($event)"></nb-calendar>
+  </nb-card>
 </div>
 <br><br>
-
-
-<nb-card>
-  <nb-calendar [(date)]="date"></nb-calendar>
-</nb-card>
+<!--div class="row">
+    <div class="col-12">
+      <h5>Configuración</h5>
+    </div>
+    <br><br>
+    <div class="col-12">
+      <p><b>Sistemas</b></p>
+      <div class="d-flex">
+        <nb-checkbox status="primary" [(ngModel)]="funcionamientoSistema">Funcionamiento</nb-checkbox>
+        <nb-checkbox status="primary" [(ngModel)]="obligatorioSistema">Obligatorio</nb-checkbox>
+      </div>
+    </div>
+    <br><br>
+    <div class="col-12">
+      <p><b>Equipmaiento</b></p>
+      <div class="d-flex">
+        <nb-checkbox status="primary" [(ngModel)]="funcionamientoEquipo">Funcionamiento</nb-checkbox>
+        <nb-checkbox status="primary" [(ngModel)]="obligatorioEquipo">Obligatorio</nb-checkbox>
+      </div>
+    </div>
+  </div-->
 
 
 
@@ -72,16 +70,16 @@
         </div-->
 
 
-     
-          <div class="col-6">
-            <label class="label" for="plant">Tarea</label>
-            <nb-select id="tarea" placeholder="Tarea" [selected]="data.plantId">
-              <nb-option *ngFor="let item of tareaArray?.items" [value]="item?.id" (click)="selectTarea(item)">
-                {{item?.nombre}}</nb-option>
-            </nb-select>
-          </div>
 
-          <!--div class="col-6">
+        <div class="col-9">
+          <label class="label" for="plant">Tarea</label>
+          <nb-select id="tarea" placeholder="Tarea" [selected]="data.tareaId">
+            <nb-option *ngFor="let item of tareaArray?.items" [value]="item?.id" (click)="selectTarea(item)">
+              {{item?.nombre}}</nb-option>
+          </nb-select>
+        </div>
+
+        <!--div class="col-6">
             <label class="label" for="plant">Ronda</label>
             <nb-select id="ronda" placeholder="Ronda" [selected]="data.plantId">
               <nb-option *ngFor="let item of rondaArray?.items" [value]="item?.id" (click)="selectRonda(item)">
@@ -162,22 +160,13 @@
     </nb-card-body>
 
 
-
-
-
-    
-
-
-
-
     <nb-card-footer>
       <div class="row">
         <div class="col-12 d-flex justify-content-center align-items-baseline">
           <h5 class="text-hint cursor-pointer pr-4" (click)="discardChanges(dialog)">Cancelar</h5>
           <!--button nbButton status="primary" (click)="saveChanges(dialog)"
             [disabled]="!enableSaveButton">Guardar</button-->
-            <button nbButton status="primary" (click)="saveChanges(dialog)"
-            >Guardar</button>
+          <button nbButton status="primary" (click)="saveChanges(dialog)">Guardar</button>
         </div>
       </div>
     </nb-card-footer>

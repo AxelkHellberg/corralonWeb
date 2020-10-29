@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
 import { RoundTemplateData, RoundFields } from '../../../@models/general';
+import { elementEnd } from '@angular/core/src/render3';
+import { data } from 'jquery';
 
 @Component({
   selector: 'ngx-round-template',
@@ -36,27 +38,17 @@ export class RoundTemplateComponent implements OnInit {
     columns: {
 
 
-      3: {
-        title: 'Ronda Id',
+      nombreRonda: {
+        title: 'Ronda',
         type: 'text',
         width: '200px'
       },
-      2: {
+      id: {
         title: 'Ronda Id',
-        type: 'text',
-        width: '200px'
-      },
-      0: {
-        title: 'TareaID',
         type: 'text',
         width: '200px'
       },
 
-      1: {
-        title: 'Tarea',
-        type: 'text',
-        width: '200px'
-      },
     }
   };
   showRoundTemplate: boolean;
@@ -75,19 +67,21 @@ export class RoundTemplateComponent implements OnInit {
 
   async ngOnInit() {
     this.data = await this.generalService.getRondasCompletas();
-    console.log(this.data)
-    this.data.forEach(data => {
-   // data['nombreRonda']=data.nombre;
-    data.Tareas=[];
+    console.log("ngOnInit this.data")
+    console.log(this.data);
+    //console.log(await this.generalService.getRondasCompletas())
+    //this.data.forEach(data => {
+    // data['nombreRonda']=data.nombre;
+    /*data.Tareas=[];
     for(let i = 0; i < data.campoRondaPlantillaRonda.length;i++){
     data.Tareas[i]=[data.campoRondaPlantillaRonda[i].campoRondaId , data.campoRondaPlantillaRonda[i].campoRonda!= undefined?(data.campoRondaPlantillaRonda[i].campoRonda.nombre):null,data.campoRondaPlantillaRonda[i].plantillaRondaId,data.nombre]};
 
       
-    });
-    
-   for (let i = 0; i < this.data.length; i++) {
-     // let aux = aux.concat(this.data[i].Tarea)
-      this.DatosTabla = this.DatosTabla.concat(this.data[i].Tareas);
+    });*/
+
+    for (let i = 0; i < this.data.length; i++) {
+      //let aux = aux.concat(this.data[i].Tarea)
+      this.DatosTabla = this.DatosTabla.concat({ id: this.data[i].id, nombreRonda: this.data[i].nombre });
     }
 
     console.log(this.DatosTabla);
@@ -178,12 +172,24 @@ export class RoundTemplateComponent implements OnInit {
     });
     this.fullData = null;
   }
-
+ 
   async editTemplate({ data }) {
-    const dataFields = []
-    const response = await this.generalService.getFieldTemplate(data.id);
+    let dataFields = []
+    console.log("editTemplate data");
+    console.log(data);
+    const response = await this.generalService.getRondasCompletas1(data.id);
+    console.log("response");
+    console.log(response);
     response.forEach(field => {
-      dataFields.push(<RoundsDetails>{
+      field.campoRondaPlantillaRonda.forEach(element => {
+        if (data.id == field.id) {
+          // this.nombreRondaAux=data.nombre;
+          element.campoRonda = { ...element.campoRonda, nombreRonda: data.nombreRonda, rondaId: data.id }
+          dataFields = dataFields.concat(element.campoRonda);
+          
+        }
+      });
+      //dataFields.push(<RoundsDetails>{
         /*unit: field.unidadMedida.nombre,
         equipment: field.equipamiento.nombre,
         plant: field.equipamiento.sistema.planta.nombre,
@@ -195,10 +201,15 @@ export class RoundTemplateComponent implements OnInit {
         type: field.tipoCampoRondaId,
         roundFieldId: field.id,
         roundTemplateId: field.plantillaRondaId,*/
-      })
-    });
+        //})
+      });
+      var aux:any = {dataFiels: dataFields,data: data}
+      dataFields=aux;
     //data.full.fieldsData = dataFields;
-    this.fullData = data;
+    //this.fullData = data;
+    console.log("dataFiels");
+    console.log(dataFields);
+    this.fullData = dataFields;
     this.router.navigate(['/pages/round-template'], {
       queryParams: {
         id: data.id,
@@ -221,10 +232,8 @@ export class RoundTemplateComponent implements OnInit {
   async onSaveData(dataResivida) {
     console.log("onsave")
     console.log(dataResivida);
-    this.generalService.createRonda({
-      "campoRondaId": dataResivida.tareaId,
-      "plantillaRondaId": dataResivida.rondaId
-    });
+    //this.generalService.createRonda(dataResivida.tareaId,dataResivida.rondaId);
+    this.generalService.createRonda(dataResivida.tareaId,dataResivida.rondaId);
     this.ngOnInit;
     // console.log("this.actualizarCaposRoda");
     // this.actualizarCaposRoda(dataResivida.rondaId,dataResivida.tareaId);
@@ -284,25 +293,20 @@ export class RoundTemplateComponent implements OnInit {
     console.log(this.fullData);
   }
 
-  async actualizarCaposRoda(plantillaRonda: any, Id: any) {
+
+
+
+  //descartar
+  /*async actualizarCaposRoda(plantillaRonda: any, Id: any) {
     let data: any;
     data = await this.generalService.getTarea();
     const infoAEnviar = {
       plantillaRondaId: plantillaRonda,
     };
-    this.generalService.createRonda(infoAEnviar);
+   // this.generalService.createRonda(infoAEnviar);
     let data1 = await this.generalService.getTarea();
     this.ngOnInit();
 
-  }
-
-
-
-
-
-
-
-
-
+  }*/
 
 }

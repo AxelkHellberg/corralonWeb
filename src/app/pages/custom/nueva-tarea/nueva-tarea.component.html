@@ -94,14 +94,14 @@
 
 
 
-<ng-template #addOrEdit let-dialog="dialogRef" let-dialogData>
+<ng-template  #addOrEdit let-dialog="dialogRef" let-dialogData>
   <nb-card class="roundModal">
     <nb-card-header>{{dialogData}}</nb-card-header>
     <nb-card-body>
       <div class="row">
         <div class="col-6">
           <label class="label" for="plant">Planta</label>
-          <nb-select id="plant" placeholder="Seleccione" [selected]="data.plantId">
+          <nb-select id="plant" placeholder="Seleccione" [(selected)]="data.plantId">
             <nb-option *ngFor="let item of plantArray?.items" [value]="item?.id" (click)="selectPlant(item)">
               {{item?.nombre}}</nb-option>
           </nb-select>

@@ -10,12 +10,17 @@ export class GeneralService {
   constructor(private http: HttpClient) { }
   
   //nuevo---------------------------
+
+getTareaCompleta():Promise<any>
+{return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/campos-ronda/`,{id:4}).toPromise();}
+
+
   getTarea(): Promise<any>{
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/`).toPromise();
   }
 
-  createRonda(ronda_tarea : any):Promise<any>{
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-tarea-plantilla`,ronda_tarea).toPromise();
+  createRonda(tareaId: any, rondaId: any):Promise<any>{
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-tarea-plantilla`,{campoRondaId:tareaId , plantillaRondaId:rondaId }).toPromise();
   }
 
 
@@ -27,10 +32,10 @@ export class GeneralService {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`,Guia).toPromise();
   }
   getRondasCompletas(): Promise <any>{
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/tareas`,{"id": 0}).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/plantillas-con-camposronda`,{"id": 4,"filters":{}}).toPromise();
   }
   getRondasCompletas1(idB : any): Promise <any>{
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/tareas`,{"id": 0,"filters":{
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/plantillas-con-camposronda`,{"id": 0,"filters":{
           "id": idB    }}).toPromise();
   }
 
@@ -171,7 +176,7 @@ export class GeneralService {
   editRoundFields(roundFieldsData: any, id): Promise<any> {
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`, roundFieldsData).toPromise();
   }
-  deleteRoundFields(roundFieldsData: any, id): Promise<any> {
+  deleteRoundFields(id): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`).toPromise();
   }
   createRoundTemplate(roundTemplateData: any): Promise<any> {

@@ -195,16 +195,78 @@ export class NuevaTareaComponent implements OnInit {
     private dialogService: NbDialogService,
     private changeDetectorRef: ChangeDetectorRef,
   ) { }
-
+  edit : boolean = false;
   ngOnInit() {
     this.getAllData();
     if (this.fullData) {
-      this.editTemplate(this.fullData);
+      this.edit = true;
+      // this.editTemplate(this.fullData);
+      this.dialogService.open(this.addOrEditTemplate, {
+        context: 'Editar Elemento',
+        closeOnBackdropClick: false,
+        closeOnEsc: false
+      });
+      console.log("full data editar tarea");
+      console.log(this.fullData);
+      this.traerInfo(this.fullData.id);
     }
     else {
+      this.edit = false;
       this.createTemplate();
     }
   }
+
+  async traerInfo(id: any) {
+    const res = await this.generalService.getTareaCompleta();
+   /* console.log("for each de tarea completa");
+    res.forEach(element => {
+      if(element.id == id)
+      {
+        this.fullData = element;
+      }
+      console.log(element);
+
+    });*/
+    console.log("this.fullData");
+    console.log(this.fullData);
+    this.enableSystem = true;
+    this.data.plant = this.fullData.equipamiento.sistema.planta.nombre;
+    this.data.plantId = this.fullData.equipamiento.sistema.planta.id;
+    this.enableEquipment = false;
+    this.maneuverGuideContent = '';
+    this.data.systemId = null;
+    this.data.equipmentId = null;
+    ///////
+    this.enableEquipment = true;
+    this.data.systemId = this.fullData.equipamiento.sistema.id;
+    this.data.system = this.fullData.equipamiento.sistema.nombre;
+    this.data.equipmentId = null;
+    //////////
+    this.data.equipmentId = this.fullData.equipamiento.id;
+    this.enableComponent = true;
+    this.data.equipment =this.fullData.equipamiento.nombre;
+    ////////////
+    this.data.unitId = this.fullData.unidadMedidaId;
+    //datatypeArray esta vacio revisar
+    this.data.unit = this.fullData.unidadMedidaId;///completar
+    /////////////
+    this.data.type = this.fullData.tipoCampoRondaId; //completar
+    this.data.typeId = this.fullData.tipoCampoRondaId; //completar
+    this.data = {
+      ...this.data,
+      normalValue:this.fullData.valorNormal,
+      minValue: this.fullData.valorMin,
+      maxValue: this.fullData.valorMax,
+    };
+    /////////////////
+    this.data.name=this.fullData.nombre;
+    
+    console.log("this.data");
+    console.log(this.data);
+    
+  }
+
+
 
   async getAllData() {
     this.settings = { ...this.settings, attr: { class: 'general-table disabled' } };
@@ -241,7 +303,7 @@ export class NuevaTareaComponent implements OnInit {
     //this.isEditorCreate = true;
     //this.enableSystem = true;
     //this.enableComponent = true;
-   // this.enableEquipment = true;
+    // this.enableEquipment = true;
     //this.data.plantId = data;
     // this.data.plantId = this.plantArray.items.find(
     //   plant => plant.nombre === data.data.plant
@@ -468,7 +530,7 @@ export class NuevaTareaComponent implements OnInit {
       }
 
       if (field.roundFieldId && isDelete) {
-        await this.generalService.deleteRoundFields(dataTemplate, field.roundFieldId);
+        await this.generalService.deleteRoundFields( field.roundFieldId);
       } else if (field.roundFieldId) {
         await this.generalService.editRoundFields(dataTemplate, field.roundFieldId);
       } else {
@@ -489,16 +551,23 @@ export class NuevaTareaComponent implements OnInit {
   guardarTarea(dialog: NbDialogRef<any>): void {
     console.log("guardarTarea");
     const campRondaInfo = {
-      nombre: this.data.name,
+      nombre: this.data.name!=''?this.data.name:this.fullData.name,
       descripcion: "",
       valorNormal: this.data.normalValue,
       valorMax: this.data.maxValue,
       valorMin: this.data.minValue,
       equipamientoId: this.data.equipmentId,
       tipoCampoRondaId: this.data.typeId,
-      unidadMedidaId: -1,
+      unidadMedidaId: this.data.typeId,
     };
-    this.generalService.createRoundFields(campRondaInfo);
+    if(!this.edit){
+      console.log("guardarTarea campos")
+      console.log(campRondaInfo);
+    this.generalService.createRoundFields(campRondaInfo);}
+    if(this.edit)
+    {
+     this.generalService.editRoundFields(campRondaInfo,this.fullData.id) 
+    }
     console.log(this.fullData);
     this.router.navigate(['/pages/tarea']);
     dialog.close();
@@ -507,26 +576,26 @@ export class NuevaTareaComponent implements OnInit {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.fullData && changes.fullData.currentValue) {
-      this.roundName = this.fullData.nombre || null;
-      this.timeData.time = this.fullData.time || null;
-      this.fieldsData = this.fullData.full.fieldsData || null;
-      this.timeData = this.fullData.full.timeData || null;
-      this.tableTimeData = this.fullData.full.tableTimeData || [];
-      // tslint:disable-next-line: max-line-length
-      const {
-        obligatorioSistema = null,
-        funcionamientoSistema = null,
-        obligatorioEquipo = null,
-        funcionamientoEquipo = null
-      } = this.fullData.full.templateConfig;
-      this.obligatorioSistema = obligatorioSistema;
-      this.funcionamientoSistema = funcionamientoSistema;
-      this.obligatorioEquipo = obligatorioEquipo;
-      this.funcionamientoEquipo = funcionamientoEquipo;
-      this.templateIndex = this.fullData.index;
-      this.fullData.id = this.fullData.id || null;
-    }
+    /* if (changes.fullData && changes.fullData.currentValue) {
+       this.roundName = this.fullData.nombre || null;
+       this.timeData.time = this.fullData.time || null;
+       this.fieldsData = this.fullData.full.fieldsData || null;
+       this.timeData = this.fullData.full.timeData || null;
+       this.tableTimeData = this.fullData.full.tableTimeData || [];
+       // tslint:disable-next-line: max-line-length
+       const {
+         obligatorioSistema = null,
+         funcionamientoSistema = null,
+         obligatorioEquipo = null,
+         funcionamientoEquipo = null
+       } = this.fullData.full.templateConfig;
+       this.obligatorioSistema = obligatorioSistema;
+       this.funcionamientoSistema = funcionamientoSistema;
+       this.obligatorioEquipo = obligatorioEquipo;
+       this.funcionamientoEquipo = funcionamientoEquipo;
+       this.templateIndex = this.fullData.index;
+       this.fullData.id = this.fullData.id || null;
+     }*/
   }
 
 
