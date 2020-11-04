@@ -13,23 +13,77 @@
 </ng-container>
 
 <br><br>
+<ngb-timepicker [(ngModel)]="time"></ngb-timepicker>
 
-<br>
+
+
+<!--br>
 <div class="row col-12">
   <br><br>
   <div class="d-flex fd-c">
     <h5>Horario</h5>
     <br>
-    <ng2-smart-table [settings]="timeSetting" [source]="tableTimeData" (createConfirm)="selectTime($event, 'create')"
-      (editConfirm)="selectTime($event, 'edit')" (deleteConfirm)="selectTime($event, 'delete')">
-    </ng2-smart-table>
-    <br>
-  </div>
-  <nb-card>
+    <div>
+      <h5>Hora Inicio</h5>
+      <ngb-timepicker [(ngModel)]="horaInicio"></ngb-timepicker>
+      <hr>
+      <!--button (click)="selectTimeInicio()">agregar Hora</button-->
+      <!--ng2-smart-table [settings]="timeSetting" [source]="tableTimeData" (createConfirm)="selectTimeInicio($event, 'create')"
+        (editConfirm)="selectTime($event, 'edit')" (deleteConfirm)="selectTime($event, 'delete')">
+      </ng2-smart-table-->
+    <!--/div>
+    <div>
+      <h5>Hora Fin</h5>
+      <ngb-timepicker [(ngModel)]="horaFin"></ngb-timepicker>
+      <hr>
+      <!--ng2-smart-table [settings]="timeSetting" [source]="tableTimeData" (createConfirm)="selectTimeFin($event, 'create')"
+          (editConfirm)="selectTime($event, 'edit')" (deleteConfirm)="selectTime($event, 'delete')">
+        </ng2-smart-table-->
+    <!--/div>
     <nb-calendar [(date)]="date" (dateChange)="selectDate($event)"></nb-calendar>
-  </nb-card>
+    <br>
+    <nb-card size="small">
+      <nb-card-body>
+        <div>
+          <h5>Dias de Recurrencia</h5>
+        </div>
+        <nb-select multiple placeholder="Multiple Select" [(selected)]="selectedDia" (click)="agregarDia()">
+          <nb-option value="1">Lunes</nb-option>
+          <nb-option value="2">Martes</nb-option>
+          <nb-option value="3">Miercoles</nb-option>
+          <nb-option value="4">Jueves</nb-option>
+          <nb-option value="5">Viernes</nb-option>
+          <nb-option value="6">Sabado</nb-option>
+          <nb-option value="7">Domingo</nb-option>
+        </nb-select>
+        <div>
+          <h5>Tipo de Recurrencia</h5>
+        </div>
+        <nb-select placeholder="Multiple Select" [(selected)]="selectedRecurrencia" (click)="agregarRecurrencia()">
+          <nb-option value="1">Diaria</nb-option>
+          <nb-option value="2">Semanal</nb-option>
+          <nb-option value="3">Mensual</nb-option>
+        </nb-select>
+      </nb-card-body>
+    </nb-card>
+<button (click)="generarHorario()">crear horaio</button>
+
+
+
+  </div>
 </div>
 <br><br>
+
+
+<!--div>
+  <ngb-timepicker [(ngModel)]="time"></ngb-timepicker>
+  <ngb-timepicker [(ngModel)]="time"></ngb-timepicker>
+</div>
+  <div>
+  <nb-card>
+        <nb-calendar [(date)]="date" (dateChange)="selectDate($event)"></nb-calendar>
+      </nb-card>
+    </div-->
 <!--div class="row">
     <div class="col-12">
       <h5>Configuración</h5>
@@ -51,9 +105,6 @@
       </div>
     </div>
   </div-->
-
-
-
 
 
 <ng-template #addOrEdit let-dialog="dialogRef" let-dialogData>

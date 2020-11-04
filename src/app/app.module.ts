@@ -40,6 +40,7 @@ export function init_environment(env: EnvironmentService) {
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
+  
     ],
   bootstrap: [AppComponent],
   providers: [

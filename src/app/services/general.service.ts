@@ -11,6 +11,11 @@ export class GeneralService {
   
   //nuevo---------------------------
 
+  getHorarios():Promise<any>
+  {return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/horario/`).toPromise();}
+  
+
+
 getTareaCompleta():Promise<any>
 {return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/campos-ronda/`,{id:4}).toPromise();}
 
@@ -39,7 +44,9 @@ getTareaCompleta():Promise<any>
           "id": idB    }}).toPromise();
   }
 
-
+  createHorario(horario : any):Promise<any>{
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/horario`,horario).toPromise();
+  }
 
   //--------------------------------------
   

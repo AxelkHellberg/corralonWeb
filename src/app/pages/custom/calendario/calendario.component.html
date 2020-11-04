@@ -3,21 +3,102 @@
           <h1 class="h5">Selected date: {{ date | date }}</h1>
 
           <nb-calendar (dateChange)="selectDate($event)" [(date)]="date" showWeekNumber="true"></nb-calendar>
-     </nb-card-body>
-     <nb-card-body>
-          <label>Actividades: {{ date | date }}</label>
-     </nb-card-body>
-     <nb-card-body>
-          <label>Actividad <button nbButton>Detalles</button></label>
+
+          <nb-card size="medium">
+            <nb-card-header>
+              Horairo
+            </nb-card-header>
+            <nb-list>
+              <nb-list-item *ngFor="let horario of horariosArray">
+                {{horario.id}}
+              </nb-list-item>
+            </nb-list>
+          </nb-card>
+
+
+
 
      </nb-card-body>
-     <nb-card-body>
-          <label>Actividad  <button nbButton>Detalles</button></label>
+     
+     <nb-card>
+      <nb-card-body>
+        <nb-stepper orientation="vertical">
+          <nb-step [label]="labelRonda">
+            <ng-template #labelRonda>Ronda</ng-template>
+            <h4>Seleccionar Ronda</h4>
+           
+              
+              <nb-select id="ronda" placeholder="Ronda" [selected]="ronda">
+                <nb-option *ngFor="let item of rondaArray?.items" [value]="item?.id" (click)="selectRonda(item)">
+                  {{item?.nombre}}</nb-option>
+              </nb-select>
+            <hr>
+            <button nbButton disabled nbStepperNext>prev</button>
+            <button nbButton nbStepperNext>next</button>
+          </nb-step>
+          <nb-step [label]="labelHoraInicio">
+            <ng-template #labelHoraInicio>Horario</ng-template>
+            <h4>Hora Inicio</h4>
+           
+   
+              <ngb-timepicker [(ngModel)]="horaInicio"></ngb-timepicker>
+              <hr>
+          
+            <button nbButton nbStepperPrevious>prev</button>
+            <button nbButton nbStepperNext>next</button>
+          </nb-step>
+          <nb-step label="labelHoraFin">
+            <ng-template #labelHoraFin>Horario</ng-template>
+            <h4>Hora Fin</h4>
+           
+           <ngb-timepicker [(ngModel)]="horaFin"></ngb-timepicker>
+           <hr>
 
-     </nb-card-body>
-     <nb-card-body>
-          <label>Actividad  <button nbButton>Detalles</button></label>
+            <button nbButton nbStepperPrevious>prev</button>
+            <button nbButton nbStepperNext>next</button>
+          </nb-step>
+          <nb-step [label]="labelDias">
+            <ng-template #labelDias>Dias</ng-template>
+            <h4>Seleccione los dias</h4>
+            <nb-select multiple placeholder="Multiple Select" [(selected)]="selectedDia" (click)="agregarDia()">
+              <nb-option value="1">Lunes</nb-option>
+              <nb-option value="2">Martes</nb-option>
+              <nb-option value="3">Miercoles</nb-option>
+              <nb-option value="4">Jueves</nb-option>
+              <nb-option value="5">Viernes</nb-option>
+              <nb-option value="6">Sabado</nb-option>
+              <nb-option value="7">Domingo</nb-option>
+            </nb-select>
+            <hr>
+            <button nbButton nbStepperPrevious>prev</button>
+            <button nbButton nbStepperNext>next</button>
+          </nb-step>
+          <nb-step [label]="labelRecurrencia">
+            <ng-template #labelRecurrencia>Recurrencia</ng-template>
+            <h4>Seleccione el tipo de Recurrencia</h4>
+            
+              <nb-select placeholder="Multiple Select" [(selected)]="selectedRecurrencia" (click)="agregarRecurrencia()">
+                <nb-option value="1">Diaria</nb-option>
+                <nb-option value="2">Semanal</nb-option>
+                <nb-option value="3">Mensual</nb-option>
+              </nb-select>
+           
+            <hr>
+            <button nbButton nbStepperPrevious>prev</button>
+            <button nbButton nbStepperNext>next</button>
+          </nb-step>
+          <nb-step [label]="labelCrear">
+            <ng-template #labelCrear>Guardar</ng-template>
+            <h4>Guardar</h4>
+            <button nbButton status="primary"  (click)="generarHorario()">crear horaio</button>
+            <hr>
+            <button nbButton nbStepperPrevious>prev</button>
+            <button nbButton nbStepperNext>next</button>
+          </nb-step>
+        </nb-stepper>
+      </nb-card-body>
+    </nb-card>
 
-     </nb-card-body>
+
 
 </nb-card>

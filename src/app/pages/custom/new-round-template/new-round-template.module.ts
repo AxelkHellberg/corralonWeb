@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NewRoundTemplateComponent } from './new-round-template.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -20,6 +20,8 @@ import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
     NbCheckboxModule,
     NgbTimepickerModule,
     NbCalendarModule,
+    
+    
   ],
   declarations: [NewRoundTemplateComponent],
   providers: [NbDialogService],

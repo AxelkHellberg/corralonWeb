@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { utc } from 'moment';
 import { RoundsDetails } from '../../../@models/rounds';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
@@ -67,22 +68,23 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   rondaArray: any[];
   tareaArray: any[];
   selectTarea(item): void {
-    //console.log("this.full.data");
- 
+
+    console.log("this.full.data");
+    console.log(item);
     this.data.tareaId = item.id;
     this.data.tarea = item.nombre;
-   // this.data.rodnaID = 1;
+    // this.data.rodnaID = 1;
     console.log("this.data");
     console.log(this.data);
     console.log("item");
     console.log(item);
-    
+
   }
   selectRonda(item): void {
-    
+
     this.data.rondaId = item.id;
     this.data.ronda = item.nombre;
-   // this.data.rodnaID = 1;
+    // this.data.rodnaID = 1;
     console.log(this.data);
     console.log("this.data");
     console.log(this.data);
@@ -152,7 +154,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         type: 'text',
         width: '50px',
         min: 0,
-        max: 23
+        max: 24
       },
       minute: {
         title: 'Minuto',
@@ -212,46 +214,57 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     private router: Router,
     private dialogService: NbDialogService,
     private changeDetectorRef: ChangeDetectorRef,
-    ) {}
-    dataTarea: any[];
-    agregarTarea : boolean = false;
-    edit : boolean = false;
+  ) { }
+  dataTarea: any[];
+  agregarTarea: boolean = false;
+  edit: boolean = false;
+ /* hora: any = {
+    dias: String,
+    tiporRecurrencia: Number,
+    horaInicio: String,
+    horaFin: String,
+    fechaInicio: String,
+    fechaFin: String,
+    plantillaId: Number,
+  }*/
   ngOnInit() {
-   if(this.fullData){ console.log("this.fullData");
-    console.log(this.fullData);
-    
-    this.roundName = this.fullData.data.nombreRonda;
-  }this.getAllData();
-  this.dataTarea = this.fullData.dataFiels;
+    if (this.fullData) {
+      console.log("this.fullData");
+      console.log(this.fullData);
+
+      this.roundName = this.fullData.data.nombreRonda;
+      this.data.rondaId = this.fullData.data.id;
+    } this.getAllData();
+    this.dataTarea = this.fullData.dataFiels;
     console.log("dataTarea");
-   console.log(this.dataTarea);
+    console.log(this.dataTarea);
   }
 
   async getAllData() {
-    this.settings = {...this.settings, attr: {class: 'general-table disabled'}};
+    this.settings = { ...this.settings, attr: { class: 'general-table disabled' } };
     Promise.all([
-      
+
       this.generalService.getRondas(),
       this.generalService.getTarea(),
-    ]).then(([ronda,tarea,]) => {
-      
-      this.rondaArray=ronda;
+    ]).then(([ronda, tarea,]) => {
+
+      this.rondaArray = ronda;
       console.log("RondaArray");
       console.log(this.rondaArray);
-      this.tareaArray=tarea;
+      this.tareaArray = tarea;
       console.log("TareaArray");
       console.log(this.tareaArray);
-      
-      this.settings = {...this.settings, attr: {class: 'general-table'}};
-    }).catch(() => {});
+
+      this.settings = { ...this.settings, attr: { class: 'general-table' } };
+    }).catch(() => { });
   }
 
-  
+
 
 
   createTemplate() {
     this.isEditorCreate = true;
-    this.agregarTarea=true;
+    this.agregarTarea = true;
     this.dialogService.open(this.addOrEditTemplate, {
       context: 'Añadir Elemento',
       closeOnBackdropClick: false,
@@ -263,7 +276,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     console.log("editTemplate");
     this.data.tareaId = data.data.id;
     console.log(this.data.tareaId);
-    
+
     /*this.data = data.data;
     this.currentIndex = data.index;
     this.isEditorCreate = true;
@@ -296,40 +309,86 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.fieldsData = [...this.fieldsData];
   }
 
- 
-  selectTime(data: any, action?: string): void {
-    data.confirm.resolve();
-    let _data = data.newData || data.data;
 
-    if (action === 'delete') {
-      const deleteIndex = this.tableTimeData.indexOf(_data);
-      this.tableTimeData.splice(deleteIndex, 1);
+ /* horaInicio: any;
+  horaFin: any;
+
+  selectTimeInicio(): void {
+    console.log(this.horaInicio)
+    let moment = require("moment");
+    let horaInicio = moment(this.horaInicio.hour, 'HH').format('HH');
+    let minInicio = moment(this.horaInicio.minute, 'MM').format('MM');
+    this.hora = {
+      ...this.hora,
+      horaInicio: horaInicio.toString(10) + ":" + minInicio.toString(10),
+
+
     }
-    setTimeout(() => {
-      this.timeData.timer = new Set();
-      for (let i = 0; i < this.tableTimeData.length; i++) {
-        this.tableTimeData[i].hour =
-          this.tableTimeData[i].hour.replace(/\D/g, '') > 24
-            ? '24'
-            : this.tableTimeData[i].hour.replace(/\D/g, '');
-        this.tableTimeData[i].minute =
-          this.tableTimeData[i].minute.replace(/\D/g, '') > 59
-            ? '59'
-            : this.tableTimeData[i].minute.replace(/\D/g, '');
-        this.timeData.timer.add(
-          `${this.tableTimeData[i].hour}:${this.tableTimeData[i].minute}`
-        );
-      }
-      this.timeData.time = Array.from(this.timeData.timer).join(' - ');
-      console.log(
-        data,
-        this.tableTimeData,
-        this.timeData.timer,
-        this.timeData.time
-      );
-    }, 200);
+    console.log(this.hora);
   }
 
+  selectTimeFin(): void {
+
+    console.log(this.horaFin);
+    let moment = require("moment");
+    let horaFin = moment(this.horaFin.hour, 'HH').format('HH');
+    let minFin = moment(this.horaFin.minute, 'MM').format('MM');
+    this.hora = {
+      ...this.hora,
+      horaFin: horaFin.toString(10) + ":" + minFin.toString(10),
+
+
+    }
+    console.log(this.hora);
+  }
+  selectedDia = [];
+  selectedRecurrencia = [];
+
+
+  agregarDia() {
+    console.log("funcionanado");
+    console.log(this.selectedDia);
+  }
+
+  agregarRecurrencia() {
+    console.log("funcionanado");
+    console.log(this.selectedRecurrencia);
+  }*/
+
+  /*
+   selectTime(data: any, action?: string): void {
+     data.confirm.resolve();
+     let _data = data.newData || data.data;
+ 
+     if (action === 'delete') {
+       const deleteIndex = this.tableTimeData.indexOf(_data);
+       this.tableTimeData.splice(deleteIndex, 1);
+     }
+     setTimeout(() => {
+       this.timeData.timer = new Set();
+       for (let i = 0; i < this.tableTimeData.length; i++) {
+         this.tableTimeData[i].hour =
+           this.tableTimeData[i].hour.replace(/\D/g, '') > 24
+             ? '24'
+             : this.tableTimeData[i].hour.replace(/\D/g, '');
+         this.tableTimeData[i].minute =
+           this.tableTimeData[i].minute.replace(/\D/g, '') > 59
+             ? '59'
+             : this.tableTimeData[i].minute.replace(/\D/g, '');
+         this.timeData.timer.add(
+           `${this.tableTimeData[i].hour}:${this.tableTimeData[i].minute}`
+         );
+       }
+       this.timeData.time = Array.from(this.timeData.timer).join(' - ');
+       console.log(
+         data,
+         this.tableTimeData,
+         this.timeData.timer,
+         this.timeData.time
+       );
+     }, 200);
+   }
+ */
   selectFirstItem(data, filterProperty, filterValue): string {
     console.log("selectFristItem")
     const filteredData = data.selectItems.find(
@@ -342,17 +401,21 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 
 
   async saveChanges(dialog: NbDialogRef<any>) {
-   console.log("saveChages");
-   if(this.agregarTarea){
-    //console.log(this.fullData); 
-    this.generalService.createRonda(this.data.tareaId,this.fullData.data.id);
-   }
-   else{
-     if(this.edit){
-       //elimino la tarea y agrego la nueva
-     }
-   }
-   
+    console.log("saveChages");
+    console.log(dialog);
+    if (this.agregarTarea) {
+      if (this.fullData) {
+
+        this.generalService.createRonda(this.data.tareaId, this.fullData.data.id);
+      }
+      //console.log(this.fullData); 
+    }
+    else {
+      if (this.edit) {
+        //elimino la tarea y agrego la nueva
+      }
+    }
+
     /* this.disableAll();
     if (!this.fieldsData) this.fieldsData = [];
     if (this.currentIndex != null) {
@@ -365,37 +428,77 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       this.fieldsData = [...this.fieldsData, ...[this.data]];
     }
     this.currentIndex = null;*/
-    
-    
-   /* console.log("this.data");
-    this.data.nombre=this.roundName;
-    if(this.fullData != null)this.data.rondaId=this.fullData.data.id;
-    console.log(this.data);
-    
-    this.generalService.createRonda(this.data.nombre,this.data.rondaId);*/
-    
+
+
+    /* console.log("this.data");
+     this.data.nombre=this.roundName;
+     if(this.fullData != null)this.data.rondaId=this.fullData.data.id;
+     console.log(this.data);
+     
+     this.generalService.createRonda(this.data.nombre,this.data.rondaId);*/
+
     dialog.close();
     this.agregarTarea = false;
   }
 
   async saveTemplate() {
-    let res =  await this.generalService.createRoundTemplate(this.roundName);
-    this.data.rondaId = res.id;
+    let res;
+    if (!this.fullData) {
+      res = await this.generalService.createRoundTemplate(this.roundName);
+      this.data.rondaId = res.id;
+    }
+   // this.selectTimeInicio();
+   // this.selectTimeFin();
+    //let dias = "";
+   // this.selectedDia.forEach(dia => { dias = dias = '' ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
+
+   // console.log("dias");
+   // console.log(dias);
+   // this.hora = {
+   //   ...this.hora,
+   //   dias: dias,
+  //    tipoRecurrencia: this.selectedRecurrencia,
+  //    fechaInicio: this.dia,
+  //    fechaFin: this.dia,
+  //    plantillaId: this.data.rondaId
+  //  }
+  //  this.generalService.createHorario(this.hora);
     console.log("this.data");
     console.log(this.data);
     this.router.navigate(['/pages/round-template']);
-    this.onSave.emit({rondaId: this.data.rondaId ,
-      tareaId:this.data.tareaId,
-    
+    this.onSave.emit({
+      rondaId: this.data.rondaId,
+      tareaId: this.data.tareaId,
+
     });
-    
+
   }
 
- 
-  selectDate(fecha: Date){
-    console.log("fecha: ");
-    console.log(fecha.getUTCDay(), fecha.getUTCMonth(), fecha.getUTCFullYear() );
+ /*  generarHorario() {
+   // this.selectTimeInicio();
+    //this.selectTimeFin();
+    //let dias = "";
+    //this.selectedDia.forEach(dia => { dias = dias = '' ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
+
+/*this.hora = {
+      dias: "1,2,3",
+      tipoRecurrencia: 0,
+      horaInicio: "08:00",
+      horaFin: "10:00",
+      fechaInicio: "2020-10-22:00:00.0",
+      fechaFin: "2020-10-22:00:00.00",
+      plantillaId: 139
+    }
+    console.log(this.hora);
+    this.generalService.createHorario(this.hora);
   }
+
+   dia = "";
+  selectDate(fecha: Date) {
+    console.log("fecha: ");
+    this.dia= fecha.getFullYear().toString()+"-"+((fecha.getMonth()<10)?("0"+fecha.getMonth().toString()):fecha.getMonth().toString())+"-"+((fecha.getDay()<10)?("0"+fecha.getDay().toString()):fecha.getDay().toString())+":00:00.00";
+    console.log(this.dia);
+  }*/
 
 
   changeField(e, a) {

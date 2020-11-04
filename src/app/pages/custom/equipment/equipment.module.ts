@@ -9,6 +9,7 @@ import { AssociateElementsModule } from '../system-list/associate-elements/assoc
     CommonModule,
     AssociateElementsModule,
     Ng2SmartTableModule,
+    
   ],
   declarations: [EquipmentComponent],
   exports: [EquipmentComponent],
