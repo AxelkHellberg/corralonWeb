@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component,  OnInit, } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {  NbDialogService } from '@nebular/theme';
+import { NbDialogService } from '@nebular/theme';
+import { SmartTableSettings } from '../../../@models/smart-table';
 
 import { GeneralService } from '../../../services/general.service';
-
 
 
 
@@ -38,19 +38,18 @@ export class CalendarioComponent implements OnInit {
     private router: Router,
     private dialogService: NbDialogService,
     private changeDetectorRef: ChangeDetectorRef,) {
-    
+
   }
 
   async ngOnInit() {
-    this.getAllData();
-    this.selectDate(new Date());
-    const res = await this.generalService.getHorarios();
-    this.horariosArray = res.items;
-    console.log("Horarios");
-    console.log(this.horariosArray);
-  
+   await this.getAllData();
+    //this.selectDate(new Date());
+    //this.filtrarFechas(new Date());
+    
+
+
   }
-  
+
 
 
 
@@ -92,30 +91,30 @@ export class CalendarioComponent implements OnInit {
     }
     console.log(this.hora);
   }
-  ronda : any;
-selectRonda(item : any){
-  console.log("selectRonda");
-  console.log(item);
-  this.ronda= item.id;
-}
+  ronda: any;
+  selectRonda(item: any) {
+    console.log("selectRonda");
+    console.log(item);
+    this.ronda = item.id;
+  }
 
 
 
   dia = "";
   generarHorario() {
-     this.selectTimeInicio();
-     this.selectTimeFin();
-     let dias = "";
-     this.selectedDia.forEach(dia => { dias = dias == "" ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
-     this.hora = {
-           ...this.hora,
-           dias: dias,
-           tipoRecurrencia: this.selectedRecurrencia,
-           fechaInicio: this.dia,
-           fechaFin: this.dia,
-           plantillaId: this.ronda,
-         }
-    
+    this.selectTimeInicio();
+    this.selectTimeFin();
+    let dias = "";
+    this.selectedDia.forEach(dia => { dias = dias == "" ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
+    this.hora = {
+      ...this.hora,
+      dias: dias,
+      tipoRecurrencia: this.selectedRecurrencia,
+      fechaInicio: this.dia,
+      fechaFin: this.dia,
+      plantillaId: this.ronda,
+    }
+
     console.log(this.hora);
     this.generalService.createHorario(this.hora);
   }
@@ -124,24 +123,107 @@ selectRonda(item : any){
   async getAllData() {
     Promise.all([
       this.generalService.getRondas(),
-      
+      this.generalService.getHorarios(),
+
 
     ]).then(([ronda, horarios,]) => {
-
+      this.horariosArray = horarios.items;
+      console.log("horariosArray");
+      console.log(this.horariosArray);
       this.rondaArray = ronda.items;
       console.log("RondaArray");
       console.log(this.rondaArray);
-     
+      let cont = 0;
+      this.horariosArray.forEach(hora => {
   
+        this.rondaArray.forEach(ronda => {
+          if (hora.plantillaId == ronda.id) {
+            console.log("ronda = hora");
+            this.horariosArray[cont] = {
+              ...this.horariosArray[cont],
+              nombreRonda: ronda.nombre
+            }
+          }
+  
+        });
+        cont += 1;
+      });
+
+
     }).catch(() => { });
+   
 
   }
- 
+
   selectDate(fecha: Date) {
     console.log("fecha: ");
-    this.dia= fecha.getFullYear().toString()+"-"+((fecha.getMonth()<10)?("0"+fecha.getMonth().toString()):fecha.getMonth().toString())+"-"+((fecha.getDay()<10)?("0"+fecha.getDay().toString()):fecha.getDay().toString())+":00:00.00";
+    this.dia = this.formatoFecha(fecha);
     console.log(this.dia);
   }
+
+
+  formatoFecha(fecha: Date): any {
+
+    return fecha.getFullYear().toString() + "-" + ((fecha.getMonth() < 10) ? ("0" + fecha.getMonth().toString()) : fecha.getMonth().toString()) + "-" + ((fecha.getDate() < 10) ? ("0" + fecha.getDate().toString()) : fecha.getDate().toString()) + "T" + ":00:00:00.000Z";
+
+  }
+
+  settings: SmartTableSettings = {
+    noDataMessage: '',
+    mode: 'external',
+    attr: {
+      class: 'general-table'
+    },
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>'
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>'
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>'
+    },
+    columns: {
+      nombreRonda: {
+        title: 'Ronda',
+        type: 'text',
+        width: '300px'
+      },
+      horaInicio: {
+        title: 'Hora Inicio',
+        type: 'text',
+        width: '300px'
+      },
+      horaFin: {
+        title: 'Hora Fin',
+        type: 'text',
+        width: '300px'
+      },
+    }
+  };
+
+
+  horariosFiltrados: any[];
+  filtrarFechas(date: any) {
+    console.log(date);
+    if (date) {
+      this.horariosFiltrados = this.horariosArray;
+    } else {
+      let fecha = this.formatoFecha(date);
+
+      this.horariosArray.forEach(horario => {
+        if (horario.fechaInicio == fecha) {
+          this.horariosFiltrados = this.horariosFiltrados.concat(horario);
+        }
+      });
+    }
+  }
+
+
 
 }
 

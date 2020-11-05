@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbCalendarModule, NbListModule, NbStepperModule } from '@nebular/theme';
+import { NbCalendarModule, NbListModule, NbStepperModule,NbDatepickerModule } from '@nebular/theme';
 import { CalendarioComponent } from './calendario.component';
 import { NbSelectModule, NbButtonModule, NbInputModule, NbCheckboxModule, NbDialogModule, NbCardModule } from '@nebular/theme';
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 
 @NgModule({
@@ -21,6 +22,10 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     NbStepperModule,
     NbListModule,
+    Ng2SmartTableModule,
+    ReactiveFormsModule,
+    NbDatepickerModule,
+
 
   ],
   declarations: [CalendarioComponent],
