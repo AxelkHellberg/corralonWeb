@@ -42,10 +42,11 @@ export class CalendarioComponent implements OnInit {
   }
 
   async ngOnInit() {
-   await this.getAllData();
+    await this.getAllData();
+  
     //this.selectDate(new Date());
     //this.filtrarFechas(new Date());
-    
+
 
 
   }
@@ -92,10 +93,10 @@ export class CalendarioComponent implements OnInit {
     console.log(this.hora);
   }
   ronda: any;
-  selectRonda(item: any) {
+  selectRonda(item:any) {
     console.log("selectRonda");
-    console.log(item);
-    this.ronda = item.id;
+    console.log(item.data);
+    this.ronda = item.data.id;
   }
 
 
@@ -135,23 +136,25 @@ export class CalendarioComponent implements OnInit {
       console.log(this.rondaArray);
       let cont = 0;
       this.horariosArray.forEach(hora => {
-  
+
         this.rondaArray.forEach(ronda => {
           if (hora.plantillaId == ronda.id) {
             console.log("ronda = hora");
             this.horariosArray[cont] = {
               ...this.horariosArray[cont],
-              nombreRonda: ronda.nombre
+              nombreRonda: ronda.nombre,
+              fecha: (new Date(this.horariosArray[cont].fechaInicio)).getUTCDate()+'-'+((new Date(this.horariosArray[cont].fechaInicio)).getMonth()+1) +'-'+(new Date(this.horariosArray[cont].fechaInicio)).getUTCFullYear(),
             }
           }
-  
+
         });
         cont += 1;
       });
-
-
+      
+      
     }).catch(() => { });
-   
+    
+    
 
   }
 
@@ -164,7 +167,7 @@ export class CalendarioComponent implements OnInit {
 
   formatoFecha(fecha: Date): any {
 
-    return fecha.getFullYear().toString() + "-" + ((fecha.getMonth() < 10) ? ("0" + fecha.getMonth().toString()) : fecha.getMonth().toString()) + "-" + ((fecha.getDate() < 10) ? ("0" + fecha.getDate().toString()) : fecha.getDate().toString()) + "T" + ":00:00:00.000Z";
+    return fecha.getFullYear().toString() + "-" + (((fecha.getUTCMonth()+1) < 10) ? ("0" + fecha.getMonth().toString()) : fecha.getMonth().toString()) + "-" + ((fecha.getDate() < 10) ? ("0" + fecha.getDate().toString()) : fecha.getDate().toString()) + "T" + "00:00:00.000Z";
 
   }
 
@@ -203,25 +206,69 @@ export class CalendarioComponent implements OnInit {
         type: 'text',
         width: '300px'
       },
+      fecha: {
+        title: 'Fecha',
+        type: 'text',
+        width: '300px'
+      },
     }
   };
 
 
   horariosFiltrados: any[];
-  filtrarFechas(date: any) {
-    console.log(date);
-    if (date) {
-      this.horariosFiltrados = this.horariosArray;
-    } else {
-      let fecha = this.formatoFecha(date);
+  async filtrarFechas(date: any) {
+    console.log("date");
+    console.log(date.getMonth());
+    console.log(date.getMonth());
 
+    await this.getAllData();
+
+    if (date) {
+      let fecha = this.formatoFecha(date);
+      console.log(fecha);
       this.horariosArray.forEach(horario => {
         if (horario.fechaInicio == fecha) {
           this.horariosFiltrados = this.horariosFiltrados.concat(horario);
         }
       });
+      this.horariosArray = this.horariosFiltrados
     }
+
+
   }
+
+
+  setingsRonda: SmartTableSettings = {
+    noDataMessage: '',
+    mode: 'external',
+    actions: false,
+    attr: {
+      class: 'general-table'
+    },
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>'
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>'
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>'
+    },
+    columns: {
+      nombre: {
+        title: 'Ronda',
+        type: 'text',
+        width: '300px'
+    },
+
+  }
+  };
+
+
 
 
 

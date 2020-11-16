@@ -17,11 +17,11 @@ export class GeneralService {
 
 
 getTareaCompleta():Promise<any>
-{return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/campos-ronda/`,{id:4}).toPromise();}
+{return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/campos-ronda`,{id:4}).toPromise();}
 
 
   getTarea(): Promise<any>{
-    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/`).toPromise();
+    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda`).toPromise();
   }
 
   createRonda(tareaId: any, rondaId: any):Promise<any>{
@@ -140,7 +140,7 @@ getTareaCompleta():Promise<any>
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-guias-maniobra/${id}`, { nombre }).toPromise();
   }
   getManeuverGuide(): Promise<any> {
-    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/guias-maniobra/?order=["id","DESC"]`).toPromise();
+    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/guias-maniobra/`).toPromise();//?order=["id","DESC"]
   }
   deleteManeuverGuideTemplate(id: number): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-guias-maniobra/${id}`).toPromise();
@@ -202,7 +202,7 @@ getTareaCompleta():Promise<any>
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/rondas/`, roundData).toPromise();
   }
   getRounds(): Promise<any> {
-    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/rondas/?order=["id","DESC"]`).toPromise();
+    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/rondas/`).toPromise();//?order=["id","DESC"]
   }
   getRoundsStatus(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/estados-ronda/`).toPromise();

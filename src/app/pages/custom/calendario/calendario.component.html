@@ -1,14 +1,14 @@
 <nb-card>
   <nb-card-body>
-    <h1 class="h5">Selected date: {{ date | date }}</h1>
+    <!--h1 class="h5">Selected date: {{ date | date }}</h1-->
 
 
-    <nb-card >
+    <!--nb-card >
       <nb-card-body>
         <input nbInput placeholder="Pick Date" [nbDatepicker]="dateTimePicker" >
         <nb-datepicker #dateTimePicker (dateChange)="filtrarFechas($event)"></nb-datepicker>
       </nb-card-body>
-    </nb-card>
+    </nb-card-->
 
     <nb-card size="medium">
       <nb-card-header>
@@ -30,30 +30,6 @@
   <nb-card>
     <nb-card-body>
       <nb-stepper orientation="vertical">
-        <nb-step [label]="labelRonda">
-          <ng-template #labelRonda>Ronda</ng-template>
-          <h4>Seleccionar Ronda</h4>
-
-
-          <nb-select id="ronda" placeholder="Ronda" [selected]="ronda">
-            <nb-option *ngFor="let item of rondaArray" [value]="item?.id" (click)="selectRonda(item)">
-              {{item?.nombre}}</nb-option>
-          </nb-select>
-          <hr>
-          <button nbButton disabled nbStepperNext>prev</button>
-          <button nbButton nbStepperNext>next</button>
-        </nb-step>
-        <nb-step [label]="labelHoraInicio">
-          <ng-template #labelHoraInicio>Horario</ng-template>
-          <h4>Hora Inicio</h4>
-
-
-          <ngb-timepicker [(ngModel)]="horaInicio"></ngb-timepicker>
-          <hr>
-
-          <button nbButton nbStepperPrevious>prev</button>
-          <button nbButton nbStepperNext>next</button>
-        </nb-step>
         <nb-step [label]="labelFecha">
           <ng-template #labelFecha>Fecha</ng-template>
           <h4>Seleccione la fecha del eveneto</h4>
@@ -64,17 +40,47 @@
           <nb-calendar (dateChange)="selectDate($event)" [(date)]="date" showWeekNumber="true"></nb-calendar>
 
           <button nbButton nbStepperPrevious>prev</button>
-          <button nbButton nbStepperNext>next</button>
+          <button *ngIf="!dia" disabled=true nbButton nbStepperNext>next</button>
+          <button *ngIf="dia" nbButton nbStepperNext>next</button>
         </nb-step>
-        <nb-step label="labelHoraFin">
-          <ng-template #labelHoraFin>Horario</ng-template>
-          <h4>Hora Fin</h4>
+        <nb-step [label]="labelHoraInicio">
+          <ng-template #labelHoraInicio>Horario Inicio</ng-template>
+          <h4>Hora Inicio</h4>
 
+
+          <ngb-timepicker [(ngModel)]="horaInicio"></ngb-timepicker>
+          <hr>
+
+          <button nbButton nbStepperPrevious>prev</button>
+          <button *ngIf="!horaInicio" disabled=true nbButton nbStepperNext>next</button>
+          <button *ngIf="horaInicio" nbButton nbStepperNext>next</button>
+        </nb-step>
+        <nb-step [label]="labelHoraFin">
+          <ng-template #labelHoraFin>Horario Fin</ng-template>
+          <h4>Hora Fin</h4>
+          
           <ngb-timepicker [(ngModel)]="horaFin"></ngb-timepicker>
           <hr>
 
           <button nbButton nbStepperPrevious>prev</button>
-          <button nbButton nbStepperNext>next</button>
+          <button *ngIf="!horaFin" disabled=true nbButton nbStepperNext>next</button>
+          <button *ngIf="horaFin" nbButton nbStepperNext>next</button>
+        </nb-step>
+       
+          <nb-step [label]="labelRonda">
+            <ng-template #labelRonda>Ronda</ng-template>
+            <h4>Seleccionar Ronda</h4>
+            
+            <ng2-smart-table [settings]="setingsRonda" [source]="rondaArray" (create)="createTemplate()"
+            (edit)="editTemplate($event)" (delete)="deleteTemplate($event)"  (userRowSelect)="selectRonda($event)"></ng2-smart-table>
+  
+            <nb-select id="ronda" placeholder="Ronda" [selected]="ronda">
+              <nb-option *ngFor="let item of rondaArray" [value]="item?.id" (click)="selectRonda(item)">
+                {{item?.nombre}}</nb-option>
+            </nb-select>
+            <hr>
+            <button *ngIf=ronda nbButton nbStepperNext>next</button>
+            <button *ngIf=!ronda nbButton disabled=true nbStepperNext>next</button>
         </nb-step>
         <nb-step [label]="labelDias">
           <ng-template #labelDias>Dias</ng-template>
@@ -109,10 +115,10 @@
         <nb-step [label]="labelCrear">
           <ng-template #labelCrear>Guardar</ng-template>
           <h4>Guardar</h4>
-          <button nbButton status="primary" (click)="generarHorario()">crear horaio</button>
+          <button nbButton status="primary" (click)="generarHorario()">Guardar</button>
           <hr>
           <button nbButton nbStepperPrevious>prev</button>
-          <button nbButton nbStepperNext>next</button>
+          
         </nb-step>
       </nb-stepper>
     </nb-card-body>

@@ -44,7 +44,22 @@ export class TareaComponent implements OnInit {
     },
     columns: {
       nombre: {
-        title: 'Nombre de Ronda',
+        title: 'Nombre de Tarea',
+        type: 'text',
+        width: '200px'
+      },
+      equipamientoId: {
+        title: 'equipamiento',
+        type: 'text',
+        width: '200px'
+      },
+      descripcion: {
+        title: 'Descripcion',
+        type: 'text',
+        width: '200px'
+      },
+      unidadMedidaId: {
+        title: 'Unidad De Medida',
         type: 'text',
         width: '200px'
       },
@@ -186,11 +201,18 @@ export class TareaComponent implements OnInit {
       await this.generalService.createRoundFields(dataTemplate);
     });
   }
-
+dataCompleta : any[];
   async getTareas() {
     const response = await this.generalService.getTarea();
     this.data = response.items;
     console.log(this.data);
+    let res;
+
+    res= await this.generalService.getTareaCompleta();
+    
+    this.dataCompleta = res.items;
+  console.log(this.dataCompleta);
+    
   }
 
 
@@ -204,6 +226,7 @@ export class TareaComponent implements OnInit {
   }
   async ngOnInit() {
     this.getTareas();
+    
     //this.getFieldsRoundTemplate();
     //console.log("data");
     //console.log(this.data);

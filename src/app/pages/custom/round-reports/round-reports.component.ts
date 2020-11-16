@@ -108,6 +108,7 @@ export class RoundReportsComponent implements OnInit {
   }
 
   selectItem({data}) {
+    console.log(data);
     this.selectedItem = data;
     this.showDetail = true;
   }

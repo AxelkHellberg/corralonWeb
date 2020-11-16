@@ -37,10 +37,12 @@ export function init_environment(env: EnvironmentService) {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    
 
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
+    NbDatepickerModule.forRoot(),
     NbDatepickerModule.forRoot(),
   
     ],

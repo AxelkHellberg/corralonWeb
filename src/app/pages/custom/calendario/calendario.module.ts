@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 
+
+
 @NgModule({
 
   imports: [NbCalendarModule,
@@ -25,6 +27,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     Ng2SmartTableModule,
     ReactiveFormsModule,
     NbDatepickerModule,
+   
+    
 
 
   ],

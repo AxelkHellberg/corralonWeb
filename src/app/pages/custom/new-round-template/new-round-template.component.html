@@ -13,7 +13,7 @@
 </ng-container>
 
 <br><br>
-<ngb-timepicker [(ngModel)]="time"></ngb-timepicker>
+<!--ngb-timepicker [(ngModel)]="time"></ngb-timepicker-->
 
 
 
@@ -124,10 +124,17 @@
 
         <div class="col-9">
           <label class="label" for="plant">Tarea</label>
-          <nb-select id="tarea" placeholder="Tarea" [selected]="data.tareaId">
+
+
+          <ng2-smart-table [settings]="setingsTarea" [source]="tareaArray?.items" (userRowSelect)="selectTarea($event)"></ng2-smart-table>
+
+
+          <!--nb-select id="tarea" placeholder="Tarea" [selected]="data.tareaId">
             <nb-option *ngFor="let item of tareaArray?.items" [value]="item?.id" (click)="selectTarea(item)">
               {{item?.nombre}}</nb-option>
-          </nb-select>
+          </nb-select-->
+
+
         </div>
 
         <!--div class="col-6">

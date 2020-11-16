@@ -77,7 +77,7 @@ export class TagSystemComponent implements OnInit {
           }
         }
       },
-      obligatorio: {
+     /* obligatorio: {
         title: 'Obligatorio',
         type: 'text',
         width: '150px',
@@ -96,7 +96,7 @@ export class TagSystemComponent implements OnInit {
             ]
           }
         }
-      }
+      }*/
     }
   };
 

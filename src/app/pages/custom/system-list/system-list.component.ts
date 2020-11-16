@@ -47,7 +47,7 @@ export class SystemListComponent implements OnInit {
         type: 'text',
       },
       tipoSistema: {
-        title: 'Tipo de Sistema',
+        title: 'Subsistema',
         type: 'text',
       },
       descripcion: {

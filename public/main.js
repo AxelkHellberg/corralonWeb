@@ -5455,6 +5455,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_general_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./services/general.service */ "./src/app/services/general.service.ts");
 /* harmony import */ var _services_message_bus_service__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./services/message-bus.service */ "./src/app/services/message-bus.service.ts");
 /* harmony import */ var _services_environment_service__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./services/environment.service */ "./src/app/services/environment.service.ts");
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @nebular/theme */ "./node_modules/@nebular/theme/index.js");
 
 
 
@@ -5464,6 +5465,7 @@ __webpack_require__.r(__webpack_exports__);
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
+
 
 
 
@@ -5494,6 +5496,8 @@ var AppModule = /** @class */ (function () {
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_13__["NgbModule"].forRoot(),
                 _theme_theme_module__WEBPACK_IMPORTED_MODULE_12__["ThemeModule"].forRoot(),
                 _core_core_module__WEBPACK_IMPORTED_MODULE_9__["CoreModule"].forRoot(),
+                _nebular_theme__WEBPACK_IMPORTED_MODULE_17__["NbDatepickerModule"].forRoot(),
+                _nebular_theme__WEBPACK_IMPORTED_MODULE_17__["NbDatepickerModule"].forRoot(),
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"]],
             providers: [
@@ -5711,9 +5715,10 @@ var GeneralService = /** @class */ (function () {
         this.http = http;
     }
     //nuevo---------------------------
-    GeneralService.prototype.getTareaCompleta = function () { return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/campos-ronda/", { id: 4 }).toPromise(); };
+    GeneralService.prototype.getHorarios = function () { return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/horario/").toPromise(); };
+    GeneralService.prototype.getTareaCompleta = function () { return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/campos-ronda", { id: 4 }).toPromise(); };
     GeneralService.prototype.getTarea = function () {
-        return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/campos-ronda/").toPromise();
+        return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/campos-ronda").toPromise();
     };
     GeneralService.prototype.createRonda = function (tareaId, rondaId) {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/enlace-tarea-plantilla", { campoRondaId: tareaId, plantillaRondaId: rondaId }).toPromise();
@@ -5731,6 +5736,9 @@ var GeneralService = /** @class */ (function () {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/plantillas-con-camposronda", { "id": 0, "filters": {
                 "id": idB
             } }).toPromise();
+    };
+    GeneralService.prototype.createHorario = function (horario) {
+        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/horario", horario).toPromise();
     };
     //--------------------------------------
     GeneralService.prototype.getRoundsQuantity = function (tipo) {
@@ -5825,7 +5833,7 @@ var GeneralService = /** @class */ (function () {
         return this.http.patch(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-guias-maniobra/" + id, { nombre: nombre }).toPromise();
     };
     GeneralService.prototype.getManeuverGuide = function () {
-        return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/guias-maniobra/?order=[\"id\",\"DESC\"]").toPromise();
+        return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/guias-maniobra/").toPromise(); //?order=["id","DESC"]
     };
     GeneralService.prototype.deleteManeuverGuideTemplate = function (id) {
         return this.http.delete(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-guias-maniobra/" + id).toPromise();
@@ -5867,7 +5875,7 @@ var GeneralService = /** @class */ (function () {
     GeneralService.prototype.editRoundFields = function (roundFieldsData, id) {
         return this.http.patch(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/campos-ronda/" + id, roundFieldsData).toPromise();
     };
-    GeneralService.prototype.deleteRoundFields = function (roundFieldsData, id) {
+    GeneralService.prototype.deleteRoundFields = function (id) {
         return this.http.delete(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/campos-ronda/" + id).toPromise();
     };
     GeneralService.prototype.createRoundTemplate = function (roundTemplateData) {
@@ -5886,7 +5894,7 @@ var GeneralService = /** @class */ (function () {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/rondas/", roundData).toPromise();
     };
     GeneralService.prototype.getRounds = function () {
-        return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/rondas/?order=[\"id\",\"DESC\"]").toPromise();
+        return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/rondas/").toPromise(); //?order=["id","DESC"]
     };
     GeneralService.prototype.getRoundsStatus = function () {
         return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/estados-ronda/").toPromise();

@@ -70,14 +70,14 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   selectTarea(item): void {
 
     console.log("this.full.data");
-    console.log(item);
-    this.data.tareaId = item.id;
-    this.data.tarea = item.nombre;
+    console.log(item.data);
+    this.data.tareaId = item.data.id;
+    this.data.tarea = item.data.nombre;
     // this.data.rodnaID = 1;
     console.log("this.data");
     console.log(this.data);
     console.log("item");
-    console.log(item);
+    console.log(item.data);
 
   }
   selectRonda(item): void {
@@ -591,4 +591,39 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       this.fullData.id = this.fullData.id || null;
     }
   }
+
+
+
+  setingsTarea: SmartTableSettings = {
+    noDataMessage: '',
+    mode: 'external',
+    actions: false,
+    attr: {
+      class: 'general-table'
+    },
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>'
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>'
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>'
+    },
+    columns: {
+      nombre: {
+        title: 'Ronda',
+        type: 'text',
+        width: '300px'
+    },
+
+  }
+  };
+
+
+
 }
