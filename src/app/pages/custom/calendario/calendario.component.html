@@ -112,6 +112,18 @@
           <button nbButton nbStepperPrevious>prev</button>
           <button nbButton nbStepperNext>next</button>
         </nb-step>
+        <nb-step [label]="labelUsuario">
+          <ng-template #labelUsuario>Usuario</ng-template>
+          <h4>Seleccione Usuario</h4>
+          <nb-select id="usuario" placeholder="Usuario" [selected]="Usuario">
+            <nb-option *ngFor="let item of usuariosArray" [value]="item?.id" (click)="selectUsuario(item)">
+              {{item?.name}}</nb-option>
+          </nb-select>
+
+          <hr>
+          <button nbButton nbStepperPrevious>prev</button>
+          <button nbButton nbStepperNext>next</button>
+        </nb-step>
         <nb-step [label]="labelCrear">
           <ng-template #labelCrear>Guardar</ng-template>
           <h4>Guardar</h4>

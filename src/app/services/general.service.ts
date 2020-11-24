@@ -8,55 +8,60 @@ import { EnvironmentService } from './environment.service';
 })
 export class GeneralService {
   constructor(private http: HttpClient) { }
-  
+
   //nuevo---------------------------
 
-  getHorarios():Promise<any>
-  {return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/horario/`).toPromise();}
-  
+  getHorarios(): Promise<any> { return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/horario/`).toPromise(); }
+
+  createHorariosUsuarios(horarioId: any, usuarioId: any): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-horario-usuario`, { "horarioId": horarioId, "userId": usuarioId }).toPromise(); }
 
 
-getTareaCompleta():Promise<any>
-{return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/campos-ronda`,{id:4}).toPromise();}
+  getHorariosUsuaruios(): Promise<any> { return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-horario-usuario`).toPromise(); }
 
 
-  getTarea(): Promise<any>{
+  getTareaCompleta(): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/campos-ronda`, { id: 4 }).toPromise(); }
+
+
+  getTarea(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda`).toPromise();
   }
 
-  createRonda(tareaId: any, rondaId: any):Promise<any>{
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-tarea-plantilla`,{campoRondaId:tareaId , plantillaRondaId:rondaId }).toPromise();
+  createRonda(tareaId: any, rondaId: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-tarea-plantilla`, { campoRondaId: tareaId, plantillaRondaId: rondaId }).toPromise();
   }
 
 
-  getRondas(): Promise <any>{
+  getRondas(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda`).toPromise();
   }
 
-  getGuiaManiobraCampos(Guia : any): Promise <any>{
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`,Guia).toPromise();
+  getGuiaManiobraCampos(Guia: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`, Guia).toPromise();
   }
-  getRondasCompletas(): Promise <any>{
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/plantillas-con-camposronda`,{"id": 4,"filters":{}}).toPromise();
+  getRondasCompletas(): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/plantillas-con-camposronda`, { "id": 4, "filters": {} }).toPromise();
   }
-  getRondasCompletas1(idB : any): Promise <any>{
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/plantillas-con-camposronda`,{"id": 0,"filters":{
-          "id": idB    }}).toPromise();
+  getRondasCompletas1(idB: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/plantillas-con-camposronda`, {
+      "id": 0, "filters": {
+        "id": idB
+      }
+    }).toPromise();
   }
 
-  createHorario(horario : any):Promise<any>{
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/horario`,horario).toPromise();
+  createHorario(horario: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/horario`, horario).toPromise();
   }
 
   //--------------------------------------
-  
-  
+
+
 
   getRoundsQuantity(tipo: any): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute`, {tipo}).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute`, { tipo }).toPromise();
   }
   getRoundsByUser(tipo: any): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute`, {tipo}).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute`, { tipo }).toPromise();
   }
   login(userData: UserBasicData): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/auth/login/`, userData).toPromise();
@@ -124,14 +129,14 @@ getTareaCompleta():Promise<any>
   createTag(tagData: TagData): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/tags`, tagData).toPromise();
   }
-  editTag(id: number,tagData: TagData): Promise<any> {
+  editTag(id: number, tagData: TagData): Promise<any> {
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/tags/${id}`, tagData).toPromise();
   }
   deleteTag(id: number): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/tags/${id}`).toPromise();
   }
   getTag(type: any): Promise<any> {
-    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/tags?q=tipoTagId=${type}` ).toPromise();
+    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/tags?q=tipoTagId=${type}`).toPromise();
   }
   createManeuverGuideTemplate(nombre: string): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-guias-maniobra/`, { nombre }).toPromise();
@@ -176,7 +181,7 @@ getTareaCompleta():Promise<any>
   getSchedule(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/horarios/`).toPromise();
   }
-  
+
   createRoundFields(roundFieldsData: any): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/`, roundFieldsData).toPromise();
   }
@@ -187,7 +192,7 @@ getTareaCompleta():Promise<any>
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`).toPromise();
   }
   createRoundTemplate(roundTemplateData: any): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/`, {nombre:roundTemplateData}).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/`, { nombre: roundTemplateData }).toPromise();
   }
   editRoundTemplate(id: number, roundTemplateData: RoundTemplateData): Promise<any> {
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/${id}`, roundTemplateData).toPromise();
@@ -225,7 +230,7 @@ getTareaCompleta():Promise<any>
   getFailureType(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/tipos-falla/`).toPromise();
   }
-  editFailureType(id: number, nombre: string, codificacionDeFalla:string): Promise<any> {
+  editFailureType(id: number, nombre: string, codificacionDeFalla: string): Promise<any> {
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/tipos-falla/${id}`, { nombre, codificacionDeFalla }).toPromise();
   }
   deleteFailureType(id: number): Promise<any> {
@@ -255,11 +260,11 @@ getTareaCompleta():Promise<any>
   }
 
   getNotificationsFailuresReport(): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`, {id: 3}).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`, { id: 3 }).toPromise();
   }
 
   getUserInfo(): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`, {id: 4}).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`, { id: 4 }).toPromise();
   }
 
   // Jose A
@@ -268,8 +273,8 @@ getTareaCompleta():Promise<any>
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/tipos-campo-ronda`).toPromise();
   }
 
-  getFieldTemplate(id:any): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`, {id: 6, filters:{plantillaRondaId: id}}).toPromise();
+  getFieldTemplate(id: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`, { id: 6, filters: { plantillaRondaId: id } }).toPromise();
   }
 
 

@@ -55,7 +55,7 @@ export class SystemListComponent implements OnInit {
         type: 'text',
       },
       KKS: {
-        title: 'KKS',
+        title: 'Id',
         type: 'text',
       },
       plantaNombre: {

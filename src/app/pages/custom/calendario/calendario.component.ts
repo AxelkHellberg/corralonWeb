@@ -43,7 +43,7 @@ export class CalendarioComponent implements OnInit {
 
   async ngOnInit() {
     await this.getAllData();
-  
+
     //this.selectDate(new Date());
     //this.filtrarFechas(new Date());
 
@@ -93,7 +93,7 @@ export class CalendarioComponent implements OnInit {
     console.log(this.hora);
   }
   ronda: any;
-  selectRonda(item:any) {
+  selectRonda(item: any) {
     console.log("selectRonda");
     console.log(item.data);
     this.ronda = item.data.id;
@@ -102,7 +102,7 @@ export class CalendarioComponent implements OnInit {
 
 
   dia = "";
-  generarHorario() {
+  async generarHorario() {
     this.selectTimeInicio();
     this.selectTimeFin();
     let dias = "";
@@ -117,23 +117,36 @@ export class CalendarioComponent implements OnInit {
     }
 
     console.log(this.hora);
-    this.generalService.createHorario(this.hora);
+    console.log("horarioId");
+    const response = await this.generalService.createHorario(this.hora);
+    console.log(response.id);
+    const horaioId = response.id;
+    this.generalService.createHorariosUsuarios(horaioId, this.Usuario);
   }
   rondaArray: any[];
   horariosArray: any[];
+  usuariosArray: any[];
+  HoraiosUsuariosArray: any[];
   async getAllData() {
     Promise.all([
       this.generalService.getRondas(),
       this.generalService.getHorarios(),
+      this.generalService.getUser(),
+      this.generalService.getHorariosUsuaruios(),
 
-
-    ]).then(([ronda, horarios,]) => {
+    ]).then(([ronda, horarios, usuarios, Horaiousuario]) => {
       this.horariosArray = horarios.items;
       console.log("horariosArray");
       console.log(this.horariosArray);
       this.rondaArray = ronda.items;
       console.log("RondaArray");
       console.log(this.rondaArray);
+      this.usuariosArray = usuarios.items;
+      console.log("UsuariosArray");
+      console.log(this.usuariosArray);
+      this.HoraiosUsuariosArray = Horaiousuario.items;
+      console.log("HoraiosUsuariosArray");
+      console.log(this.HoraiosUsuariosArray);
       let cont = 0;
       this.horariosArray.forEach(hora => {
 
@@ -143,20 +156,58 @@ export class CalendarioComponent implements OnInit {
             this.horariosArray[cont] = {
               ...this.horariosArray[cont],
               nombreRonda: ronda.nombre,
-              fecha: (new Date(this.horariosArray[cont].fechaInicio)).getUTCDate()+'-'+((new Date(this.horariosArray[cont].fechaInicio)).getMonth()+1) +'-'+(new Date(this.horariosArray[cont].fechaInicio)).getUTCFullYear(),
+              fecha: (new Date(this.horariosArray[cont].fechaInicio)).getUTCDate() + '-' + ((new Date(this.horariosArray[cont].fechaInicio)).getMonth() + 1) + '-' + (new Date(this.horariosArray[cont].fechaInicio)).getUTCFullYear(),
             }
           }
-
         });
         cont += 1;
       });
-      
-      
+      cont = 0;
+      this.horariosArray.forEach(horario => {
+        this.HoraiosUsuariosArray.forEach(usuario => {
+          if (usuario.horarioId == horario.id) {
+            this.horariosArray[cont] = {
+              ...this.horariosArray[cont],
+              usuario: usuario.userId,
+            }
+          }
+        });
+        cont += 1;
+      })
+      console.log("this.horariosArray");
+      console.log(this.horariosArray);
+
+
+
+cont =0;
+      this.horariosArray.forEach(horario => {
+        this.usuariosArray.forEach(usuario => {
+          if (horario.usuario == usuario.id) {
+            this.horariosArray[cont] = {
+              ...this.horariosArray[cont],
+              usuarioNombre: usuario.name
+            }
+          }
+        })
+        cont+=1;
+      })
     }).catch(() => { });
-    
-    
+
+
 
   }
+
+
+
+
+  Usuario: any;
+  selectUsuario(usuario: any) {
+    this.Usuario = usuario;
+
+    console.log("this.Usuario");
+    console.log(this.Usuario);
+  }
+
 
   selectDate(fecha: Date) {
     console.log("fecha: ");
@@ -167,7 +218,7 @@ export class CalendarioComponent implements OnInit {
 
   formatoFecha(fecha: Date): any {
 
-    return fecha.getFullYear().toString() + "-" + (((fecha.getUTCMonth()+1) < 10) ? ("0" + fecha.getMonth().toString()) : fecha.getMonth().toString()) + "-" + ((fecha.getDate() < 10) ? ("0" + fecha.getDate().toString()) : fecha.getDate().toString()) + "T" + "00:00:00.000Z";
+    return fecha.getFullYear().toString() + "-" + (((fecha.getUTCMonth() + 1) < 10) ? ("0" + fecha.getMonth().toString()) : fecha.getMonth().toString()) + "-" + ((fecha.getDate() < 10) ? ("0" + fecha.getDate().toString()) : fecha.getDate().toString()) + "T" + "00:00:00.000Z";
 
   }
 
@@ -208,6 +259,11 @@ export class CalendarioComponent implements OnInit {
       },
       fecha: {
         title: 'Fecha',
+        type: 'text',
+        width: '300px'
+      },
+      usuarioNombre: {
+        title: 'Usuario',
         type: 'text',
         width: '300px'
       },
@@ -263,9 +319,9 @@ export class CalendarioComponent implements OnInit {
         title: 'Ronda',
         type: 'text',
         width: '300px'
-    },
+      },
 
-  }
+    }
   };
 
 
