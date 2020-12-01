@@ -5716,6 +5716,8 @@ var GeneralService = /** @class */ (function () {
     }
     //nuevo---------------------------
     GeneralService.prototype.getHorarios = function () { return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/horario/").toPromise(); };
+    GeneralService.prototype.createHorariosUsuarios = function (horarioId, usuarioId) { return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/enlace-horario-usuario", { "horarioId": horarioId, "userId": usuarioId }).toPromise(); };
+    GeneralService.prototype.getHorariosUsuaruios = function () { return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/enlace-horario-usuario").toPromise(); };
     GeneralService.prototype.getTareaCompleta = function () { return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/campos-ronda", { id: 4 }).toPromise(); };
     GeneralService.prototype.getTarea = function () {
         return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/campos-ronda").toPromise();
@@ -5733,9 +5735,11 @@ var GeneralService = /** @class */ (function () {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/plantillas-con-camposronda", { "id": 4, "filters": {} }).toPromise();
     };
     GeneralService.prototype.getRondasCompletas1 = function (idB) {
-        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/plantillas-con-camposronda", { "id": 0, "filters": {
+        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/plantillas-con-camposronda", {
+            "id": 0, "filters": {
                 "id": idB
-            } }).toPromise();
+            }
+        }).toPromise();
     };
     GeneralService.prototype.createHorario = function (horario) {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/horario", horario).toPromise();

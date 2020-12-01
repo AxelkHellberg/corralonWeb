@@ -64,6 +64,7 @@ export class GeneralService {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute`, { tipo }).toPromise();
   }
   login(userData: UserBasicData): Promise<any> {
+    //return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/auth/login/`, userData).toPromise();
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/auth/login/`, userData).toPromise();
   }
   getUser(): Promise<any> {
@@ -264,7 +265,7 @@ export class GeneralService {
   }
 
   getUserInfo(): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`, { id: 4 }).toPromise();
+   return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute`, { id: 4 }).toPromise();
   }
 
   // Jose A

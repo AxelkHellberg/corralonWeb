@@ -39,12 +39,15 @@ export class LoginComponent extends NbLoginComponent {
     try {
       const response = await this.generalService.login(userData);
       token = response.accessToken;
+      console.log("token");
+      console.log(token);
       localStorage.setItem('token', token);
       this.loading = true;
     } catch (e) { }
 
     try {
       const userInfo = await this.generalService.getUserInfo();
+      console.log(userInfo)
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
       this.messageBus.publish(MessagesChannelsEnum.USER, MessagesTypeEnum.INFO, userInfo);
       this.router.navigate(['pages/dashboard']);
