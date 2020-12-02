@@ -18,7 +18,7 @@ export class CalendarioComponent implements OnInit {
   date = new Date;
 
   selectedDia = null;
-  selectedRecurrencia = [];
+  selectedRecurrencia = null;
   horaInicio: any;
   horaFin: any;
   hora: any = {
@@ -64,6 +64,7 @@ export class CalendarioComponent implements OnInit {
 
   recurrencia : any; //Axel terminar boton next //////////////////////////
   agregarRecurrencia() {
+    this.selectedRecurrencia = this.selectedRecurrencia? this.selectedRecurrencia:[];
     console.log("funcionanado");
     console.log(this.selectedRecurrencia);
     

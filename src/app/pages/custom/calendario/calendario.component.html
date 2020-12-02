@@ -111,7 +111,8 @@
 
           <hr>
           <button nbButton nbStepperPrevious>prev</button>
-          <button nbButton nbStepperNext>next</button>
+          <button *ngIf="!selectedRecurrencia" disabled="true" nbButton nbStepperNext>next</button>
+          <button *ngIf="selectedRecurrencia" nbButton nbStepperNext>next</button>
         </nb-step>
         <nb-step [label]="labelUsuario">
           <ng-template #labelUsuario>Usuario</ng-template>
