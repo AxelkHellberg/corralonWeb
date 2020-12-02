@@ -43,6 +43,16 @@ export class TareaComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
+      planta: {
+        title: 'Planta',
+        type: 'text',
+        width: '200px'
+      },
+      Sistema: {
+        title: 'Sistema',
+        type: 'text',
+        width: '200px'
+      },
       nombre: {
         title: 'Nombre de Tarea',
         type: 'text',

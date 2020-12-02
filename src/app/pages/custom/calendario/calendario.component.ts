@@ -62,13 +62,13 @@ export class CalendarioComponent implements OnInit {
 
   }
 
-  recurrencia : any;
+  recurrencia : any; //Axel terminar boton next //////////////////////////
   agregarRecurrencia() {
     console.log("funcionanado");
     console.log(this.selectedRecurrencia);
     
   }
-
+/////////////////////////////////////////////////////////////////////////////
   selectTimeInicio(): void {
     console.log(this.horaInicio)
     let moment = require("moment");
