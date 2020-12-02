@@ -615,11 +615,36 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       deleteButtonContent: '<i class="nb-trash"></i>'
     },
     columns: {
-      nombre: {
-        title: 'Ronda',
+      planta: {
+        title: 'Planta',
         type: 'text',
-        width: '300px'
-    },
+        width: '200px'
+      },
+      Sistema: {
+        title: 'Sistema',
+        type: 'text',
+        width: '200px'
+      },
+      nombre: {
+        title: 'Nombre de Tarea',
+        type: 'text',
+        width: '200px'
+      },
+      equipamientoId: {
+        title: 'equipamiento',
+        type: 'text',
+        width: '200px'
+      },
+      descripcion: {
+        title: 'Descripcion',
+        type: 'text',
+        width: '200px'
+      },
+      unidadMedidaId: {
+        title: 'Unidad De Medida',
+        type: 'text',
+        width: '200px'
+      },
 
   }
   };
