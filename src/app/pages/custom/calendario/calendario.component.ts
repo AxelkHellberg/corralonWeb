@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
+import { event } from 'jquery';
 import { SmartTableSettings } from '../../../@models/smart-table';
 
 import { GeneralService } from '../../../services/general.service';
@@ -16,7 +17,7 @@ export class CalendarioComponent implements OnInit {
 
   date = new Date;
 
-  selectedDia = [];
+  selectedDia = null;
   selectedRecurrencia = [];
   horaInicio: any;
   horaFin: any;
@@ -53,15 +54,19 @@ export class CalendarioComponent implements OnInit {
 
 
 
-
+  
   agregarDia() {
+    this.selectedDia = this.selectedDia? this.selectedDia:[];
     console.log("funcionanado");
     console.log(this.selectedDia);
+
   }
 
+  recurrencia : any;
   agregarRecurrencia() {
     console.log("funcionanado");
     console.log(this.selectedRecurrencia);
+    
   }
 
   selectTimeInicio(): void {

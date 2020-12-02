@@ -96,7 +96,8 @@
           </nb-select>
           <hr>
           <button nbButton nbStepperPrevious>prev</button>
-          <button nbButton nbStepperNext>next</button>
+          <button *ngIf="!selectedDia" disabled="true" nbButton nbStepperNext>next</button>
+          <button *ngIf="selectedDia" nbButton nbStepperNext>next</button>
         </nb-step>
         <nb-step [label]="labelRecurrencia">
           <ng-template #labelRecurrencia>Recurrencia</ng-template>
