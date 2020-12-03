@@ -43,12 +43,12 @@ export class TareaComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      planta: {
+      plantaNombre: {
         title: 'Planta',
         type: 'text',
         width: '200px'
       },
-      Sistema: {
+      sistemaNombre: {
         title: 'Sistema',
         type: 'text',
         width: '200px'
@@ -58,7 +58,7 @@ export class TareaComponent implements OnInit {
         type: 'text',
         width: '200px'
       },
-      equipamientoId: {
+      equipamientoNombre: {
         title: 'equipamiento',
         type: 'text',
         width: '200px'
@@ -214,17 +214,25 @@ export class TareaComponent implements OnInit {
   
 dataCompleta : any[];
   async getTareas() {
-    const response = await this.generalService.getTarea();
-    this.data = response.items;
+   // const response = await this.generalService.getTarea();
+  
+    this.data = await this.generalService.getTareaCompleta();
+    
+    let cont = 0;
+    this.data.forEach(dato => {
+      dato={...dato,
+      equipamientoNombre:dato.equipamiento ? dato.equipamiento.nombre : null,
+      sistemaId: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.id : null,
+      sistemaNombre:dato.equipamiento && dato.equipamiento.sistema? dato.equipamiento.sistema.nombre : null,
+      plantaId: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.id: null,
+      plantaNombre:dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.nombre: null,
+    }
+    this.data[cont] = dato;
+      cont +=1;
+    });
+    console.log("this.data");
     console.log(this.data);
-    let res;
-
-    res = await this.generalService.getTareaCompleta();
-
-    this.dataCompleta = res;
-
-    console.log("Tarea completa: ");
-    console.log(this.dataCompleta);
+   
     
   }
 
