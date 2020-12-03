@@ -206,12 +206,16 @@ cont =0;
 
 
 
-  Usuario: any;
+  Usuario: any = null;
   selectUsuario(usuario: any) {
     this.Usuario = usuario;
 
     console.log("this.Usuario");
     console.log(this.Usuario);
+  }
+  
+  getUsuario() {
+    return this.Usuario;
   }
 
 

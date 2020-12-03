@@ -124,7 +124,8 @@
 
           <hr>
           <button nbButton nbStepperPrevious>prev</button>
-          <button nbButton nbStepperNext>next</button>
+          <button *ngIf="getUsuario() == null" disabled="true" nbButton nbStepperNext>next</button>
+          <button *ngIf="getUsuario() != null" nbButton nbStepperNext>next</button>
         </nb-step>
         <nb-step [label]="labelCrear">
           <ng-template #labelCrear>Guardar</ng-template>
