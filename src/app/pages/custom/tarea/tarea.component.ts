@@ -211,6 +211,7 @@ export class TareaComponent implements OnInit {
       await this.generalService.createRoundFields(dataTemplate);
     });
   }
+  
 dataCompleta : any[];
   async getTareas() {
     const response = await this.generalService.getTarea();
@@ -218,10 +219,12 @@ dataCompleta : any[];
     console.log(this.data);
     let res;
 
-    res= await this.generalService.getTareaCompleta();
-    
-    this.dataCompleta = res.items;
-  console.log(this.dataCompleta);
+    res = await this.generalService.getTareaCompleta();
+
+    this.dataCompleta = res;
+
+    console.log("Tarea completa: ");
+    console.log(this.dataCompleta);
     
   }
 
@@ -234,6 +237,7 @@ dataCompleta : any[];
     });
     console.log(this.Nueva)
   }
+
   async ngOnInit() {
     this.getTareas();
     
