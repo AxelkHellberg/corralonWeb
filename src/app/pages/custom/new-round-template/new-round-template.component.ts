@@ -26,7 +26,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   obligatorioSistema: boolean = false;
   funcionamientoEquipo: boolean = false;
   obligatorioEquipo: boolean = false;
-  data: any = {
+  data: any;// = {
     /*plant: '',
     system: '',
     equipment: '',
@@ -43,12 +43,12 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     minValue: '',
     maxValue: '',
     normalValue: '',*/
-    nombre: '',
-    tarea: '',
-    tareaId: null,
-    ronda: '',
-    rodnaId: null,
-  };
+   // nombre: '',
+   // tarea: '',
+   // tareaId: null,
+   // ronda: '',
+   // rodnaId: null,
+  //};
   plantId: any;
   systemId: any;
   equipmentId: any;
@@ -228,7 +228,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     plantillaId: Number,
   }*/
   ngOnInit() {
-    if (this.fullData) {
+/*     if (this.fullData) {
       console.log("this.fullData");
       console.log(this.fullData);
 
@@ -237,26 +237,52 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     } this.getAllData();
     this.dataTarea = this.fullData.dataFiels;
     console.log("dataTarea");
-    console.log(this.dataTarea);
+    console.log(this.dataTarea); */
+    this.getAllData();
   }
 
   async getAllData() {
-    this.settings = { ...this.settings, attr: { class: 'general-table disabled' } };
-    Promise.all([
 
-      this.generalService.getRondas(),
-      this.generalService.getTarea(),
-    ]).then(([ronda, tarea,]) => {
 
-      this.rondaArray = ronda;
-      console.log("RondaArray");
-      console.log(this.rondaArray);
-      this.tareaArray = tarea;
-      console.log("TareaArray");
-      console.log(this.tareaArray);
+    this.data = await this.generalService.getTareaCompleta();
+/*       this.generalService.getTarea(), */
+    console.log("this.data await:");
+    console.log(this.data);
+    let cont = 0;
+    this.data.forEach(dato => {
+     dato={...dato,
+      equipamientoNombre:dato.equipamiento ? dato.equipamiento.nombre : null,
+      sistemaId: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.id : null,
+      sistemaNombre:dato.equipamiento && dato.equipamiento.sistema? dato.equipamiento.sistema.nombre : null,
+      plantaId: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.id: null,
+      plantaNombre:dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.nombre: null,
+    }
 
-      this.settings = { ...this.settings, attr: { class: 'general-table' } };
-    }).catch(() => { });
+    this.data[cont] = dato;
+      cont +=1;
+    });
+
+    console.log("this.data");
+    console.log(this.data);
+/*     this.data = await this.generalService.getTareaCompleta();
+    
+    let cont = 0;
+    this.data.forEach(dato => {
+      dato={...dato,
+      equipamientoNombre:dato.equipamiento ? dato.equipamiento.nombre : null,
+      sistemaId: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.id : null,
+      sistemaNombre:dato.equipamiento && dato.equipamiento.sistema? dato.equipamiento.sistema.nombre : null,
+      plantaId: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.id: null,
+      plantaNombre:dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.nombre: null,
+    }
+
+    this.data[cont] = dato;
+      cont +=1;
+    });
+    
+    console.log("this.data");
+    console.log(this.data);
+    */
   }
 
 
@@ -615,23 +641,23 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       deleteButtonContent: '<i class="nb-trash"></i>'
     },
     columns: {
-      planta: {
+      equipamientoNombre: {
+        title: 'equipamiento',
+        type: 'text',
+        width: '200px'
+      },
+      plantaNombre: {
         title: 'Planta',
         type: 'text',
         width: '200px'
       },
-      Sistema: {
+      sistemaNombre: {
         title: 'Sistema',
         type: 'text',
         width: '200px'
       },
       nombre: {
         title: 'Nombre de Tarea',
-        type: 'text',
-        width: '200px'
-      },
-      equipamientoId: {
-        title: 'equipamiento',
         type: 'text',
         width: '200px'
       },

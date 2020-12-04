@@ -48,16 +48,16 @@ export class TareaComponent implements OnInit {
         type: 'text',
         width: '200px'
       },
-      sistemaNombre: {
-        title: 'Sistema',
-        type: 'text',
-        width: '200px'
-      },
       nombre: {
         title: 'Nombre de Tarea',
         type: 'text',
         width: '200px'
       },
+                sistemaNombre: {
+                  title: 'Sistema',
+                  type: 'text',
+                  width: '200px'
+                },
       equipamientoNombre: {
         title: 'equipamiento',
         type: 'text',
@@ -227,9 +227,11 @@ dataCompleta : any[];
       plantaId: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.id: null,
       plantaNombre:dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.nombre: null,
     }
+
     this.data[cont] = dato;
       cont +=1;
     });
+    
     console.log("this.data");
     console.log(this.data);
    

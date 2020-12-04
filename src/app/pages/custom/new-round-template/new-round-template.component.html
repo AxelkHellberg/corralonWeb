@@ -126,7 +126,7 @@
           <label class="label" for="plant">Tarea</label>
 
 
-          <ng2-smart-table [settings]="setingsTarea" [source]="tareaArray?.items" (userRowSelect)="selectTarea($event)"></ng2-smart-table>
+          <ng2-smart-table [settings]="setingsTarea" [source]="data" (userRowSelect)="selectTarea($event)"></ng2-smart-table>
 
 
           <!--nb-select id="tarea" placeholder="Tarea" [selected]="data.tareaId">
@@ -216,6 +216,7 @@
         </div-->
       </div>
     </nb-card-body>
+
 
 
     <nb-card-footer>
