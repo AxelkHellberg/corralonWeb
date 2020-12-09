@@ -21,6 +21,10 @@ export class GeneralService {
 
   getTareaCompleta(): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/campos-ronda`, { id: 4 }).toPromise(); }
 
+  getFallasEquipo(): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/falla-equipo`, { id: 4 }).toPromise(); }
+
+  getFallasSistema(): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/falla-sistema`, { id: 4 }).toPromise(); }
+
 
   getTarea(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda`).toPromise();

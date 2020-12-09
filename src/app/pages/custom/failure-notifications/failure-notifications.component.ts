@@ -15,6 +15,8 @@ export class FailureNotificationsComponent implements OnInit {
   showDetail: boolean;
   filterTableSettings: any = {};
   failureData: any = [];
+  failureDataEquipment: any = [];
+  failureDataSystem: any = [];
   settings: SmartTableSettings = {
     actions: false,
     add: {
@@ -85,10 +87,12 @@ export class FailureNotificationsComponent implements OnInit {
     }
 
     try {
-      this.failureData = await this.generalService.getNotificationsFailuresReport();
-     console.log("failureData");
-      console.log(this.failureData);
-      this.failureData.forEach(data => {
+
+//-------Obteniendo y mostrando fallas de equipo----------------
+      this.failureDataEquipment = await this.generalService.getFallasEquipo();
+      this.failureDataSystem = await this.generalService.getFallasSistema();
+
+/*       this.failureData.forEach(data => {
         data['estadoFallaNombre'] = data.estadoFalla.nombre;
         data['tipoFallaNombre'] = (data.tipoFalla == null ?  'Desconocido': data.tipoFalla.nombre  );
         data['estadoFallaNombreBoton'] = this.setStatusFailureButton(data.estadoFallaNombre.toUpperCase());
@@ -97,9 +101,40 @@ export class FailureNotificationsComponent implements OnInit {
         data['sistema'] = this.getSystemName(data);
         //data['origen'] = this.getOrigin(data);
         //data['operador'] = data.valoresCamposManiobras.guiaManiobra.user.username;
+      }); */
+      let cont = 0;
+      this.failureDataEquipment.forEach(dato => {
+       dato={...dato,
+        estado: null, ///REVISAR DATOS PARA VER QUE PONER ACA (PREGUNTAR A MAXI)
+        origen: dato.equipamientoId ? dato.equipamientoId : null,
+        tipoFallaNombre: dato.notificacionFallaId ? dato.notificacionFallaId : null,
+        date: moment(dato.updateAt).utc().format('DD/MM/YYYY'),
+        time: moment(dato.updateAt).utc().format('hh:mm:ss'),
+      }
+  
+      this.failureData[cont] = dato;
+        cont +=1;
       });
-      console.log("data");
-      console.log(this.failureData);
+//-------Obteniendo y mostrando fallas de equipo----------------
+//---------------------------------------------------------------------------------------------------------------
+//-------Obteniendo y mostrando fallas de sistema----------------
+    
+      this.failureDataSystem.forEach(dato => {
+       dato={...dato,
+        estado: null, ///REVISAR DATOS PARA VER QUE PONER ACA (PREGUNTAR A MAXI)
+        origen:dato.sistemaId ? dato.sistemaId : null,
+        tipoFallaNombre: dato.notificacionFallaId ? dato.notificacionFallaId : null,
+        date: moment(dato.updateAt).utc().format('DD/MM/YYYY'),
+        time: moment(dato.updateAt).utc().format('hh:mm:ss'),
+      }
+  
+      this.failureData[cont] = dato;
+        cont +=1;
+      });
+//-------Obteniendo y mostrando fallas de sistema----------------
+console.log("FALLAS JUNTAS: ");
+console.log(this.failureData);
+//---------------------------------------------------------------------------------------------------------------
     } catch (error) {
 
     }

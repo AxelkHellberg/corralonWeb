@@ -48,18 +48,18 @@ export class TareaComponent implements OnInit {
         type: 'text',
         width: '200px'
       },
-      nombre: {
-        title: 'Nombre de Tarea',
+      sistemaNombre: {
+        title: 'Sistema',
         type: 'text',
         width: '200px'
       },
-                sistemaNombre: {
-                  title: 'Sistema',
-                  type: 'text',
-                  width: '200px'
-                },
       equipamientoNombre: {
         title: 'equipamiento',
+        type: 'text',
+        width: '200px'
+      },
+      nombre: {
+        title: 'Nombre de Tarea',
         type: 'text',
         width: '200px'
       },
