@@ -69,7 +69,7 @@ export class FailureNotificationsComponent implements OnInit {
   selectedData: any;
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private generalService: GeneralService) { }
-
+  datosFalla : any[];
   async ngOnInit() {
     try {
       const response = await this.generalService.getFailureType();
@@ -133,6 +133,9 @@ export class FailureNotificationsComponent implements OnInit {
       });
 //-------Obteniendo y mostrando fallas de sistema----------------
 console.log("FALLAS JUNTAS: ");
+//nuevo array
+this.datosFalla=this.failureData;
+
 console.log(this.failureData);
 //---------------------------------------------------------------------------------------------------------------
     } catch (error) {
