@@ -77,6 +77,8 @@ var LoginComponent = /** @class */ (function (_super) {
                     case 2:
                         response = _b.sent();
                         token = response.accessToken;
+                        console.log("token");
+                        console.log(token);
                         localStorage.setItem('token', token);
                         this.loading = true;
                         return [3 /*break*/, 4];
@@ -88,6 +90,7 @@ var LoginComponent = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.generalService.getUserInfo()];
                     case 5:
                         userInfo = _b.sent();
+                        console.log(userInfo);
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
                         this.messageBus.publish(_constants_message_bus_enum__WEBPACK_IMPORTED_MODULE_5__["MessagesChannelsEnum"].USER, _constants_message_bus_enum__WEBPACK_IMPORTED_MODULE_5__["MessagesTypeEnum"].INFO, userInfo);
                         this.router.navigate(['pages/dashboard']);

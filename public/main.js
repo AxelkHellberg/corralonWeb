@@ -5752,6 +5752,7 @@ var GeneralService = /** @class */ (function () {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports-custom/execute", { tipo: tipo }).toPromise();
     };
     GeneralService.prototype.login = function (userData) {
+        //return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/auth/login/`, userData).toPromise();
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/auth/login/", userData).toPromise();
     };
     GeneralService.prototype.getUser = function () {
