@@ -133,7 +133,7 @@ export class FailureNotificationsComponent implements OnInit {
       });
 //-------Obteniendo y mostrando fallas de sistema----------------
 console.log("FALLAS JUNTAS: ");
-//nuevo array
+//nuevo array 
 this.datosFalla=this.failureData;
 
 console.log(this.failureData);

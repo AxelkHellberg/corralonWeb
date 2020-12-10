@@ -10,16 +10,23 @@
       </nb-card-body>
     </nb-card-->
 
-    <nb-card size="medium">
-      <nb-card-header>
+    <nb-card size="big">
+      
+      <nb-card-header class="HeaderEventos">
         Eventos
       </nb-card-header>
+      
+      <h4 class="h4">Seleccione la fecha del evento</h4>
+      
+      
+      <h1 class="h5">Fecha seleccionada: {{ date | date }}</h1>
+      
+      <nb-calendar class="CalendarioPrimero" (dateChange)="cambioDeFecha($event)" [(date)]="date" showWeekNumber="true"></nb-calendar>
 
-
-      <ng2-smart-table [settings]="settings" [source]="horariosArray" (create)="createTemplate()"
+      <ng2-smart-table [settings]="settings" [source]="arrayRondasFechaSeleccionada" (create)="createTemplate()"
         (edit)="editTemplate($event)" (delete)="deleteTemplate($event)"></ng2-smart-table>
 
-      <br>
+      <br> 
     </nb-card>
 
 
@@ -32,7 +39,7 @@
       <nb-stepper orientation="vertical">
         <nb-step [label]="labelFecha">
           <ng-template #labelFecha>Fecha</ng-template>
-          <h4>Seleccione la fecha del eveneto</h4>
+          <h4>Seleccione la fecha del evento</h4>
 
 
           <h1 class="h5">Selected date: {{ date | date }}</h1>

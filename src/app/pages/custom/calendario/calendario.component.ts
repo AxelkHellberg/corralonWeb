@@ -32,8 +32,6 @@ export class CalendarioComponent implements OnInit {
   }
 
 
-
-
   constructor(private generalService: GeneralService,
     private route: ActivatedRoute,
     private router: Router,
@@ -44,12 +42,6 @@ export class CalendarioComponent implements OnInit {
 
   async ngOnInit() {
     await this.getAllData();
-
-    //this.selectDate(new Date());
-    //this.filtrarFechas(new Date());
-
-
-
   }
 
 
@@ -133,6 +125,7 @@ export class CalendarioComponent implements OnInit {
   horariosArray: any[];
   usuariosArray: any[];
   HoraiosUsuariosArray: any[];
+  
   async getAllData() {
     Promise.all([
       this.generalService.getRondas(),
@@ -185,7 +178,7 @@ export class CalendarioComponent implements OnInit {
 
 
 
-cont =0;
+      cont =0;
       this.horariosArray.forEach(horario => {
         this.usuariosArray.forEach(usuario => {
           if (horario.usuario == usuario.id) {
@@ -219,10 +212,36 @@ cont =0;
   }
 
 
+  cambioDeFecha(fecha: Date) {
+    this.obtenerDatosFiltradoPorFecha(fecha)
+    
+  }
+
   selectDate(fecha: Date) {
     console.log("fecha: ");
     this.dia = this.formatoFecha(fecha);
     console.log(this.dia);
+  }
+
+  arrayRondasFechaSeleccionada = [];
+  async obtenerDatosFiltradoPorFecha(fecha: any){
+    let i = 0;
+    let cont = 0;
+    console.log("La fecha que se selecciono es: ")
+    console.log(this.formatoFechaNuevo(fecha))
+    console.log("La fecha del primer elemento del array es: ")
+    console.log(this.horariosArray[i].fecha)
+      this.horariosArray.forEach(dato => {
+        if(this.horariosArray[i].fecha === this.formatoFechaNuevo(fecha)){
+          this.arrayRondasFechaSeleccionada[cont] = this.horariosArray[i]
+          console.log("Entre una vez por lo menos")
+          cont += 1;
+        }
+        i += 1;
+      })
+      console.log("Datos filtrados:")
+      console.log(this.arrayRondasFechaSeleccionada)
+
   }
 
 
@@ -232,8 +251,14 @@ cont =0;
 
   }
 
+  formatoFechaNuevo(fecha: Date): any {
+
+    return ((fecha.getDate() < 10) ? ("0" + fecha.getDate().toString()) : fecha.getDate().toString()) + "-" + (((fecha.getMonth()) < 9) ? "0" + (fecha.getMonth() + 1) : fecha.getMonth() + 1) + "-" +  fecha.getFullYear().toString();
+
+  }
+
   settings: SmartTableSettings = {
-    noDataMessage: '',
+    noDataMessage: 'No hay rondas para la fecha seleccionada.',
     mode: 'external',
     attr: {
       class: 'general-table'
