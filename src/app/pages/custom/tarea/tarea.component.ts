@@ -69,6 +69,11 @@ export class TareaComponent implements OnInit {
         width: '200px'
       },
       unidadMedidaId: {
+        title: 'Unidad De Medida Id',
+        type: 'text',
+        width: '200px'
+      },
+      unidadMedidaNombre: {
         title: 'Unidad De Medida',
         type: 'text',
         width: '200px'
@@ -220,12 +225,21 @@ dataCompleta : any[];
     
     let cont = 0;
     this.data.forEach(dato => {
+      this.unidades.forEach(unidad => {
+        if(dato.unidadMedidaId==unidad.id)
+        {
+          dato={...dato,
+          unidadMedidaNombre : unidad.nombre}
+        }
+      })
+        
       dato={...dato,
       equipamientoNombre:dato.equipamiento ? dato.equipamiento.nombre : null,
       sistemaId: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.id : null,
       sistemaNombre:dato.equipamiento && dato.equipamiento.sistema? dato.equipamiento.sistema.nombre : null,
       plantaId: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.id: null,
       plantaNombre:dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.nombre: null,
+      unidadMedidaNombre: dato.unidadMedidaNombre? dato.unidadMedidaNombre: "Sin Nombre"
     }
 
     this.data[cont] = dato;
@@ -247,9 +261,12 @@ dataCompleta : any[];
     });
     console.log(this.Nueva)
   }
-
+ 
+unidades: any[];
   async ngOnInit() {
     this.getTareas();
+    let r= await this.generalService.getMeasurementUnits();
+    this.unidades = r.items;
     
     //this.getFieldsRoundTemplate();
     //console.log("data");

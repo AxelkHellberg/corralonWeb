@@ -110,8 +110,8 @@
 <ng-template #addOrEdit let-dialog="dialogRef" let-dialogData>
   <nb-card class="roundModal">
     <nb-card-header>{{dialogData}}</nb-card-header>
-    <nb-card-body>
-      <div class="row">
+    <nb-card-body class="center">
+      <div >
         <!--div class="col-6">
           <label class="label" for="plant">Planta</label>
           <nb-select id="plant" placeholder="Seleccione" [selected]="data.plantId">
@@ -126,14 +126,7 @@
           <label class="label" for="plant">Tarea</label>
 
 
-          <ng2-smart-table [settings]="setingsTarea" [source]="data" (userRowSelect)="selectTarea($event)"></ng2-smart-table>
-
-
-          <!--nb-select id="tarea" placeholder="Tarea" [selected]="data.tareaId">
-            <nb-option *ngFor="let item of tareaArray?.items" [value]="item?.id" (click)="selectTarea(item)">
-              {{item?.nombre}}</nb-option>
-          </nb-select-->
-
+          <ng2-smart-table  [settings]="setingsTarea" [source]="data" (userRowSelect)="selectTarea($event)"></ng2-smart-table>
 
         </div>
 

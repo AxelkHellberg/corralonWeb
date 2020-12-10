@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { utc } from 'moment';
+import { title } from 'process';
 import { RoundsDetails } from '../../../@models/rounds';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
@@ -27,27 +28,27 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   funcionamientoEquipo: boolean = false;
   obligatorioEquipo: boolean = false;
   data: any;// = {
-    /*plant: '',
-    system: '',
-    equipment: '',
-    unit: '',
-    type: undefined,
-    plantId: null,
-    systemId: null,
-    equipmentId: null,
-    unitId: null,
-    typeId: null,
-    timer: new Set(),
-    time: '',
-    name: '',
-    minValue: '',
-    maxValue: '',
-    normalValue: '',*/
-   // nombre: '',
-   // tarea: '',
-   // tareaId: null,
-   // ronda: '',
-   // rodnaId: null,
+  /*plant: '',
+  system: '',
+  equipment: '',
+  unit: '',
+  type: undefined,
+  plantId: null,
+  systemId: null,
+  equipmentId: null,
+  unitId: null,
+  typeId: null,
+  timer: new Set(),
+  time: '',
+  name: '',
+  minValue: '',
+  maxValue: '',
+  normalValue: '',*/
+  // nombre: '',
+  // tarea: '',
+  // tareaId: null,
+  // ronda: '',
+  // rodnaId: null,
   //};
   plantId: any;
   systemId: any;
@@ -218,71 +219,90 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   dataTarea: any[];
   agregarTarea: boolean = false;
   edit: boolean = false;
- /* hora: any = {
-    dias: String,
-    tiporRecurrencia: Number,
-    horaInicio: String,
-    horaFin: String,
-    fechaInicio: String,
-    fechaFin: String,
-    plantillaId: Number,
-  }*/
+  /* hora: any = {
+     dias: String,
+     tiporRecurrencia: Number,
+     horaInicio: String,
+     horaFin: String,
+     fechaInicio: String,
+     fechaFin: String,
+     plantillaId: Number,
+   }*/
   ngOnInit() {
-/*     if (this.fullData) {
-      console.log("this.fullData");
-      console.log(this.fullData);
-
-      this.roundName = this.fullData.data.nombreRonda;
-      this.data.rondaId = this.fullData.data.id;
-    } this.getAllData();
-    this.dataTarea = this.fullData.dataFiels;
-    console.log("dataTarea");
-    console.log(this.dataTarea); */
+    /*     if (this.fullData) {
+          console.log("this.fullData");
+          console.log(this.fullData);
+    
+          this.roundName = this.fullData.data.nombreRonda;
+          this.data.rondaId = this.fullData.data.id;
+        } this.getAllData();
+        this.dataTarea = this.fullData.dataFiels;
+        console.log("dataTarea");
+        console.log(this.dataTarea); */
     this.getAllData();
   }
 
+
+  unidadDemedida: any[];
+
   async getAllData() {
 
-
+    let r = await this.generalService.getMeasurementUnits();
+    this.unidadDemedida = r.items;
+    console.log("unidad de medida")
+    console.log(this.unidadDemedida)
     this.data = await this.generalService.getTareaCompleta();
-/*       this.generalService.getTarea(), */
-    console.log("this.data await:");
-    console.log(this.data);
+    /*       this.generalService.getTarea(), */
     let cont = 0;
-    this.data.forEach(dato => {
-     dato={...dato,
-      equipamientoNombre:dato.equipamiento ? dato.equipamiento.nombre : null,
-      sistemaId: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.id : null,
-      sistemaNombre:dato.equipamiento && dato.equipamiento.sistema? dato.equipamiento.sistema.nombre : null,
-      plantaId: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.id: null,
-      plantaNombre:dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.nombre: null,
-    }
 
-    this.data[cont] = dato;
-      cont +=1;
+    this.data.forEach(dato => {
+      this.unidadDemedida.forEach(unidad => {
+        if (dato.unidadMedidaId == unidad.id) {
+         
+          console.log("entre")
+          console.log(unidad.nombre + dato.id)
+          dato = {
+            ...dato,
+            unidadDemedidaNombre: unidad.nombre
+          }
+        }
+
+      })
+      dato = {
+        ...dato,
+        equipamientoNombre: dato.equipamiento ? dato.equipamiento.nombre : null,
+        sistemaId: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.id : null,
+        sistemaNombre: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.nombre : null,
+        plantaId: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta ? dato.equipamiento.sistema.planta.id : null,
+        plantaNombre: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta ? dato.equipamiento.sistema.planta.nombre : null,
+        unidadDemedidaNombre : dato.unidadDemedidaNombre? dato.unidadDemedidaNombre : "sin Nombre"
+      }
+
+      this.data[cont] = dato;
+      cont += 1;
     });
 
     console.log("this.data");
     console.log(this.data);
-/*     this.data = await this.generalService.getTareaCompleta();
+    /*     this.data = await this.generalService.getTareaCompleta();
+        
+        let cont = 0;
+        this.data.forEach(dato => {
+          dato={...dato,
+          equipamientoNombre:dato.equipamiento ? dato.equipamiento.nombre : null,
+          sistemaId: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.id : null,
+          sistemaNombre:dato.equipamiento && dato.equipamiento.sistema? dato.equipamiento.sistema.nombre : null,
+          plantaId: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.id: null,
+          plantaNombre:dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.nombre: null,
+        }
     
-    let cont = 0;
-    this.data.forEach(dato => {
-      dato={...dato,
-      equipamientoNombre:dato.equipamiento ? dato.equipamiento.nombre : null,
-      sistemaId: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.id : null,
-      sistemaNombre:dato.equipamiento && dato.equipamiento.sistema? dato.equipamiento.sistema.nombre : null,
-      plantaId: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.id: null,
-      plantaNombre:dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.nombre: null,
-    }
-
-    this.data[cont] = dato;
-      cont +=1;
-    });
-    
-    console.log("this.data");
-    console.log(this.data);
-    */
+        this.data[cont] = dato;
+          cont +=1;
+        });
+        
+        console.log("this.data");
+        console.log(this.data);
+        */
   }
 
 
@@ -336,50 +356,50 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   }
 
 
- /* horaInicio: any;
-  horaFin: any;
-
-  selectTimeInicio(): void {
-    console.log(this.horaInicio)
-    let moment = require("moment");
-    let horaInicio = moment(this.horaInicio.hour, 'HH').format('HH');
-    let minInicio = moment(this.horaInicio.minute, 'MM').format('MM');
-    this.hora = {
-      ...this.hora,
-      horaInicio: horaInicio.toString(10) + ":" + minInicio.toString(10),
-
-
-    }
-    console.log(this.hora);
-  }
-
-  selectTimeFin(): void {
-
-    console.log(this.horaFin);
-    let moment = require("moment");
-    let horaFin = moment(this.horaFin.hour, 'HH').format('HH');
-    let minFin = moment(this.horaFin.minute, 'MM').format('MM');
-    this.hora = {
-      ...this.hora,
-      horaFin: horaFin.toString(10) + ":" + minFin.toString(10),
-
-
-    }
-    console.log(this.hora);
-  }
-  selectedDia = [];
-  selectedRecurrencia = [];
-
-
-  agregarDia() {
-    console.log("funcionanado");
-    console.log(this.selectedDia);
-  }
-
-  agregarRecurrencia() {
-    console.log("funcionanado");
-    console.log(this.selectedRecurrencia);
-  }*/
+  /* horaInicio: any;
+   horaFin: any;
+ 
+   selectTimeInicio(): void {
+     console.log(this.horaInicio)
+     let moment = require("moment");
+     let horaInicio = moment(this.horaInicio.hour, 'HH').format('HH');
+     let minInicio = moment(this.horaInicio.minute, 'MM').format('MM');
+     this.hora = {
+       ...this.hora,
+       horaInicio: horaInicio.toString(10) + ":" + minInicio.toString(10),
+ 
+ 
+     }
+     console.log(this.hora);
+   }
+ 
+   selectTimeFin(): void {
+ 
+     console.log(this.horaFin);
+     let moment = require("moment");
+     let horaFin = moment(this.horaFin.hour, 'HH').format('HH');
+     let minFin = moment(this.horaFin.minute, 'MM').format('MM');
+     this.hora = {
+       ...this.hora,
+       horaFin: horaFin.toString(10) + ":" + minFin.toString(10),
+ 
+ 
+     }
+     console.log(this.hora);
+   }
+   selectedDia = [];
+   selectedRecurrencia = [];
+ 
+ 
+   agregarDia() {
+     console.log("funcionanado");
+     console.log(this.selectedDia);
+   }
+ 
+   agregarRecurrencia() {
+     console.log("funcionanado");
+     console.log(this.selectedRecurrencia);
+   }*/
 
   /*
    selectTime(data: any, action?: string): void {
@@ -473,22 +493,22 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       res = await this.generalService.createRoundTemplate(this.roundName);
       this.data.rondaId = res.id;
     }
-   // this.selectTimeInicio();
-   // this.selectTimeFin();
+    // this.selectTimeInicio();
+    // this.selectTimeFin();
     //let dias = "";
-   // this.selectedDia.forEach(dia => { dias = dias = '' ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
+    // this.selectedDia.forEach(dia => { dias = dias = '' ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
 
-   // console.log("dias");
-   // console.log(dias);
-   // this.hora = {
-   //   ...this.hora,
-   //   dias: dias,
-  //    tipoRecurrencia: this.selectedRecurrencia,
-  //    fechaInicio: this.dia,
-  //    fechaFin: this.dia,
-  //    plantillaId: this.data.rondaId
-  //  }
-  //  this.generalService.createHorario(this.hora);
+    // console.log("dias");
+    // console.log(dias);
+    // this.hora = {
+    //   ...this.hora,
+    //   dias: dias,
+    //    tipoRecurrencia: this.selectedRecurrencia,
+    //    fechaInicio: this.dia,
+    //    fechaFin: this.dia,
+    //    plantillaId: this.data.rondaId
+    //  }
+    //  this.generalService.createHorario(this.hora);
     console.log("this.data");
     console.log(this.data);
     this.router.navigate(['/pages/round-template']);
@@ -500,31 +520,31 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 
   }
 
- /*  generarHorario() {
-   // this.selectTimeInicio();
-    //this.selectTimeFin();
-    //let dias = "";
-    //this.selectedDia.forEach(dia => { dias = dias = '' ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
-
-/*this.hora = {
-      dias: "1,2,3",
-      tipoRecurrencia: 0,
-      horaInicio: "08:00",
-      horaFin: "10:00",
-      fechaInicio: "2020-10-22:00:00.0",
-      fechaFin: "2020-10-22:00:00.00",
-      plantillaId: 139
-    }
-    console.log(this.hora);
-    this.generalService.createHorario(this.hora);
-  }
-
-   dia = "";
-  selectDate(fecha: Date) {
-    console.log("fecha: ");
-    this.dia= fecha.getFullYear().toString()+"-"+((fecha.getMonth()<10)?("0"+fecha.getMonth().toString()):fecha.getMonth().toString())+"-"+((fecha.getDay()<10)?("0"+fecha.getDay().toString()):fecha.getDay().toString())+":00:00.00";
-    console.log(this.dia);
-  }*/
+  /*  generarHorario() {
+    // this.selectTimeInicio();
+     //this.selectTimeFin();
+     //let dias = "";
+     //this.selectedDia.forEach(dia => { dias = dias = '' ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
+ 
+ /*this.hora = {
+       dias: "1,2,3",
+       tipoRecurrencia: 0,
+       horaInicio: "08:00",
+       horaFin: "10:00",
+       fechaInicio: "2020-10-22:00:00.0",
+       fechaFin: "2020-10-22:00:00.00",
+       plantillaId: 139
+     }
+     console.log(this.hora);
+     this.generalService.createHorario(this.hora);
+   }
+ 
+    dia = "";
+   selectDate(fecha: Date) {
+     console.log("fecha: ");
+     this.dia= fecha.getFullYear().toString()+"-"+((fecha.getMonth()<10)?("0"+fecha.getMonth().toString()):fecha.getMonth().toString())+"-"+((fecha.getDay()<10)?("0"+fecha.getDay().toString()):fecha.getDay().toString())+":00:00.00";
+     console.log(this.dia);
+   }*/
 
 
   changeField(e, a) {
@@ -667,12 +687,17 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         width: '200px'
       },
       unidadMedidaId: {
-        title: 'Unidad De Medida',
+        title: 'Unidad De Medida ID',
         type: 'text',
         width: '200px'
       },
+      unidadDemedidaNombre: {
+        title: 'Unidad De Medida',
+        type: 'text',
+        width: '200px'
+      }
 
-  }
+    }
   };
 
 

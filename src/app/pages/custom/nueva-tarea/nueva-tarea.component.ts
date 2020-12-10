@@ -199,6 +199,7 @@ export class NuevaTareaComponent implements OnInit {
   ngOnInit() {
     this.getAllData();
     if (this.fullData) {
+      
       this.edit = true;
       // this.editTemplate(this.fullData);
       this.dialogService.open(this.addOrEditTemplate, {
