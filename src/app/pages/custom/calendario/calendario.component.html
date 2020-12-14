@@ -23,7 +23,7 @@
       
       <nb-calendar class="CalendarioPrimero" (dateChange)="cambioDeFecha($event)" [(date)]="date" showWeekNumber="true"></nb-calendar>
 
-      <ng2-smart-table [settings]="settings" [source]="arrayRondasFechaSeleccionada" (create)="createTemplate()"
+      <ng2-smart-table [settings]="settings" [source]="source" (create)="createTemplate()"
         (edit)="editTemplate($event)" (delete)="deleteTemplate($event)"></ng2-smart-table>
 
       <br> 

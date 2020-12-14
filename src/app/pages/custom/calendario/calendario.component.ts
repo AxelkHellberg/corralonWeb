@@ -5,6 +5,7 @@ import { event } from 'jquery';
 import { SmartTableSettings } from '../../../@models/smart-table';
 
 import { GeneralService } from '../../../services/general.service';
+import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 
 
 
@@ -42,6 +43,7 @@ export class CalendarioComponent implements OnInit {
 
   async ngOnInit() {
     await this.getAllData();
+
   }
 
 
@@ -190,7 +192,12 @@ export class CalendarioComponent implements OnInit {
         })
         cont+=1;
       })
+
+      this.arrayRondasFechaSeleccionada = [];
+      console.log("arrayRondasFechaSeleccionada inicial: ");
+      console.log(this.arrayRondasFechaSeleccionada);
     }).catch(() => { });
+
 
 
 
@@ -225,6 +232,7 @@ export class CalendarioComponent implements OnInit {
 
   arrayRondasFechaSeleccionada = [];
   async obtenerDatosFiltradoPorFecha(fecha: any){
+    this.arrayRondasFechaSeleccionada = [];
     let i = 0;
     let cont = 0;
     console.log("La fecha que se selecciono es: ")
@@ -241,6 +249,8 @@ export class CalendarioComponent implements OnInit {
       })
       console.log("Datos filtrados:")
       console.log(this.arrayRondasFechaSeleccionada)
+      this.source = new LocalDataSource([]);
+      this.source = new LocalDataSource(this.arrayRondasFechaSeleccionada);
 
   }
 
@@ -257,6 +267,7 @@ export class CalendarioComponent implements OnInit {
 
   }
 
+  source: LocalDataSource;
   settings: SmartTableSettings = {
     noDataMessage: 'No hay rondas para la fecha seleccionada.',
     mode: 'external',
