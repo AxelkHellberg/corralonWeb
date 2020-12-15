@@ -31,32 +31,35 @@ export class CalendarioComponent implements OnInit {
     fechaFin: String,
     plantillaId: Number,
   }
-
-
+  
   constructor(private generalService: GeneralService,
     private route: ActivatedRoute,
     private router: Router,
     private dialogService: NbDialogService,
     private changeDetectorRef: ChangeDetectorRef,) {
-
-  }
-
-  async ngOnInit() {
-    await this.getAllData();
-
-  }
-
-
-
-  
-  agregarDia() {
+      
+    }
+    
+    async ngOnInit() {
+      await this.getAllData();
+      
+    }
+    
+    
+    botonApretado = null; 
+    pulsar() {
+      console.log("Se apreto el boton")
+      this.botonApretado = 1;
+    }
+    
+    agregarDia() {
     this.selectedDia = this.selectedDia? this.selectedDia:[];
     console.log("funcionanado");
     console.log(this.selectedDia);
 
   }
 
-  recurrencia : any; //Axel terminar boton next //////////////////////////
+  recurrencia : any;
   agregarRecurrencia() {
     this.selectedRecurrencia = this.selectedRecurrencia? this.selectedRecurrencia:[];
     console.log("funcionanado");
@@ -68,13 +71,14 @@ export class CalendarioComponent implements OnInit {
     console.log(this.horaInicio)
     let moment = require("moment");
     let horaInicio = moment(this.horaInicio.hour, 'HH').format('HH');
-    let minInicio = moment(this.horaInicio.minute, 'MM').format('MM');
+    let minInicio = this.horaInicio.minute
     this.hora = {
       ...this.hora,
-      horaInicio: horaInicio.toString(10) + ":" + minInicio.toString(10),
+      horaInicio: horaInicio.toString(10) + ":" + ( (minInicio<10)? "0" + minInicio.toString(10): minInicio.toString(10)),
 
 
     }
+    console.log("HORA INICIO: ")
     console.log(this.hora);
   }
 
@@ -83,13 +87,14 @@ export class CalendarioComponent implements OnInit {
     console.log(this.horaFin);
     let moment = require("moment");
     let horaFin = moment(this.horaFin.hour, 'HH').format('HH');
-    let minFin = moment(this.horaFin.minute, 'MM').format('MM');
+    let minFin = this.horaFin.minute
     this.hora = {
       ...this.hora,
-      horaFin: horaFin.toString(10) + ":" + minFin.toString(10),
+      horaFin: horaFin.toString(10) + ":" + ( (minFin<10)? "0" + minFin.toString(10): minFin.toString(10)),
 
 
     }
+    console.log("HORA FIN: ")
     console.log(this.hora);
   }
   ronda: any;
@@ -102,6 +107,7 @@ export class CalendarioComponent implements OnInit {
 
 
   dia = "";
+  hayDiaSeleccionado = "";
   async generarHorario() {
     this.selectTimeInicio();
     this.selectTimeFin();
@@ -194,8 +200,8 @@ export class CalendarioComponent implements OnInit {
       })
 
       this.arrayRondasFechaSeleccionada = [];
-      console.log("arrayRondasFechaSeleccionada inicial: ");
-      console.log(this.arrayRondasFechaSeleccionada);
+
+      this.source = new LocalDataSource(this.horariosArray);
     }).catch(() => { });
 
 
@@ -203,7 +209,10 @@ export class CalendarioComponent implements OnInit {
 
   }
 
-
+  mostrarTodos(){
+    this.getAllData();
+    this.hayDiaSeleccionado = "";
+  }
 
 
   Usuario: any = null;
@@ -221,7 +230,9 @@ export class CalendarioComponent implements OnInit {
 
   cambioDeFecha(fecha: Date) {
     this.obtenerDatosFiltradoPorFecha(fecha)
-    
+    this.dia = this.formatoFechaNuevo(fecha);
+    this.hayDiaSeleccionado = "algo";
+    console.log(this.dia);
   }
 
   selectDate(fecha: Date) {
@@ -326,7 +337,7 @@ export class CalendarioComponent implements OnInit {
     await this.getAllData();
 
     if (date) {
-      let fecha = this.formatoFecha(date);
+      let fecha = this.formatoFechaNuevo(date);
       console.log(fecha);
       this.horariosArray.forEach(horario => {
         if (horario.fechaInicio == fecha) {

@@ -27,7 +27,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     Ng2SmartTableModule,
     ReactiveFormsModule,
     NbDatepickerModule,
-   
+    
     
 
 
