@@ -96,7 +96,7 @@ export class NuevaTareaComponent implements OnInit {
         width: '300px'
       },
       equipment: {
-        title: 'Equipamiento',
+        title: 'Equipo',
         type: 'text',
         width: '300px',
       },

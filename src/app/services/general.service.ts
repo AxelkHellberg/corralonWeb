@@ -62,7 +62,7 @@ export class GeneralService {
 
 
   getRoundsQuantity(tipo: any): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute`, { tipo }).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/cantidades/estado`, { id : 1 }).toPromise();
   }
   getRoundsByUser(tipo: any): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports-custom/execute`, { tipo }).toPromise();

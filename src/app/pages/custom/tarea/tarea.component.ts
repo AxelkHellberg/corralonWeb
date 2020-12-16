@@ -54,7 +54,7 @@ export class TareaComponent implements OnInit {
         width: '200px'
       },
       equipamientoNombre: {
-        title: 'equipamiento',
+        title: 'Equipo',
         type: 'text',
         width: '200px'
       },
