@@ -24,11 +24,10 @@ export class DashboardComponent {
       const response: RoundsQuantity = await this.generalService.getRoundsQuantity(1);
       console.log("respose");
       console.log(response);
-
       this.pieChartData = {
         labels: ['Completas', 'Incompletas'],
         datasets: [{
-          data: [+response.cantidadCompleta, +response.cantidadSinCompletar],
+          data: [+response[0].cantidad, +response[1].cantidad],
           backgroundColor: ['#88afff', '#c492ee'],
         }]
       }
@@ -41,13 +40,15 @@ export class DashboardComponent {
   async getRoundsByUser() {
     try {
       const response: RoundsByUserData[] = await this.generalService.getRoundsByUser(2);
+      console.log("respose");
+      console.log(response);
       this.barHorizontalChartData = {
-        labels: response.map(user => `${user.user_name} ${user.user_lastName}`),
+        labels: response.map(user => user.username),
         datasets: [
           {
             label: 'Completas',
-            backgroundColor: '#c492ee',
-            data: response.map(user => +user.cantidadRondasHechas),
+            backgroundColor: '#c492ee', 
+            data: response.map(user => +user.cantidad),
           },
         ]
       }
