@@ -36,6 +36,10 @@
 
   </nb-card-body>
 
+  <nb-alert *ngIf="cerrarAlerta == 0 " status="success" closable (close)="onClose()">
+    Se creo la ronda correctamente!
+  </nb-alert>
+
   <nb-card *ngIf="!botonApretado" disabled=true>
     <nb-card-body class="Boton-Agregar-Ronda" >
       <button nbButton fullWidth status="primary" (click)="pulsar()">Crear nueva ronda para la fecha seleccionada</button>
@@ -177,7 +181,7 @@
             <button nbButton fullWidth status="primary" (click)="generarHorario()">Guardar</button>
             <hr>
             <button class="prev-button" nbButton nbStepperPrevious>prev</button>
-            
+
           </nb-card>
 
         </nb-step>

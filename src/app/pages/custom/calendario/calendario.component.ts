@@ -104,7 +104,9 @@ export class CalendarioComponent implements OnInit {
     this.ronda = item.data.id;
   }
 
-
+  onClose(){
+    this.cerrarAlerta = 2;
+  }
 
   dia = "";
   hayDiaSeleccionado = "";
@@ -113,6 +115,14 @@ export class CalendarioComponent implements OnInit {
     this.selectTimeFin();
     let dias = "";
     this.selectedDia.forEach(dia => { dias = dias == "" ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
+    ///  dd-mm-aaaa
+    let d = this.dia.substring(0,2); 
+    let m = this.dia.substring(3,5); 
+    let a = this.dia.substring(6,10); 
+    let auxDia = this.dia;
+    this.dia = a +"-"+ m +"-"+ d;
+    console.log(this.dia)
+
     this.hora = {
       ...this.hora,
       dias: dias,
@@ -125,10 +135,17 @@ export class CalendarioComponent implements OnInit {
     console.log(this.hora);
     console.log("horarioId");
     const response = await this.generalService.createHorario(this.hora);
+    console.log("ID DEL HORARIO CREADO: ")
     console.log(response.id);
     const horaioId = response.id;
-    this.generalService.createHorariosUsuarios(horaioId, this.Usuario);
+    const pueba = await this.generalService.createHorariosUsuarios(horaioId, this.Usuario);
+    console.log("NO SE QUE ME MOSTRARA ESTO: ")
+    console.log(pueba)
+    this.botonApretado = 0;
+    this.cerrarAlerta = 0;
+    this.mostrarTodos()
   }
+  cerrarAlerta: any;
   rondaArray: any[];
   horariosArray: any[];
   usuariosArray: any[];
@@ -199,11 +216,21 @@ export class CalendarioComponent implements OnInit {
         cont+=1;
       })
 
+/*       let i = 0;
+     this.horariosArray.forEach(datos => {
+     this.horariosArray[i].fecha = this.cambiarformatoFechaParaGuardar(this.horariosArray[i].fecha)
+     i += 1;
+    }) 
+    console.log("ARRAY CON NUEVOS FORMATOS DE FECHA:")
+    console.log(this.horariosArray); */
+    
       this.arrayRondasFechaSeleccionada = [];
-
       this.source = new LocalDataSource(this.horariosArray);
+
+
     }).catch(() => { });
 
+    
 
 
 
@@ -251,6 +278,9 @@ export class CalendarioComponent implements OnInit {
     console.log("La fecha del primer elemento del array es: ")
     console.log(this.horariosArray[i].fecha)
       this.horariosArray.forEach(dato => {
+/*         let ms = Date.parse(this.horariosArray[i].fecha)
+        let date = new Date(ms);
+        this.horariosArray[i].fecha = this.cambiarformatoFechaParaGuardar(date); */
         if(this.horariosArray[i].fecha === this.formatoFechaNuevo(fecha)){
           this.arrayRondasFechaSeleccionada[cont] = this.horariosArray[i]
           console.log("Entre una vez por lo menos")
@@ -275,6 +305,12 @@ export class CalendarioComponent implements OnInit {
   formatoFechaNuevo(fecha: Date): any {
 
     return ((fecha.getDate() < 10) ? ("0" + fecha.getDate().toString()) : fecha.getDate().toString()) + "-" + (((fecha.getMonth()) < 9) ? "0" + (fecha.getMonth() + 1) : fecha.getMonth() + 1) + "-" +  fecha.getFullYear().toString();
+
+  }
+  
+  cambiarformatoFechaParaGuardar(fecha: Date): any {
+
+    return  fecha.getFullYear().toString() + "-" + (((fecha.getMonth()) < 9) ? "0" + (fecha.getMonth() + 1) : fecha.getMonth() + 1) + "-" + ((fecha.getDate() < 10) ? ("0" + fecha.getDate().toString()) : fecha.getDate().toString());
 
   }
 
