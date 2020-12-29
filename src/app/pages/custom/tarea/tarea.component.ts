@@ -5,6 +5,7 @@ import { RoundFields, RoundTemplateData } from '../../../@models/general';
 import { GeneralService } from '../../../services/general.service';
 import { RoundsDetails } from '../../../@models/rounds';
 import { elementEnd } from '@angular/core/src/render3';
+import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
   selector: 'ngx-tarea',
@@ -13,7 +14,7 @@ import { elementEnd } from '@angular/core/src/render3';
 })
 export class TareaComponent implements OnInit {
   fullData: any;
-  data: any;
+  data : any[];
   Nueva: boolean;
   showRoundTemplate: boolean;
   roundTemplateId: any;
@@ -213,36 +214,69 @@ export class TareaComponent implements OnInit {
   }
   
 dataCompleta : any[];
+source: LocalDataSource;
   async getTareas() {
+
    // const response = await this.generalService.getTarea();
+   Promise.all([
+    this.generalService.getTareaCompletaNuevo(),
+  ]).then(([tarea]) => {
+    this.data = tarea;
+    console.log("DATA:");
+    console.log(this.data);
   
-    this.data = await this.generalService.getTareaCompleta();
-    
+/*     let cont = 0;
+    this.data.forEach(dato => {
+      this.data[cont] = {
+        plantaNombre: dato[cont].Planta,
+        sistemaNombre: dato[cont].Sistema,
+        equipoNombre: dato[cont].Equipo,
+        nombre: dato[cont].NombreTarea,
+        descripcion: dato[cont].Descripcion,
+        unidadMedidaNombre: dato[cont].UnidadMedida,
+      }
+      cont += 1 ;
+    }) */
     let cont = 0;
     this.data.forEach(dato => {
-      this.unidades.forEach(unidad => {
-        if(dato.unidadMedidaId==unidad.id)
-        {
-          dato={...dato,
-          unidadMedidaNombre : unidad.nombre}
-        }
-      })
-        
+      console.log("Equipo:")
+      console.log(dato.Equipo)
       dato={...dato,
-      equipamientoNombre:dato.equipamiento ? dato.equipamiento.nombre : null,
-      sistemaId: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.id : null,
-      sistemaNombre:dato.equipamiento && dato.equipamiento.sistema? dato.equipamiento.sistema.nombre : null,
-      plantaId: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.id: null,
-      plantaNombre:dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta? dato.equipamiento.sistema.planta.nombre: null,
-      unidadMedidaNombre: dato.unidadMedidaNombre? dato.unidadMedidaNombre: "Sin Nombre"
+      equipamientoNombre:dato.Equipo,
+      sistemaNombre: dato.Sistema,
+      plantaNombre: dato.Planta,
+      nombre: dato.NombreTarea,
+      descripcion: dato.Descripcion,
+      unidadMedidaNombre: dato.UnidadMedida? dato.UnidadMedida: "Sin Nombre"
     }
-
+  
     this.data[cont] = dato;
       cont +=1;
     });
+    this.source = new LocalDataSource([]);
+    this.source = new LocalDataSource(this.data);
+
+  }).catch(() => { });
+
+
+/*     let cont = 0;
+    this.data.forEach(dato => {
+      this.data[cont] = {
+        plantaNombre: dato[cont].Planta,
+        sistemaNombre: dato[cont].Sistema,
+        equipoNombre: dato[cont].Equipo,
+        nombre: dato[cont].NombreTarea,
+        descripcion: dato[cont].Descripcion,
+        unidadMedidaNombre: dato[cont].UnidadMedida,
+      }
+      cont += 1 ;
+    })
+    this.source = new LocalDataSource([]);
+    this.source = new LocalDataSource(this.data); */
+
     
-    console.log("this.data");
-    console.log(this.data);
+/*     console.log("this.data");
+    console.log(this.data); */
    
     
   }
