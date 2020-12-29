@@ -18,6 +18,7 @@ export class SystemListComponent implements OnInit {
   associateTagId: boolean;
   plants: PlantData[] = [];
   tags: any[] = [];
+  tagsNoAsignados: any[] = [];
   data: SystemList[] = [];
   system: SystemData = {} as SystemData;
   loading: boolean;
@@ -88,6 +89,11 @@ export class SystemListComponent implements OnInit {
     try {
       const response = await this.generalService.getTag(1);
       this.tags = response.items;
+      this.tagsNoAsignados = await this.generalService.getTagNoAsignadosSistemas()
+      console.log("TAGs No asgnados");
+      console.log(this.tagsNoAsignados);
+      console.log("TAGs asignados")
+      console.log(this.tags)
       this.settings.columns.tagId.editor.config.list = response.items.map(tag => ({
         title: tag.nombre,
         value: tag.nombre,

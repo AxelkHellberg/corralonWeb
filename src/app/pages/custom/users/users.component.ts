@@ -5,6 +5,7 @@ import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
 import * as moment from 'moment';
 import { NbDialogService } from '@nebular/theme';
+import { LocalDataSource } from 'ng2-smart-table';
 
 
 @Component({
@@ -46,24 +47,13 @@ export class UsersComponent {
         title: 'Apellido',
         type: 'text',
       },
-      profile: {
-        title: 'Perfil',
+      username: {
+        title: 'Usuario',
         type: 'text',
-        editor: {
-          type: 'list',
-          config: {
-            list: []
-          },
-        },
       },
-      // email: {
-      //   title: 'E-mail',
-      //   type: 'text',
-      // },
-      lastSession: {
-        title: 'Última Sesión',
+      password: {
+        title: 'Contraseña',
         type: 'text',
-        editable: false,
       },
     },
   };
@@ -76,48 +66,49 @@ export class UsersComponent {
   open(dialog: TemplateRef<any>) {
     this.dialogService.open(dialog, { context: 'No se puede eliminar el usuario Administrador' });
   }
-  async getUsers() {
-    try {
-      const response = await this.generalService.getProfile();
-      this.profiles = response.items;
-      this.settings.columns.profile.editor.config.list = response.items.map(profile => ({
-        title: profile.name,
-        value: profile.name,
-      }));
-      this.settings = {...this.settings};
-    } catch (e) {
 
-    }
+  perfilesArray: any[];
+  usuariosArray: any[];
+  async getUsers(){
+    Promise.all([
+      this.generalService.getProfile(),
+      this.generalService.getUser(),
 
-    try {
-      const response = await this.generalService.getUser();
-      this.data = response.items;
-      this.data.forEach(item => {
-        item['profile'] = this.profiles.find(profile => profile.id === item.profileId).name;
-        item['lastSession'] = moment(item.updateAt).utc().format('DD/MM/YYYY hh:mm');
-      });
-      console.log(this.data)
-    } catch (e) {
-      console.log(e)
-    }
+    ]).then(([perfiles, usuarios]) => {
+
+      this.usuariosArray = usuarios.items;
+      console.log("UsuariosArray");
+      console.log(this.usuariosArray)
+
+      this.perfilesArray = perfiles.items;
+      
+      let cont = 0;
+      this.usuariosArray.forEach(data => {
+        this.usuariosArray[cont].password= "***************"
+        cont += 1;
+      })
+
+      this.source = new LocalDataSource(this.usuariosArray);
+
+
+    }).catch(() => { });
+
+    
+
+
+
   }
+  
+  source: LocalDataSource;
 
   async createUser(data: ConfirmData) {
+    
     let userData = data;
-    //let perfiles: any = this.generalService.getProfile();
-    userData.newData.username = `${userData.newData.name.charAt(0)}${userData.newData.lastName.replace(/ /g, '').toLowerCase()}`;
-    userData.newData.password = '123456';
-    userData.newData.dni = 'prueba';
-    /*for(let perfil of this.profiles)
-    {
-      if(perfil.name == userData.profile)
-        {
-          userData.profile = perfil.id;
-          break; 
-        }
-    }*/
-    userData.newData.profileId = this.profiles.find(profile => profile.name == userData.newData.profile).id;
-    delete (userData as any).lastSession;
+
+    userData.newData.dni = "sin definir";
+    userData.newData.profileId = 1
+
+    console.log(userData.newData)
     try {
       const response = await this.generalService.createUser(userData.newData);
       console.log( userData);
@@ -127,12 +118,19 @@ export class UsersComponent {
       data.confirm.reject();
     }
   }
+
+
+  probando()
+  {
+    console.log("HOLA")
+  }
+
   async editUser(data: ConfirmData) {
     const { newData } = data;
     try {
       delete newData.lastSession;
       delete newData.email;
-      newData.profileId = this.profiles.find(profile => profile.name === newData.profile).id;
+      newData.profileId = 1
       delete newData.profile;
       const response = await this.generalService.editUser(newData.id, newData);
       console.log(response);

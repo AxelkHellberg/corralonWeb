@@ -18,7 +18,7 @@ module.exports = "<h2 class=\"title\">\r\n  <img class=\"logo\" src=\"../../../.
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".logo {\n  width: 200px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvYXV0aC9sb2dpbi9DOlxcVXNlcnNcXGF4ZWxcXGRlc2t0b3BcXFByb3llY3RvXFxzMmktYmFja29mZmljZS13ZWIvc3JjXFxhcHBcXHBhZ2VzXFxhdXRoXFxsb2dpblxcbG9naW4uY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxZQUFZLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9hdXRoL2xvZ2luL2xvZ2luLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmxvZ28ge1xyXG4gIHdpZHRoOiAyMDBweDtcclxufVxyXG4iXX0= */"
+module.exports = ".logo {\n  width: 200px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvYXV0aC9sb2dpbi9DOlxcVXNlcnNcXGF4ZWxcXGRlc2t0b3BcXHByb3llY3RvXFxzMmktYmFja29mZmljZS13ZWIvc3JjXFxhcHBcXHBhZ2VzXFxhdXRoXFxsb2dpblxcbG9naW4uY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxZQUFZLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9hdXRoL2xvZ2luL2xvZ2luLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmxvZ28ge1xyXG4gIHdpZHRoOiAyMDBweDtcclxufVxyXG4iXX0= */"
 
 /***/ }),
 

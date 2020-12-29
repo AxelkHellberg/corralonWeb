@@ -68,11 +68,6 @@ export class TareaComponent implements OnInit {
         type: 'text',
         width: '200px'
       },
-      unidadMedidaId: {
-        title: 'Unidad De Medida Id',
-        type: 'text',
-        width: '200px'
-      },
       unidadMedidaNombre: {
         title: 'Unidad De Medida',
         type: 'text',

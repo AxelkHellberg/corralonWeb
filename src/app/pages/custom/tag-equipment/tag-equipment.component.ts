@@ -173,6 +173,7 @@ export class TagEquipmentComponent implements OnInit {
     else {
       this.showToastNombre('top-right','warning');
     }
+    this.getTag()
   }
 
   async deleteEquipment(event) {

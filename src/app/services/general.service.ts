@@ -143,6 +143,12 @@ export class GeneralService {
   getTag(type: any): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/tags?q=tipoTagId=${type}`).toPromise();
   }
+  getTagNoAsignadosSistemas(): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/TagsNoAsignadosSistemas`, {id:1}).toPromise();
+  }
+  getTagNoAsignadosEquipos(): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/TagsNoAsignadosEquipos`, {id:1}).toPromise();
+  }
   createManeuverGuideTemplate(nombre: string): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-guias-maniobra/`, { nombre }).toPromise();
   }

@@ -356,6 +356,8 @@ export class NuevaTareaComponent implements OnInit {
   }
 
   selectComponent(item): void {
+    console.log("EL ID ES:")
+    console.log(item.id)
     this.data.unitId = item.id;
     this.data.unit = item.nombre;
   }
@@ -559,8 +561,12 @@ export class NuevaTareaComponent implements OnInit {
       valorMin: this.data.minValue,
       equipamientoId: this.data.equipmentId,
       tipoCampoRondaId: this.data.typeId,
-      unidadMedidaId: this.data.typeId,
+      unidadMedidaId: this.data.unitId,
     };
+    console.log("SE GUARDO LA TAREA CON UN ID:")
+    console.log(campRondaInfo.unidadMedidaId);
+    console.log("EL ID DE DATA ES:")
+    console.log(this.data.unitId)
     if(!this.edit){
       console.log("guardarTarea campos")
       console.log(campRondaInfo);

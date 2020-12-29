@@ -33,7 +33,7 @@
         </div>
         <div class="d-flex justify-content-start">
           <div class="d-flex flex-column col-4">
-            <label for="KKS">KKS</label>
+            <label for="KKS">ID</label>
             <input type="text" id="KKS" name="KKS" nbInput required [(ngModel)]="system.KKS">
           </div>
           <div class="d-flex flex-column col-4">
@@ -45,7 +45,7 @@
           <div class="d-flex flex-column col-4">
             <label for="description">TAG</label>
             <nb-select placeholder="Seleccione" [(selected)]="system.tagId">
-              <nb-option *ngFor="let tag of tags" [value]="tag.id">{{tag.nombre}}</nb-option>
+              <nb-option *ngFor="let tag of tagsNoAsignados" [value]="tag.id">{{tag.nombre}}</nb-option>
             </nb-select>
           </div>
         </div>
@@ -95,7 +95,7 @@
           <div class="d-flex flex-column col-4">
             <label for="description">TAG</label>
             <nb-select placeholder="Seleccione" [(selected)]="system.tagId">
-              <nb-option *ngFor="let tag of tags" [value]="tag.id">{{tag.nombre}}</nb-option>
+              <nb-option *ngFor="let tag of tagsNoAsignados" [value]="tag.id">{{tag.nombre}}</nb-option>
             </nb-select>
           </div>
         </div>

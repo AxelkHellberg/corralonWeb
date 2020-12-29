@@ -83,7 +83,7 @@ export class EquipmentComponent implements OnInit {
       }
     });
   }
-
+  tagsNoAsignados: any[] = [];
   ngOnInit() {
     this.getData();
   }

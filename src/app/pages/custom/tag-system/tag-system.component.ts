@@ -121,13 +121,13 @@ export class TagSystemComponent implements OnInit {
   }
   showToastRepetido(position, status) {
     this.toastrService.show(
-      'Los Nombres de los Tag no pueden Repetirce',
+      'Los Nombres de los Tag no pueden Repetirse',
       `Nombre de Tag Repetido.`,
       { position, status });
     }
     showToastNombre(position, status) {
       this.toastrService.show(
-        'Los Nombres de los Tag no pueden estar bacios',
+        'Los Nombres de los Tag no pueden estar vacios',
         `Ingrese un Nombre.`,
         { position, status });
       }
@@ -170,6 +170,7 @@ export class TagSystemComponent implements OnInit {
       console.log(e);
       event.confirm.reject();
     }
+    this.getTag()
   }
   else{
     this.showToastNombre('top-right','warning');
