@@ -198,6 +198,11 @@ export class GeneralService {
   createRoundFields(roundFieldsData: any): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/`, roundFieldsData).toPromise();
   }
+
+  crearTarea(roundFieldsData: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/crearTarea`, roundFieldsData).toPromise();
+  }
+
   editRoundFields(roundFieldsData: any, id): Promise<any> {
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`, roundFieldsData).toPromise();
   }

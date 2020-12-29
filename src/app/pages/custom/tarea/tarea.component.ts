@@ -215,7 +215,7 @@ export class TareaComponent implements OnInit {
   
 dataCompleta : any[];
 source: LocalDataSource;
-  async getTareas() {
+  public async getTareas() {
 
    // const response = await this.generalService.getTarea();
    Promise.all([

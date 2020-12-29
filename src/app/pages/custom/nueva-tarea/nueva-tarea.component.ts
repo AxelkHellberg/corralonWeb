@@ -6,6 +6,8 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
 import { RoundFields } from './../../../@models/general';
 import { TimeData } from './../../../@models/rounds';
+import { TareaComponent } from '../tarea/tarea.component';
+
 
 
 @Component({
@@ -570,13 +572,15 @@ export class NuevaTareaComponent implements OnInit {
     if(!this.edit){
       console.log("guardarTarea campos")
       console.log(campRondaInfo);
-    this.generalService.createRoundFields(campRondaInfo);}
+    this.generalService.crearTarea(campRondaInfo);}
     if(this.edit)
     {
      this.generalService.editRoundFields(campRondaInfo,this.fullData.id) 
     }
     console.log(this.fullData);
-    this.router.navigate(['/pages/tarea']);
+    this.router.navigate(['/pages/tarea']).then(()=> {
+    //  TareaComponent.getTareas()
+    });
     dialog.close();
   }
 
