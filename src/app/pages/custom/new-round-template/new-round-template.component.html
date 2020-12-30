@@ -8,7 +8,7 @@
 
   <br><br>
 
-  <ng2-smart-table [settings]="settings" [source]="dataTarea" (create)="createTemplate()" (edit)="editTemplate($event)"
+  <ng2-smart-table [settings]="settings" [source]="source2" (create)="createTemplate()" (edit)="editTemplate($event)"
     (delete)="deleteTemplate($event)"></ng2-smart-table>
 </ng-container>
 
@@ -126,7 +126,7 @@
           <label class="label" for="plant">Tarea</label>
 
 
-          <ng2-smart-table  [settings]="setingsTarea" [source]="data" (userRowSelect)="selectTarea($event)"></ng2-smart-table>
+          <ng2-smart-table  [settings]="setingsTarea" [source]="source" (userRowSelect)="selectTarea($event)"></ng2-smart-table>
 
         </div>
 

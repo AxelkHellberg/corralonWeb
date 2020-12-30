@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { utc } from 'moment';
+import { LocalDataSource } from 'ng2-smart-table';
 import { title } from 'process';
 import { RoundsDetails } from '../../../@models/rounds';
 import { SmartTableSettings } from '../../../@models/smart-table';
@@ -216,7 +217,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     private dialogService: NbDialogService,
     private changeDetectorRef: ChangeDetectorRef,
   ) { }
-  dataTarea: any[];
+  dataTarea: any;
   agregarTarea: boolean = false;
   edit: boolean = false;
   /* hora: any = {
@@ -251,39 +252,39 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.unidadDemedida = r.items;
     console.log("unidad de medida")
     console.log(this.unidadDemedida)
-    this.data = await this.generalService.getTareaCompleta();
-    /*       this.generalService.getTarea(), */
-    let cont = 0;
-
-    this.data.forEach(dato => {
-      this.unidadDemedida.forEach(unidad => {
-        if (dato.unidadMedidaId == unidad.id) {
-         
-          console.log("entre")
-          console.log(unidad.nombre + dato.id)
-          dato = {
-            ...dato,
-            unidadDemedidaNombre: unidad.nombre
-          }
+    
+    Promise.all([
+      this.generalService.getTareaCompletaNuevo(),
+    ]).then(([tarea]) => {
+      this.data = tarea;
+      this.dataTarea = tarea;
+      console.log("DATA:");
+      console.log(this.data);
+    
+      let cont = 0;
+      this.data.forEach(dato => {
+        console.log("Equipo:")
+        console.log(dato.Equipo)
+        dato={...dato,
+        equipamientoNombre:dato.Equipo,
+        sistemaNombre: dato.Sistema,
+        plantaNombre: dato.Planta,
+        nombre: dato.NombreTarea,
+        descripcion: dato.Descripcion,
+        unidadDemedidaNombre: dato.UnidadMedida? dato.UnidadMedida: "Sin Nombre"
         }
-
-      })
-      dato = {
-        ...dato,
-        equipamientoNombre: dato.equipamiento ? dato.equipamiento.nombre : null,
-        sistemaId: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.id : null,
-        sistemaNombre: dato.equipamiento && dato.equipamiento.sistema ? dato.equipamiento.sistema.nombre : null,
-        plantaId: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta ? dato.equipamiento.sistema.planta.id : null,
-        plantaNombre: dato.equipamiento && dato.equipamiento.sistema && dato.equipamiento.sistema.planta ? dato.equipamiento.sistema.planta.nombre : null,
-        unidadDemedidaNombre : dato.unidadDemedidaNombre? dato.unidadDemedidaNombre : "sin Nombre"
-      }
-
+    
       this.data[cont] = dato;
-      cont += 1;
-    });
+      this.dataTarea[cont] = dato;
+        cont +=1;
+      });
+      this.source = new LocalDataSource([]);
+      this.source = new LocalDataSource(this.data);
+      this.source2 = new LocalDataSource([]);
+      this.source2 = new LocalDataSource(this.dataTarea);
+  
+    })/* .catch(() => { console.log("ALGO FALLO")}); */
 
-    console.log("this.data");
-    console.log(this.data);
     /*     this.data = await this.generalService.getTareaCompleta();
         
         let cont = 0;
@@ -305,7 +306,8 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         */
   }
 
-
+source : LocalDataSource;
+source2 : LocalDataSource;
 
 
   createTemplate() {
@@ -661,11 +663,6 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       deleteButtonContent: '<i class="nb-trash"></i>'
     },
     columns: {
-      equipamientoNombre: {
-        title: 'equipamiento',
-        type: 'text',
-        width: '200px'
-      },
       plantaNombre: {
         title: 'Planta',
         type: 'text',
@@ -673,6 +670,11 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       },
       sistemaNombre: {
         title: 'Sistema',
+        type: 'text',
+        width: '200px'
+      },
+      equipamientoNombre: {
+        title: 'Equipo',
         type: 'text',
         width: '200px'
       },
@@ -686,11 +688,11 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         type: 'text',
         width: '200px'
       },
-      unidadMedidaId: {
+/*       unidadMedidaId: {
         title: 'Unidad De Medida ID',
         type: 'text',
         width: '200px'
-      },
+      }, */
       unidadDemedidaNombre: {
         title: 'Unidad De Medida',
         type: 'text',
