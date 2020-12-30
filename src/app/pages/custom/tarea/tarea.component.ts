@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { SmartTableSettings, ConfirmData } from '../../../@models/smart-table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoundFields, RoundTemplateData } from '../../../@models/general';
@@ -12,7 +12,10 @@ import { LocalDataSource } from 'ng2-smart-table';
   templateUrl: './tarea.component.html',
   styleUrls: ['./tarea.component.scss']
 })
-export class TareaComponent implements OnInit {
+export class TareaComponent implements OnInit, OnChanges {
+  static getTareasStatic() {
+    window.location.reload()
+  }
   fullData: any;
   data : any[];
   Nueva: boolean;
@@ -91,9 +94,15 @@ export class TareaComponent implements OnInit {
     });
   }
 
+
+  ngOnChanges(changes: SimpleChanges): void {
+   // this.getTareas();
+  }
+
   async onSaveData(data) {
     console.log("onsave");
     console.log(data)
+    this.getTareas();
     /*const templateData: RoundTemplateData = {
       nombre: data.nombre,
       funcionamientoSistema: !!data.full.templateConfig.funcionamientoSistema,
@@ -307,8 +316,10 @@ unidades: any[];
     this.router.navigate(['/pages/tarea'], {
       queryParams: {
         Nueva: true,
-      }
-    });
+        }
+      })/* .then(()=> {
+        this.getTareas()
+      }); */
     this.fullData = null;
   }
 

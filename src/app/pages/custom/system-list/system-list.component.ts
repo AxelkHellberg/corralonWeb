@@ -150,6 +150,9 @@ export class SystemListComponent implements OnInit {
     this.loading = true;
     try {
       await this.generalService.createSystem(this.system);
+      console.log("SYSTEM:")
+      console.log(this.system)
+      await this.generalService.deshabilitarTagSeleccionado(this.system.tagId);
       this.getAllData();
       dialog.close();
       this.system = {} as SystemData;

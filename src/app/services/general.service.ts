@@ -100,6 +100,9 @@ export class GeneralService {
   createSystem(systemData: SystemData): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/sistemas`, systemData).toPromise();
   }
+  deshabilitarTagSeleccionado(idTag: number): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/tags/deshabilitarTagSeleccionado`, {id:idTag}).toPromise();
+  }
   getTypeSystems(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/tipos-sistema`).toPromise();
   }
