@@ -47,6 +47,9 @@ export class GeneralService {
   getRondasCompletas(): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/plantillas-con-camposronda`, { "id": 4, "filters": {} }).toPromise();
   }
+  getNombreDescripcionRonda(): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/NombreDescripcionRondas`, { "id": 4 }).toPromise();
+  }
   getRondasCompletas1(idB: any): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/plantillas-con-camposronda`, {
       "id": 0, "filters": {

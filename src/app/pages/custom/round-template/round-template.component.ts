@@ -6,6 +6,7 @@ import { GeneralService } from '../../../services/general.service';
 import { RoundTemplateData, RoundFields } from '../../../@models/general';
 import { elementEnd } from '@angular/core/src/render3';
 import { data } from 'jquery';
+import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
   selector: 'ngx-round-template',
@@ -44,7 +45,7 @@ export class RoundTemplateComponent implements OnInit {
         width: '200px'
       },
       id: {
-        title: 'Ronda Id',
+        title: 'Descripcion',
         type: 'text',
         width: '200px'
       },
@@ -66,7 +67,7 @@ export class RoundTemplateComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.data = await this.generalService.getRondasCompletas();
+    this.data = await this.generalService.getNombreDescripcionRonda();
     console.log("ngOnInit this.data")
     console.log(this.data);
     //console.log(await this.generalService.getRondasCompletas())
@@ -81,43 +82,18 @@ export class RoundTemplateComponent implements OnInit {
 
     for (let i = 0; i < this.data.length; i++) {
       //let aux = aux.concat(this.data[i].Tarea)
-      this.DatosTabla = this.DatosTabla.concat({ id: this.data[i].id, nombreRonda: this.data[i].nombre });
+      this.DatosTabla = this.DatosTabla.concat({ id: this.data[i].descripcion, nombreRonda: this.data[i].nombre });
     }
-
+    console.log("DATOS TABLA:")
     console.log(this.DatosTabla);
-    //this.getFieldsRoundTemplate();
+    this.source = new LocalDataSource([]);
+    this.source = new LocalDataSource(this.DatosTabla);
+
     //this.traerCamposRonda();
   }
+  source : LocalDataSource;
 
 
-
-
-  //descartar
-  async getFieldsRoundTemplate() {
-    if (this.roundTemplateId) {
-      const fullData = this.data.find(item => item.id === +this.roundTemplateId);
-      try {
-        const response = await this.generalService.getFieldTemplate(this.roundTemplateId);
-        fullData.full.fieldsData = response.map(field => (<RoundsDetails>{
-          unit: field.unidadMedida.nombre,
-          equipment: field.equipamiento.nombre,
-          plant: field.equipamiento.sistema.planta.nombre,
-          system: field.equipamiento.sistema.nombre,
-          name: field.nombre,
-          minValue: field.valorMin,
-          normalValue: field.valorNormal,
-          maxValue: field.valorMax,
-          type: field.tipoCampoRondaId,
-          roundFieldId: field.id,
-          roundTemplateId: field.plantillaRondaId,
-        }));
-        this.fullData = { ...fullData };
-      } catch (error) {
-
-      }
-    }
-  }
-  ///////////
   async getTemplates() {
     // let roundTemplateData;
     try {
@@ -173,6 +149,7 @@ export class RoundTemplateComponent implements OnInit {
     this.fullData = null;
   }
  
+
   async editTemplate({ data }) {
     let dataFields = []
     console.log("editTemplate data");

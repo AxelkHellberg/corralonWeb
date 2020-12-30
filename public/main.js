@@ -5719,6 +5719,7 @@ var GeneralService = /** @class */ (function () {
     GeneralService.prototype.createHorariosUsuarios = function (horarioId, usuarioId) { return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/enlace-horario-usuario", { "horarioId": horarioId, "userId": usuarioId }).toPromise(); };
     GeneralService.prototype.getHorariosUsuaruios = function () { return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/enlace-horario-usuario").toPromise(); };
     GeneralService.prototype.getTareaCompleta = function () { return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/campos-ronda", { id: 4 }).toPromise(); };
+    GeneralService.prototype.getTareaCompletaNuevo = function () { return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/campos-ronda/traerTareas").toPromise(); };
     GeneralService.prototype.getFallasEquipo = function () { return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/falla-equipo", { id: 4 }).toPromise(); };
     GeneralService.prototype.getFallasSistema = function () { return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/falla-sistema", { id: 4 }).toPromise(); };
     GeneralService.prototype.getTarea = function () {
@@ -5735,6 +5736,9 @@ var GeneralService = /** @class */ (function () {
     };
     GeneralService.prototype.getRondasCompletas = function () {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/plantillas-con-camposronda", { "id": 4, "filters": {} }).toPromise();
+    };
+    GeneralService.prototype.getNombreDescripcionRonda = function () {
+        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/NombreDescripcionRondas", { "id": 4 }).toPromise();
     };
     GeneralService.prototype.getRondasCompletas1 = function (idB) {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/plantillas-con-camposronda", {
@@ -5784,6 +5788,9 @@ var GeneralService = /** @class */ (function () {
     };
     GeneralService.prototype.createSystem = function (systemData) {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/sistemas", systemData).toPromise();
+    };
+    GeneralService.prototype.deshabilitarTagSeleccionado = function (idTag) {
+        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/tags/deshabilitarTagSeleccionado", { id: idTag }).toPromise();
     };
     GeneralService.prototype.getTypeSystems = function () {
         return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/tipos-sistema").toPromise();
@@ -5884,6 +5891,9 @@ var GeneralService = /** @class */ (function () {
     };
     GeneralService.prototype.createRoundFields = function (roundFieldsData) {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/campos-ronda/", roundFieldsData).toPromise();
+    };
+    GeneralService.prototype.crearTarea = function (roundFieldsData) {
+        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/campos-ronda/crearTarea", roundFieldsData).toPromise();
     };
     GeneralService.prototype.editRoundFields = function (roundFieldsData, id) {
         return this.http.patch(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/campos-ronda/" + id, roundFieldsData).toPromise();
