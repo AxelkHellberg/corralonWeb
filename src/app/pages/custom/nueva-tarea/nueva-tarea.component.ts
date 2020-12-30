@@ -567,7 +567,7 @@ export class NuevaTareaComponent implements OnInit {
     };
     console.log("SE GUARDO LA TAREA CON UN ID:")
     console.log(campRondaInfo.unidadMedidaId);
-    console.log("EL ID DE DATA ES:")
+    console.log("EL ID DE DATA ES: ")
     console.log(this.data.unitId)
     if(!this.edit){
       console.log("guardarTarea campos")
