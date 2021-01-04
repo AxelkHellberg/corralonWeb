@@ -32,7 +32,7 @@ import {TareaModule} from './custom/tarea/tarea.module';
 
 
 import { CalendarioModule } from './custom/calendario/calendario.module';
-import { NbCalendarModule } from '@nebular/theme';
+import { NbCalendarModule, NbListModule } from '@nebular/theme';
 import { NuevaTareaModule } from './custom/nueva-tarea/nueva-tarea.module';
 
 const PAGES_COMPONENTS = [
@@ -72,6 +72,7 @@ const PAGES_COMPONENTS = [
     NbCalendarModule,
     TareaModule,
     NuevaTareaModule,
+    NbListModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,

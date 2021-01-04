@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService, NbListModule } from '@nebular/theme';
 import { utc } from 'moment';
 import { LocalDataSource } from 'ng2-smart-table';
 import { title } from 'process';
@@ -9,6 +9,7 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
 import { RoundFields } from './../../../@models/general';
 import { TimeData } from './../../../@models/rounds';
+
 
 @Component({
   selector: 'ngx-new-round-template',
@@ -21,6 +22,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   @Output() onRefreshRoundTemplate = new EventEmitter();
   @Input() fullData: any;
   roundName: string;
+  descripcion: string;
   selectedPlant: string;
   selectedSystem: string;
   selectedEquipment: string;
@@ -65,6 +67,8 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   max: any;
   normal: any;
   nameField: any;
+  tareasSeleccionadas: any[] = [];
+  idTareasSeleccionadas: any[] = [];
 
   //tareas
   rondaArray: any[];
@@ -73,13 +77,32 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 
     console.log("this.full.data");
     console.log(item.data);
-    this.data.tareaId = item.data.id;
+    this.data.tareaId = item.data.idTarea;
     this.data.tarea = item.data.nombre;
     // this.data.rodnaID = 1;
+    this.tareasSeleccionadas.push(item.data);
+    this.idTareasSeleccionadas.push(item.data.idTarea);
+    this.source2 = new LocalDataSource([]);
+    this.source2 = new LocalDataSource(this.tareasSeleccionadas);
+
+    console.log("TAREAS SELECCIONADAS:")
+    console.log(this.tareasSeleccionadas)
     console.log("this.data");
     console.log(this.data);
     console.log("item");
     console.log(item.data);
+
+  }
+
+  selectTarea2(item): void {
+
+
+    // this.data.rodnaID = 1;
+
+    let i = this.tareasSeleccionadas.indexOf( item.data );
+    this.tareasSeleccionadas.splice(i,1);
+    this.source2 = new LocalDataSource([]);
+    this.source2 = new LocalDataSource(this.tareasSeleccionadas);
 
   }
   selectRonda(item): void {
@@ -243,6 +266,10 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.getAllData();
   }
 
+  accion(): void  {
+   console.log("El encontrado es:")
+    ///console.log( this.tareasSeleccionadas.indexOf(item[0]))
+  }
 
   unidadDemedida: any[];
 
@@ -271,7 +298,8 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         plantaNombre: dato.Planta,
         nombre: dato.NombreTarea,
         descripcion: dato.Descripcion,
-        unidadDemedidaNombre: dato.UnidadMedida? dato.UnidadMedida: "Sin Nombre"
+        unidadDemedidaNombre: dato.UnidadMedida? dato.UnidadMedida: "Sin Nombre",
+        idTarea: dato.idTarea
         }
     
       this.data[cont] = dato;
@@ -280,8 +308,8 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
       });
       this.source = new LocalDataSource([]);
       this.source = new LocalDataSource(this.data);
-      this.source2 = new LocalDataSource([]);
-      this.source2 = new LocalDataSource(this.dataTarea);
+/*       this.source2 = new LocalDataSource([]);
+      this.source2 = new LocalDataSource(this.dataTarea); */
   
     })/* .catch(() => { console.log("ALGO FALLO")}); */
 
@@ -491,10 +519,21 @@ source2 : LocalDataSource;
 
   async saveTemplate() {
     let res;
-    if (!this.fullData) {
-      res = await this.generalService.createRoundTemplate(this.roundName);
-      this.data.rondaId = res.id;
-    }
+
+      res = await this.generalService.createRoundTemplate(this.roundName,this.descripcion);
+      this.data.rondaId = res.insertId;
+
+      let cont = 0;
+      this.tareasSeleccionadas.forEach(element => {
+        this.generalService.asociarTareasEnRondas(this.idTareasSeleccionadas[cont],this.data.rondaId)
+        console.log("El id de la tarea que se carga es : ")
+        console.log(this.idTareasSeleccionadas[cont])
+        console.log("Con la rondaId:")
+        console.log(this.data.rondaId)
+        cont += 1;
+      });
+
+
     // this.selectTimeInicio();
     // this.selectTimeFin();
     //let dias = "";
@@ -511,13 +550,8 @@ source2 : LocalDataSource;
     //    plantillaId: this.data.rondaId
     //  }
     //  this.generalService.createHorario(this.hora);
-    console.log("this.data");
-    console.log(this.data);
-    this.router.navigate(['/pages/round-template']);
-    this.onSave.emit({
-      rondaId: this.data.rondaId,
-      tareaId: this.data.tareaId,
-
+    this.router.navigate(['/pages/round-template']).then(()=>{
+      location.reload();
     });
 
   }
@@ -642,8 +676,8 @@ source2 : LocalDataSource;
 
 
 
-  setingsTarea: SmartTableSettings = {
-    noDataMessage: '',
+  setingsTareaSeleccionada: SmartTableSettings = {
+    noDataMessage: 'No se seleccionaron tareas',
     mode: 'external',
     actions: false,
     attr: {
@@ -661,6 +695,48 @@ source2 : LocalDataSource;
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>'
+    },
+    columns: {
+      plantaNombre: {
+        title: 'Planta',
+        type: 'text',
+        width: '200px'
+      },
+      sistemaNombre: {
+        title: 'Sistema',
+        type: 'text',
+        width: '200px'
+      },
+      equipamientoNombre: {
+        title: 'Equipo',
+        type: 'text',
+        width: '200px'
+      },
+      nombre: {
+        title: 'Nombre de Tarea',
+        type: 'text',
+        width: '200px'
+      },
+      descripcion: {
+        title: 'Descripcion',
+        type: 'text',
+        width: '200px'
+      },
+      unidadDemedidaNombre: {
+        title: 'Unidad De Medida',
+        type: 'text',
+        width: '200px'
+      }
+
+    }
+  };
+
+  setingsTarea: SmartTableSettings = {
+    noDataMessage: '',
+    mode: 'external',
+    actions: false,
+    attr: {
+      class: 'general-table'
     },
     columns: {
       plantaNombre: {

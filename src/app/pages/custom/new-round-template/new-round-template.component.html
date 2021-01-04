@@ -1,226 +1,74 @@
 <h4 class="mb-20">Nueva Plantilla de Ronda: '{{!roundName ? 'Sin Titulo' : roundName}}'</h4>
 <br><br>
 <ng-container>
-  <div class="d-flex justify-content-between">
-    <input nbInput type="text" class="col-6" [(ngModel)]="roundName" placeholder="Nombre de la Ronda">
-    <button nbButton status="primary" class="col-4 col-offset-2" (click)="saveTemplate()">Guardar Plantilla</button>
-  </div>
+
 
   <br><br>
 
-  <ng2-smart-table [settings]="settings" [source]="source2" (create)="createTemplate()" (edit)="editTemplate($event)"
-    (delete)="deleteTemplate($event)"></ng2-smart-table>
-</ng-container>
-
-<br><br>
-<!--ngb-timepicker [(ngModel)]="time"></ngb-timepicker-->
-
-
-
-<!--br>
-<div class="row col-12">
-  <br><br>
-  <div class="d-flex fd-c">
-    <h5>Horario</h5>
-    <br>
-    <div>
-      <h5>Hora Inicio</h5>
-      <ngb-timepicker [(ngModel)]="horaInicio"></ngb-timepicker>
-      <hr>
-      <!--button (click)="selectTimeInicio()">agregar Hora</button-->
-      <!--ng2-smart-table [settings]="timeSetting" [source]="tableTimeData" (createConfirm)="selectTimeInicio($event, 'create')"
-        (editConfirm)="selectTime($event, 'edit')" (deleteConfirm)="selectTime($event, 'delete')">
-      </ng2-smart-table-->
-    <!--/div>
-    <div>
-      <h5>Hora Fin</h5>
-      <ngb-timepicker [(ngModel)]="horaFin"></ngb-timepicker>
-      <hr>
-      <!--ng2-smart-table [settings]="timeSetting" [source]="tableTimeData" (createConfirm)="selectTimeFin($event, 'create')"
-          (editConfirm)="selectTime($event, 'edit')" (deleteConfirm)="selectTime($event, 'delete')">
-        </ng2-smart-table-->
-    <!--/div>
-    <nb-calendar [(date)]="date" (dateChange)="selectDate($event)"></nb-calendar>
-    <br>
-    <nb-card size="small">
-      <nb-card-body>
-        <div>
-          <h5>Dias de Recurrencia</h5>
-        </div>
-        <nb-select multiple placeholder="Multiple Select" [(selected)]="selectedDia" (click)="agregarDia()">
-          <nb-option value="1">Lunes</nb-option>
-          <nb-option value="2">Martes</nb-option>
-          <nb-option value="3">Miercoles</nb-option>
-          <nb-option value="4">Jueves</nb-option>
-          <nb-option value="5">Viernes</nb-option>
-          <nb-option value="6">Sabado</nb-option>
-          <nb-option value="7">Domingo</nb-option>
-        </nb-select>
-        <div>
-          <h5>Tipo de Recurrencia</h5>
-        </div>
-        <nb-select placeholder="Multiple Select" [(selected)]="selectedRecurrencia" (click)="agregarRecurrencia()">
-          <nb-option value="1">Diaria</nb-option>
-          <nb-option value="2">Semanal</nb-option>
-          <nb-option value="3">Mensual</nb-option>
-        </nb-select>
-      </nb-card-body>
-    </nb-card>
-<button (click)="generarHorario()">crear horaio</button>
-
-
-
-  </div>
-</div>
-<br><br>
-
-
-<!--div>
-  <ngb-timepicker [(ngModel)]="time"></ngb-timepicker>
-  <ngb-timepicker [(ngModel)]="time"></ngb-timepicker>
-</div>
-  <div>
-  <nb-card>
-        <nb-calendar [(date)]="date" (dateChange)="selectDate($event)"></nb-calendar>
-      </nb-card>
-    </div-->
-<!--div class="row">
-    <div class="col-12">
-      <h5>Configuración</h5>
-    </div>
-    <br><br>
-    <div class="col-12">
-      <p><b>Sistemas</b></p>
-      <div class="d-flex">
-        <nb-checkbox status="primary" [(ngModel)]="funcionamientoSistema">Funcionamiento</nb-checkbox>
-        <nb-checkbox status="primary" [(ngModel)]="obligatorioSistema">Obligatorio</nb-checkbox>
-      </div>
-    </div>
-    <br><br>
-    <div class="col-12">
-      <p><b>Equipmaiento</b></p>
-      <div class="d-flex">
-        <nb-checkbox status="primary" [(ngModel)]="funcionamientoEquipo">Funcionamiento</nb-checkbox>
-        <nb-checkbox status="primary" [(ngModel)]="obligatorioEquipo">Obligatorio</nb-checkbox>
-      </div>
-    </div>
-  </div-->
-
-
-<ng-template #addOrEdit let-dialog="dialogRef" let-dialogData>
+  
   <nb-card class="roundModal">
     <nb-card-header>{{dialogData}}</nb-card-header>
     <nb-card-body class="center">
-      <div >
-        <!--div class="col-6">
-          <label class="label" for="plant">Planta</label>
-          <nb-select id="plant" placeholder="Seleccione" [selected]="data.plantId">
-            <nb-option *ngFor="let item of plantArray?.items" [value]="item?.id" (click)="selectPlant(item)">
-              {{item?.nombre}}</nb-option>
-          </nb-select>
-        </div-->
+  
 
 
-
-        <div class="col-9">
-          <label class="label" for="plant">Tarea</label>
-
-
-          <ng2-smart-table  [settings]="setingsTarea" [source]="source" (userRowSelect)="selectTarea($event)"></ng2-smart-table>
-
-        </div>
-
-        <!--div class="col-6">
-            <label class="label" for="plant">Ronda</label>
-            <nb-select id="ronda" placeholder="Ronda" [selected]="data.plantId">
-              <nb-option *ngFor="let item of rondaArray?.items" [value]="item?.id" (click)="selectRonda(item)">
-                {{item?.nombre}}</nb-option>
-            </nb-select>
-          </div-->
+        <div >
+          <h4 class="mb-20" for="plant">Seleccionar tareas</h4>
 
 
-        <!--div class="col-6">
-          <label class="label" for="system">Sistema</label>
-          <ng-container *ngIf="(systemArray?.items | filterBy: 'plantaId': data.plantId)?.length">
-            <nb-select id="system" placeholder="Seleccione" [selected]="data.systemId" [disabled]="!data.plantId">
-              <nb-option *ngFor="let item of systemArray?.items | filterBy: 'plantaId': data.plantId" [value]="item?.id"
-                (click)="selectSystem(item)">{{item?.nombre}}</nb-option>
-            </nb-select>
-            <p class="text-danger" *ngIf="data.plantId && !data.systemId">Seleccione un sistema.</p>
-          </ng-container>
-          <p class="text-danger" *ngIf="!(systemArray?.items | filterBy: 'plantaId': data.plantId)?.length">No hay
-            sistemas disponibles para la planta elegida.</p>
+          <ng2-smart-table [settings]="setingsTarea" [source]="source" (userRowSelect)="selectTarea($event)"></ng2-smart-table>
         </div>
-        <div class="col-6">
-          <label class="label" for="equipment">Equipo</label>
-          <ng-container
-            *ngIf="(equipmentArray?.items | filterBy: 'sistemaId': data.systemId)?.length && (systemArray?.items | filterBy: 'plantaId': data.plantId)?.length">
-            <nb-select id="equipment" placeholder="Seleccione" [selected]="data.equipmentId"
-              [disabled]="!data.systemId">
-              <nb-option *ngFor="let item of equipmentArray?.items | filterBy: 'sistemaId': data.systemId"
-                [value]="item?.id" (click)="selectEquipment(item)">{{item?.nombre}}</nb-option>
-            </nb-select>
-            <p class="text-danger" *ngIf="data.systemId && !data.equipmentId">Seleccione un equipo.</p>
-          </ng-container>
-          <p class="text-danger"
-            *ngIf="!(equipmentArray?.items | filterBy: 'sistemaId': data.systemId)?.length || !(systemArray?.items | filterBy: 'plantaId': data.plantId)?.length">
-            No hay equipos disponibles para el sistema elegido.</p>
-        </div>
-        <div class="col-6">
-          <label class="label" for="unity">Unidad de medida</label>
-          <nb-select id="unity" placeholder="Seleccione" [selected]="data.unitId">
-            <nb-option *ngFor="let item of unitArray?.items" [value]="item?.id" (click)="selectComponent(item)">
-              {{item?.nombre}}</nb-option>
-          </nb-select>
-        </div>
-        <div class="col-6">
-          <label class="label" for="name">Nombre</label>
-          <input name="nameField" (ngModelChange)="changeField($event,'nameField')" [(ngModel)]="data.name" id="name"
-            class="form-control" placeholder="Nombre" type="text" />
-        </div>
-        <div class="col-6">
-          <label class="label" for="type">Tipo de dato</label>
-          <nb-select id="type" placeholder="Seleccione" [selected]="data.typeId">
-            <nb-option *ngFor="let item of dataTypeArray?.items " [value]="item?.id" (click)="selectTypeData(item)">
-              {{item?.nombre}}</nb-option>
-          </nb-select>
-        </div>
-        <div class="col-4" *ngIf="data.type < 3">
-          <label class="label" for="min">Valor Mínimo</label>
-          <input name="min" [(ngModel)]="data.minValue" id="min" class="form-control" placeholder="Valor Mínimo"
-            type="{{data.type == 1 ? 'number' : 'text'}}" />
-        </div>
-        <div class="col-4" *ngIf="data.type < 3">
-          <label class="label" for="max">Valor Máximo</label>
-          <input name="max" [(ngModel)]="data.maxValue" id="max" class="form-control" placeholder="Valor Máximo"
-            type="{{data.type == 1 ? 'number' : 'text'}}" />
-        </div>
-        <div class="col-4" *ngIf="data.type < 3">
-          <label class="label" for="normal">Valor Normal</label>
-          <input name="normal" [(ngModel)]="data.normalValue" id="normal" class="form-control"
-            placeholder="Valor Normal" type="{{data.type == 1 ? 'number' : 'text'}}" />
-        </div>
-        <div class="col-4" *ngIf="data.type > 2">
-          <label class="label" for="normal">Valor Normal</label>
-          <nb-select [(selected)]="data.normalValue" name="normal" id="type" placeholder="Seleccione">
-            <nb-option value="1">Verdadero</nb-option>
-            <nb-option value="0">Falso</nb-option>
-          </nb-select>
-        </div-->
-      </div>
+        <div>
+
+          <h4 class="mb-20" for="plant">Tareas seleccionadas</h4>
+          <ng2-smart-table [settings]="setingsTareaSeleccionada" [source]="source2" (userRowSelect)="selectTarea2($event)"></ng2-smart-table>
+
+<!--           <nb-card size="medium">
+            <nb-card-header>
+              Tareas seleccionadas
+            </nb-card-header>
+            <nb-list>
+              <nb-list-item *ngFor="let item of tareasSeleccionadas" >
+                {{ item.NombreTarea }}
+                <button type="button" class="close" aria-label="Close" (onClick)="accion()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </nb-list-item>
+            </nb-list>
+          </nb-card> -->
+<!--           <ng2-smart-table [settings]="settings" [source]="source2" (create)="createTemplate()" (edit)="editTemplate($event)"
+            (delete)="deleteTemplate($event)"></ng2-smart-table> -->
+
+       </div>
+
+ 
     </nb-card-body>
 
 
 
-    <nb-card-footer>
+<!--     <nb-card-footer>
       <div class="row">
         <div class="col-12 d-flex justify-content-center align-items-baseline">
           <h5 class="text-hint cursor-pointer pr-4" (click)="discardChanges(dialog)">Cancelar</h5>
-          <!--button nbButton status="primary" (click)="saveChanges(dialog)"
-            [disabled]="!enableSaveButton">Guardar</button-->
           <button nbButton status="primary" (click)="saveChanges(dialog)">Guardar</button>
         </div>
       </div>
-    </nb-card-footer>
+    </nb-card-footer> -->
   </nb-card>
-</ng-template>
+
+  <div class="d-flex justify-content-between">
+    <input nbInput type="text" class="col-6" [(ngModel)]="roundName" placeholder="Nombre de la Ronda">
+    <input nbInput type="text" class="col-6" [(ngModel)]="descripcion" placeholder="Descripcion de la Ronda">
+  </div>
+
+  <div class="d-flex justify-content-between">
+  <button nbButton status="primary" class="col-4 col-offset-2" (click)="saveTemplate()">Guardar Plantilla</button>
+  </div>
+  
+</ng-container>
+
+<br><br>
+
+
+
+

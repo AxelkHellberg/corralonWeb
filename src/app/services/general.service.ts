@@ -215,8 +215,11 @@ export class GeneralService {
   deleteRoundFields(id): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`).toPromise();
   }
-  createRoundTemplate(roundTemplateData: any): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/`, { nombre: roundTemplateData }).toPromise();
+  createRoundTemplate(roundTemplateData: any, descripcionData: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/crearPlantillaRonda`, { nombre: roundTemplateData, descripcion: descripcionData }).toPromise();
+  }
+  asociarTareasEnRondas(idTareaData: any, idInsertadoData: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/asociarTareasEnRonda`, { idTarea: idTareaData, idInsertado: idInsertadoData }).toPromise();
   }
   editRoundTemplate(id: number, roundTemplateData: RoundTemplateData): Promise<any> {
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/${id}`, roundTemplateData).toPromise();

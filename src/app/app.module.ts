@@ -20,7 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralService } from './services/general.service';
 import { MessageBusService } from './services/message-bus.service';
 import { EnvironmentService } from './services/environment.service';
-import { NbDatepickerModule } from '@nebular/theme';
+import { NbDatepickerModule, NbListModule } from '@nebular/theme';
 
 
 
@@ -38,7 +38,7 @@ export function init_environment(env: EnvironmentService) {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    
+ 
     
 
     NgbModule.forRoot(),

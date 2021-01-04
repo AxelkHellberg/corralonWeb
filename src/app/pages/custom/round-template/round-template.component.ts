@@ -94,6 +94,12 @@ export class RoundTemplateComponent implements OnInit {
   source : LocalDataSource;
 
 
+  checked = false;
+  async accion({ data }) {
+    this.checked = data;
+    console.log("Pase por toggle")
+  }
+
   async getTemplates() {
     // let roundTemplateData;
     try {
@@ -145,7 +151,7 @@ export class RoundTemplateComponent implements OnInit {
       queryParams: {
         create: true,
       }
-    });
+    })
     this.fullData = null;
   }
  
