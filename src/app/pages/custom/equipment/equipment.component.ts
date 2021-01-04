@@ -114,8 +114,9 @@ export class EquipmentComponent implements OnInit {
   async getData() {
     try {
       const response = await this.generalService.getTag(2);
+      this.tagsNoAsignados = await this.generalService.getTagNoAsignadosEquipos();
       this.tag = response.items;
-      this.settings.columns.tagId.editor.config.list = response.items.map(tag => ({
+      this.settings.columns.tagId.editor.config.list = this.tagsNoAsignados.map(tag => ({
         title: tag.nombre,
         value: tag.nombre,
       }));
