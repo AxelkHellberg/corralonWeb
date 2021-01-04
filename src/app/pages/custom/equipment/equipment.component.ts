@@ -174,6 +174,8 @@ export class EquipmentComponent implements OnInit {
       };
       try {
         await this.generalService.createEquipment(equipmentData);
+        await this.generalService.deshabilitarTagSeleccionado(equipmentData.tagId)
+
         this.getData();
         data.confirm.resolve();
       } catch (error) {
