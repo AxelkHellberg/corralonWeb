@@ -189,8 +189,11 @@ export class SystemListComponent implements OnInit {
 
   async deleteSystem(system) {
     const { id } = system.data;
+    console.log("sistema  a eliminar.")
+    console.log(system)
     try {
       await this.generalService.deleteSystem(id);
+      await this.generalService.activarTag(system.data.tagId)
       this.getAllData();
     } catch (error) {
     }

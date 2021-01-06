@@ -14,7 +14,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 })
 export class TareaComponent implements OnInit, OnChanges {
   static getTareasStatic() {
-    window.location.reload()
+   window.location.reload()
   }
   fullData: any;
   data : any[];
@@ -378,7 +378,9 @@ unidades: any[];
     console.log("deleteTarea");
     const dataTarea = tarea.data;
     console.log(dataTarea.id);
-    this.generalService.deleteRoundFields(dataTarea.id);
+    this.generalService.deleteRoundFields(tarea.data.idTarea);
+
+    
   }
 
   async editTarea(tarea) {

@@ -119,6 +119,7 @@ export class EquipmentComponent implements OnInit {
       this.settings.columns.tagId.editor.config.list = this.tagsNoAsignados.map(tag => ({
         title: tag.nombre,
         value: tag.nombre,
+        tagid: tag.id
       }));
       this.settings = { ...this.settings };
     } catch (e) { }
@@ -219,6 +220,10 @@ export class EquipmentComponent implements OnInit {
   async deleteEquipment(data: ConfirmData) {
     try {
       const response = await this.generalService.deleteEquipment(data.data.id);
+      console.log((this.tag.find(tag => tag.nombre == data.data.tagId) || {} as any).id)
+      
+      await this.generalService.activarTag((this.tag.find(tag => tag.nombre === data.data.tagId) || {} as any).id)
+      this.getData()
       data.confirm.resolve();
     } catch (e) {
       data.confirm.reject();

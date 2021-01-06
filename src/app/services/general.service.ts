@@ -21,7 +21,7 @@ export class GeneralService {
 
   getTareaCompleta(): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/campos-ronda`, { id: 4 }).toPromise(); }
 
-  getTareaCompletaNuevo(): Promise<any> { return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/traerTareas`).toPromise(); }
+  getTareaCompletaNuevo(): Promise<any> { return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/traerTareas` ).toPromise(); }
 
   getFallasEquipo(): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/falla-equipo`, { id: 4 }).toPromise(); }
 
@@ -124,6 +124,9 @@ export class GeneralService {
   deleteSystem(id: number): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/sistemas/${id}`).toPromise();
   }
+  activarTag(tagData: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/tags/activarTag`, { tagId: tagData}).toPromise();
+  }
   getSystems(filter: string = ''): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/sistemas?q=${filter}`).toPromise();
   }
@@ -206,7 +209,7 @@ export class GeneralService {
   }
 
   crearTarea(roundFieldsData: any): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/crearTarea`, roundFieldsData).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/crearTarea`, roundFieldsData).toPromise();
   }
 
   editRoundFields(roundFieldsData: any, id): Promise<any> {

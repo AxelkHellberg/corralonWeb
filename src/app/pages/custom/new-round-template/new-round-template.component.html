@@ -7,11 +7,10 @@
 
   
   <nb-card class="roundModal">
+    
     <nb-card-header>{{dialogData}}</nb-card-header>
     <nb-card-body class="center">
   
-
-
         <div >
           <h4 class="mb-20" for="plant">Seleccionar tareas</h4>
 
@@ -22,38 +21,10 @@
 
           <h4 class="mb-20" for="plant">Tareas seleccionadas</h4>
           <ng2-smart-table [settings]="setingsTareaSeleccionada" [source]="source2" (userRowSelect)="selectTarea2($event)"></ng2-smart-table>
+        </div>
 
-<!--           <nb-card size="medium">
-            <nb-card-header>
-              Tareas seleccionadas
-            </nb-card-header>
-            <nb-list>
-              <nb-list-item *ngFor="let item of tareasSeleccionadas" >
-                {{ item.NombreTarea }}
-                <button type="button" class="close" aria-label="Close" (onClick)="accion()">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </nb-list-item>
-            </nb-list>
-          </nb-card> -->
-<!--           <ng2-smart-table [settings]="settings" [source]="source2" (create)="createTemplate()" (edit)="editTemplate($event)"
-            (delete)="deleteTemplate($event)"></ng2-smart-table> -->
-
-       </div>
-
- 
     </nb-card-body>
 
-
-
-<!--     <nb-card-footer>
-      <div class="row">
-        <div class="col-12 d-flex justify-content-center align-items-baseline">
-          <h5 class="text-hint cursor-pointer pr-4" (click)="discardChanges(dialog)">Cancelar</h5>
-          <button nbButton status="primary" (click)="saveChanges(dialog)">Guardar</button>
-        </div>
-      </div>
-    </nb-card-footer> -->
   </nb-card>
 
   <div class="d-flex justify-content-between">

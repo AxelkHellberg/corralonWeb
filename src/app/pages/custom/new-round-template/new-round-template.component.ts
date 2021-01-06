@@ -9,7 +9,8 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
 import { RoundFields } from './../../../@models/general';
 import { TimeData } from './../../../@models/rounds';
-
+import { DomSanitizer } from '@angular/platform-browser';
+import { ConfirmData } from './../../../@models/smart-table';
 
 @Component({
   selector: 'ngx-new-round-template',
@@ -105,6 +106,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     this.source2 = new LocalDataSource(this.tareasSeleccionadas);
 
   }
+
   selectRonda(item): void {
 
     this.data.rondaId = item.id;
@@ -239,6 +241,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     private router: Router,
     private dialogService: NbDialogService,
     private changeDetectorRef: ChangeDetectorRef,
+    private _sanitizer: DomSanitizer,
   ) { }
   dataTarea: any;
   agregarTarea: boolean = false;
@@ -651,6 +654,8 @@ source2 : LocalDataSource;
 
   }
 
+  public input: string = '<input type="checkbox"></input>';
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes.fullData && changes.fullData.currentValue) {
       this.roundName = this.fullData.nombre || null;
@@ -679,22 +684,17 @@ source2 : LocalDataSource;
   setingsTareaSeleccionada: SmartTableSettings = {
     noDataMessage: 'No se seleccionaron tareas',
     mode: 'external',
-    actions: false,
+    selectMode: 'multi',
+    actions: {
+      add: false,
+      edit: false,
+    },
     attr: {
       class: 'general-table'
     },
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>'
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>'
-    },
     delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>'
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
     },
     columns: {
       plantaNombre: {
@@ -726,7 +726,13 @@ source2 : LocalDataSource;
         title: 'Unidad De Medida',
         type: 'text',
         width: '200px'
-      }
+      },
+      checkbox: {
+        title: 'Lectura obligatoria de tag',
+        type: 'html',
+        valuePrepareFunction: (value) => { return this._sanitizer.bypassSecurityTrustHtml(this.input); },
+        filter: false
+      },
 
     }
   };
