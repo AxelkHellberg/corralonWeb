@@ -95,15 +95,35 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 
   }
 
+
+  arrayTareasObligatoriasId: any[] = [];
+
   selectTarea2(item): void {
 
+    const found = this.arrayTareasObligatoriasId.find(element => element == item.data.idTarea);
 
-    // this.data.rodnaID = 1;
+    if(found == undefined)
+    {
+      console.log("EL ELEMENTO ES NUEVO")
+      this.arrayTareasObligatoriasId.push(item.data.idTarea);
+    }
+    else
+    {
+      console.log("EL ELEMENTO SE SACA:")
+      let i = this.arrayTareasObligatoriasId.indexOf( item.data.idTarea );
+      this.arrayTareasObligatoriasId.splice(i,1);
+    }
+    
+    console.log(item)
 
-    let i = this.tareasSeleccionadas.indexOf( item.data );
+
+    console.log("ARRAY DE OBLIGATORIAS:")
+    console.log(this.arrayTareasObligatoriasId)
+    ///PARA ELIMINAR DE LA TABLA SELECCIONADA
+/*     let i = this.tareasSeleccionadas.indexOf( item.data );
     this.tareasSeleccionadas.splice(i,1);
     this.source2 = new LocalDataSource([]);
-    this.source2 = new LocalDataSource(this.tareasSeleccionadas);
+    this.source2 = new LocalDataSource(this.tareasSeleccionadas); */
 
   }
 
@@ -535,6 +555,13 @@ source2 : LocalDataSource;
         console.log(this.data.rondaId)
         cont += 1;
       });
+      cont=0;
+      this.arrayTareasObligatoriasId.forEach(data => {
+        console.log("el id de la tarea a cambiar obligatoriedad es:")
+        console.log(this.arrayTareasObligatoriasId[cont]);
+        this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId[cont])
+        cont += 1;
+      })
 
 
     // this.selectTimeInicio();
@@ -688,6 +715,7 @@ source2 : LocalDataSource;
     actions: {
       add: false,
       edit: false,
+      delete: false,
     },
     attr: {
       class: 'general-table'
@@ -727,18 +755,19 @@ source2 : LocalDataSource;
         type: 'text',
         width: '200px'
       },
-      checkbox: {
+/*       checkbox: {
         title: 'Lectura obligatoria de tag',
         type: 'html',
         valuePrepareFunction: (value) => { return this._sanitizer.bypassSecurityTrustHtml(this.input); },
         filter: false
-      },
-
-    }
+      }, */
+      
+    },
+    
   };
 
   setingsTarea: SmartTableSettings = {
-    noDataMessage: '',
+    noDataMessage: 'No existen tareas cargadas.',
     mode: 'external',
     actions: false,
     attr: {

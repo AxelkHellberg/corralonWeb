@@ -318,6 +318,7 @@ export class CalendarioComponent implements OnInit {
   settings: SmartTableSettings = {
     noDataMessage: 'No hay rondas para la fecha seleccionada.',
     mode: 'external',
+    actions: false,
     attr: {
       class: 'general-table'
     },

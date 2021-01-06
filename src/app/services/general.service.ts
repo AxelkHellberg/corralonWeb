@@ -224,6 +224,9 @@ export class GeneralService {
   asociarTareasEnRondas(idTareaData: any, idInsertadoData: any): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/asociarTareasEnRonda`, { idTarea: idTareaData, idInsertado: idInsertadoData }).toPromise();
   }
+  tareasObligatorias(idTareaData: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/cambiarObligatorio`, { idTarea: idTareaData }).toPromise();
+  }
   editRoundTemplate(id: number, roundTemplateData: RoundTemplateData): Promise<any> {
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/${id}`, roundTemplateData).toPromise();
   }
