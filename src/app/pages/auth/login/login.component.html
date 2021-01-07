@@ -13,7 +13,7 @@
      <input ngModel class="form-control" id="input-password" name="password" placeholder="Contraseña" type="password" required minlength="4" maxlength="50"/>
   </div>
   <div class="form-group accept-group col-sm-12">
-     c
+    <nb-checkbox (checkedChange)="accion($event)" (onClick)="accion($event)"></nb-checkbox>
      <a class="forgot-password" routerlink="../request-password" >¿Olvidaste tu contraseña?</a>
   </div>
   <button class="btn btn-block btn-hero-success" [disabled]="loading" nbSpinnerMessage="Cargando" [nbSpinner]="loading" nbSpinnerStatus="success" nbButton type="submit">

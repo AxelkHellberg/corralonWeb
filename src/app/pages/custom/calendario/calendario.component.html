@@ -9,10 +9,14 @@
       
       <h4 class="h4">Seleccione la fecha del evento</h4>
       <h1 class="h5" *ngIf="dia" disabled=true  >Fecha seleccionada: {{ date | date }}</h1>
-      
+<!--       
       <nb-calendar class="CalendarioPrimero" (dateChange)="cambioDeFecha($event)" [(date)]="date" showWeekNumber="true"></nb-calendar>
-      <hr>
+      <hr> -->
 
+      <input nbInput placeholder="Pick Date" [nbDatepicker]="dateTimePicker">
+      <nb-datepicker #dateTimePicker (dateChange)="cambioDeFecha($event)" [(date)]="date"></nb-datepicker>
+
+      <hr>
       <button nbButton fullWidth status="primary" (click)="mostrarTodos()" *ngIf="hayDiaSeleccionado">Mostrar todas las rondas</button>
       <hr>
 
