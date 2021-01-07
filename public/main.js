@@ -5910,6 +5910,9 @@ var GeneralService = /** @class */ (function () {
     GeneralService.prototype.asociarTareasEnRondas = function (idTareaData, idInsertadoData) {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-ronda/asociarTareasEnRonda", { idTarea: idTareaData, idInsertado: idInsertadoData }).toPromise();
     };
+    GeneralService.prototype.tareasObligatorias = function (idTareaData, idPlantillaData) {
+        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/historial-falla/cambiarObligatorio", { idTarea: idTareaData, idPlantilla: idPlantillaData }).toPromise();
+    };
     GeneralService.prototype.editRoundTemplate = function (id, roundTemplateData) {
         return this.http.patch(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-ronda/" + id, roundTemplateData).toPromise();
     };

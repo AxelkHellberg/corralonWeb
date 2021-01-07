@@ -556,10 +556,12 @@ source2 : LocalDataSource;
         cont += 1;
       });
       cont=0;
-      this.arrayTareasObligatoriasId.forEach(data => {
+      this.arrayTareasObligatoriasId.forEach(async data => {
         console.log("el id de la tarea a cambiar obligatoriedad es:")
         console.log(this.arrayTareasObligatoriasId[cont]);
-        this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId[cont])
+        console.log("El id de la ronda es:")
+        console.log(this.data.rondaId)
+        this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId[cont],this.data.rondaId)
         cont += 1;
       })
 
@@ -580,9 +582,9 @@ source2 : LocalDataSource;
     //    plantillaId: this.data.rondaId
     //  }
     //  this.generalService.createHorario(this.hora);
-    this.router.navigate(['/pages/round-template']).then(()=>{
+/*     this.router.navigate(['/pages/round-template']).then(()=>{
       location.reload();
-    });
+    }); */
 
   }
 
