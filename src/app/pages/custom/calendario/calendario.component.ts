@@ -387,6 +387,7 @@ export class CalendarioComponent implements OnInit {
 
   }
 
+  
 
   setingsRonda: SmartTableSettings = {
     noDataMessage: '',
