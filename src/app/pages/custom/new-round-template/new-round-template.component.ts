@@ -542,7 +542,7 @@ source2 : LocalDataSource;
 
   async saveTemplate() {
     let res;
-
+    let response: any[] = [];
       res = await this.generalService.createRoundTemplate(this.roundName,this.descripcion);
       this.data.rondaId = res.insertId;
 
@@ -561,7 +561,21 @@ source2 : LocalDataSource;
         console.log(this.arrayTareasObligatoriasId[cont]);
         console.log("El id de la ronda es:")
         console.log(this.data.rondaId)
-        this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId[cont],this.data.rondaId)
+        this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId[cont],this.data.rondaId)/* .then(data =>
+          {
+            console.log(data.affectedRows)
+              while(data.affectedRows == 0)
+              {
+                data = this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId[cont],this.data.rondaId)
+              }
+             
+          })    */ 
+/*         response.map(res => res.json());
+      //  if( res.ZoneAwarePromise.__zone_symbol__value.affectedRows)
+        console.log("la respuesta es:")
+        console.log(res)
+        console.log(res.__zone_symbol__value.affectedRows)
+ */
         cont += 1;
       })
 
@@ -582,9 +596,9 @@ source2 : LocalDataSource;
     //    plantillaId: this.data.rondaId
     //  }
     //  this.generalService.createHorario(this.hora);
-/*     this.router.navigate(['/pages/round-template']).then(()=>{
+    this.router.navigate(['/pages/round-template']).then(()=>{
       location.reload();
-    }); */
+    });
 
   }
 

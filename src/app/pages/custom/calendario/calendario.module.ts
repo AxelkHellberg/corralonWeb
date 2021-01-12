@@ -6,6 +6,8 @@ import { NbSelectModule, NbButtonModule, NbInputModule, NbCheckboxModule, NbDial
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -28,7 +30,9 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     NbAlertModule,
     ReactiveFormsModule,
     NbDatepickerModule,
-    NbDatepickerModule.forRoot()
+    NbDatepickerModule.forRoot(),
+    NgbTimepickerModule.forRoot(),
+    FormsModule
     
     
 

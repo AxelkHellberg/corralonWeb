@@ -34,6 +34,7 @@ import {TareaModule} from './custom/tarea/tarea.module';
 import { CalendarioModule } from './custom/calendario/calendario.module';
 import { NbCalendarModule, NbDatepickerModule, NbListModule } from '@nebular/theme';
 import { NuevaTareaModule } from './custom/nueva-tarea/nueva-tarea.module';
+import { FormsModule } from './forms/forms.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -74,6 +75,8 @@ const PAGES_COMPONENTS = [
     NuevaTareaModule,
     NbListModule,
     NbDatepickerModule,
+    FormsModule,
+    
   ],
   declarations: [
     ...PAGES_COMPONENTS,

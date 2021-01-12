@@ -61,7 +61,8 @@ export class CalendarioComponent implements OnInit {
 
   recurrencia : any;
   agregarRecurrencia() {
-    this.selectedRecurrencia = this.selectedRecurrencia? this.selectedRecurrencia:[];
+    console.log(this.selectedRecurrencia)
+    this.selectedRecurrencia = this.selectedRecurrencia? this.selectedRecurrencia: undefined;
     console.log("funcionanado");
     console.log(this.selectedRecurrencia);
     
@@ -278,7 +279,7 @@ export class CalendarioComponent implements OnInit {
     console.log("La fecha del primer elemento del array es: ")
     console.log(this.horariosArray[i].fecha)
       this.horariosArray.forEach(dato => {
-/*         let ms = Date.parse(this.horariosArray[i].fecha)
+      /*         let ms = Date.parse(this.horariosArray[i].fecha)
         let date = new Date(ms);
         this.horariosArray[i].fecha = this.cambiarformatoFechaParaGuardar(date); */
         if(this.horariosArray[i].fecha === this.formatoFechaNuevo(fecha)){

@@ -30,7 +30,8 @@ var map = {
 	],
 	"./forms/forms.module": [
 		"./src/app/pages/forms/forms.module.ts",
-		"forms-forms-module"
+		"default~app-pages-pages-module~forms-forms-module",
+		"common"
 	],
 	"./maps/maps.module": [
 		"./src/app/pages/maps/maps.module.ts",
@@ -70,6 +71,7 @@ var map = {
 		"./src/app/pages/pages.module.ts",
 		"default~app-pages-pages-module~charts-charts-module~maps-maps-module",
 		"default~app-pages-pages-module~charts-charts-module",
+		"default~app-pages-pages-module~forms-forms-module",
 		"default~app-pages-pages-module~tables-tables-module",
 		"default~app-pages-pages-module~extra-components-extra-components-module",
 		"default~app-pages-pages-module~maps-maps-module",
