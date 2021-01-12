@@ -580,7 +580,7 @@ export class NuevaTareaComponent implements OnInit {
     }
     console.log(this.fullData);
     this.router.navigate(['/pages/tarea']).then(()=> {
-      /*  TareaComponent.getTareasStatic()  */
+        TareaComponent.getTareasStatic()  
     });
     dialog.close();
   }

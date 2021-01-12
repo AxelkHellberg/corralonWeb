@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild, ɵConsole } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogRef, NbDialogService, NbListModule } from '@nebular/theme';
 import { utc } from 'moment';
@@ -545,39 +545,22 @@ source2 : LocalDataSource;
     let response: any[] = [];
       res = await this.generalService.createRoundTemplate(this.roundName,this.descripcion);
       this.data.rondaId = res.insertId;
-
+      var myJsonString = JSON.stringify(this.idTareasSeleccionadas);
+      console.log("JSON")
+      console.log(myJsonString)
       let cont = 0;
-      this.tareasSeleccionadas.forEach(element => {
-        this.generalService.asociarTareasEnRondas(this.idTareasSeleccionadas[cont],this.data.rondaId)
+/*       this.tareasSeleccionadas.forEach(element => {
         console.log("El id de la tarea que se carga es : ")
         console.log(this.idTareasSeleccionadas[cont])
         console.log("Con la rondaId:")
-        console.log(this.data.rondaId)
-        cont += 1;
-      });
-      cont=0;
-      this.arrayTareasObligatoriasId.forEach(async data => {
-        console.log("el id de la tarea a cambiar obligatoriedad es:")
-        console.log(this.arrayTareasObligatoriasId[cont]);
-        console.log("El id de la ronda es:")
-        console.log(this.data.rondaId)
-        this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId[cont],this.data.rondaId)/* .then(data =>
-          {
-            console.log(data.affectedRows)
-              while(data.affectedRows == 0)
-              {
-                data = this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId[cont],this.data.rondaId)
-              }
-             
-          })    */ 
-/*         response.map(res => res.json());
-      //  if( res.ZoneAwarePromise.__zone_symbol__value.affectedRows)
-        console.log("la respuesta es:")
-        console.log(res)
-        console.log(res.__zone_symbol__value.affectedRows)
- */
-        cont += 1;
-      })
+        console.log(this.data.rondaId) */
+      this.generalService.asociarTareasEnRondas(this.idTareasSeleccionadas,this.data.rondaId).then(
+        await this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId, this.data.rondaId)
+      )
+/*         cont += 1;
+      }); */
+
+
 
 
     // this.selectTimeInicio();
@@ -596,9 +579,9 @@ source2 : LocalDataSource;
     //    plantillaId: this.data.rondaId
     //  }
     //  this.generalService.createHorario(this.hora);
-    this.router.navigate(['/pages/round-template']).then(()=>{
+/*     this.router.navigate(['/pages/round-template']).then(()=>{
       location.reload();
-    });
+    }); */
 
   }
 
