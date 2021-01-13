@@ -545,18 +545,17 @@ source2 : LocalDataSource;
     let response: any[] = [];
       res = await this.generalService.createRoundTemplate(this.roundName,this.descripcion);
       this.data.rondaId = res.insertId;
-      var myJsonString = JSON.stringify(this.idTareasSeleccionadas);
-      console.log("JSON")
-      console.log(myJsonString)
+
       let cont = 0;
 /*       this.tareasSeleccionadas.forEach(element => {
         console.log("El id de la tarea que se carga es : ")
         console.log(this.idTareasSeleccionadas[cont])
         console.log("Con la rondaId:")
         console.log(this.data.rondaId) */
-      this.generalService.asociarTareasEnRondas(this.idTareasSeleccionadas,this.data.rondaId).then(
-        await this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId, this.data.rondaId)
-      )
+      await this.generalService.asociarTareasEnRondas(this.idTareasSeleccionadas,this.data.rondaId).then(v => {
+        this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId, this.data.rondaId);
+      });
+
 /*         cont += 1;
       }); */
 
@@ -579,9 +578,9 @@ source2 : LocalDataSource;
     //    plantillaId: this.data.rondaId
     //  }
     //  this.generalService.createHorario(this.hora);
-/*     this.router.navigate(['/pages/round-template']).then(()=>{
+    this.router.navigate(['/pages/round-template']).then(()=>{
       location.reload();
-    }); */
+    });
 
   }
 

@@ -222,10 +222,10 @@ export class GeneralService {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/crearPlantillaRonda`, { nombre: roundTemplateData, descripcion: descripcionData }).toPromise();
   }
   asociarTareasEnRondas(idTareaData: any, idInsertadoData: any): Promise<any> {
-    return this.http.post(`http://localhost:5000/proyecto-s2i/us-central1/services/entities/plantillas-ronda/asociarTareasEnRonda`, { idTareaData, idInsertado: idInsertadoData }).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/asociarTareasEnRonda`, { idTareaData, idInsertado: idInsertadoData }).toPromise();
   }
   tareasObligatorias(idTareaData: any[],idPlantillaData: number): Promise<any> {
-    return this.http.post(`http://localhost:5000/proyecto-s2i/us-central1/services/entities/historial-falla/cambiarObligatorio`, { idTareaData, idPlantilla: idPlantillaData }).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/cambiarObligatorio`, { idTareaData, idPlantilla: idPlantillaData }).toPromise();
   }
   editRoundTemplate(id: number, roundTemplateData: RoundTemplateData): Promise<any> {
     return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/${id}`, roundTemplateData).toPromise();
