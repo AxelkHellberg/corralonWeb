@@ -9,16 +9,19 @@ import { EnvironmentService } from './environment.service';
 export class GeneralService {
   constructor(private http: HttpClient) { }
 
-  //nuevo---------------------------
 
   getHorarios(): Promise<any> { return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/horario/`).toPromise(); }
 
   createHorariosUsuarios(horarioId: any, usuarioId: any): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-horario-usuario`, { "horarioId": horarioId, "userId": usuarioId }).toPromise(); }
 
+  createRoundNuevo(plantillaId: number, usuarioId: number): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/CrearRondaNuevo`, { userId: usuarioId, plantillaRondaId: plantillaId }).toPromise(); }
+
 
   getHorariosUsuaruios(): Promise<any> { return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-horario-usuario`).toPromise(); }
 
-
+  ultimaRondaInsertada(): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/ultimaRondaInsertada`, {id:1}).toPromise();
+  }
   getTareaCompleta(): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/campos-ronda`, { id: 4 }).toPromise(); }
 
   getTareaCompletaNuevo(): Promise<any> { return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/traerTareas` ).toPromise(); }
@@ -33,6 +36,10 @@ export class GeneralService {
   }
 
   createRonda(tareaId: any, rondaId: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-tarea-plantilla`, { campoRondaId: tareaId, plantillaRondaId: rondaId }).toPromise();
+  }
+
+  asignarTareas(tareaId: any, rondaId: any): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-tarea-plantilla`, { campoRondaId: tareaId, plantillaRondaId: rondaId }).toPromise();
   }
 

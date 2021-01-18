@@ -140,6 +140,11 @@ export class CalendarioComponent implements OnInit {
     console.log(response.id);
     const horaioId = response.id;
     const pueba = await this.generalService.createHorariosUsuarios(horaioId, this.Usuario);
+     this.generalService.createRoundNuevo(this.hora.plantillaId, this.Usuario.id);
+     let asd:any = this.generalService.ultimaRondaInsertada()
+    console.log("RESSSSSSSSS")
+    console.log(asd)
+   // this.generalService.asignarTareas(this.hora.plantillaId,)
     console.log("NO SE QUE ME MOSTRARA ESTO: ")
     console.log(pueba)
     this.botonApretado = 0;
