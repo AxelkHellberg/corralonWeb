@@ -49,7 +49,11 @@ export class GeneralService {
 
 
   getRondas(): Promise<any> {
-    return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda`).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/rondas/traerRondas`, { } ).toPromise();
+  }
+
+  getPlantillasRondas(): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/traerPlantillasRondas`, { } ).toPromise();
   }
 
   getGuiaManiobraCampos(Guia: any): Promise<any> {
@@ -70,7 +74,7 @@ export class GeneralService {
   }
 
   createHorario(horario: any): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/horario`, horario).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/horario/crearHorario`, horario).toPromise();
   }
 
   //--------------------------------------

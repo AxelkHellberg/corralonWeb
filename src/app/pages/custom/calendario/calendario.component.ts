@@ -135,20 +135,12 @@ export class CalendarioComponent implements OnInit {
 
     console.log(this.hora);
     console.log("horarioId");
-    const response = await this.generalService.createHorario(this.hora);
-    console.log("ID DEL HORARIO CREADO: ")
-    console.log(response.id);
-    const horaioId = response.id;
-    const pueba = await this.generalService.createHorariosUsuarios(horaioId, this.Usuario);
     this.generalService.createRoundNuevo(this.hora.plantillaId, this.Usuario.id)
-
-
-    console.log("NO SE QUE ME MOSTRARA ESTO: ")
-    console.log(pueba)
+    
     this.botonApretado = 0;
     this.cerrarAlerta = 0;
     this.mostrarTodos()
-        
+    
     const response2 = await this.generalService.ultimaRondaInsertada()
     console.log("RESSSSSSSSS")
     console.log(response2[0].rondaId)
@@ -156,9 +148,22 @@ export class CalendarioComponent implements OnInit {
     console.log("TAREASSSSS")
     console.log(responseTareas)
     this.generalService.asignarTareas(response2[0].rondaId,responseTareas)
+    this.hora = {
+      ...this.hora,
+      rondaId: response2[0].rondaId,
+    }
+    const response = await this.generalService.createHorario(this.hora);
+    console.log("ID DEL HORARIO CREADO: ")
+    console.log(response.insertId);
+    const horaioId = response.insertId;
+    const pueba = await this.generalService.createHorariosUsuarios(horaioId, this.Usuario);
+    console.log("NO SE QUE ME MOSTRARA ESTO: ")
+    console.log(pueba)
+    this.mostrarTodos()
   }
   cerrarAlerta: any;
   rondaArray: any[];
+  plantillasRondaArray:any[];
   horariosArray: any[];
   usuariosArray: any[];
   HoraiosUsuariosArray: any[];
@@ -169,15 +174,19 @@ export class CalendarioComponent implements OnInit {
       this.generalService.getHorarios(),
       this.generalService.getUser(),
       this.generalService.getHorariosUsuaruios(),
+      this.generalService.getPlantillasRondas()
 
-    ]).then(([ronda, horarios, usuarios, Horaiousuario]) => {
+    ]).then(([ronda, horarios, usuarios, Horaiousuario,plantillasRonda]) => {
       this.horariosArray = horarios.items;
       console.log("horariosArray");
       console.log(this.horariosArray);
-      this.rondaArray = ronda.items;
+      this.rondaArray = ronda;
       console.log("RondaArray");
       console.log(this.rondaArray);
       this.usuariosArray = usuarios.items;
+      this.plantillasRondaArray = plantillasRonda
+      console.log("PLANTILLAS")
+      console.log(this.plantillasRondaArray)
       console.log("UsuariosArray");
       console.log(this.usuariosArray);
       this.HoraiosUsuariosArray = Horaiousuario.items;
@@ -187,7 +196,7 @@ export class CalendarioComponent implements OnInit {
       this.horariosArray.forEach(hora => {
 
         this.rondaArray.forEach(ronda => {
-          if (hora.plantillaId == ronda.id) {
+          if (hora.plantillaId == ronda.rondaId) {
             console.log("ronda = hora");
             this.horariosArray[cont] = {
               ...this.horariosArray[cont],
@@ -239,7 +248,8 @@ export class CalendarioComponent implements OnInit {
       this.arrayRondasFechaSeleccionada = [];
       this.source = new LocalDataSource(this.horariosArray);
 
-
+      this.sourcePlantillaRonda = new LocalDataSource([]);
+      this.sourcePlantillaRonda = new LocalDataSource(this.plantillasRondaArray);
     }).catch(() => { });
 
     
@@ -247,6 +257,8 @@ export class CalendarioComponent implements OnInit {
 
 
   }
+
+
 
   mostrarTodos(){
     this.getAllData();
@@ -327,6 +339,7 @@ export class CalendarioComponent implements OnInit {
   }
 
   source: LocalDataSource;
+  sourcePlantillaRonda: LocalDataSource;
   settings: SmartTableSettings = {
     noDataMessage: 'No hay rondas para la fecha seleccionada.',
     mode: 'external',

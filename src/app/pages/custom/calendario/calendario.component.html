@@ -77,14 +77,14 @@
           <h4>Seleccionar Ronda</h4>
 
             <nb-card>
-              <hr>
+<!--               <hr>
                <nb-select class="SteperComponentes" id="ronda" placeholder="Ronda" [selected]="ronda">
-                 <nb-option *ngFor="let item of rondaArray" [value]="item?.id" (click)="selectRonda(item)">
+                 <nb-option *ngFor="let item of plantillaRondaArray" [value]="item?.id" (click)="selectRonda(item)">
                  {{item?.nombre}}</nb-option>
                </nb-select>
-              <hr>
+              <hr> -->
               
-              <ng2-smart-table class="SteperComponentes" [settings]="setingsRonda" [source]="rondaArray" (create)="createTemplate()"
+              <ng2-smart-table class="SteperComponentes" [settings]="setingsRonda" [source]="sourcePlantillaRonda" (create)="createTemplate()"
               (edit)="editTemplate($event)" (delete)="deleteTemplate($event)"  (userRowSelect)="selectRonda($event)"></ng2-smart-table>
               
               <button *ngIf=ronda class="next-button" nbButton nbStepperNext>next</button>
