@@ -1,3 +1,4 @@
+
 <nb-card>
   <nb-card-body>
 
@@ -51,7 +52,16 @@
           <nb-card>
             
             <div class="padre">
-              <div>
+              <nb-card size="large">
+                <nb-card-body>
+                  <input nbInput placeholder="Pick Date" [nbDatepicker]="dateTimePicker">
+                  <nb-date-timepicker
+                    #dateTimePicker
+                    singleColumn
+                  ></nb-date-timepicker>
+                </nb-card-body>
+              </nb-card>
+<!--               <div>
                <h5>Hora inicio</h5>
                <ngb-timepicker class="SteperComponentes" [(ngModel)]="horaInicio"></ngb-timepicker>
               </div>
@@ -59,7 +69,7 @@
               <div>
                 <h5>Hora fin</h5>
                 <ngb-timepicker class="SteperComponentes" [(ngModel)]="horaFin"></ngb-timepicker>
-              </div>
+              </div> -->
             </div>
 
 
@@ -87,7 +97,7 @@
               <ng2-smart-table class="SteperComponentes" [settings]="setingsRonda" [source]="sourcePlantillaRonda" (create)="createTemplate()"
               (edit)="editTemplate($event)" (delete)="deleteTemplate($event)"  (userRowSelect)="selectRonda($event)"></ng2-smart-table>
               
-              <button *ngIf=ronda class="next-button" nbButton nbStepperNext>next</button>
+              <button *ngIf=ronda class="next-button" nbButton nbStepperNext >next</button>
               <button *ngIf=!ronda class="next-button" nbButton disabled=true nbStepperNext>next</button>
               <hr>
               <button class="prev-button" nbButton nbStepperPrevious>prev</button>
@@ -98,33 +108,111 @@
         <nb-step [label]="labelDias">
           <ng-template #labelDias>Recurrencia</ng-template>
           
-          <nb-card>
-            <div class="padre">
-            <hr>
-            <h5>Seleccione los dias</h5>
-            <nb-select class="SteperComponentes" multiple placeholder="Multiple Select" [(selected)]="selectedDia" (click)="agregarDia()">
-              <nb-option value="1">Lunes</nb-option>
-            <nb-option value="2">Martes</nb-option>
-            <nb-option value="3">Miercoles</nb-option>
-            <nb-option value="4">Jueves</nb-option>
-            <nb-option value="5">Viernes</nb-option>
-            <nb-option value="6">Sabado</nb-option>
-            <nb-option value="7">Domingo</nb-option>
-          </nb-select>
-          <h5>Seleccione el tipo de Recurrencia</h5>
-          <nb-select class="SteperComponentes" placeholder="Multiple Select" [(selected)]="selectedRecurrencia" (click)="agregarRecurrencia()">
-            <nb-option value="1">Diaria</nb-option>
-            <nb-option value="2">Semanal</nb-option>
-            <nb-option value="3">Mensual</nb-option>
-          </nb-select>
-          </div>
-          <hr>
-          <button *ngIf="!selectedDia || !selectedRecurrencia" class="next-button" disabled="true" nbButton nbStepperNext>next</button>
-          <button *ngIf="selectedDia && selectedRecurrencia" class="next-button" nbButton nbStepperNext>next</button>
-          <hr>
-          <button class="prev-button" nbButton nbStepperPrevious>prev</button>
-          
-        </nb-card>
+            <nb-card>
+
+               <div class="padre">
+                <hr>
+
+                  <div style="width:750px; padding:3px;">
+
+                    <div style="width:250; float:left;">
+                      <h5>Repetir cada </h5> 
+                    </div>
+                    
+                    <div style="width:250; float:right;">
+                      <nb-select class="SteperComponentes" shape="round" status="primary" placeholder="sin seleccionar" [(selected)]="recurrenciaSeleccionada" (change)="onInitRecurrencia()" (selectedChange)="SemanaDiaMes()">
+                        <nb-option value="1">Dia   </nb-option>
+                        <nb-option value="2">Semana</nb-option>
+                        <nb-option value="3">Mes   </nb-option>
+                      </nb-select>
+                    </div>
+
+                    <div style="width:110; float:right;">
+                      <input type="number" nbInput fullWidth status="basic" placeholder=" " id="cantidadRec" value="1" (change)="cambiarCantidadRecurrencia($event)">
+                    </div>
+
+                  </div>
+                  
+                  <hr>
+
+                  <div *ngIf="recurrenciaSeleccionada==2">
+                    <div>
+                      <h5>Se repitel el </h5> 
+                    </div>
+
+                    <div style="float:left;">
+                     <nb-checkbox *ngIf="this.diaSemanaSeleccionado == 0" status="info" (change)="recurrenciaSemanas($event,0)"  [value]="true">D</nb-checkbox>
+                     <nb-checkbox *ngIf="this.diaSemanaSeleccionado != 0" status="info" (change)="recurrenciaSemanas($event,0)">D</nb-checkbox>
+                    </div>
+                    <div style="float:left;">
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado == 1" status="info" (change)="recurrenciaSemanas($event,1)" [value]="true">L</nb-checkbox>
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado != 1" status="info" (change)="recurrenciaSemanas($event,1)" >L</nb-checkbox>
+                    </div>
+                     <div style="float:left;">
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado == 2" status="info" (change)="recurrenciaSemanas($event,2)" [value]="true">M</nb-checkbox>
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado != 2" status="info" (change)="recurrenciaSemanas($event,2)" >M</nb-checkbox>
+                    </div>
+                     <div style="float:left;">
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado == 3" status="info" (change)="recurrenciaSemanas($event,3)" [value]="true">X</nb-checkbox>
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado != 3" status="info" (change)="recurrenciaSemanas($event,3)" >X</nb-checkbox>
+                    </div>
+                     <div style="float:left;">
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado == 4" status="info" (change)="recurrenciaSemanas($event,4)" [value]="true">J</nb-checkbox>
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado != 4" status="info" (change)="recurrenciaSemanas($event,4)" >J</nb-checkbox>
+                    </div>
+                     <div style="float:left;">
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado == 5" status="info" (change)="recurrenciaSemanas($event,5)" [value]="true">V</nb-checkbox>
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado != 5" status="info" (change)="recurrenciaSemanas($event,5)" >V</nb-checkbox>
+                    </div>
+                     <div style="float:left;">
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado == 6" status="info" (change)="recurrenciaSemanas($event,6)" [value]="true">S</nb-checkbox>
+                      <nb-checkbox *ngIf="this.diaSemanaSeleccionado != 6" status="info" (change)="recurrenciaSemanas($event,6)" >S</nb-checkbox>
+                    </div>
+                  </div>
+
+                  <br>
+                  <br>
+                  <br>
+
+                  <div style="width:750px; padding:3px;">
+                  
+                   
+                    <div style="float:left;">
+                      <h5>Hasta la fecha </h5> 
+                    </div>
+
+
+                    <div style="float:right;">
+                      <input nbInput placeholder="Seleccionar fecha" [nbDatepicker]="dateTimePicker">
+                      <nb-datepicker #dateTimePicker (dateChange)=" seleccionFechaRecurrencia($event)" [(date)]="dateRecurrencia"></nb-datepicker>
+                    </div>
+
+                  </div>
+
+                  <hr>
+                        <!--                 <nb-select class="SteperComponentes" multiple placeholder="Multiple Select" [(selected)]="selectedDia" (click)="agregarDia()">
+                                          <nb-option value="1">Lunes</nb-option>
+                                        <nb-option value="2">Martes</nb-option>
+                                        <nb-option value="3">Miercoles</nb-option>
+                                        <nb-option value="4">Jueves</nb-option>
+                                        <nb-option value="5">Viernes</nb-option>
+                                        <nb-option value="6">Sabado</nb-option>
+                                        <nb-option value="7">Domingo</nb-option>
+                                      </nb-select>
+                                      <h5>Seleccione el tipo de Recurrencia</h5>
+                                      <nb-select class="SteperComponentes" placeholder="Multiple Select" [(selected)]="selectedRecurrencia" (click)="agregarRecurrencia()">
+                                        <nb-option value="1">Diaria</nb-option>
+                                        <nb-option value="2">Semanal</nb-option>
+                                        <nb-option value="3">Mensual</nb-option>
+                                      </nb-select> -->
+              </div>
+              <hr>
+              <button *ngIf="!selectedDia || !selectedRecurrencia" class="next-button" disabled="true" nbButton nbStepperNext>next</button>
+              <button *ngIf="selectedDia && selectedRecurrencia" class="next-button" nbButton nbStepperNext>next</button>
+              <hr>
+              <button class="prev-button" nbButton nbStepperPrevious>prev</button>
+              
+         </nb-card>
 
         </nb-step>
         <nb-step [label]="labelUsuario">

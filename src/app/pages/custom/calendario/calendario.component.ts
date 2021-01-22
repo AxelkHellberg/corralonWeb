@@ -17,7 +17,7 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 export class CalendarioComponent implements OnInit {
 
   date = new Date;
-
+  dateRecurrencia = new Date
   selectedDia = null;
   selectedRecurrencia = null;
   horaInicio: any;
@@ -66,6 +66,70 @@ export class CalendarioComponent implements OnInit {
     console.log("funcionanado");
     console.log(this.selectedRecurrencia);
     
+  }
+
+  recurrenciaSeleccionada = null;
+  SemanaDiaMes() {
+
+      console.log(this.recurrenciaSeleccionada)
+      this.recurrenciaSeleccionada = this.recurrenciaSeleccionada? this.recurrenciaSeleccionada: undefined;
+      console.log("funcionanado");
+      console.log(this.recurrenciaSeleccionada);
+      if(this.recurrenciaSeleccionada == 1 || this.recurrenciaSeleccionada == 3)
+      {
+      this.diasRepetir = [this.diaSemanaSeleccionado];
+      }
+
+  
+    
+  }
+
+  OnInitRecurrencia()
+  {
+    if(this.recurrenciaSeleccionada == 2)
+    {
+        let n = document.getElementById(this.diaSemanaSeleccionado.toString())
+        console.log(n)
+        n.value = true;
+
+    }
+  }
+  diaSemanaSeleccionado: any ;
+
+  diasRepetir:number[]= []
+  recurrenciaSemanas(seleccion:any,dia:number)
+  {
+
+    console.log(this.diasRepetir.includes(dia))
+    if(!this.diasRepetir.includes(dia))
+    {
+      console.log("Dia a meter" + dia.toString() )
+      this.diasRepetir.push(dia)
+    }
+    else
+    {
+      console.log("Dia a a sacar" + dia.toString() )
+      var i = this.diasRepetir.indexOf( dia );
+      this.diasRepetir.splice( i, 1 );
+    }
+    console.log(this.diasRepetir)
+  }
+
+  cantidadRecurrencia:number;
+  cambiarCantidadRecurrencia(data:any)
+  {
+    let num = data.srcElement.value
+    console.log(num)
+    if(num<1)
+    {
+      data.srcElement.value = 1
+      this.cantidadRecurrencia = 1
+    }
+    else
+    {
+      this.cantidadRecurrencia = num
+    }
+    console.log(this.cantidadRecurrencia)
   }
 /////////////////////////////////////////////////////////////////////////////
   selectTimeInicio(): void {
@@ -283,6 +347,16 @@ export class CalendarioComponent implements OnInit {
     this.obtenerDatosFiltradoPorFecha(fecha)
     this.dia = this.formatoFechaNuevo(fecha);
     this.hayDiaSeleccionado = "algo";
+    console.log(this.dia);
+    this.diaSemanaSeleccionado = fecha.getDay()
+    this.diasRepetir = [this.diaSemanaSeleccionado]
+
+  }
+
+
+
+  seleccionFechaRecurrencia(fecha: Date) {
+    this.dia = this.formatoFechaNuevo(fecha);
     console.log(this.dia);
   }
 

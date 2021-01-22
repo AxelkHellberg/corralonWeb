@@ -29,10 +29,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     Ng2SmartTableModule,
     NbAlertModule,
     ReactiveFormsModule,
-    NbDatepickerModule,
-    NbDatepickerModule.forRoot(),
     NgbTimepickerModule.forRoot(),
-    FormsModule
+    FormsModule,
+    NbDatepickerModule,
     
     
 

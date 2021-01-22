@@ -45,7 +45,6 @@ export function init_environment(env: EnvironmentService) {
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     NbDatepickerModule.forRoot(),
-    NbDatepickerModule.forRoot(),
   
     ],
   bootstrap: [AppComponent],
