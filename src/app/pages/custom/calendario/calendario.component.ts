@@ -94,7 +94,11 @@ export class CalendarioComponent implements OnInit {
     {
         let n = document.getElementById(this.diaSemanaSeleccionado.toString())
         console.log(n)
+<<<<<<< HEAD
 //n.value = true;
+=======
+       // n.value = true;
+>>>>>>> abf441306c0c7a874bcac6aea23cf84a83d0c595
 
     }
   }
