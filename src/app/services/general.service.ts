@@ -39,8 +39,8 @@ export class GeneralService {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-tarea-plantilla`, { campoRondaId: tareaId, plantillaRondaId: rondaId }).toPromise();
   }
 
-  asignarTareas(rondaId: any, tareasId: any[]): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/asignarTareas`, { tareasId, rondaId: rondaId }).toPromise();
+  asignarTareas(rondaId: any, tareasId: any[],horarioId:any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/asignarTareassss`, { tareasId, rondaId: rondaId,horarioId: horarioId }).toPromise();
   }
 
   traerIdTareas(plantillaRondaId: any): Promise<any> {

@@ -6,6 +6,9 @@ import { SmartTableSettings } from '../../../@models/smart-table';
 
 import { GeneralService } from '../../../services/general.service';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
+import { exit } from 'process';
+import { NewRoundTemplateComponent } from '../new-round-template/new-round-template.component';
+import { tryCatch } from 'rxjs/internal/util/tryCatch';
 
 
 
@@ -17,6 +20,7 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 export class CalendarioComponent implements OnInit {
 
   date = new Date;
+  min: Date;
   dateRecurrencia = new Date
   selectedDia = null;
   selectedRecurrencia = null;
@@ -90,7 +94,7 @@ export class CalendarioComponent implements OnInit {
     {
         let n = document.getElementById(this.diaSemanaSeleccionado.toString())
         console.log(n)
-        n.value = true;
+//n.value = true;
 
     }
   }
@@ -115,7 +119,16 @@ export class CalendarioComponent implements OnInit {
     console.log(this.diasRepetir)
   }
 
-  cantidadRecurrencia:number;
+  conRecurrencia:number = 0;
+  habilitarRecurrencia(evento){
+      this.conRecurrencia = 1;
+
+  }
+  deshabilitarRecurrencia(evento){
+    this.conRecurrencia = 0;
+}
+
+  cantidadRecurrencia:number = 1;
   cambiarCantidadRecurrencia(data:any)
   {
     let num = data.srcElement.value
@@ -175,54 +188,148 @@ export class CalendarioComponent implements OnInit {
 
   dia = "";
   hayDiaSeleccionado = "";
+
   async generarHorario() {
     this.selectTimeInicio();
     this.selectTimeFin();
-    let dias = "";
-    this.selectedDia.forEach(dia => { dias = dias == "" ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
+
+
+    let dias = "";    
+   // this.selectedDia.forEach(dia => { dias = dias == "" ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
     ///  dd-mm-aaaa
-    let d = this.dia.substring(0,2); 
+/*     let d = this.dia.substring(0,2); 
     let m = this.dia.substring(3,5); 
     let a = this.dia.substring(6,10); 
     let auxDia = this.dia;
-    this.dia = a +"-"+ m +"-"+ d;
+    this.dia = a +"-"+ m +"-"+ d; */
+    console.log("Este es el dia sin petiar")
     console.log(this.dia)
 
     this.hora = {
       ...this.hora,
       dias: dias,
-      tipoRecurrencia: this.selectedRecurrencia,
-      fechaInicio: this.dia,
-      fechaFin: this.dia,
-      plantillaId: this.ronda,
+      tipoRecurrencia: this.recurrenciaSeleccionada||0,
+      fechaInicio: new Date(this.dia),
+      fechaFin: new Date(this.fechaHastaRecurrencia),
+      plantillaId: this.ronda, ///En la base de datos se encuentra como plantillaId, pero se trata de la RONDA ID.
     }
 
+    console.log("Ronda a crear:");
     console.log(this.hora);
-    console.log("horarioId");
-    this.generalService.createRoundNuevo(this.hora.plantillaId, this.Usuario.id)
+    let currentDateString = this.formatoFechaNuevo(this.fechaTipoDate);
+    let currentDateDate = this.fechaTipoDate
+    let response2
+    this.generalService.createRoundNuevo(this.hora.plantillaId, this.Usuario.id).then(async function(value) {
+      response2 = value.insertId
+      console.log("Ultima ronda insertada")
+      console.log(response2)
+     }, function(reason) {
+     console.log("rechazo")
+   });
     
     this.botonApretado = 0;
     this.cerrarAlerta = 0;
     this.mostrarTodos()
     
-    const response2 = await this.generalService.ultimaRondaInsertada()
-    console.log("RESSSSSSSSS")
-    console.log(response2[0].rondaId)
+
     const responseTareas = await this.generalService.traerIdTareas(this.hora.plantillaId)
-    console.log("TAREASSSSS")
-    console.log(responseTareas)
-    this.generalService.asignarTareas(response2[0].rondaId,responseTareas)
-    this.hora = {
-      ...this.hora,
-      rondaId: response2[0].rondaId,
+
+
+
+    console.log("CURRENT DATE STRING:")
+    console.log(currentDateString)
+    console.log("A COMPARAR CON ")
+    console.log(this.fechaHastaRecurrencia)
+    let fechaWhile = new Date(this.fechaHastaRecurrenciaDate)
+    while(currentDateDate.getTime() <= fechaWhile.getTime()){
+
+      this.hora.fechaFin = currentDateString
+      this.hora.fechaInicio = currentDateString
+      console.log("Cargando ronda con recurrencia en fecha:")
+      console.log(this.hora.fechaInicio)
+      let horarioId;
+      console.log("ronda ID : -----------------------------")
+      console.log(response2)
+      if(this.recurrenciaSeleccionada==2){
+        this.diasRepetir.forEach(async dia => {
+          if(response2 === undefined){
+            setTimeout("esperando la ronda Id",5000);
+          }
+          this.hora = {
+            ...this.hora,
+            rondaId: response2,
+            dias: dia
+          }
+          const response = await this.generalService.createHorario(this.hora);
+          console.log("ID DEL HORARIO CREADO: ")
+          console.log(response.insertId);
+          horarioId = response.insertId;
+          await this.generalService.asignarTareas(response2,responseTareas,horarioId)
+        })
+
+      }
+      else{
+        if(response2 === undefined){
+          setTimeout("esperando la ronda Id",5000);
+        }
+        this.hora = {
+          ...this.hora,
+          rondaId: response2,
+          dias: null
+        }
+        console.log(this.hora)
+        const response = await this.generalService.createHorario(this.hora);
+        console.log("ID DEL HORARIO CREADO: ")
+        console.log(response.insertId);
+        horarioId = response.insertId;
+        try{
+          await this.generalService.asignarTareas(response2,responseTareas,horarioId)
+          //Este servicio tira error al llamarlo, pero funciona correctamente. Se asginan todas las tareas correctamente.
+        }catch (error) {
+        }
+      }
+
+        const pueba = await this.generalService.createHorariosUsuarios(horarioId, this.Usuario);
+        
+        let fechaWhileAux = fechaWhile
+
+        console.log("currentDate")
+        console.log(currentDateDate)
+
+        if(this.recurrenciaSeleccionada == 1){
+          console.log(this.cantidadRecurrencia)
+          console.log(currentDateDate.getDate())
+          console.log(currentDateDate.getDate() + parseInt(this.cantidadRecurrencia.toString(),10))
+          currentDateDate.setDate(currentDateDate.getDate() + parseInt(this.cantidadRecurrencia.toString(),10))
+        }
+        else{
+          if(this.recurrenciaSeleccionada == 3){
+            currentDateDate.setDate( (currentDateDate.getDate()+30) )
+          }
+          else{
+
+            currentDateDate.setDate( (currentDateDate.getDate()+ 7) )
+
+          }
+        }
+
+        fechaWhile.setDate(fechaWhileAux.getDate())
+
+
+      currentDateString = this.formatoFechaNuevo(currentDateDate);
+        console.log("currentDate")
+        console.log(currentDateDate)
+        console.log("fechaWhile")
+        console.log(fechaWhile)
+      if (currentDateDate.getTime() <= fechaWhile.getTime())
+      {
+        console.log("Se debe iterar nuevamente")
+      }
+      else
+      {
+        console.log("NO debe iterar mas")
+      }
     }
-    const response = await this.generalService.createHorario(this.hora);
-    console.log("ID DEL HORARIO CREADO: ")
-    console.log(response.insertId);
-    const horaioId = response.insertId;
-    const pueba = await this.generalService.createHorariosUsuarios(horaioId, this.Usuario);
-    console.log("NO SE QUE ME MOSTRARA ESTO: ")
-    console.log(pueba)
     this.mostrarTodos()
   }
   cerrarAlerta: any;
@@ -330,6 +437,7 @@ export class CalendarioComponent implements OnInit {
   }
 
 
+
   Usuario: any = null;
   selectUsuario(usuario: any) {
     this.Usuario = usuario;
@@ -342,10 +450,14 @@ export class CalendarioComponent implements OnInit {
     return this.Usuario;
   }
 
-
+  fechaTipoDate: Date;
   cambioDeFecha(fecha: Date) {
+    this.fechaTipoDate= fecha 
     this.obtenerDatosFiltradoPorFecha(fecha)
+    this.min = fecha;
     this.dia = this.formatoFechaNuevo(fecha);
+    this.fechaHastaRecurrencia = this.dia
+    this.fechaHastaRecurrenciaDate = fecha
     this.hayDiaSeleccionado = "algo";
     console.log(this.dia);
     this.diaSemanaSeleccionado = fecha.getDay()
@@ -359,6 +471,19 @@ export class CalendarioComponent implements OnInit {
     this.dia = this.formatoFechaNuevo(fecha);
     console.log(this.dia);
   }
+
+  fechaHastaRecurrencia: any = undefined;
+  seleccionFechaRecurrenciaHasta(fecha: Date) {
+    this.fechaHastaRecurrencia = this.formatoFechaNuevo(fecha);
+    console.log(this.fechaHastaRecurrencia);
+    this.fechaHastaRecurrenciaDate = fecha
+  }
+
+  fechaHastaRecurrenciaDate: Date;
+
+
+
+
 
   selectDate(fecha: Date) {
     console.log("fecha: ");
