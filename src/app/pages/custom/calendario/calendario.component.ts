@@ -94,11 +94,7 @@ export class CalendarioComponent implements OnInit {
     {
         let n = document.getElementById(this.diaSemanaSeleccionado.toString())
         console.log(n)
-<<<<<<< HEAD
-//n.value = true;
-=======
        // n.value = true;
->>>>>>> abf441306c0c7a874bcac6aea23cf84a83d0c595
 
     }
   }
@@ -193,6 +189,7 @@ export class CalendarioComponent implements OnInit {
   dia = "";
   hayDiaSeleccionado = "";
 
+
   async generarHorario() {
     this.selectTimeInicio();
     this.selectTimeFin();
@@ -222,119 +219,125 @@ export class CalendarioComponent implements OnInit {
     console.log(this.hora);
     let currentDateString = this.formatoFechaNuevo(this.fechaTipoDate);
     let currentDateDate = this.fechaTipoDate
-    let response2
-    this.generalService.createRoundNuevo(this.hora.plantillaId, this.Usuario.id).then(async function(value) {
-      response2 = value.insertId
-      console.log("Ultima ronda insertada")
-      console.log(response2)
-     }, function(reason) {
-     console.log("rechazo")
-   });
-    
+    let response2 = undefined
     this.botonApretado = 0;
     this.cerrarAlerta = 0;
-    this.mostrarTodos()
-    
+/*     while(response2 === undefined){ */
+     let promesa = this.generalService.createRoundNuevo(this.hora.plantillaId, this.Usuario.id).then(function(value) {
+        
+        response2 = value.insertId
+        
+        
+      }).catch(function(error) {
+        console.log("ERROR:")
+        console.log(error)
+      });
+/*     } */
+      if(response2==undefined){
+            let i = 0;
+            while(i<500){
+              i++;
+              console.log("esperando respuesta............")
+            }
+          }
+      
+     let responseTareas = await this.generalService.traerIdTareas(this.hora.plantillaId)
+              
 
-    const responseTareas = await this.generalService.traerIdTareas(this.hora.plantillaId)
+      let fechaWhile = new Date(this.fechaHastaRecurrenciaDate)
+      while(currentDateDate.getTime() <= fechaWhile.getTime()){
+  
+        this.hora.fechaFin = currentDateString
+        this.hora.fechaInicio = currentDateString
 
+        let horarioId;
 
+        if(this.recurrenciaSeleccionada==2){
+          let auxFechaInicio = new Date(this.fechaTipoDate)
+          let diaFecha =  auxFechaInicio.getDay()
+          auxFechaInicio.setDate(auxFechaInicio.getDate() - parseInt(diaFecha.toString(),10))
 
-    console.log("CURRENT DATE STRING:")
-    console.log(currentDateString)
-    console.log("A COMPARAR CON ")
-    console.log(this.fechaHastaRecurrencia)
-    let fechaWhile = new Date(this.fechaHastaRecurrenciaDate)
-    while(currentDateDate.getTime() <= fechaWhile.getTime()){
+          this.diasRepetir.forEach(async dia => {
+            while(response2 == undefined){
+              console.log("entre al while")
+            }
+            this.hora = {
+              ...this.hora,
+              rondaId: response2,
+              dias: dia
+            }
+            auxFechaInicio.setDate(auxFechaInicio.getDate() + dia)
 
-      this.hora.fechaFin = currentDateString
-      this.hora.fechaInicio = currentDateString
-      console.log("Cargando ronda con recurrencia en fecha:")
-      console.log(this.hora.fechaInicio)
-      let horarioId;
-      console.log("ronda ID : -----------------------------")
-      console.log(response2)
-      if(this.recurrenciaSeleccionada==2){
-        this.diasRepetir.forEach(async dia => {
-          if(response2 === undefined){
-            setTimeout("esperando la ronda Id",5000);
+            this.hora.fechaInicio = this.formatoFechaNuevo(auxFechaInicio)
+            diaFecha =  auxFechaInicio.getDay()
+            auxFechaInicio.setDate(auxFechaInicio.getDate() - parseInt(diaFecha.toString(),10))
+
+            const response = await this.generalService.createHorario(this.hora);
+            horarioId = response.insertId;
+
+            try{
+              let general : GeneralService
+                this.generalService.asignarTareas(response2,responseTareas,horarioId)
+                //Este servicio tira error al llamarlo, pero funciona correctamente. Se asginan todas las tareas correctamente.
+                this.generalService.createHorariosUsuarios(horarioId, this.Usuario.id);
+            }catch (error) {
+            }
+          })
+  
+        }
+        else{
+          while(response2 == undefined){
+            console.log("entre al while")
           }
           this.hora = {
             ...this.hora,
             rondaId: response2,
-            dias: dia
+            dias: null
           }
+          console.log(this.hora)
           const response = await this.generalService.createHorario(this.hora);
-          console.log("ID DEL HORARIO CREADO: ")
-          console.log(response.insertId);
           horarioId = response.insertId;
-          await this.generalService.asignarTareas(response2,responseTareas,horarioId)
-        })
 
-      }
-      else{
-        if(response2 === undefined){
-          setTimeout("esperando la ronda Id",5000);
+          try{
+            let general : GeneralService
+              this.generalService.asignarTareas(response2,responseTareas,horarioId)
+              //Este servicio tira error al llamarlo, pero funciona correctamente. Se asginan todas las tareas correctamente.
+              this.generalService.createHorariosUsuarios(horarioId, this.Usuario.id);
+          }catch (error) {
+          }
         }
-        this.hora = {
-          ...this.hora,
-          rondaId: response2,
-          dias: null
-        }
-        console.log(this.hora)
-        const response = await this.generalService.createHorario(this.hora);
-        console.log("ID DEL HORARIO CREADO: ")
-        console.log(response.insertId);
-        horarioId = response.insertId;
-        try{
-          await this.generalService.asignarTareas(response2,responseTareas,horarioId)
-          //Este servicio tira error al llamarlo, pero funciona correctamente. Se asginan todas las tareas correctamente.
-        }catch (error) {
-        }
-      }
 
-        const pueba = await this.generalService.createHorariosUsuarios(horarioId, this.Usuario);
-        
-        let fechaWhileAux = fechaWhile
 
-        console.log("currentDate")
-        console.log(currentDateDate)
+          
+          let fechaWhileAux = fechaWhile
+  
+  
+          if(this.recurrenciaSeleccionada == 1){
 
-        if(this.recurrenciaSeleccionada == 1){
-          console.log(this.cantidadRecurrencia)
-          console.log(currentDateDate.getDate())
-          console.log(currentDateDate.getDate() + parseInt(this.cantidadRecurrencia.toString(),10))
-          currentDateDate.setDate(currentDateDate.getDate() + parseInt(this.cantidadRecurrencia.toString(),10))
-        }
-        else{
-          if(this.recurrenciaSeleccionada == 3){
-            currentDateDate.setDate( (currentDateDate.getDate()+30) )
+            currentDateDate.setDate(currentDateDate.getDate() + parseInt(this.cantidadRecurrencia.toString(),10))
           }
           else{
-
-            currentDateDate.setDate( (currentDateDate.getDate()+ 7) )
-
+            if(this.recurrenciaSeleccionada == 3){
+              currentDateDate.setDate( (currentDateDate.getDate()+30) )
+            }
+            else{
+  
+              currentDateDate.setDate( (currentDateDate.getDate()+ 7) )
+  
+            }
           }
-        }
+  
+          fechaWhile.setDate(fechaWhileAux.getDate())
+  
+  
+        currentDateString = this.formatoFechaNuevo(currentDateDate);
 
-        fechaWhile.setDate(fechaWhileAux.getDate())
 
-
-      currentDateString = this.formatoFechaNuevo(currentDateDate);
-        console.log("currentDate")
-        console.log(currentDateDate)
-        console.log("fechaWhile")
-        console.log(fechaWhile)
-      if (currentDateDate.getTime() <= fechaWhile.getTime())
-      {
-        console.log("Se debe iterar nuevamente")
       }
-      else
-      {
-        console.log("NO debe iterar mas")
-      }
-    }
-    this.mostrarTodos()
+      this.mostrarTodos()
+
+
+  
   }
   cerrarAlerta: any;
   rondaArray: any[];

@@ -12,7 +12,7 @@ export class GeneralService {
 
   getHorarios(): Promise<any> { return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/horario/`).toPromise(); }
 
-  createHorariosUsuarios(horarioId: any, usuarioId: any): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/enlace-horario-usuario`, { "horarioId": horarioId, "userId": usuarioId }).toPromise(); }
+  createHorariosUsuarios(horarioId: any, usuarioId: any): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/crearHorarioUsuario`, { horarioId: horarioId, userId: usuarioId }).toPromise(); }
 
   createRoundNuevo(plantillaId: number, usuarioId: number): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/CrearRondaNuevo`, { userId: usuarioId, plantillaRondaId: plantillaId }).toPromise(); }
 
