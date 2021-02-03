@@ -54,6 +54,7 @@ export class CalendarioComponent implements OnInit {
     pulsar() {
       console.log("Se apreto el boton")
       this.botonApretado = 1;
+      this.onClose()
     }
     
     agregarDia() {
@@ -184,17 +185,19 @@ export class CalendarioComponent implements OnInit {
 
   onClose(){
     this.cerrarAlerta = 2;
+    this.creandoRonda = 0;
   }
 
   dia = "";
   hayDiaSeleccionado = "";
 
-
+  valueBar: number = 0;
   async generarHorario() {
+    this.creandoRonda = 1
     this.selectTimeInicio();
     this.selectTimeFin();
 
-
+    this.valueBar = 10;
     let dias = "";    
    // this.selectedDia.forEach(dia => { dias = dias == "" ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
     ///  dd-mm-aaaa
@@ -214,7 +217,7 @@ export class CalendarioComponent implements OnInit {
       fechaFin: new Date(this.fechaHastaRecurrencia),
       plantillaId: this.ronda, ///En la base de datos se encuentra como plantillaId, pero se trata de la RONDA ID.
     }
-
+    this.valueBar = 20;
     console.log("Ronda a crear:");
     console.log(this.hora);
     let currentDateString = this.formatoFechaNuevo(this.fechaTipoDate);
@@ -243,7 +246,7 @@ export class CalendarioComponent implements OnInit {
       
      let responseTareas = await this.generalService.traerIdTareas(this.hora.plantillaId)
               
-
+     this.valueBar = 50;
       let fechaWhile = new Date(this.fechaHastaRecurrenciaDate)
       while(currentDateDate.getTime() <= fechaWhile.getTime()){
   
@@ -300,8 +303,8 @@ export class CalendarioComponent implements OnInit {
 
           try{
             let general : GeneralService
+            //Este servicio 'asignarTareas' tira error al llamarlo, pero funciona correctamente. Se asginan todas las tareas correctamente.
               this.generalService.asignarTareas(response2,responseTareas,horarioId)
-              //Este servicio tira error al llamarlo, pero funciona correctamente. Se asginan todas las tareas correctamente.
               this.generalService.createHorariosUsuarios(horarioId, this.Usuario.id);
           }catch (error) {
           }
@@ -313,32 +316,40 @@ export class CalendarioComponent implements OnInit {
   
   
           if(this.recurrenciaSeleccionada == 1){
-
+            ///Para una recurrencia entre 'x' dias...
             currentDateDate.setDate(currentDateDate.getDate() + parseInt(this.cantidadRecurrencia.toString(),10))
           }
           else{
             if(this.recurrenciaSeleccionada == 3){
-              currentDateDate.setDate( (currentDateDate.getDate()+30) )
+              ///Para una recurrencia entre 'x' meses...
+              currentDateDate.setDate( (currentDateDate.getDate()+(30*parseInt(this.cantidadRecurrencia.toString(),10))) )
             }
             else{
-  
-              currentDateDate.setDate( (currentDateDate.getDate()+ 7) )
-  
+              ///Para una recurrencia entre 'x' semanas...
+              currentDateDate.setDate( (currentDateDate.getDate()+ (parseInt(this.cantidadRecurrencia.toString(),10)*7)) )
             }
           }
-  
           fechaWhile.setDate(fechaWhileAux.getDate())
-  
-  
         currentDateString = this.formatoFechaNuevo(currentDateDate);
-
+        this.valueBar = 80;
 
       }
-      this.mostrarTodos()
 
-
+      let j = 0
+      this.valueBar = 100;
+      while(j<1000){
+        console.log("ESPERANDO....")
+        if(j==998){
+          this.mostrarTodos()
+          this.hayDiaSeleccionado = '';
+        }
+        j++;
+      }
   
   }
+
+
+  creandoRonda: number = 0;
   cerrarAlerta: any;
   rondaArray: any[];
   plantillasRondaArray:any[];
@@ -459,6 +470,7 @@ export class CalendarioComponent implements OnInit {
 
   fechaTipoDate: Date;
   cambioDeFecha(fecha: Date) {
+    console.log(fecha)
     this.fechaTipoDate= fecha 
     this.obtenerDatosFiltradoPorFecha(fecha)
     this.min = fecha;
@@ -469,7 +481,7 @@ export class CalendarioComponent implements OnInit {
     console.log(this.dia);
     this.diaSemanaSeleccionado = fecha.getDay()
     this.diasRepetir = [this.diaSemanaSeleccionado]
-
+    this.onClose()
   }
 
 
@@ -534,7 +546,7 @@ export class CalendarioComponent implements OnInit {
 
   formatoFechaNuevo(fecha: Date): any {
 
-    return ((fecha.getDate() < 10) ? ("0" + fecha.getDate().toString()) : fecha.getDate().toString()) + "-" + (((fecha.getMonth()) < 9) ? "0" + (fecha.getMonth() + 1) : fecha.getMonth() + 1) + "-" +  fecha.getFullYear().toString();
+    return ((fecha.getDate() < 10) ? (fecha.getDate().toString()) : fecha.getDate().toString()) + "-" + (((fecha.getMonth()) < 9) ?  (fecha.getMonth() + 1) : fecha.getMonth() + 1) + "-" +  fecha.getFullYear().toString();
 
   }
   

@@ -25,19 +25,23 @@
 
       <br> 
     </nb-card>
-
-
-
-
   </nb-card-body>
 
-  <nb-alert *ngIf="cerrarAlerta == 0 " status="success" closable (close)="onClose()">
+
+  <nb-alert *ngIf="cerrarAlerta == 0 && valueBar == 100" status="success" closable (close)="onClose()">
     Se creo la ronda correctamente!
   </nb-alert>
+  <nb-card *ngIf="creandoRonda==1">
+    <nb-card-body>
+      <nb-progress-bar [value]="valueBar" status="primary" [displayValue]="true">Creando rondas.............</nb-progress-bar>
+    </nb-card-body>
+  </nb-card>
+  
 
   <nb-card *ngIf="!botonApretado" disabled=true>
     <nb-card-body class="Boton-Agregar-Ronda" >
-      <button nbButton fullWidth status="primary" (click)="pulsar()">Crear nueva ronda para la fecha seleccionada</button>
+      <button *ngIf="this.fechaTipoDate" nbButton fullWidth status="primary" (click)="pulsar()">Crear nueva ronda para la fecha seleccionada</button>
+      <button *ngIf="!this.fechaTipoDate" nbButton fullWidth status="primary" disabled=true>Crear nueva ronda para la fecha seleccionada</button>
     </nb-card-body>
   </nb-card>
   

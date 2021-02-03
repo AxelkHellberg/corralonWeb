@@ -70,10 +70,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/equipment'
       },
       {
-        title: 'Unidades de medida',
-        link: '/pages/measurement-units',
-      },
-      {
         title: 'Tags de equipo',
         link: '/pages/tags-equipment',
       }
@@ -90,6 +86,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Plantillas de rondas',
         link: '/pages/round-template',
+      },
+      {
+        title: 'Unidades de medida',
+        link: '/pages/measurement-units',
       }
     ],
   },

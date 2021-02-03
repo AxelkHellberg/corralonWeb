@@ -32,6 +32,7 @@ export interface RoundsDetails {
   normalValue?: string;
   roundFieldId?: string;
   roundTemplateId?: string;
+  descripcion?: string;
 }
 
 export interface TableTimeData {

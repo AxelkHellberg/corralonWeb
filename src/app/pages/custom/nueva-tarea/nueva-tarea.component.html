@@ -150,24 +150,30 @@
           <nb-select id="type" placeholder="Seleccione" [selected]="data.typeId">
             <nb-option *ngFor="let item of dataTypeArray?.items " [value]="item?.id" (click)="selectTypeData(item)">
               {{item?.nombre}}</nb-option>
-          </nb-select>
-        </div>
-        <div class="col-4" *ngIf="data.type < 3">
+            </nb-select>
+          </div>
+          <div class="col-6">
+            <label class="label" for="descripcion">Descripcion</label>
+            <input name="descripcionField" (ngModelChange)="changeField($event,'descripcionField')" [(ngModel)]="data.descripcion" id="descripcion"
+              class="form-control" placeholder="Descripcion" type="text" />
+          </div>
+
+        <div class="col-2" *ngIf="data.type < 3">
           <label class="label" for="min">Valor Mínimo</label>
           <input name="min" [(ngModel)]="data.minValue" id="min" class="form-control" placeholder="Valor Mínimo"
             type="{{data.type == 1 ? 'number' : 'text'}}" />
         </div>
-        <div class="col-4" *ngIf="data.type < 3">
+        <div class="col-2" *ngIf="data.type < 3">
           <label class="label" for="max">Valor Máximo</label>
           <input name="max" [(ngModel)]="data.maxValue" id="max" class="form-control" placeholder="Valor Máximo"
             type="{{data.type == 1 ? 'number' : 'text'}}" />
         </div>
-        <div class="col-4" *ngIf="data.type < 3">
+        <div class="col-2" *ngIf="data.type < 3">
           <label class="label" for="normal">Valor Normal</label>
           <input name="normal" [(ngModel)]="data.normalValue" id="normal" class="form-control"
             placeholder="Valor Normal" type="{{data.type == 1 ? 'number' : 'text'}}" />
         </div>
-        <div class="col-4" *ngIf="data.type > 2">
+        <div class="col-2" *ngIf="data.type > 2">
           <label class="label" for="normal">Valor Normal</label>
           <nb-select [(selected)]="data.normalValue" name="normal" id="type" placeholder="Seleccione">
             <nb-option value="1">Verdadero</nb-option>

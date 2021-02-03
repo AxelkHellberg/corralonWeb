@@ -45,6 +45,7 @@ export class NuevaTareaComponent implements OnInit {
     minValue: '',
     maxValue: '',
     normalValue: '',
+    descripcion: '',
   };
   plantId: any;
   systemId: any;
@@ -60,6 +61,7 @@ export class NuevaTareaComponent implements OnInit {
   max: any;
   normal: any;
   nameField: any;
+  descripcionField: any;
 
   timeData: TimeData = {
     timer: new Set(),
@@ -558,7 +560,7 @@ export class NuevaTareaComponent implements OnInit {
     console.log("guardarTarea");
     const campRondaInfo = {
       nombre: this.data.name!=''?this.data.name:this.fullData.name,
-      descripcion: "",
+      descripcion: this.data.descripcion,
       valorNormal: this.data.normalValue,
       valorMax: this.data.maxValue,
       valorMin: this.data.minValue,
