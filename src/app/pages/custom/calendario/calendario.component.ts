@@ -261,9 +261,6 @@ export class CalendarioComponent implements OnInit {
           auxFechaInicio.setDate(auxFechaInicio.getDate() - parseInt(diaFecha.toString(),10))
 
           this.diasRepetir.forEach(async dia => {
-            while(response2 == undefined){
-              console.log("entre al while")
-            }
             this.hora = {
               ...this.hora,
               rondaId: response2,
@@ -289,9 +286,7 @@ export class CalendarioComponent implements OnInit {
   
         }
         else{
-          while(response2 == undefined){
-            console.log("entre al while")
-          }
+
           this.hora = {
             ...this.hora,
             rondaId: response2,
@@ -301,6 +296,7 @@ export class CalendarioComponent implements OnInit {
           const response = await this.generalService.createHorario(this.hora);
           horarioId = response.insertId;
 
+        
           try{
             let general : GeneralService
             //Este servicio 'asignarTareas' tira error al llamarlo, pero funciona correctamente. Se asginan todas las tareas correctamente.
