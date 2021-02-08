@@ -36,6 +36,7 @@ import { NbCalendarModule, NbDatepickerModule, NbListModule } from '@nebular/the
 import { NuevaTareaModule } from './custom/nueva-tarea/nueva-tarea.module';
 import { FormsModule } from './forms/forms.module';
 
+
 const PAGES_COMPONENTS = [
   PagesComponent,
 

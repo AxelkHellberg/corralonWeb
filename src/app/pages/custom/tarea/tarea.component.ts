@@ -14,11 +14,12 @@ import { LocalDataSource } from 'ng2-smart-table';
 })
 export class TareaComponent implements OnInit, OnChanges {
   static getTareasStatic() {
-   window.location.reload()
+   //window.location.reload()
   }
   fullData: any;
   data : any[];
   Nueva: boolean;
+  tareaEditada: boolean;
   showRoundTemplate: boolean;
   roundTemplateId: any;
 
@@ -384,25 +385,46 @@ unidades: any[];
   }
 
   async editTarea(tarea) {
-    const res = await this.generalService.getTareaCompleta();
-    res.forEach(element => {if(element.id == tarea.data.id)
-    {
-      this.fullData=element;
-    }
-      
-    });
-    this.router.navigate(['/pages/tarea'], {
-      queryParams: {
-        Nueva: true,
-        id: tarea.data.id,
+    console.log("Tarea id seleccionada : ")
+    console.log(tarea)
+   let value = await this.generalService.getTareaCompletaPorId(tarea.data.idTarea)
+   this.fullData = value[0]
+   console.log("this.full data (tarea)");
+   console.log(this.fullData);
+   this.router.navigate(['/pages/tarea'], {
+     queryParams: {
+       Nueva: true,
+       id: tarea.data.id,
+       nombreSistema: this.fullData.nombreSistema,
+       sistemaId: this.fullData.sistemaId,
+       nombreEquipo: this.fullData.nombreEquipo,
+       equipoId: this.fullData.equipoId,
+       nombrePlanta: this.fullData.nombrePlanta,
+       plantaId: this.fullData.plantaId,
+       nombreTipoTarea: this.fullData.nombreTipoTarea,
+       nombreUnidadMedida: this.fullData.nombreUnidadMedida,
+       tareaDescripcion: this.fullData.tareaDescripcion,
+       tareaId: this.fullData.tareaId,
+       tareaNombre: this.fullData.tareaNombre,
+       tipoCampoRondaId: this.fullData.tipoCampoRondaId,
+       unidadMedidaId: this.fullData.unidadMedidaId,
+       valorMax: this.fullData.valorMax,
+       valorMin: this.fullData.valorMin,
+       valorNormal: this.fullData.valorNormal,
+       tareaEditada: true
+     }
+   });
 
-      }
-    });
-    //this.generalService.getTareaCompleta();
-    //console.log("tarea Completa");
-    //
-    console.log("this.full data (tarea)");
-    console.log(this.fullData);
+/*    let i = 0
+   for(i;i<500;i++){
+     console.log("esperando respuesta")
+   } */
+
+  //this.generalService.getTareaCompleta();
+  //console.log("tarea Completa");
+  //
+
+
   }
 
 }

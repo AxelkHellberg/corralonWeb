@@ -28,6 +28,7 @@ export class NuevaTareaComponent implements OnInit {
   obligatorioSistema: boolean = false;
   funcionamientoEquipo: boolean = false;
   obligatorioEquipo: boolean = false;
+
   data: RoundsDetails = {
     plant: '',
     system: '',
@@ -46,6 +47,23 @@ export class NuevaTareaComponent implements OnInit {
     maxValue: '',
     normalValue: '',
     descripcion: '',
+/*     plant: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.nombrePlanta:'',
+    system: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.nombreSistema:'',
+    equipment: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.nombreEquipo:'',
+    unit: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.nombreUnidadMedida:'',
+    type: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.nombreTipoTarea:undefined,
+    plantId: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.plantaId:null,
+    systemId: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.sistemaId:null,
+    equipmentId: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.equipoId:null,
+    unitId: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.unidadMedidaId:null,
+    typeId: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.tipoCampoRondaId:null,
+    timer: new Set(),
+    time: '',
+    name: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.tareaNombre:'',
+    minValue: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.valirMin:'',
+    maxValue: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.valorMax:'',
+    normalValue: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.valorNormal:'',
+    descripcion: this.route.snapshot.queryParams.editTarea=true?this.route.snapshot.queryParams.descripcion:'', */
   };
   plantId: any;
   systemId: any;
@@ -201,8 +219,20 @@ export class NuevaTareaComponent implements OnInit {
   ) { }
   edit : boolean = false;
   ngOnInit() {
+    console.log(this.route.snapshot.queryParams)
     this.getAllData();
+    console.log("THIS FULL DATA NEW TAKS:")
+    console.log(this.fullData)
     if (this.fullData) {
+      console.log("NOMBRE SISTEMA")
+      console.log(this.data.system)
+      console.log("ID SISTEMA")
+      console.log(this.data.systemId)
+     // this.traerInfo(1);
+      console.log("NOMBRE SISTEMA")
+      console.log(this.data.system)
+      console.log("ID SISTEMA")
+      console.log(this.data.systemId)
       
       this.edit = true;
       // this.editTemplate(this.fullData);
@@ -213,7 +243,6 @@ export class NuevaTareaComponent implements OnInit {
       });
       console.log("full data editar tarea");
       console.log(this.fullData);
-      this.traerInfo(this.fullData.id);
     }
     else {
       this.edit = false;
@@ -222,7 +251,7 @@ export class NuevaTareaComponent implements OnInit {
   }
 
   async traerInfo(id: any) {
-    const res = await this.generalService.getTareaCompleta();
+ ////   const res = await this.generalService.getTareaCompleta();
    /* console.log("for each de tarea completa");
     res.forEach(element => {
       if(element.id == id)
@@ -235,41 +264,38 @@ export class NuevaTareaComponent implements OnInit {
     console.log("this.fullData");
     console.log(this.fullData);
     this.enableSystem = true;
-    this.data.plant = this.fullData.equipamiento.sistema.planta.nombre;
-    this.data.plantId = this.fullData.equipamiento.sistema.planta.id;
     this.enableEquipment = false;
     this.maneuverGuideContent = '';
-    this.data.systemId = null;
-    this.data.equipmentId = null;
-    ///////
-    this.enableEquipment = true;
-    this.data.systemId = this.fullData.equipamiento.sistema.id;
-    this.data.system = this.fullData.equipamiento.sistema.nombre;
-    this.data.equipmentId = null;
-    //////////
-    this.data.equipmentId = this.fullData.equipamiento.id;
+    this.data.systemId = this.fullData.sistemaId;
+    this.data.system = this.fullData.nombreSistema;
+    this.data.equipment =this.fullData.nombreEquipo;
+    this.data.equipmentId = this.fullData.equipoId;
     this.enableComponent = true;
-    this.data.equipment =this.fullData.equipamiento.nombre;
-    ////////////
     this.data.unitId = this.fullData.unidadMedidaId;
-    //datatypeArray esta vacio revisar
-    this.data.unit = this.fullData.unidadMedidaId;///completar
-    /////////////
-    this.data.type = this.fullData.tipoCampoRondaId; //completar
-    this.data.typeId = this.fullData.tipoCampoRondaId; //completar
+    this.data.unit = this.fullData.nombreUnidadMedida;
+    this.data.type = this.fullData.tipoCampoRondaId; 
+    this.data.typeId = this.fullData.tipoCampoRondaId; 
     this.data = {
       ...this.data,
       normalValue:this.fullData.valorNormal,
       minValue: this.fullData.valorMin,
       maxValue: this.fullData.valorMax,
     };
-    /////////////////
-    this.data.name=this.fullData.nombre;
+    this.data.name=this.fullData.tareaNombre;
+    this.data.plant = this.fullData.nombrePlanta;
+    this.data.plantId = this.fullData.plantaId;
+    this.data.descripcion = this.fullData.tareaDescripcion;
     
     console.log("this.data");
     console.log(this.data);
     
   }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+        this.traerInfo(1)
+    },3500);
+}
 
 
 
@@ -540,7 +566,7 @@ export class NuevaTareaComponent implements OnInit {
       if (field.roundFieldId && isDelete) {
         await this.generalService.deleteRoundFields( field.roundFieldId);
       } else if (field.roundFieldId) {
-        await this.generalService.editRoundFields(dataTemplate, field.roundFieldId);
+        await this.generalService.editRoundFields(this.data.descripcion,this.data.name,this.fullData.tareaId,this.data.normalValue,this.data.maxValue,this.data.minValue,this.data.equipmentId,this.data.typeId,this.data.unitId);
       } else {
         console.log("CreatRoundFields");
         console.log(dataTemplate);
@@ -578,7 +604,7 @@ export class NuevaTareaComponent implements OnInit {
     this.generalService.crearTarea(campRondaInfo);}
     if(this.edit)
     {
-     this.generalService.editRoundFields(campRondaInfo,this.fullData.id) 
+     this.generalService.editRoundFields(this.data.descripcion,this.data.name,this.fullData.tareaId,this.data.normalValue,this.data.maxValue,this.data.minValue,this.data.equipmentId,this.data.typeId,this.data.unitId);
     }
     console.log(this.fullData);
     this.router.navigate(['/pages/tarea']).then(()=> {

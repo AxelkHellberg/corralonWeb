@@ -5723,6 +5723,9 @@ var GeneralService = /** @class */ (function () {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/ultimaRondaInsertada", { id: 1 }).toPromise();
     };
     GeneralService.prototype.getTareaCompleta = function () { return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/campos-ronda", { id: 4 }).toPromise(); };
+    GeneralService.prototype.getTareaCompletaPorId = function (dataTareaId) {
+        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/historial-falla/traerInfoTarea", { tareaId: dataTareaId }).toPromise();
+    };
     GeneralService.prototype.getTareaCompletaNuevo = function () { return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/historial-falla/traerTareas").toPromise(); };
     GeneralService.prototype.getFallasEquipo = function () { return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/falla-equipo", { id: 4 }).toPromise(); };
     GeneralService.prototype.getFallasSistema = function () { return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute/falla-sistema", { id: 4 }).toPromise(); };

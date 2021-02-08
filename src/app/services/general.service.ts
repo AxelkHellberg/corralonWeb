@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AnonymousSubject } from 'rxjs/internal/Subject';
 import { EquipmentData, infoGuia, ManeuverGuideFields, PlantData, RoundData, RoundFields, RoundTemplateData, SystemData, TagData, UserBasicData, UserData } from '../@models/general';
 import { EnvironmentService } from './environment.service';
 
@@ -23,6 +24,9 @@ export class GeneralService {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/ultimaRondaInsertada`, {id:1}).toPromise();
   }
   getTareaCompleta(): Promise<any> { return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/reports/execute/campos-ronda`, { id: 4 }).toPromise(); }
+
+  getTareaCompletaPorId(dataTareaId: number): Promise<any> {
+     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/traerInfoTarea`, { tareaId: dataTareaId }).toPromise(); }
 
   getTareaCompletaNuevo(): Promise<any> { return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/traerTareas` ).toPromise(); }
 
@@ -227,8 +231,8 @@ export class GeneralService {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/crearTarea`, roundFieldsData).toPromise();
   }
 
-  editRoundFields(roundFieldsData: any, id): Promise<any> {
-    return this.http.patch(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`, roundFieldsData).toPromise();
+  editRoundFields(descripcion:any,nombreTarea: any, tareaId: any,valorNormal:any,valorMax:any,valorMin:any,equipoId:any,tipoCampoRondaId:any,unidadMedidaId:any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/editarTarea`, { descripcion: descripcion, nombreTarea: nombreTarea, tareaId: tareaId, valorNormal: valorNormal, valorMax: valorMax?valorMax:'', valorMin: valorMin?valorMin:'', equipoId: equipoId, tipoCampoRondaId: tipoCampoRondaId, unidadMedidaId: unidadMedidaId }).toPromise();
   }
   deleteRoundFields(id): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/campos-ronda/${id}`).toPromise();
