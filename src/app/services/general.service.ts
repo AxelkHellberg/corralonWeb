@@ -57,7 +57,7 @@ export class GeneralService {
   }
 
   getPlantillasRondas(): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/traerPlantillaRondaCompleta`, { } ).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/traerPlantillasRondas`, { } ).toPromise();
   }
 
   getPlantillaRondaCompleta(plantillaId: number): Promise<any> {
@@ -244,8 +244,14 @@ export class GeneralService {
   createRoundTemplate(roundTemplateData: any, descripcionData: any): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/crearPlantillaRonda`, { nombre: roundTemplateData, descripcion: descripcionData }).toPromise();
   }
+  editarRoundTemplate(roundTemplateData: any, descripcionData: any,plantillaId: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/editarPlantillaRonda`, { nombre: roundTemplateData, descripcion: descripcionData, plantillaRondaId: plantillaId }).toPromise();
+  }
   asociarTareasEnRondas(idTareaData: any, idInsertadoData: any): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/asociarTareasEnRonda`, { idTareaData, idInsertado: idInsertadoData }).toPromise();
+  }
+  eliminarTareasDePlantllaRonda( idInsertadoData: any): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/eliminarTareasDePlantllaRonda`, { idInsertado: idInsertadoData }).toPromise();
   }
   tareasObligatorias(idTareaData: any[],idPlantillaData: number): Promise<any> {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/cambiarObligatorio`, { idTareaData, idPlantilla: idPlantillaData }).toPromise();

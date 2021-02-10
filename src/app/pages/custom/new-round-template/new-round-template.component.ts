@@ -313,6 +313,10 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         console.log(objetoTarea)
         this.tareasSeleccionadas.push(objetoTarea);
         this.idTareasSeleccionadas.push(element.tareaId);
+        if(element.tareaObligatoria == 1){
+          this.arrayTareasObligatoriasId.push(element.tareaId)
+          this.arrayTareasObligatoriasNombre.push(element.nombreTarea)
+        }
       });
       this.source2 = new LocalDataSource([]);
       this.source2 = new LocalDataSource(this.tareasSeleccionadas);
@@ -538,6 +542,7 @@ source2 : LocalDataSource;
 
 
   async saveChanges(dialog: NbDialogRef<any>) {
+
     console.log("saveChages");
     console.log(dialog);
     if (this.agregarTarea) {
@@ -579,43 +584,33 @@ source2 : LocalDataSource;
   }
 
   async saveTemplate() {
-    let res;
-    let response: any[] = [];
-      res = await this.generalService.createRoundTemplate(this.roundName,this.descripcion);
-      this.data.rondaId = res.insertId;
+    if(this.fullData){
+      let res;
+        res = await this.generalService.editarRoundTemplate(this.roundName,this.descripcion,this.fullData[0].plantillaId);
+        console.log(res)
+        this.data.rondaId = this.fullData[0].plantillaId
 
-      let cont = 0;
-/*       this.tareasSeleccionadas.forEach(element => {
-        console.log("El id de la tarea que se carga es : ")
-        console.log(this.idTareasSeleccionadas[cont])
-        console.log("Con la rondaId:")
-        console.log(this.data.rondaId) */
-      await this.generalService.asociarTareasEnRondas(this.idTareasSeleccionadas,this.data.rondaId).then(v => {
-        this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId, this.data.rondaId);
-      });
+        await this.generalService.eliminarTareasDePlantllaRonda(this.data.rondaId).then(async v => {
+          await this.generalService.asociarTareasEnRondas(this.idTareasSeleccionadas,this.data.rondaId).then(v => {
+            this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId, this.data.rondaId);
+          });
+        });
 
-/*         cont += 1;
-      }); */
+    }
+    else{
 
+      let res;
+      let response: any[] = [];
+        res = await this.generalService.createRoundTemplate(this.roundName,this.descripcion);
+        this.data.rondaId = res.insertId;
 
+        let cont = 0;
+        await this.generalService.asociarTareasEnRondas(this.idTareasSeleccionadas,this.data.rondaId).then(v => {
+          this.generalService.tareasObligatorias(this.arrayTareasObligatoriasId, this.data.rondaId);
+        });
 
+    }
 
-    // this.selectTimeInicio();
-    // this.selectTimeFin();
-    //let dias = "";
-    // this.selectedDia.forEach(dia => { dias = dias = '' ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
-
-    // console.log("dias");
-    // console.log(dias);
-    // this.hora = {
-    //   ...this.hora,
-    //   dias: dias,
-    //    tipoRecurrencia: this.selectedRecurrencia,
-    //    fechaInicio: this.dia,
-    //    fechaFin: this.dia,
-    //    plantillaId: this.data.rondaId
-    //  }
-    //  this.generalService.createHorario(this.hora);
     this.router.navigate(['/pages/round-template']).then(()=>{
       location.reload();
     });

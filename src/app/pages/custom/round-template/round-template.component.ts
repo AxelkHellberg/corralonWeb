@@ -154,6 +154,7 @@ export class RoundTemplateComponent implements OnInit {
   createTemplate() {
     this.router.navigate(['/pages/round-template'], {
       queryParams: {
+        editTarea:false,
         create: true,
       }
     })
@@ -174,6 +175,7 @@ export class RoundTemplateComponent implements OnInit {
 
     this.router.navigate(['/pages/round-template'], {
       queryParams: {
+        editTarea:true,
         id: data.id,
       }
     });
