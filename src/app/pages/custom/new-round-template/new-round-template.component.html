@@ -20,10 +20,17 @@
         <div>
 
           <h4 class="mb-20" for="plant">Tareas seleccionadas</h4>
-          <ng2-smart-table [settings]="setingsTareaSeleccionada" [source]="source2" (userRowSelect)="selectTarea2($event)"></ng2-smart-table>
-        </div>
+          <div style = "float: left"> 
+          <ng2-smart-table [settings]="setingsTareaSeleccionada" [source]="source2" (userRowSelect)="selectTarea2($event)" (delete)="sacarDeListaSeleccionada($event)"></ng2-smart-table>
 
-    </nb-card-body>
+          
+        </div>
+        </div>
+        <div style = "float: left">
+          <h4 class="mb-20" for="plant">Tareas obligatorias: </h4>
+          <p *ngFor="let tareas of arrayTareasObligatoriasNombre" for="plant"> {{tareas}} </p>
+        </div>
+      </nb-card-body>
 
   </nb-card>
 

@@ -11,6 +11,7 @@ import { RoundFields } from './../../../@models/general';
 import { TimeData } from './../../../@models/rounds';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ConfirmData } from './../../../@models/smart-table';
+import { elementContainerEnd } from '@angular/core/src/render3';
 
 @Component({
   selector: 'ngx-new-round-template',
@@ -71,11 +72,12 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   tareasSeleccionadas: any[] = [];
   idTareasSeleccionadas: any[] = [];
 
+
   //tareas
   rondaArray: any[];
   tareaArray: any[];
   selectTarea(item): void {
-
+    this.contadorDeTareasSeleccionadas+=1
     console.log("this.full.data");
     console.log(item.data);
     this.data.tareaId = item.data.idTarea;
@@ -95,9 +97,9 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 
   }
 
-
+  contadorDeTareasSeleccionadas = 0;
   arrayTareasObligatoriasId: any[] = [];
-
+  arrayTareasObligatoriasNombre: any[] = [];
   selectTarea2(item): void {
 
     const found = this.arrayTareasObligatoriasId.find(element => element == item.data.idTarea);
@@ -106,24 +108,24 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
     {
       console.log("EL ELEMENTO ES NUEVO")
       this.arrayTareasObligatoriasId.push(item.data.idTarea);
+      this.arrayTareasObligatoriasNombre.push(item.data.NombreTarea)
     }
     else
     {
       console.log("EL ELEMENTO SE SACA:")
       let i = this.arrayTareasObligatoriasId.indexOf( item.data.idTarea );
       this.arrayTareasObligatoriasId.splice(i,1);
+      this.arrayTareasObligatoriasNombre.splice(i,1)
     }
     
     console.log(item)
 
 
-    console.log("ARRAY DE OBLIGATORIAS:")
+    console.log("ARRAY DE OBLIGATORIAS ID:")
     console.log(this.arrayTareasObligatoriasId)
-    ///PARA ELIMINAR DE LA TABLA SELECCIONADA
-/*     let i = this.tareasSeleccionadas.indexOf( item.data );
-    this.tareasSeleccionadas.splice(i,1);
-    this.source2 = new LocalDataSource([]);
-    this.source2 = new LocalDataSource(this.tareasSeleccionadas); */
+    console.log("ARRAY DE OBLIGATORIAS NOMBRE:")
+    console.log(this.arrayTareasObligatoriasNombre)
+
 
   }
 
@@ -286,6 +288,35 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
         this.dataTarea = this.fullData.dataFiels;
         console.log("dataTarea");
         console.log(this.dataTarea); */
+    if (this.fullData){
+      console.log("Edit template------------------------------")
+      console.log(this.fullData)
+      this.roundName = this.fullData[0].nombrePlantilla
+      this.descripcion = this.fullData[0].descripcionPlantilla
+      let objetoTarea 
+      this.fullData.forEach(element => {
+        objetoTarea = { 
+          Descripcion: element.descripcionTarea,
+          Equipo: element.nombreEquipo,
+          NombreTarea: element.nombreTarea,
+          Planta: element.nombrePlanta,
+          Sistema: element.nombreSistema,
+          UnidadMedida: element.nombreUnidadMedida,
+          descripcion: element.descripcionTarea,
+          equipamientoNombre: element.nombreEquipo,
+          idTarea: element.tareaId,
+          nombre: element.nombreTarea,
+          plantaNombre: element.nombrePlanta,
+          sistemaNombre: element.nombreSistema,
+          unidadDemedidaNombre: element.nombreUnidadMedida
+        }
+        console.log(objetoTarea)
+        this.tareasSeleccionadas.push(objetoTarea);
+        this.idTareasSeleccionadas.push(element.tareaId);
+      });
+      this.source2 = new LocalDataSource([]);
+      this.source2 = new LocalDataSource(this.tareasSeleccionadas);
+    }
     this.getAllData();
   }
 
@@ -360,7 +391,14 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
 source : LocalDataSource;
 source2 : LocalDataSource;
 
-
+  sacarDeListaSeleccionada(item){
+    this.contadorDeTareasSeleccionadas -= 1
+        ///PARA ELIMINAR DE LA TABLA SELECCIONADA
+    let i = this.tareasSeleccionadas.indexOf( item.data );
+    this.tareasSeleccionadas.splice(i,1);
+    this.source2 = new LocalDataSource([]);
+    this.source2 = new LocalDataSource(this.tareasSeleccionadas);
+  }
   createTemplate() {
     this.isEditorCreate = true;
     this.agregarTarea = true;
@@ -679,26 +717,29 @@ source2 : LocalDataSource;
 
   }
 
-  public input: string = '<input type="checkbox"></input>';
+              //AGREGAR OTRO INPUT CHACKBOX Y PONER EN CHEKED CON NGIF 
+  public input: string = '<input type="checkbox" id="checkbox'+this.contadorDeTareasSeleccionadas+'"></input>';
+
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.fullData && changes.fullData.currentValue) {
       this.roundName = this.fullData.nombre || null;
       this.timeData.time = this.fullData.time || null;
-      this.fieldsData = this.fullData.full.fieldsData || null;
-      this.timeData = this.fullData.full.timeData || null;
-      this.tableTimeData = this.fullData.full.tableTimeData || [];
+      this.fieldsData = /* this.fullData.full.fieldsData || */ null;
+      this.timeData = /* this.fullData.full.timeData || */ null;
+      this.tableTimeData = /* this.fullData.full.tableTimeData || */ [];
       // tslint:disable-next-line: max-line-length
-      const {
+/*       const {
         obligatorioSistema = null,
         funcionamientoSistema = null,
         obligatorioEquipo = null,
         funcionamientoEquipo = null
-      } = this.fullData.full.templateConfig;
-      this.obligatorioSistema = obligatorioSistema;
-      this.funcionamientoSistema = funcionamientoSistema;
-      this.obligatorioEquipo = obligatorioEquipo;
-      this.funcionamientoEquipo = funcionamientoEquipo;
+      } = this.fullData.full.templateConfig; */
+      this.obligatorioSistema = /* obligatorioSistema  */null;
+      this.funcionamientoSistema = /* funcionamientoSistema  */null;
+      this.obligatorioEquipo =/*  obligatorioEquipo */null;
+      this.funcionamientoEquipo = /* funcionamientoEquipo */null;
       this.templateIndex = this.fullData.index;
       this.fullData.id = this.fullData.id || null;
     }
@@ -709,11 +750,13 @@ source2 : LocalDataSource;
   setingsTareaSeleccionada: SmartTableSettings = {
     noDataMessage: 'No se seleccionaron tareas',
     mode: 'external',
-    selectMode: 'multi',
+  //  selectMode:  'multi',
+    hideSubHeader: true,
     actions: {
       add: false,
       edit: false,
-      delete: false,
+      delete: true,
+      columnTitle: 'Eliminar'
     },
     attr: {
       class: 'general-table'
@@ -761,6 +804,8 @@ source2 : LocalDataSource;
       }, */
       
     },
+
+
     
   };
 

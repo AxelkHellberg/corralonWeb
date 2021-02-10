@@ -39,10 +39,15 @@ export class RoundTemplateComponent implements OnInit {
     columns: {
 
 
+      descripcion: {
+        title: 'ID',
+        type: 'text',
+        width: '25px',
+      },
       nombreRonda: {
         title: 'Ronda',
         type: 'text',
-        width: '200px'
+        width: '200px',
       },
       id: {
         title: 'Descripcion',
@@ -82,7 +87,7 @@ export class RoundTemplateComponent implements OnInit {
 
     for (let i = 0; i < this.data.length; i++) {
       //let aux = aux.concat(this.data[i].Tarea)
-      this.DatosTabla = this.DatosTabla.concat({ id: this.data[i].descripcion, nombreRonda: this.data[i].nombre });
+      this.DatosTabla = this.DatosTabla.concat({ id: this.data[i].descripcion, nombreRonda: this.data[i].nombre, descripcion: this.data[i].id });
     }
     console.log("DATOS TABLA:")
     console.log(this.DatosTabla);
@@ -160,7 +165,19 @@ export class RoundTemplateComponent implements OnInit {
     let dataFields = []
     console.log("editTemplate data");
     console.log(data);
-    const response = await this.generalService.getRondasCompletas1(data.id);
+    const response = await this.generalService.getPlantillaRondaCompleta(data.descripcion)
+    console.log("Tareas de la plantilla ronda:")
+    console.log(response)
+
+    this.fullData = response
+    console.log(this.fullData)
+
+    this.router.navigate(['/pages/round-template'], {
+      queryParams: {
+        id: data.id,
+      }
+    });
+/*     const response = await this.generalService.getRondasCompletas1(data.id);
     console.log("response");
     console.log(response);
     response.forEach(field => {
@@ -171,7 +188,7 @@ export class RoundTemplateComponent implements OnInit {
           dataFields = dataFields.concat(element.campoRonda);
           
         }
-      });
+      }); */
       //dataFields.push(<RoundsDetails>{
         /*unit: field.unidadMedida.nombre,
         equipment: field.equipamiento.nombre,
@@ -185,19 +202,15 @@ export class RoundTemplateComponent implements OnInit {
         roundFieldId: field.id,
         roundTemplateId: field.plantillaRondaId,*/
         //})
-      });
+/*       });
       var aux:any = {dataFiels: dataFields,data: data}
       dataFields=aux;
     //data.full.fieldsData = dataFields;
     //this.fullData = data;
     console.log("dataFiels");
     console.log(dataFields);
-    this.fullData = dataFields;
-    this.router.navigate(['/pages/round-template'], {
-      queryParams: {
-        id: data.id,
-      }
-    });
+    this.fullData = dataFields; */
+
   }
 
   async deleteTemplate(template) {

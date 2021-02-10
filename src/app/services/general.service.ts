@@ -57,7 +57,11 @@ export class GeneralService {
   }
 
   getPlantillasRondas(): Promise<any> {
-    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/traerPlantillasRondas`, { } ).toPromise();
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/traerPlantillaRondaCompleta`, { } ).toPromise();
+  }
+
+  getPlantillaRondaCompleta(plantillaId: number): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/traerPlantillaRondaCompleta`, { plantillaId: plantillaId  } ).toPromise();
   }
 
   getGuiaManiobraCampos(Guia: any): Promise<any> {
