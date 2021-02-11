@@ -7,6 +7,7 @@ import { RoundTemplateData, RoundFields } from '../../../@models/general';
 import { elementEnd } from '@angular/core/src/render3';
 import { data } from 'jquery';
 import { LocalDataSource } from 'ng2-smart-table';
+import { NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-round-template',
@@ -60,7 +61,8 @@ export class RoundTemplateComponent implements OnInit {
   showRoundTemplate: boolean;
   roundTemplateId: any;
 
-  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService) {
+
+  constructor(private route: ActivatedRoute, private router: Router, private generalService: GeneralService,private toastrService: NbToastrService) {
     this.route.queryParams.subscribe(queryParam => {
       if (queryParam.create || queryParam.edit || queryParam.id) {
         this.showRoundTemplate = true;
@@ -96,8 +98,14 @@ export class RoundTemplateComponent implements OnInit {
 
     //this.traerCamposRonda();
   }
-  source : LocalDataSource;
+  public source : LocalDataSource;
 
+  showToast(duration) {
+    this.toastrService.show(
+      'No se puede eliminar esta plantilla ronda ya que la misma se cuentra asociada con mas datos',
+      'ERROR:',
+      { duration });
+  }
 
   checked = false;
   async accion({ data }) {
@@ -216,14 +224,19 @@ export class RoundTemplateComponent implements OnInit {
   }
 
   async deleteTemplate(template) {
-    const { id } = template.data;
+    console.log(template.data.descripcion)
+    let id = template.data.descripcion;
+    console.log("El id es:")
+    console.log(id)
     try {
-      await this.generalService.deleteRoundTemplate(id);
+      await this.generalService.eliminarRoundTemplate(id);
       delete this.data[template.index];
       this.data = [...this.data];
     } catch (error) {
+      this.showToast(5000)
+      console.log("ocurrio un error")
       console.log(error)
-      template.confirm.reject();
+     // template.confirm.reject();
     }
   }
 

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RoundTemplateComponent } from './round-template.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NewRoundTemplateModule } from '../new-round-template/new-round-template.module';
-import { NbCardModule, NbCheckboxModule } from '@nebular/theme';
+import { NbCardModule, NbCheckboxModule, NbToastrModule } from '@nebular/theme';
 
 @NgModule({
   imports: [
@@ -12,6 +12,7 @@ import { NbCardModule, NbCheckboxModule } from '@nebular/theme';
     NewRoundTemplateModule,
     NbCheckboxModule,
     NbCardModule,
+    NbToastrModule.forRoot(),
 
   ],
   declarations: [RoundTemplateComponent],

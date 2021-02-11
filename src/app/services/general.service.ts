@@ -262,6 +262,9 @@ export class GeneralService {
   deleteRoundTemplate(id: number): Promise<any> {
     return this.http.delete(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/${id}`).toPromise();
   }
+  eliminarRoundTemplate(id: number): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/eliminarPlantillaRonda`, { plantillaRondaId: id } ).toPromise();
+  }
   getRoundTemplate(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/plantillas-ronda/`).toPromise();
   }
