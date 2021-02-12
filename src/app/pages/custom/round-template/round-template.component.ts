@@ -229,7 +229,7 @@ export class RoundTemplateComponent implements OnInit {
     console.log("El id es:")
     console.log(id)
     try {
-      await this.generalService.eliminarRoundTemplate(id);
+      let response = await this.generalService.eliminarRoundTemplate(id);
       delete this.data[template.index];
       this.data = [...this.data];
     } catch (error) {
@@ -238,6 +238,7 @@ export class RoundTemplateComponent implements OnInit {
       console.log(error)
      // template.confirm.reject();
     }
+
   }
 
   async onSaveData(dataResivida) {
