@@ -6,6 +6,7 @@ import { NbSelectModule, NbButtonModule, NbInputModule, NbCheckboxModule,NbCalen
 import { FormsModule } from '@angular/forms';
 import { CustomPipesModule } from '../../../@theme/pipes/custom-pipes.module';
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { RoundTemplateComponent } from '../round-template/round-template.component';
 
 @NgModule({
   imports: [

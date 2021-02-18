@@ -232,32 +232,18 @@ source: LocalDataSource;
     this.generalService.getTareaCompletaNuevo(),
   ]).then(([tarea]) => {
     this.data = tarea;
-    console.log("DATA:");
-    console.log(this.data);
+    console.log(this.data)
   
-/*     let cont = 0;
-    this.data.forEach(dato => {
-      this.data[cont] = {
-        plantaNombre: dato[cont].Planta,
-        sistemaNombre: dato[cont].Sistema,
-        equipoNombre: dato[cont].Equipo,
-        nombre: dato[cont].NombreTarea,
-        descripcion: dato[cont].Descripcion,
-        unidadMedidaNombre: dato[cont].UnidadMedida,
-      }
-      cont += 1 ;
-    }) */
     let cont = 0;
     this.data.forEach(dato => {
-      console.log("Equipo:")
-      console.log(dato.Equipo)
+
       dato={...dato,
       equipamientoNombre:dato.Equipo,
       sistemaNombre: dato.Sistema,
       plantaNombre: dato.Planta,
       nombre: dato.NombreTarea,
       descripcion: dato.Descripcion,
-      unidadMedidaNombre: dato.UnidadMedida? dato.UnidadMedida: "Sin Nombre"
+      unidadMedidaNombre: dato.UnidadMedida? dato.UnidadMedida+(dato.valorMax?("   VNor: " + dato.valorNormal+" VMax: "+dato.valorMax+" VMin:"+dato.valorMin):"   \n VNor: "+(dato.valorNormal==1?"SI":"NO")): "(sin unidad de medida)"
     }
   
     this.data[cont] = dato;
@@ -369,6 +355,8 @@ unidades: any[];
       await this.generalService.deleteRoundTemplate(id);
       delete this.data[template.index];
       this.data = [...this.data];
+      this.source = new LocalDataSource([]);
+      this.source = new LocalDataSource(this.data);
     } catch (error) {
       console.log(error)
       template.confirm.reject();
@@ -383,8 +371,8 @@ unidades: any[];
     this.generalService.deleteRoundFields(tarea.data.idTarea);
 
     this.getTareas();
-    this.source = new LocalDataSource([]);
-    this.source = new LocalDataSource(this.data);
+     this.source = new LocalDataSource([]);
+    this.source = new LocalDataSource(this.data); 
   }
 
   async editTarea(tarea) {
@@ -410,7 +398,7 @@ unidades: any[];
        tareaId: this.fullData.tareaId,
        tareaNombre: this.fullData.tareaNombre,
        tipoCampoRondaId: this.fullData.tipoCampoRondaId,
-       unidadMedidaId: this.fullData.unidadMedidaId,
+       unidadMedidaId: this.fullData.unidadMedidaId?this.fullData.unidadMedidaId:undefined,
        valorMax: this.fullData.valorMax,
        valorMin: this.fullData.valorMin,
        valorNormal: this.fullData.valorNormal,

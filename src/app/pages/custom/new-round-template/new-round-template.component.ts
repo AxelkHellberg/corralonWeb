@@ -22,6 +22,7 @@ export class NewRoundTemplateComponent implements OnInit, OnChanges {
   @ViewChild('addOrEdit') addOrEditTemplate: TemplateRef<any>;
   @Output() onSave = new EventEmitter<any>();
   @Output() onRefreshRoundTemplate = new EventEmitter();
+  @Output() newItemEvent = new EventEmitter();
   @Input() fullData: any;
   roundName: string;
   descripcion: string;
@@ -611,9 +612,16 @@ source2 : LocalDataSource;
 
     }
 
-    this.router.navigate(['/pages/round-template']).then(()=>{
-      location.reload();
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    }
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['/pages/round-template'], {
+      queryParams: {
+        index: 1,
+      }
     });
+
 
   }
 

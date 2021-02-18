@@ -607,8 +607,18 @@ export class NuevaTareaComponent implements OnInit {
      this.generalService.editRoundFields(this.data.descripcion,this.data.name,this.fullData.tareaId,this.data.normalValue,this.data.maxValue,this.data.minValue,this.data.equipmentId,this.data.typeId,this.data.unitId);
     }
     console.log(this.fullData);
-    this.router.navigate(['/pages/tarea']).then(()=> {
+/*     this.router.navigate(['/pages/tarea']).then(()=> {
         TareaComponent.getTareasStatic()  
+    }); */
+    // Para al hacer router.navigate() se ejecute nuevamente el ngOnInit sin recargar la pagina:
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    }
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['/pages/tarea'], {
+      queryParams: {
+        index: 1,
+      }
     });
     dialog.close();
   }

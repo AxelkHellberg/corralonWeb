@@ -199,13 +199,7 @@ export class CalendarioComponent implements OnInit {
 
     this.valueBar = 10;
     let dias = "";    
-   // this.selectedDia.forEach(dia => { dias = dias == "" ? (dias.concat(dia)) : (dias.concat(",").concat(dia)) })
-    ///  dd-mm-aaaa
-/*     let d = this.dia.substring(0,2); 
-    let m = this.dia.substring(3,5); 
-    let a = this.dia.substring(6,10); 
-    let auxDia = this.dia;
-    this.dia = a +"-"+ m +"-"+ d; */
+
     console.log("Este es el dia sin petiar")
     console.log(this.dia)
 

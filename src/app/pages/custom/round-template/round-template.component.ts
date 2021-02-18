@@ -1,5 +1,5 @@
 import { RoundsDetails } from './../../../@models/rounds';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SmartTableSettings } from '../../../@models/smart-table';
 import { GeneralService } from '../../../services/general.service';
@@ -14,11 +14,12 @@ import { NbToastrService } from '@nebular/theme';
   templateUrl: './round-template.component.html',
   styleUrls: ['./round-template.component.scss']
 })
-export class RoundTemplateComponent implements OnInit {
+export class RoundTemplateComponent implements OnInit,OnChanges {
+  @Input() inputData: any;
   fullData = [];
   data = [];
   DatosTabla = [];
-
+  
   settings: SmartTableSettings = {
     mode: 'external',
     attr: {
@@ -73,7 +74,14 @@ export class RoundTemplateComponent implements OnInit {
     });
   }
 
+  ngOnChanges(): void {
+    console.log("ON CHANGESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
+  }
+
   async ngOnInit() {
+    this.inputData = undefined; 
+    console.log("EL QUERY PARAMS")
+    console.log(this.route.snapshot.queryParams.Nueva)
     this.data = await this.generalService.getNombreDescripcionRonda();
     console.log("ngOnInit this.data")
     console.log(this.data);
@@ -86,7 +94,7 @@ export class RoundTemplateComponent implements OnInit {
 
       
     });*/
-
+    this.DatosTabla = [];
     for (let i = 0; i < this.data.length; i++) {
       //let aux = aux.concat(this.data[i].Tarea)
       this.DatosTabla = this.DatosTabla.concat({ id: this.data[i].descripcion, nombreRonda: this.data[i].nombre, descripcion: this.data[i].id });
@@ -231,12 +239,12 @@ export class RoundTemplateComponent implements OnInit {
     try {
       let response = await this.generalService.eliminarRoundTemplate(id);
       delete this.data[template.index];
-      this.data = [...this.data];
+      this.ngOnInit()
     } catch (error) {
       this.showToast(5000)
       console.log("ocurrio un error")
       console.log(error)
-     // template.confirm.reject();
+
     }
 
   }
