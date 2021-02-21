@@ -237,6 +237,14 @@ export class CalendarioComponent implements OnInit {
               console.log("esperando respuesta............")
             }
           }
+          
+      if(response2==undefined){
+            let i = 0;
+            while(i<500){
+              i++;
+              console.log("esperando respuesta............")
+            }
+          }
       
      let responseTareas = await this.generalService.traerIdTareas(this.hora.plantillaId)
               

@@ -5747,6 +5747,9 @@ var GeneralService = /** @class */ (function () {
     GeneralService.prototype.getPlantillasRondas = function () {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-ronda/traerPlantillasRondas", {}).toPromise();
     };
+    GeneralService.prototype.getPlantillaRondaCompleta = function (plantillaId) {
+        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-ronda/traerPlantillaRondaCompleta", { plantillaId: plantillaId }).toPromise();
+    };
     GeneralService.prototype.getGuiaManiobraCampos = function (Guia) {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/reports/execute", Guia).toPromise();
     };
@@ -5923,8 +5926,14 @@ var GeneralService = /** @class */ (function () {
     GeneralService.prototype.createRoundTemplate = function (roundTemplateData, descripcionData) {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-ronda/crearPlantillaRonda", { nombre: roundTemplateData, descripcion: descripcionData }).toPromise();
     };
+    GeneralService.prototype.editarRoundTemplate = function (roundTemplateData, descripcionData, plantillaId) {
+        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-ronda/editarPlantillaRonda", { nombre: roundTemplateData, descripcion: descripcionData, plantillaRondaId: plantillaId }).toPromise();
+    };
     GeneralService.prototype.asociarTareasEnRondas = function (idTareaData, idInsertadoData) {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-ronda/asociarTareasEnRonda", { idTareaData: idTareaData, idInsertado: idInsertadoData }).toPromise();
+    };
+    GeneralService.prototype.eliminarTareasDePlantllaRonda = function (idInsertadoData) {
+        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-ronda/eliminarTareasDePlantllaRonda", { idInsertado: idInsertadoData }).toPromise();
     };
     GeneralService.prototype.tareasObligatorias = function (idTareaData, idPlantillaData) {
         return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/historial-falla/cambiarObligatorio", { idTareaData: idTareaData, idPlantilla: idPlantillaData }).toPromise();
@@ -5934,6 +5943,9 @@ var GeneralService = /** @class */ (function () {
     };
     GeneralService.prototype.deleteRoundTemplate = function (id) {
         return this.http.delete(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-ronda/" + id).toPromise();
+    };
+    GeneralService.prototype.eliminarRoundTemplate = function (id) {
+        return this.http.post(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-ronda/eliminarPlantillaRonda", { plantillaRondaId: id }).toPromise();
     };
     GeneralService.prototype.getRoundTemplate = function () {
         return this.http.get(_environment_service__WEBPACK_IMPORTED_MODULE_3__["EnvironmentService"].currentEnvironment.url + "/services/entities/plantillas-ronda/").toPromise();
