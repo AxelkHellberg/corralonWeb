@@ -77,7 +77,7 @@ const PAGES_COMPONENTS = [
     NbListModule,
     NbDatepickerModule,
     FormsModule,
-    
+    NbListModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,

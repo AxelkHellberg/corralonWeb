@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div class="col-lg-6">
     <nb-card>
       <nb-card-header>Historial de Rondas</nb-card-header>
@@ -16,3 +16,42 @@
     </nb-card>
   </div>
 </div>
+ -->
+
+ <ng-container>
+  <h1>Productos</h1>
+
+  <div>
+    <div class='div1'> 
+      <ng2-smart-table class='tablaBusqueda'
+      [settings]="settings"
+      [source]="source"
+      (createConfirm)="addEquipment($event)"
+      (editConfirm)="editEquipment($event)"
+      (deleteConfirm)="deleteEquipment($event)"
+      (userRowSelect)="selectProducto($event)"
+      ></ng2-smart-table>
+    </div>
+
+    <div class='div2'>
+      <ng2-smart-table class='tablaVendedor'
+      [settings]="settings"
+      [source]="source"
+      (createConfirm)="addEquipment($event)"
+      (editConfirm)="editEquipment($event)"
+      (deleteConfirm)="deleteEquipment($event)"
+      (userRowSelect)="selectProducto($event)"
+      ></ng2-smart-table>
+    </div>
+  </div>
+    
+    <div> 
+      <ng2-smart-table 
+      [settings]="settingsSeleccionados"
+      [source]="sourceSeleccionados"
+      (createConfirm)="addEquipment($event)"
+      (editConfirm)="editEquipment($event)"
+    (deleteConfirm)="deleteEquipment($event)"
+    ></ng2-smart-table>
+  </div>
+</ng-container>

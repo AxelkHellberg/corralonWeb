@@ -85,6 +85,11 @@ export class GeneralService {
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/horario/crearHorario`, horario).toPromise();
   }
 
+  traerProductos(): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/entities/historial-falla/traerProductos`, {}).toPromise();
+  }
+
+
   //--------------------------------------
 
 
@@ -98,6 +103,12 @@ export class GeneralService {
   login(userData: UserBasicData): Promise<any> {
     //return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/auth/login/`, userData).toPromise();
     return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/auth/login/`, userData).toPromise();
+  }
+  loginSinVerificacion(username,password): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/auth/loginSinVerificacion/`, { username: username, password: password}).toPromise();
+  }
+  loginValidacion(username,password): Promise<any> {
+    return this.http.post(`${EnvironmentService.currentEnvironment.url}/services/auth/loginValidacion/`, { username: username, password: password}).toPromise();
   }
   getUser(): Promise<any> {
     return this.http.get(`${EnvironmentService.currentEnvironment.url}/services/entities/users/`).toPromise();

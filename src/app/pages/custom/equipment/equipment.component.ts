@@ -84,8 +84,12 @@ export class EquipmentComponent implements OnInit {
     });
   }
   tagsNoAsignados: any[] = [];
-  ngOnInit() {
-    this.getData();
+  productos: any[];
+  async ngOnInit() {
+    this.productos = await this.generalService.traerProductos();
+    console.log("productos:")
+    console.log(this.productos)
+   // this.getData();
   }
   showToastNombre(position, status) {
     this.toastrService.show(
